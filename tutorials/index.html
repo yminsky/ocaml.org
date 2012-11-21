@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    
+    <meta content="IE=8" http-equiv="X-UA-Compatible"/>
+    <title>OCaml :: Tutorials</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contrinutors" name="author"/>
+    <meta content="" name="description"/>
+    <meta content="" name="keywords"/>
+    <meta content="OCaml (Weberizer)" name="generator"/>
+
+    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link rel="stylesheet" href=".././css/bootstrap.css"/>
+    <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
+
+    
+    
+
+    <meta content="Tutorials" property="og:title"/>
+    <meta content="non_profit" property="og:type"/>
+
+    <meta content="all" name="robots"/>
+  </head>
+  <body>
+    <div id="header">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+	  
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href=".././" class="brand">OCaml</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+	      <li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Discover
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="../description.html">What is OCaml?</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it in your browser</a></li>
+    <li><a href="../taste.html">A Hundred Lines of OCaml</a></li>
+    <li><a href="../success.html">Success Stories</a></li>
+    <li><a href="../companies.html">Who is using it?</a></li>
+    <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Learn
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../install.html">Install</a></li>
+    <li><a href="../tutorials/">Tutorials</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../books.html">Books</a></li>
+    <li><a href="../videos.html">Videos</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../libraries.html">Libraries</a></li>
+    <li><a href="../dev_tools.html">Development tools</a></li>
+    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../tutorials/#advanced">Advanced tutorials &amp; Papers</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API search</a></li>
+    <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
+    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Community
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../mailing_lists.html">Mailing lists</a></li>
+    <li><a href="../planet/">OCaml Planet (blogs)</a></li>
+    <li><a href="../meetings.html">Meetings</a></li>
+    <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
+    <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
+    <li><a href="http://www.reddit.com/r/ocaml/">Reddit</a></li>
+    <li><a href="../support.html">Commercial Support</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">More
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="http://caml.inria.fr/mantis/">Mantis Bug Tracker</a></li>
+    <li><a href="../caml-light/">Caml Light</a></li>
+    <li><a href="../logos.html">Logos</a></li>
+  </ul>
+</li>
+
+            </ul>
+	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
+	      <input placeholder="Search" class="search-query" name="q" type="text"/>
+	      <input value="site:http://www.ocaml-lang.org/" name="q" type="hidden"/>
+	    </form>
+            
+	    
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <span class="navigation-bar">
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Tutorials
+	<span id="language">
+	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
+	</span>
+      </span>
+
+      
+  <h1>OCaml tutorials</h1>
+
+  <div class="disclaimer">
+    <h4>Your Help is Needed</h4>
+    <small>Many of the tutorials below need updating and tutorials on
+    many new topics are needed. Please contribute by visiting this
+    project's repo on <a href="https://github.com/ocaml/ocaml.org">github</a>. Thanks!</small>
+  </div>
+
+  <table border="0">
+    <tr><td valign="top" style="width:50%">
+	<ul>
+	  <li><a href="basics.html">Basics</a></li>
+	  <li><a href="structure_of_ocaml_programs.html">Structure of OCaml Programs</a></li>
+	  <li><a href="data_types_and_matching.html">Data Types and Matching</a></li>
+	  <li><a href="null_pointers_asserts_and_warnings.html">Null Pointers, Asserts, and Warnings</a></li>
+	  <li><a href="functional_programming.html">Functional Programming</a></li>
+	  <li><a href="modules.html">Modules</a></li>
+	  <li><a href="if_statements_loops_and_recursion.html">If Statements, Loops, and Recursion</a></li>
+	  <li><a href="labels.html">Labels</a></li>
+	  <li><a href="objects.html">Objects</a></li>
+	  <li><a href="common_error_messages.html">Common error messages</a></li>
+	  <li><a href="programming_style.html">Programming style</a></li>
+	  <li><a href="format.html">The Format module</a> explains how to have
+	    your text wrapped automatically.
+	  </li>
+	  <li>
+	    <a href="99problems.html">99 Problems [solved] in
+	    OCaml</a> gives you 99 concrete problems to begin working
+	    on with solutions.
+	  </li>
+	  <li><a href="introduction_to_gtk.html">Introduction to
+	  Gtk</a></li>
+	</ul>
+    </td><td valign="top" style="width: 50%">
+	<ul>
+	  <li><a href="garbage_collection.html">Garbage Collection</a></li>
+	  <li><a href="performance_and_profiling.html">Performance and Profiling</a></li>
+	  <li><a href="calling_c_libraries.html">Calling C libraries</a></li>
+	  <li><a href="calling_fortran_libraries.html">Calling Fortran libraries</a></li>
+	  <li><a href="ocaml_and_the_web.html">OCaml and the Web</a></li>
+	  <li><a href="standard_library_examples.html">Standard Library Examples</a></li>
+	  <li><a href="compiling_ocaml_projects.html">Compiling OCaml projects</a></li>
+	  <li><a href="command-line_arguments.html">Command-line arguments</a></li>
+	  <li><a href="file_manipulation.html">File manipulation</a></li>
+	  <li><a href="camlp4_3.10.html">Camlp4 3.10</a></li>
+	  <li><a href="filenames.html">Filenames and extensions</a></li>
+	  <li><a href="streams.html">Streams</a></li>
+	  <li><a href="stream_expressions.html">Stream Expressions</a></li>
+	  <li><a href="acknowledgements.html"><em>Acknowledgements</em></a></li>
+	</ul>
+      </td></tr>
+  </table>
+
+  <h2>External Links</h2>
+  <h3>Learn by Doing</h3>
+  <ul>
+    <li>
+      <a href="http://try.ocamlpro.com/">Try OCaml Online</a> (by
+      OCamlPro) allows you to immediately start learning OCaml in your
+      browser, without installing it. Compiled as a single Javascript
+      page, it gives you the full power of OCaml, even when your are
+      disconnected from the network.
+    </li>
+
+    <li>
+      <a href="http://pleac.sourceforge.net/pleac_ocaml/">PLEAC-OCaml</a>
+      provides OCaml solutions to the complete set of problems
+      originally posed in the very successful Perl Cookbook. OCaml is
+      one of only 3 languages for which the full set of solutions has
+      been provided.
+    </li>
+
+    <li>
+      <a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a>
+      is a programming chrestomathy site. It provides solutions to the
+      same task in many languages. Currently there are few tasks with
+      OCaml solutions provided, but perhaps you would like to add new
+      solutions.
+    </li>
+  </ul>
+
+  <h3>Tutorials on OCaml</h3>
+  <ul>
+    <li>
+      <a href="http://caml.inria.fr/pub/docs/manual-ocaml/"> The OCaml
+      System</a> (by Inria) is the official user's manual. The first
+      part provides an introduction to the core language, objects and
+      classes, and modules. Previous versions are <a href="http://caml.inria.fr/pub/docs/">here</a>.
+    </li>
+
+    <li>
+      <a href="http://www.linux-nantes.org/~fmonnier/OCaml/ocaml-wrapping-c.php">
+      Tutorial on the C API</a> (by Florent Monnier) explains how to
+      write C stubs to call C functions from OCaml and back.
+    </li>
+
+    <li>
+      <a href="http://www.soton.ac.uk/~fangohr/software/ocamltutorial/">
+      OCaml for scientific computation</a> (by Thomas Fiscbacher),
+      covers a broad sample of OCaml, from the basics to the C api.
+    </li>
+
+    <li>
+      <a href="http://www.csc.villanova.edu/~dmatusze/resources/ocaml/ocaml.html">
+      A Concise Introduction to OCaml</a> (by David Matuszek)
+      gives a concise, yet broad, overview of the language and the
+      standard library. It is rather old but most of what it says
+      remain valid.
+    </li>
+  </ul>
+
+  <h3>Tutorials on Tools</h3>
+  <p>There are also tutorials that can be useful to learn how to use
+  popular tools and libraries.</p>
+
+  <ul>
+    <li>
+      <a href="http://brion.inria.fr/gallium/index.php/Syntax_extension_tutorial">Camlp4
+      Tutorial</a>, to build syntax extensions for OCaml with Camlp4.
+    </li>
+
+    <li>
+      <a href="http://caml.inria.fr/pub/docs/tutorial-camlp4/index.html">Camlp4</a>
+      (by Daniel de Rauglaudre).
+    </li>
+
+    <li>
+      <a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamllex-tutorial/">OCamllex
+      Tutorial</a> (by SooHyoung Oh), on how to create lexers using
+      the <code>ocamllex</code> tool of the standard distribution.
+    </li>
+
+    <li>
+      <a href="http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamlyacc-tutorial/">OCamlyacc
+      Tutorial</a> (by SooHyoung Oh), on how to create parsers using
+      the <code>ocamlyacc</code> tool of the standard distribution.
+    </li>
+
+    <li>
+      <a href="http://plus.kaist.ac.kr/~shoh/ocaml/lablgtk2/lablgtk2-tutorial/">LablGTK
+      2.0 Tutorial</a> (by SooHyoung Oh), on how to create graphical
+      applications with the LablGTK library.
+    </li>
+
+    <li>
+      <a href="http://martin.jambon.free.fr/extend-ocaml-syntax.html">Camlp5
+      Tutorial</a> (by Martin Jambon), on how to use the Camlp5
+      processor.
+    </li>
+  </ul>
+
+  <h3>Coming From Another Language</h3>
+  <p>These tutorials help learn OCaml from the perspective of being
+  familiar with another language.</p>
+
+  <ul>
+    <li>
+      <a href="http://www.slideshare.net/michielovereem/beyond-functional-programming-in-haskell-an-introduction-to-ocaml">Beyond functional programming in Haskell: an introduction to
+      OCaml</a>
+    </li>
+  </ul>
+
+  <h3><a name="#advanced">Advanced tutorials &amp; articles</a></h3>
+  <ul>
+    <li>
+      <a href="http://caml.inria.fr/pub/docs/manual-ocaml/index.html">Manual</a>
+    </li>
+
+    <li>
+      <a href="http://caml.inria.fr/pub/docs/u3-ocaml/index.html">Using, Understanding, and Unraveling The OCaml Language</a>,
+      <em>From Practice to Theory and vice versa</em>, by Didier Rémy.
+    </li>
+
+    <li>
+      <a href="http://www.brics.dk/RS/98/12/">Functional
+      Unparsing</a>
+    </li>
+  </ul>
+
+
+    </div>
+
+    
+    <br/>
+    <hr/>
+    <div id="footer">
+      Contribute to this project!
+      Find us on <a href="https://github.com/ocaml/ocaml.org">Github</a>.
+    </div>
+    <span title=".././img/ = image directory from the base of the site"></span>
+
+
+    
+    
+    
+
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <script src=".././js/jquery.js"></script>
+    
+    <script src=".././js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-22552764-2']); _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body></html>

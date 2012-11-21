@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    
+    <meta content="IE=8" http-equiv="X-UA-Compatible"/>
+    <title>OCaml :: Camlp4 3.10</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contrinutors" name="author"/>
+    <meta content="" name="description"/>
+    <meta content="" name="keywords"/>
+    <meta content="OCaml (Weberizer)" name="generator"/>
+
+    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link rel="stylesheet" href=".././css/bootstrap.css"/>
+    <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
+
+    
+    
+
+    <meta content="Camlp4 3.10" property="og:title"/>
+    <meta content="non_profit" property="og:type"/>
+
+    <meta content="all" name="robots"/>
+  </head>
+  <body>
+    <div id="header">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+	  
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href=".././" class="brand">OCaml</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+	      <li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Discover
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="../description.html">What is OCaml?</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it in your browser</a></li>
+    <li><a href="../taste.html">A Hundred Lines of OCaml</a></li>
+    <li><a href="../success.html">Success Stories</a></li>
+    <li><a href="../companies.html">Who is using it?</a></li>
+    <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Learn
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../install.html">Install</a></li>
+    <li><a href="../tutorials/">Tutorials</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../books.html">Books</a></li>
+    <li><a href="../videos.html">Videos</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../libraries.html">Libraries</a></li>
+    <li><a href="../dev_tools.html">Development tools</a></li>
+    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../tutorials/#advanced">Advanced tutorials &amp; Papers</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API search</a></li>
+    <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
+    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Community
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../mailing_lists.html">Mailing lists</a></li>
+    <li><a href="../planet/">OCaml Planet (blogs)</a></li>
+    <li><a href="../meetings.html">Meetings</a></li>
+    <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
+    <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
+    <li><a href="http://www.reddit.com/r/ocaml/">Reddit</a></li>
+    <li><a href="../support.html">Commercial Support</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">More
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="http://caml.inria.fr/mantis/">Mantis Bug Tracker</a></li>
+    <li><a href="../caml-light/">Caml Light</a></li>
+    <li><a href="../logos.html">Logos</a></li>
+  </ul>
+</li>
+
+            </ul>
+	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
+	      <input placeholder="Search" class="search-query" name="q" type="text"/>
+	      <input value="site:http://www.ocaml-lang.org/" name="q" type="hidden"/>
+	    </form>
+            
+	    
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <span class="navigation-bar">
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Camlp4 3.10
+	<span id="language">
+	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
+	</span>
+      </span>
+
+      
+<h1><span>Camlp4 3.10</span></h1>
+
+<a name="Camlp4_3_10"></a><h2><span>Camlp4 3.10</span></h2>
+<p class="first_para"><strong>Camlp4</strong>, the OCaml &quot;pre-processor pretty printer&quot; is an advanced macro system which allows complex abstract syntax tree transformations on ocaml programs, and on other recursive decent grammars.</p>
+<p><strong>Warning</strong> this page contains advanced material.</p>
+<p>Camlp4 underwent a major revision between the version included in ocaml 3.09 and 3.10.  The supplied documentation as of this pages' creation is very small.  This page is experimental and user supported content.</p>
+<a name="External_Documents"></a><h2><span>External Documents</span></h2>
+<p class="first_para">The semi-official documentation: <a title="http://brion.inria.fr/gallium/index.php/Camlp4" class="external" href="http://brion.inria.fr/gallium/index.php/Camlp4">http://brion.inria.fr/gallium/index.php/Camlp4</a></p>
+<p>The ocaml beta announcement: <a title="http://pauillac.inria.fr/~pouillar/camlp4-changes.html" class="external" href="http://pauillac.inria.fr/~pouillar/camlp4-changes.html">http://pauillac.inria.fr/~pouillar/camlp4-changes.html</a></p>
+<a name="The_examples"></a><h2><span>The examples</span></h2>
+<p class="first_para">An example written for Camlp4 3.10:</p>
+<ul><li><a title="Camlp4 3.10/Foreach Tutorial" class="internal" href="camlp4_3.10/foreach_tutorial.html">Camlp4 3.10/Foreach Tutorial</a></li></ul>
+<p class="first_para">These examples are from the camlp4 beta announcement:</p>
+<ul><li><a title="Camlp4 3.10/dynamic_old_syntax.ml" class="internal" href="camlp4_3.10/dynamic_old_syntax.html">Camlp4 3.10/dynamic_old_syntax.ml</a></li>
+<li><a title="Camlp4 3.10/static_old_syntax.ml" class="internal" href="camlp4_3.10/static_old_syntax.html">Camlp4 3.10/static_old_syntax.ml</a></li>
+<li><a title="Camlp4 3.10/quick_non_extensible_example.ml" class="internal" href="camlp4_3.10/quick_non_extensible_example.html">Camlp4 3.10/quick_non_extensible_example.ml</a></li>
+<li><a title="Camlp4 3.10/dynamic_functor_example.ml" class="internal" href="camlp4_3.10/dynamic_functor_example.html">Camlp4 3.10/dynamic_functor_example.ml</a></li>
+<li><a title="Camlp4 3.10/static_functor_example.ml" class="internal" href="camlp4_3.10/static_functor_example.html">Camlp4 3.10/static_functor_example.ml</a></li></ul>
+<p class="first_para">This is a translation of M. Jambon's json_static to Camlp4 3.10 by N. Poulliard.</p>
+<p>The patch:</p>
+<p><a title="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.patch" class="external" href="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.patch">http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.patch</a></p>
+<p>The new version (compiles with camlp4orf):</p>
+<p><a title="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.ml" class="external" href="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.ml">http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.ml</a></p>
+<p>Commentary:</p>
+<p><a title="http://www.nabble.com/-Camlp4-3.10--The-rosetta-stone-(Was:-lists-without-$list:...$)-t3463823.html" class="external" href="http://www.nabble.com/-Camlp4-3.10--The-rosetta-stone-(Was:-lists-without-$list:...$)-t3463823.html">http://www.nabble.com/-Camlp4-3.10--The-rosetta-stone-(Was:-lists-without-$list:...$)-t3463823.html</a></p>
+<a name="The_command_line"></a><h2><span>The command line</span></h2>
+<p class="first_para">In the beta announcement, there was mention of new binaries camlp4xxx that come preloaded with selections of new and old syntaxes</p>
+<pre>
+# New commands:
+</pre>
+
+<pre>
+   * camlp4orf: camlp4o + Grammar, macro and revised quotation syntaxes.
+   * camlp4oof: camlp4o + Grammar, macro and the same syntax for quotations.
+   * camlp4rf: camlp4r + Grammar, macro and the same syntax for quotations. 
+</pre>
+
+<p class="first_para">It is not necessary to use a .cma file to create a regular camlp4 extension.  The .cmi libraries are for creating standalone executables.  Only the .cmi files from the include path are needed.</p>
+<p>So as an example:</p>
+<pre>
+$ ocamlc -I +camlp4 -pp camlp4orf -c dynamic_functor_example3.ml
+</pre>
+
+<a name="The__cma_files"></a><h2><span>The .cma files</span></h2>
+<p class="first_para">From N. Poulliard <a title="http://caml.inria.fr/pub/ml-archives/caml-list/2007/04/47c5c935136351afaefee6a0aa9cc506.en.html" class="external" href="../caml.inria.fr/pub/ml-archives/caml-list/2007/04/47c5c935136351afaefee6a0aa9cc506.en.html">http://caml.inria.fr/pub/ml-archives/caml-list/2007/04/47c5c935136351afaefee6a0aa9cc506.en.html</a></p>
+<p>There is a list of libraries provided with camlp4:</p>
+<p>camlp4{o,of,orf,r,rf}.cma are toplevel libs there are only made to be loaded in the ocaml toplevel</p>
+<p>camlp4lib.cma contains the Camlp4 module which holds the camlp4 kernel.</p>
+<p>camlp4fullilb.cma contains modules of camlp4lib.cma plus all parsers and filters.</p>
+
+
+
+
+    </div>
+
+    
+    <br/>
+    <hr/>
+    <div id="footer">
+      Contribute to this project!
+      Find us on <a href="https://github.com/ocaml/ocaml.org">Github</a>.
+    </div>
+    <span title=".././img/ = image directory from the base of the site"></span>
+
+
+    
+    
+    
+
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <script src=".././js/jquery.js"></script>
+    
+    <script src=".././js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-22552764-2']); _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body></html>

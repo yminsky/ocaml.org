@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    
+    <meta content="IE=8" http-equiv="X-UA-Compatible"/>
+    <title>OCaml :: Stream Expressions</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contrinutors" name="author"/>
+    <meta content="" name="description"/>
+    <meta content="" name="keywords"/>
+    <meta content="OCaml (Weberizer)" name="generator"/>
+
+    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link rel="stylesheet" href=".././css/bootstrap.css"/>
+    <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
+
+    
+    
+
+    <meta content="Stream Expressions" property="og:title"/>
+    <meta content="non_profit" property="og:type"/>
+
+    <meta content="all" name="robots"/>
+  </head>
+  <body>
+    <div id="header">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+	  
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href=".././" class="brand">OCaml</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+	      <li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Discover
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="../description.html">What is OCaml?</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it in your browser</a></li>
+    <li><a href="../taste.html">A Hundred Lines of OCaml</a></li>
+    <li><a href="../success.html">Success Stories</a></li>
+    <li><a href="../companies.html">Who is using it?</a></li>
+    <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Learn
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../install.html">Install</a></li>
+    <li><a href="../tutorials/">Tutorials</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../books.html">Books</a></li>
+    <li><a href="../videos.html">Videos</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../libraries.html">Libraries</a></li>
+    <li><a href="../dev_tools.html">Development tools</a></li>
+    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../tutorials/#advanced">Advanced tutorials &amp; Papers</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API search</a></li>
+    <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
+    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Community
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../mailing_lists.html">Mailing lists</a></li>
+    <li><a href="../planet/">OCaml Planet (blogs)</a></li>
+    <li><a href="../meetings.html">Meetings</a></li>
+    <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
+    <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
+    <li><a href="http://www.reddit.com/r/ocaml/">Reddit</a></li>
+    <li><a href="../support.html">Commercial Support</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">More
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="http://caml.inria.fr/mantis/">Mantis Bug Tracker</a></li>
+    <li><a href="../caml-light/">Caml Light</a></li>
+    <li><a href="../logos.html">Logos</a></li>
+  </ul>
+</li>
+
+            </ul>
+	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
+	      <input placeholder="Search" class="search-query" name="q" type="text"/>
+	      <input value="site:http://www.ocaml-lang.org/" name="q" type="hidden"/>
+	    </form>
+            
+	    
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <span class="navigation-bar">
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Stream Expressions
+	<span id="language">
+	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
+	</span>
+      </span>
+
+      
+<h1><span>Stream Expressions</span></h1>
+<a name="Stream_Expressions"></a><h2><span>Stream Expressions</span></h2>
+<p class="first_para">Streams are very powerful and concise once the necessary tools (stream builders, combinators, and other utilities) are in place. However, the code behind these tools can be a chore to write, at times resembling state machines more than elegant functional expressions. The Camlp4 preprocessor adds syntax support for stream and stream parser expressions, raising the level of abstraction a bit higher and simplifying many common stream-oriented tasks.</p>
+<a name="Interactive_Use"></a><h2><span>Interactive Use</span></h2>
+<p class="first_para">To enable stream expression support in the toplevel, you can type the following:</p>
+<pre>
+# #load &quot;dynlink.cma&quot;;;
+# #load &quot;camlp4o.cma&quot;;;
+</pre>
+
+<p class="first_para">Or, if you are using findlib:</p>
+<pre>
+# #use &quot;topfind&quot;;;
+# #camlp4o;;
+</pre>
+
+<a name="Stream_Literals"></a><h2><span>Stream Literals</span></h2>
+<p class="first_para">Stream expressions are enclosed by &quot;[&lt;&quot; and &quot;&gt;]&quot; brackets, and using them is a lot like using lists. The simplest stream possible is the empty stream:</p>
+<pre>
+[&lt; &gt;]
+</pre>
+
+<p class="first_para">Literal values in stream expressions are prefixied by single-quotes:</p>
+<pre>
+[&lt; '1; '2; '(1 + 2) &gt;]  (* Equivalent to Stream.of_list [1; 2; 3] *)
+</pre>
+
+<p class="first_para">This is to distinguish them from streams, which are automatically concatenated:</p>
+<pre>
+[&lt; '1; '2; more_numbers; '99 &gt;]
+</pre>
+
+<p class="first_para">In the above example, the stream will produce the integers 1 and 2, followed by all of the values generated by the <code>more_numbers</code> stream, and once <code>more_numbers</code> as been exhausted, it will produce the integer 99.</p>
+<a name="Recursive_Definition"></a><h2><span>Recursive Definition</span></h2>
+<p class="first_para">Streams can be defined with recursive functions, providing a straightforward and familiar mechanism to produce infinite sequences. The following defines an never-ending stream of 1s:</p>
+<pre>
+let ones =
+  let rec aux () =
+    [&lt; '1; aux () &gt;] in
+  aux ()
+</pre>
+
+<p class="first_para">Note the auxiliary function, <code>aux</code>, which is called recursively to form a loop. This is necessarily different from infinite lists, which can be defined with &quot;let rec&quot; without a helper function:</p>
+<pre>
+# let rec ones = 1 :: ones;;
+val ones : int list =
+  [1; 1; 1; 1; 1; ...]
+</pre>
+
+<p class="first_para">The stream expression syntax is not able to interpret recursive values like this, and attempts to do this will result in a syntax error:</p>
+<pre>
+# let rec ones = [&lt; '1; ones &gt;];;
+Error: This kind of expression is not allowed
+as right-hand side of `let rec'
+</pre>
+
+<p class="first_para">This is only a minor inconvenience, since most streams will be built from one or more parameters.  For example, here is the <code>const_stream</code> from the <a title="Streams" class="internal" href="streams.html">Streams</a> chapter, redefined using stream expression syntax:</p>
+<pre>
+let rec const_stream k = [&lt; 'k; const_stream k &gt;]
+</pre>
+
+<p class="first_para">Similarly, this simple one-liner is all it takes to produce a counter:</p>
+<pre>
+let rec count_stream i = [&lt; 'i; count_stream (i + 1) &gt;]
+</pre>
+
+<p class="first_para">Below is a slightly more complicated example, using two stream expressions to define a Fibonacci sequence:</p>
+<pre>
+# let fib =
+    let rec aux a b =
+      [&lt; '(a + b); aux b (a + b) &gt;] in
+    [&lt; '0; '1; aux 0 1 &gt;];;
+  val fib : int Stream.t = &lt;abstr&gt;
+# Stream.npeek 10 fib;;
+- : int list = [0; 1; 1; 2; 3; 5; 8; 13; 21; 34]
+</pre>
+
+<a name="Example__Directory_walker"></a><h2><span>Example: Directory walker</span></h2>
+<p class="first_para">As a more practical example, we can define a recursive directory walker that avoids loading the entire directory tree into memory:</p>
+<pre>
+let rec walk dir =
+  let items =
+    try
+      Array.map
+        (fun fn -&gt;
+           let path = Filename.concat dir fn in
+           try
+             if Sys.is_directory path
+             then `Dir path
+             else `File path
+           with e -&gt; `Error (path, e))
+        (Sys.readdir dir)
+    with e -&gt; [| `Error (dir, e) |] in
+  Array.fold_right
+    (fun item rest -&gt;
+       match item with
+         | `Dir path -&gt; [&lt; 'item; walk path; rest &gt;]
+         | _ -&gt; [&lt; 'item; rest &gt;])
+    items
+    [&lt; &gt;]
+</pre>
+
+<p class="first_para">This function works by first assembling an array of paths for the specified base directory. Each path is wrapped in a variant type that keeps track of which path is a file and which is a directory. The array is then folded into a stream, expanding each subdirectory by recursively calling <code>walk</code> again. Errors are included in the variant so that exceptions can be handled or ignored as needed.</p>
+<p>The expanding of subdirectories</p>
+<pre>
+[&lt; 'item; walk path; rest &gt;]
+</pre>
+
+<p class="first_para">illustrates a convenient feature of stream expressions: any number of sub-streams can appear in any order, and they will be lazily evaluated as needed. <code>walk path</code> and <code>rest</code> both evaluate to streams that are concatenated with <code>item</code> at the front. The results are flattened into a single stream, just as if we had used something like <code>stream_concat</code>, defined in the <a title="Streams" class="internal" href="streams.html">Streams</a> chapter.</p>
+<p>With little effort, we can now print the names of all the directories and files underneath &quot;/var/log&quot;:</p>
+<pre>
+let () =
+  Stream.iter
+    (function
+       | `Dir path -&gt;
+           Printf.printf &quot;dir: %s%!\n&quot; path
+       | `File path -&gt;
+           Printf.printf &quot;file: %s%!\n&quot; path
+       | `Error (path, e) -&gt;
+           Printf.printf &quot;error: %s (%s)%!\n&quot; path
+             (Printexc.to_string e))
+    (walk &quot;/var/log&quot;)
+</pre>
+
+
+
+
+
+    </div>
+
+    
+    <br/>
+    <hr/>
+    <div id="footer">
+      Contribute to this project!
+      Find us on <a href="https://github.com/ocaml/ocaml.org">Github</a>.
+    </div>
+    <span title=".././img/ = image directory from the base of the site"></span>
+
+
+    
+    
+    
+
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <script src=".././js/jquery.js"></script>
+    
+    <script src=".././js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-22552764-2']); _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body></html>
