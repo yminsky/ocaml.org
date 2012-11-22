@@ -944,8 +944,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = Unix.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.0316450595855712891
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.00038909912109375
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.0317218303680419922
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.000401020050048828125
 </span></pre>
 </div>
 
@@ -2314,7 +2314,7 @@ Error: Syntax error
     
 
     <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
-    <script src=".././js/jquery.js"></script>
+    <script src=".././js/jquery-1.8.0.min.js"></script>
     
     <script src=".././js/bootstrap.js"></script>
     <script type="text/javascript">
