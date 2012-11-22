@@ -944,8 +944,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = Unix.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.0317218303680419922
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.000401020050048828125
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.00331091880798339844
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 2.88486480712890625e-05
 </span></pre>
 </div>
 
@@ -1083,11 +1083,11 @@ val table2 : string -&gt; string -&gt; bool_expr -&gt; (bool * bool * bool) list
       expression <code>expr</code>, which contains the logical
       variables enumerated in <code>variables</code>.</p>
   <button class="solution" onclick="toggleContent('q48')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">a</span> = Var &quot;a&quot; <span class="kwa">and </span><span class="ocaml-variable">b</span> = Var &quot;b&quot; <span class="kwa">and </span><span class="ocaml-variable">c</span> = Var &quot;c&quot; <span class="kwa">in</span>
-  table [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;] (Or(And(a, Or(b,c)), Or(And(a,b), And(a,c))))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 2-7:
+  table [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;] (Or(And(a, Or(b,c)), Or(And(a,b), And(a,c))))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 53-58:
 Error: Unbound value table
 </span></pre>
 </div>
@@ -1105,10 +1105,10 @@ n = 3: C(3) = ['000','001','011','010',´110´,´111´,´101´,´100´].
     following specification: <code>gray n c</code> <em><code>c</code> is
       the <code>n</code>-bit Gray code</em>.</p>
   <button class="solution" onclick="toggleContent('q49')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1132,10 +1132,10 @@ Error: Syntax error
     <code>huffman(fs)</code> returns the Huffman code table for the
     frequency table <code>fs</code></p>
 <button class="solution" onclick="toggleContent('q50')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1182,7 +1182,7 @@ Error: Syntax error
     tree.</p>
   
   <button class="solution" onclick="toggleContent('q55')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">cbal_tree 4
@@ -1193,7 +1193,7 @@ Error: Syntax error
      Node('x', Node('x', Empty, Node('x', Empty, Empty)),
           Node('x', Empty, Empty));
      Node('x', Node('x', Node(x, Empty, Empty), Empty),
-          Node('x', Empty, Empty)) ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-9:
+          Node('x', Empty, Empty)) ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-9:
 Error: Unbound value cbal_tree
 </span></pre>
 </div>
@@ -1210,7 +1210,7 @@ Error: Unbound value cbal_tree
     image of another.  We are only interested in the structure, not in
     the contents of the nodes.</p>
   <button class="solution" onclick="toggleContent('q56')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1221,19 +1221,19 @@ Error: Syntax error
     a <a target="_blank" href="http://en.wikipedia.org/wiki/Binary_search_tree">binary search tree</a> from a list of integer
     numbers.</p>
   <button class="solution" onclick="toggleContent('q57')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">construct [3;2;5;7;1]
   = Node(3, Node(2, Node(1, Empty, Empty), Empty),
-         Node(5, Empty, Node(7, Empty, Empty)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-9:
+         Node(5, Empty, Node(7, Empty, Empty)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-9:
 Error: Unbound value construct
 </span></pre>
   <p>Then use this function to test the solution of the previous
     problem.</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">is_symmetric(construct[5;3;18;1;4;12;21])</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-12:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">is_symmetric(construct[5;3;18;1;4;12;21])</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-12:
 Error: Unbound value is_symmetric
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">not(is_symmetric(construct[3;2;5;7;1]))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 4-16:
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">not(is_symmetric(construct[3;2;5;7;1]))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 4-16:
 Error: Unbound value is_symmetric
 </span></pre>
 </div>
@@ -1243,14 +1243,14 @@ Error: Unbound value is_symmetric
   <p>Apply the generate-and-test paradigm to construct all symmetric,
     completely balanced binary trees with a given number of nodes.</p>
   <button class="solution" onclick="toggleContent('q58')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sym_cbal_trees 5
   = [Node('x', Node('x', Empty, Node('x', Empty, Empty)),
                Node('x', Node('x', Empty, Empty), Empty));
      Node('x', Node('x', Node('x', Empty, Empty), Empty),
-               Node('x', Empty, Node('x', Empty, Empty)))]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-14:
+               Node('x', Empty, Node('x', Empty, Empty)))]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-14:
 Error: Unbound value sym_cbal_trees
 </span></pre>
 <p>
@@ -1272,17 +1272,17 @@ Error: Unbound value sym_cbal_trees
     letter <code>'x'</code> as information into all nodes of the
     tree.</p>
   <button class="solution" onclick="toggleContent('q59')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">t</span> = hbal_tree 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 8-17:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">t</span> = hbal_tree 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 8-17:
 Error: Unbound value hbal_tree
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">x</span> = 'x'</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val x : char = 'x'
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">List.mem (Node(x, Node(x, Node(x, Empty, Empty), Node(x, Empty, Empty)),
-                 Node(x, Node(x, Empty, Empty), Node(x, Empty, Empty))))) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 72-73:
+                 Node(x, Node(x, Empty, Empty), Node(x, Empty, Empty))))) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 145-146:
 Error: Syntax error
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">List.mem (Node(x, Node(x, Node(x, Empty, Empty), Node(x, Empty, Empty)),
-                 Node(x, Node(x, Empty, Empty), Empty))) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 57-58:
+                 Node(x, Node(x, Empty, Empty), Empty))) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 130-131:
 Error: Unbound value t
 </span></pre>
 </div>
@@ -1300,7 +1300,7 @@ Error: Unbound value t
     <code>minNodes h</code> returns the minimum number of nodes in a
     height-balanced binary tree of height <code>h</code>.</p>
   <button class="solution" onclick="toggleContent('q60')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
   <p>On the other hand, we might ask: what is the maximum height H a
@@ -1308,7 +1308,7 @@ Error: Syntax error
     <code>maxHeight n</code> returns the maximum height of a
     height-balanced binary tree with <code>n</code> nodes.
   </p>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
   <p>Now, we can attack the main problem: construct all the
@@ -1316,12 +1316,12 @@ Error: Syntax error
     <code>hbal_tree_nodes n</code> returns a list of all height-balanced
     binary tree with <code>n</code> nodes.
   </p>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
   <p>Find out how many height-balanced trees exist for <code>n =
       15</code>.</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">List.length (hbal_tree_nodes 15)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 13-28:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">List.length (hbal_tree_nodes 15)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 13-28:
 Error: Unbound value hbal_tree_nodes
 </span></pre>
 </div>
@@ -1420,10 +1420,10 @@ Error: Unbound value hbal_tree_nodes
     iff <code>t</code> is a complete binary tree with <code>n</code>
     nodes.</p>
 <button class="solution" onclick="toggleContent('q63')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1461,10 +1461,10 @@ Error: Syntax error
     "positioned" binary tree obtained from the binary tree <code>t</code>.
   </p>
   <button class="solution" onclick="toggleContent('q64')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1479,10 +1479,10 @@ Error: Syntax error
   <p>Hint: On a given level, the horizontal distance between neighboring
     nodes is constant.</p>
   <button class="solution" onclick="toggleContent('q65')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1498,10 +1498,10 @@ Error: Syntax error
     construct the combined binary tree?  This is a difficult
     problem.  Don't give up too early!</p>
   <button class="solution" onclick="toggleContent('q66')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
   <p>Which layout do you like most?</p>
@@ -1531,10 +1531,10 @@ Error: Syntax error
   <p>For simplicity, suppose the information in the nodes is a single
     letter and there are no spaces in the string. </p>
   <button class="solution" onclick="toggleContent('q67')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1565,10 +1565,10 @@ Error: Syntax error
   <p>What happens if the same character appears in more than one
     node. Try for instance <code>pre_in_tree "aba" "baa"</code>. </p>
   <button class="solution" onclick="toggleContent('q68')">Solution</button>
-  <pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+  <pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1588,10 +1588,10 @@ Error: Syntax error
     which does the conversion in both directions.  Use difference
     lists. </p>
   <button class="solution" onclick="toggleContent('q69')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1797,7 +1797,7 @@ val lispy : char mult_tree -&gt; string = &lt;fun&gt;
     A third representation method is to associate with each node the set
     of nodes that are adjacent to that node. We call this the
     <strong>adjacency-list form</strong>.  In our example:
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
   </li>
@@ -1829,10 +1829,10 @@ Error: Syntax error
     not particularly difficult,  but it's a lot of
     work to deal with all the special cases. </p>
   <button class="solution" onclick="toggleContent('q80')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1902,7 +1902,7 @@ val paths : 'a graph_term -&gt; 'a -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
     functions: <code>is_tree graph</code> and <code>is_connected
       Graph</code>.  Both are five-minutes tasks! </p>
   <button class="solution" onclick="toggleContent('q83')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">g</span> = { nodes = ['a'; 'b'; 'c'; 'd'; 'e'; 'f'; 'g'; 'h'];
@@ -1935,7 +1935,7 @@ Error: Syntax error
     trick. The data of the example graph to the right can be found
     below.</p>
   <button class="solution" onclick="toggleContent('q84')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">g</span> = { nodes = ['a'; 'b'; 'c'; 'd'; 'e'; 'f'; 'g'; 'h'];
@@ -1955,10 +1955,10 @@ Error: Syntax error
   <p>Write a function that determines whether two graphs are isomorphic.
     Hint: Use an open-ended list to represent the function f. </p>
   <button class="solution" onclick="toggleContent('q85')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1974,10 +1974,10 @@ Error: Syntax error
       such a way that adjacent nodes have different colors.</li>
   </ul>
   <button class="solution" onclick="toggleContent('q86')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -1989,10 +1989,10 @@ Error: Syntax error
     output should be a list of nodes that are reachable from this starting
     point (in depth-first order). </p>
   <button class="solution" onclick="toggleContent('q87')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2002,10 +2002,10 @@ Error: Syntax error
   <p>Write a predicate that splits a graph into its
     <a href="http://en.wikipedia.org/wiki/Connected_component_%28graph_theory%29">connected components</a>.</p>
   <button class="solution" onclick="toggleContent('q88')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2015,10 +2015,10 @@ Error: Syntax error
   <p> Write a predicate that finds out whether a given graph is
     <a href="http://en.wikipedia.org/wiki/Bipartite_graph">bipartite</a>.</p>
   <button class="solution" onclick="toggleContent('q89')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2034,10 +2034,10 @@ Error: Syntax error
   <p>See also
     the <a href="https://sites.google.com/site/prologsite/prolog-problems/6/solutions-6/p6_11.txt?attredirects=0&d=1">table of results</a>.</p>
   <button class="solution" onclick="toggleContent('q89+1')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2059,10 +2059,10 @@ Error: Syntax error
     in the first column is in row 4, the queen in the second column is
     in row 2, etc. Use the generate-and-test paradigm.</p>
   <button class="solution" onclick="toggleContent('q90')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2082,10 +2082,10 @@ Error: Syntax error
     the solution of our problem as a list knight positions (the
     knight's tour). </p>
   <button class="solution" onclick="toggleContent('q91')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2111,10 +2111,10 @@ Error: Syntax error
   <p>Write a function that calculates a numbering scheme for a given
     tree.  What is the solution for the larger tree pictured above?</p>
   <button class="solution" onclick="toggleContent('q92')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2128,10 +2128,10 @@ Error: Syntax error
     numbers <code>[2;3;5;7;11]</code> we can form the equations 2-3+5+7
     = 11 or 2 = (3*5+7)/11 (and ten others!).</p>
   <button class="solution" onclick="toggleContent('q93')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2143,10 +2143,10 @@ Error: Syntax error
     one-seven-five.  Write a function <code>full_words</code> to print
     (non-negative) integer numbers in full words. </p>
   <button class="solution" onclick="toggleContent('q94')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2161,10 +2161,10 @@ Error: Syntax error
     write a function <code>identifier : string -> bool</code> that can
     check whether or not a given string is a legal identifier.</p>
   <button class="solution" onclick="toggleContent('q95')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2201,10 +2201,10 @@ Error: Syntax error
     and 9 appears exactly once in each row, in each column, and in each
     square.</p>
   <button class="solution" onclick="toggleContent('q96')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2245,10 +2245,10 @@ Error: Syntax error
     example, e.g. 25×20, and apparently always have unique
     solutions. </p>
   <button class="solution" onclick="toggleContent('q97')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
@@ -2287,10 +2287,10 @@ Error: Syntax error
       order. </li>
   </ol>
   <button class="solution" onclick="toggleContent('q98')">Solution</button>
-<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 0-2:
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Characters 0-2:
 Error: Syntax error
 </span></pre>
 </div>
