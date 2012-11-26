@@ -223,16 +223,14 @@
     <div class="container-fluid">
       <div class="row-fluid">
 	<div class="span6">
-	  <h2>An example</h2>
-
-	  <p>You can also get
-	    <a href="taste.html">a stronger taste</a>.</p>
+	  <h2>A taste of OCaml</h2>
 
 <pre class="listing">
-<span class="kwa">type</span> 'a <span class="ocaml-mod">tree</span> =
-  Leaf <span class="kwb">of</span> 'a  |  Node <span class="kwb">of</span> 'a tree * 'a tree
+<span class="ocaml-comment">(* Binary tree <span class="kwb">with</span> leaves carrying an integer. *)</span>
+<span class="kwa">type</span> <span class="ocaml-mod">tree</span> = Leaf <span class="kwb">of</span> int | Node <span class="kwb">of</span> tree * tree
 
-<span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf </span><span class="ocaml-variable">test </span>= <span class="kwb">function</span>
+<span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf </span><span class="ocaml-variable">test tree </span>=
+  <span class="kwb">match</span> tree <span class="kwb">with</span>
   | Leaf v -&gt; test v
   | Node (left, right) -&gt;
       exists_leaf test left
@@ -241,6 +239,10 @@
 <span class="kwa">let</span> <span class="ocaml-function">has_even_leaf </span><span class="ocaml-variable">tree </span>=
   exists_leaf (<span class="kwb">fun</span> n -&gt; n mod 2 = 0) tree
 </pre>
+
+	  <p>OCaml is a lot more powerful than this simple example shows.
+	  Pursue with
+	    <a href="taste.html">a stronger taste</a>!</p>
 
 	</div> 
 	<div class="span6">
