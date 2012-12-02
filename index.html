@@ -223,14 +223,16 @@
     <div class="container-fluid">
       <div class="row-fluid">
 	<div class="span6">
-	  <h2>A taste of OCaml</h2>
+	  <h2>An example</h2>
+
+	  <p>You can also get
+	    <a href="taste.html">a stronger taste</a>.</p>
 
 <pre class="listing">
-<span class="ocaml-comment">(* Binary tree <span class="kwb">with</span> leaves carrying an integer. *)</span>
-<span class="kwa">type</span> <span class="ocaml-mod">tree</span> = Leaf <span class="kwb">of</span> int | Node <span class="kwb">of</span> tree * tree
+<span class="kwa">type</span> 'a <span class="ocaml-mod">tree</span> =
+  Leaf <span class="kwb">of</span> 'a  |  Node <span class="kwb">of</span> 'a tree * 'a tree
 
-<span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf </span><span class="ocaml-variable">test tree </span>=
-  <span class="kwb">match</span> tree <span class="kwb">with</span>
+<span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf </span><span class="ocaml-variable">test </span>= <span class="kwb">function</span>
   | Leaf v -&gt; test v
   | Node (left, right) -&gt;
       exists_leaf test left
@@ -240,15 +242,11 @@
   exists_leaf (<span class="kwb">fun</span> n -&gt; n mod 2 = 0) tree
 </pre>
 
-	  <p>OCaml is a lot more powerful than this simple example shows.
-	  Pursue with
-	    <a href="taste.html">a stronger taste</a>!</p>
-
 	</div> 
 	<div class="span6">
 	  <h2>News from the community</h2>    
 	  
-	  <div id="news"><ul><li><span class="rss-title"><a href="planet#ea85e6bbd2ab0d204b6a38cb979b6ef5"> Journée de cours Ocsigen à Paris - Développement d'applications Web en OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">29 Nov 2012</span></li><li><span class="rss-title"><a href="planet#c3b516ab38f13accdd3df24b36ff284e"> A note about the performance of Printf and Format</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">28 Nov 2012</span></li><li><span class="rss-title"><a href="planet#0b7415981db8c02f1d7c9a8d2f7c23ed"> Caml Weekly News, 27 Nov 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">27 Nov 2012</span></li><li><span class="rss-title"><a href="planet#bfcbacfbb0db1e239d978d522713b1cb"> Type-based selection of label and constructors</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">27 Nov 2012</span></li><li><span class="rss-title"><a href="planet#9af1d5db458dcc344455b1e57d0f19a4"> Stog 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">22 Nov 2012</span></li><li><span class="rss-title"><a href="planet#356e3f0da13f4e3ea3fdcf9d20edc44b"> Xtmpl 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">22 Nov 2012</span></li><li><span class="rss-title"><a href="planet#d70d491cd82020f9a4aaa50c37091682"> Caml Weekly News, 20 Nov 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">20 Nov 2012</span></li><li><span class="rss-title"><a href="planet#e9ab0afb9dae2acbc8df14359d4e1b86"> Maps, sets, and hashtables in core</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">12 Nov 2012</span></li><li><span class="rss-title"><a href="planet#431d644e0dbbcb19dfd5282281069a9f"> How to implement dependent type theory II</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">11 Nov 2012</span></li><li><span class="rss-title"><a href="planet#b4f4adcad86f1f55317ed49cdf532cb2"> Master and Footballer</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">11 Nov 2012</span></li></ul></div>
+	  <div id="news"><ul><li><span class="rss-title"><a href="planet#b5a34ba49273a26e68a4870c998886b1"> Fixing stack overflows using continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">01 Dec 2012</span></li><li><span class="rss-title"><a href="planet#ea85e6bbd2ab0d204b6a38cb979b6ef5"> Journée de cours Ocsigen à Paris - Développement d'applications Web en OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">29 Nov 2012</span></li><li><span class="rss-title"><a href="planet#488819739afed57419cb3e91edff7efc"> How to implement dependent type theory III</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">29 Nov 2012</span></li><li><span class="rss-title"><a href="planet#c3b516ab38f13accdd3df24b36ff284e"> A note about the performance of Printf and Format</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">28 Nov 2012</span></li><li><span class="rss-title"><a href="planet#0b7415981db8c02f1d7c9a8d2f7c23ed"> Caml Weekly News, 27 Nov 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">27 Nov 2012</span></li><li><span class="rss-title"><a href="planet#bfcbacfbb0db1e239d978d522713b1cb"> Type-based selection of label and constructors</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">27 Nov 2012</span></li><li><span class="rss-title"><a href="planet#9af1d5db458dcc344455b1e57d0f19a4"> Stog 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">22 Nov 2012</span></li><li><span class="rss-title"><a href="planet#356e3f0da13f4e3ea3fdcf9d20edc44b"> Xtmpl 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">22 Nov 2012</span></li><li><span class="rss-title"><a href="planet#d70d491cd82020f9a4aaa50c37091682"> Caml Weekly News, 20 Nov 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">20 Nov 2012</span></li><li><span class="rss-title"><a href="planet#e9ab0afb9dae2acbc8df14359d4e1b86"> Maps, sets, and hashtables in core</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">12 Nov 2012</span></li></ul></div>
 	</div>
     </div>
   </div>
