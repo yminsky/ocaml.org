@@ -149,489 +149,427 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="b5a34ba49273a26e68a4870c998886b1"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/stack-overflow-continuations/index.html"> Fixing stack overflows using continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">01 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Just a few weeks ago, Andrej Bauer wrote two articles (
-<a href="http://math.andrej.com/2012/11/08/how-to-implement-dependent-type-theory-i/">1</a>
-<a href="http://math.andrej.com/2012/11/11/how-to-implement-dependent-type-theory-ii/">2</a>
-) about implementing a dependent type theory in Ocaml. In particular, he
-demonstrates a cool idea to normalize expressions, called
-« normalization by evaluation ».</p>
+    <div class="planet"><a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+OCaml bytecode to Javascript. This release is compatible with OCaml
+4.x. It adds WebSocket bindings and fixes a number of bugs.
+</p>
 
-<p>However, when trying to evaluate 2<sup>20</sup>, the program overflows the
-stack.  It turns out that there is an easy and methodic way to locate
-and fix such problems, which we will discuss in that post.</p>
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://ocsigen.org/js_of_ocaml/">Project home page</a>
+</li><li><a href="http://ocsigen.org/download/js_of_ocaml-1.3.1.tar.gz">Download</a>
+</li><li>Get source code: <code>darcs get http://ocsigen.org/darcs/js_of_ocaml/</code>
+</li><li><a href="http://ocsigen.org/js_of_ocaml/manual/">Documentation</a>
+</li>
+</ul>
+
+<h2>Changes</h2>
+
+<h3>Features/Changes</h3>
+<ul>
+<li>Runtime and toplevel updates to support OCaml 4.0
+</li><li>Add WebSocket bindings
+</li><li>Added -debuginfo option to output source code location information
+    (patch by Kensuke Matsuzaki)
+</li><li>Dom_html: added change, input and hashChange event bindings
+</li>
+</ul>
+
+<h3>Bugfixes</h3>
+<a onclick="switchContent('post1','post2')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post2" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+OCaml bytecode to Javascript. This release is compatible with OCaml
+4.x. It adds WebSocket bindings and fixes a number of bugs.
+</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://ocsigen.org/js_of_ocaml/">Project home page</a>
+</li><li><a href="http://ocsigen.org/download/js_of_ocaml-1.3.1.tar.gz">Download</a>
+</li><li>Get source code: <code>darcs get http://ocsigen.org/darcs/js_of_ocaml/</code>
+</li><li><a href="http://ocsigen.org/js_of_ocaml/manual/">Documentation</a>
+</li>
+</ul>
+
+<h2>Changes</h2>
+
+<h3>Features/Changes</h3>
+<ul>
+<li>Runtime and toplevel updates to support OCaml 4.0
+</li><li>Add WebSocket bindings
+</li><li>Added -debuginfo option to output source code location information
+    (patch by Kensuke Matsuzaki)
+</li><li>Dom_html: added change, input and hashChange event bindings
+</li>
+</ul>
+
+<h3>Bugfixes</h3>
+<ul>
+<li>Fix array and string blitting with overlapping regions
+</li><li>Url module: fix encoding of '+'
+</li><li>Library: use 'this' instead of 'window' for better portability
+</li><li>Dom_html: fix creation of elements with type or name attribute
+    under IE 9
+</li><li>Compiler: small fix to bytecode parsing that could result in
+    incorrect generated code
+</li><li>Dom_html: fix mouse wheel event bindings
+</li><li>Dom: fix the type of item methods
+</li><li>Deriving_json: tail-recursive serialisation of lists (by Hugo Heuzard)
+</li><li>Deriving_json: fix parsing of float arrays and polymorphic variants
+    (by Hugo Heuzard)
+</li>
+</ul>
+<p>
+-- Jérôme Vouillon
+</p>
+<p>
+To get more frequent annoucements about Ocsigen, follow us on 
+<a href="https://twitter.com/ocsigen">Twitter</a>,
+<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post2','post1')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
+<a name="3c33eeb4f6e8fa3c634ac1b143a45a68"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/your-first-coq-plugin/index.html"> Emancipate yourself from LTac: Your first Coq plugin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">05 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>I recently started a post-doc in the Gallium team, and it is past
+due-time for my first blog post. I will not start with a research
+oriented blog right now (but stay tuned!); and I will rather talk
+about one of my hobbies: writing Coq plugins in OCaml to build new
+tactics. I reckon that this deviates a bit from standard practice, so
+I will try to make things clear.</p>
 
 
 
 
-<p>Edit: there is now a <a href="http://math.andrej.com/2012/11/29/how-to-implement-dependent-type-theory-iii/">third
-article</a>
-published in the series, but the code presented here is still based on
-the <a href="https://github.com/andrejbauer/tt/tree/blog-part-II">Part II
-branch</a> of Andrej's
-<a href="https://github.com/andrejbauer/tt">git repository</a>.</p>
+<p>First, a Coq proof script is usually a program written in
+<em>LTac</em>. Executing a proof script builds incrementally a
+<em>proof-term</em>. The tactics themselves are not trusted: at <code>Qed</code> time, Coq
+checks that the proof term that was built is well-typed and that its
+type is the same as the statement of the theorem. One must remember
+that LTac tactics can always be understood in terms of manipulations
+of partial proof terms; and it is often instructive to get an idea of
+the proof term that is being built, using the <code>Show Proof</code> vernacular
+command.</p>
 
-<p>First, let's examine a similar, working example. From Andrej's test, we can
-compute 2<sup>16</sup>:</p>
-
-<a onclick="switchContent('post1','post2')" class="btn" href="#b5a34ba49273a26e68a4870c998886b1">Read more...</a></div><div id="post2" style="display: none"><p>Just a few weeks ago, Andrej Bauer wrote two articles (
-<a href="http://math.andrej.com/2012/11/08/how-to-implement-dependent-type-theory-i/">1</a>
-<a href="http://math.andrej.com/2012/11/11/how-to-implement-dependent-type-theory-ii/">2</a>
-) about implementing a dependent type theory in Ocaml. In particular, he
-demonstrates a cool idea to normalize expressions, called
-« normalization by evaluation ».</p>
-
-<p>However, when trying to evaluate 2<sup>20</sup>, the program overflows the
-stack.  It turns out that there is an easy and methodic way to locate
-and fix such problems, which we will discuss in that post.</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#3c33eeb4f6e8fa3c634ac1b143a45a68">Read more...</a></div><div id="post4" style="display: none"><p>I recently started a post-doc in the Gallium team, and it is past
+due-time for my first blog post. I will not start with a research
+oriented blog right now (but stay tuned!); and I will rather talk
+about one of my hobbies: writing Coq plugins in OCaml to build new
+tactics. I reckon that this deviates a bit from standard practice, so
+I will try to make things clear.</p>
 
 
 
 
-<p>Edit: there is now a <a href="http://math.andrej.com/2012/11/29/how-to-implement-dependent-type-theory-iii/">third
-article</a>
-published in the series, but the code presented here is still based on
-the <a href="https://github.com/andrejbauer/tt/tree/blog-part-II">Part II
-branch</a> of Andrej's
-<a href="https://github.com/andrejbauer/tt">git repository</a>.</p>
+<p>First, a Coq proof script is usually a program written in
+<em>LTac</em>. Executing a proof script builds incrementally a
+<em>proof-term</em>. The tactics themselves are not trusted: at <code>Qed</code> time, Coq
+checks that the proof term that was built is well-typed and that its
+type is the same as the statement of the theorem. One must remember
+that LTac tactics can always be understood in terms of manipulations
+of partial proof terms; and it is often instructive to get an idea of
+the proof term that is being built, using the <code>Show Proof</code> vernacular
+command.</p>
 
-<p>First, let's examine a similar, working example. From Andrej's test, we can
-compute 2<sup>16</sup>:</p>
+<p>Usually, one build new tactics in LTac. LTac is a powerful
+domain-specific language with some interesting programming constructs,
+and it is possible to build powerful new tactics using a few
+combinators and leveraging the existing automation (builtin tactics,
+decision procedures and so on). I have read that LTac is vindicated as
+one of the <a href="http://adam.chlipala.net/cpdt/html/Intro.html">strong points of
+Coq</a>, and part of me agree with that statement: there is a lot of
+use cases in which LTac is a good tool.  Yet, writing a LTac tactic
+is often tedious, the code that needs to be written is hard to debug,
+and it may be quite inefficient.</p>
 
-<div>
+<p>The alternative is to write custom tactics in OCaml, the meta-language
+that is used to implement Coq (and all the primitive tactics). In the
+following, I will demonstrate how to write such a tactic, and give you
+a handful of the necessary entry points into Coq's code.</p>
 
+<p>The tactic that we are going to code is the following one, shamefully
+stolen from Compcert's code.</p>
 
-<pre class="code-txt">$ make native &amp;&amp; echo "Eval power two (power two four)." | ./tt.native -l church.tt
-ocamlbuild -lib unix -use-menhir tt.native
-Finished, 38 targets (38 cached) in 00:00:00.
-tt master
-[Type Ctrl-D to exit or "Help." for help.]
-#     = fun A : Type 0 =&gt;
-      fun x : A -&gt; A =&gt;
-      fun x0 : A =&gt;
-      x
-      (x
-       (x
-        (x
-         (x
-          (x
-           (x
-            (x
-             (x
-              (x
-               (x
-                (x
-                 (x
-                  (x
-                   (x
-                    (x
-                     (x
-                      (x
-                       (x
-                        (x
-                         (x
-                          (x
-                           (x
-                            (x
-                             (x
-                              (x
-                               (x (x (x (x (x (x (x (x (x (... (...))))))))))))))))))))))))))))))))))))
-    : forall A : Type 0, (A -&gt; A) -&gt; A -&gt; A
+<pre class="code-"><span class="hl kwd">Lemma</span> modusponens<span class="hl opt">:</span> forall <span class="hl opt">(</span><span class="hl kwd">P Q</span><span class="hl opt">:</span> <span class="hl kwd">Prop</span><span class="hl opt">),</span> <span class="hl kwd">P</span> <span class="hl opt">-&gt; (</span><span class="hl kwd">P</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">Q</span><span class="hl opt">) -&gt;</span> <span class="hl kwc">Q</span><span class="hl opt">.</span>
+<span class="hl kwc">Proof</span><span class="hl opt">.</span> auto<span class="hl opt">.</span> <span class="hl kwc">Qed</span><span class="hl opt">.</span>
+
+<span class="hl kwd">Ltac</span> exploit x <span class="hl opt">:=</span>
+   refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _ _ _ _ _ _ _ _ _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
+|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _ _ _ _ _ _ _ _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
+<span class="hl com">(* Lots of lines elided.  The actual code handle cases upto </span>
+<span class="hl com">  35 arguments *)</span>
+|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
+|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
+|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _<span class="hl opt">)</span> _<span class="hl opt">).</span>
 </pre>
 
+<p>What does <code>exploit</code> do ? Well, the best thing is to give an
+example. In the following context, </p>
 
-</div>
-
-<p>This is just the regular Church-encoding of a huge number: you can think of A
-as the natural numbers type, of <code>x</code> as the successor constructor, and <code>x0</code> as zero.
-Notice how the result is a very deeply-nested sequence of applications. The
-shape being pretty-printed here relates closely to the manipulated datatype,
-and as we will see, it is the source of the overflow.</p>
-
-<p>Let us now modify the Makefile to add debug information to get a proper
-backtrace:</p>
-
-<div>
-
-
-<pre class="code-txt"> native:
--  ocamlbuild -lib unix -use-menhir tt.native
-+  ocamlbuild -tag annot -tag debug -lib unix -use-menhir tt.native
+<pre class="code-"><span class="hl kwd">A</span><span class="hl opt">,</span> <span class="hl kwd">B</span><span class="hl opt">,</span> <span class="hl kwd">C</span><span class="hl opt">,</span> <span class="hl kwd">D</span><span class="hl opt">,</span> <span class="hl kwd">G</span> <span class="hl opt">:</span> <span class="hl kwd">Prop</span>
+<span class="hl kwd">H</span> <span class="hl opt">:</span> <span class="hl kwd">A</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">B</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">C</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">D</span>
+<span class="hl opt">============================</span>
+<span class="hl kwd">G</span>
 </pre>
 
+<p><code>exploit H</code> will produce four sub-goals in which the user needs to
+prove <code>A</code>, <code>B</code>, <code>C</code>, and <code>D -&gt; G</code>. That is, the <code>exploit</code>
+tactic is a generalized version of the modus-ponens.</p>
 
-</div>
+<p>This tactic has two drawbacks. First, it is a bit inefficient: it
+tries to apply the <code>modusponens</code> theorem to <code>x</code> applied to a
+decreasing number of arguments (obviously we do not want to get two
+subgoals <code>A</code> and <code>B -&gt; C -&gt; D -&gt; G</code>). Yet, this is a pity, because
+most of the time, the right application has a low number of arguments,
+and the execution of <code>exploit</code> must go through twenty-something
+failures before reaching a successful of <code>refine</code>. The second drawback
+is that one has to repeat by hand the same pattern (<code>x</code> followed by a
+given number of holes), to handle all reasonable use-cases of the
+tactic. </p>
 
-<p>Rebuilding and running it on 2<sup>20</sup>
-(setting <code>OCAMLRUNPARAM="b"</code> to print the backtrace when the
-stack overflows):</p>
+<p>Now, we probably could imagine other (LTac) implementations of exploit,
+but it is not the point of this article, and you should definitely not
+try to do that at home! What we will do is implement this tactic as 9
+lines long tactic in an OCaml plugin, way shorter than the LTac implementation.</p>
 
-<div>
+<p>Here we go. </p>
 
+<pre class="code-ocaml"> 
+<span class="hl kwa">let</span> exploit <span class="hl opt">(</span>c<span class="hl opt">:</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>constr<span class="hl opt">) =</span> <span class="hl kwa">fun</span> gl <span class="hl opt">-&gt;</span>  
+<span class="hl com">(* the type of [c] is [ty] *)</span>
+<span class="hl kwa">let</span> ty <span class="hl opt">=</span> <span class="hl kwd">Tacmach</span><span class="hl opt">.</span>pf_type_of gl c <span class="hl kwa">in</span> 
 
-<pre class="code-txt">$ make native &amp;&amp; echo "Eval power two (times four five)." | OCAMLRUNPARAM="b" ./tt.native -l church.tt
-ocamlbuild -tag annot -tag debug -lib unix -use-menhir tt.native
-Finished, 38 targets (15 cached) in 00:00:00.
-tt master
-[Type Ctrl-D to exit or "Help." for help.]
-# Fatal error: exception Stack_overflow
-Raised by primitive operation at file "value.ml", line 74, characters 33-43
-Called from file "value.ml", line 74, characters 33-43
-Called from file "value.ml", line 90, characters 47-54
-Called from file "value.ml", line 74, characters 33-43
-Called from file "value.ml", line 90, characters 47-54
-Called from file "value.ml", line 74, characters 33-43
-Called from file "value.ml", line 90, characters 47-54
-Called from file "value.ml", line 74, characters 33-43
-[...]
+<span class="hl com">(* In the general case, [ty] can be written as [forall (x1:t1)</span>
+<span class="hl com">... (xn:tn), t]. We decompose this arity in two parts: [ctx] which</span>
+<span class="hl com">is [(xn, tn); ...; (x1,t1)] and the conclusion [t] *)</span>
+<span class="hl kwa">let</span> ctx<span class="hl opt">,</span> t <span class="hl opt">=</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>decompose_prod_assum ty <span class="hl kwa">in</span>
+
+<span class="hl com">(* We will also need the type of the conclusion of the goal *)</span>
+<span class="hl kwa">let</span> concl <span class="hl opt">=</span> <span class="hl kwd">Tacmach</span><span class="hl opt">.</span>pf_concl gl <span class="hl kwa">in</span> 
 </pre>
 
+<p>We encounter functions from two modules here:</p>
 
-</div>
+<ul>
+<li><p><code>coq-v8.4/kernel/term.ml</code> contains the definition of Coq terms, the
+<code>constr</code> data-type, and various operations on it. For instance,
+<code>decompose_prod_assum</code> takes as arguments a <code>constr</code> and decomposes
+it into two parts: a telescope of products (that is, a context
+<code>cxt</code>), and the final type <code>t</code>. At this point, it is crucial to note
+that this manipulation of terms is very syntactic: the term <code>t</code> may
+contain de Bruijn indices that refers to variables bound in the
+context. Therefore, we shall manipulate <code>t</code> with some care and not
+forget to, e.g., lift it when needed.</p></li>
+<li><p><code>coq-v8.4/proofs/tacmach.ml</code> contains the API that I use most often
+to interact with the proof machinery. For instance, <code>pf_type_of</code>
+takes as argument the current proof environment (that is, the goal,
+the typing context, and so on) and a <code>constr</code>, and returns its coq
+type. The function <code>pf_concl</code> returns the conclusion of the current
+goal.</p></li>
+</ul>
 
-<p>The problem here is that the code tries to reify the result whose body contains the deep nesting of application nodes. When recursively processing a term, the call stack is proportional to the "height" of the term as a tree; our result here is a tree that is deeply skewed on the right, with height around 2<sup>20</sup>. Location information tells us which recursive processing step fails (two mutually recursive calls), and the guilty function here is the following:</p>
+<p>All in all, the above snippet is quite straightforward: get the type of
+the argument of the tactic, and the conclusion of the current
+goal. Nothing fancy, but here comes the meaty stuff. </p>
 
-<div>
+<p>Recall that a tactic builds a partial proof-term, which is a regular
+Coq term. Here, the proof-term that we want to generate is </p>
 
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_abstraction <span class="hl opt">(</span>x<span class="hl opt">,</span> t<span class="hl opt">,</span> f<span class="hl opt">) =</span>
-  <span class="hl kwa">let</span> x <span class="hl opt">=</span> <span class="hl kwd">Syntax</span><span class="hl opt">.</span>refresh x <span class="hl kwa">in</span>
-  <span class="hl opt">(</span>x<span class="hl opt">,</span> reify t<span class="hl opt">,</span> reify <span class="hl opt">(</span>f <span class="hl opt">(</span><span class="hl kwd">Neutral</span> <span class="hl opt">(</span><span class="hl kwd">Var</span> x<span class="hl opt">))))</span>
+<pre class="code-"><span class="hl opt">(</span><span class="hl kwa">fun</span> <span class="hl opt">(</span>x1<span class="hl opt">:</span>t1<span class="hl opt">) ... (</span>xn<span class="hl opt">:</span>tn<span class="hl opt">) (</span>m <span class="hl opt">:</span> t <span class="hl opt">-&gt;</span> concl<span class="hl opt">) =&gt;</span> m <span class="hl opt">(</span>c x1 <span class="hl opt">...</span> xn<span class="hl opt">))</span> 
 </pre>
 
+<p>(intuitively, if we were to <code>apply</code> this term in Coq, we would get a
+sub-goal for each of the arguments of the function)</p>
 
-</div>
-
-<p>It appears that the call to <code>f (Neutral (Var x))</code> blows the stack. To
-solve the problem (or at least this part of the problem), we must
-somehow put this call in tail-call position; it is currently
-surrounded by some post-treatment that builds the <code>(x, reify t, ...)</code>
-triple from the result of the call.</p>
-
-<p>The idea of using continuation-passing-style (CPS) is to bluntly put
-the call in tail-call position, and pass it the "post-treatment" to be
-done as a function (continuation) called by <code>f</code> itself when it
-produces its result. "Don't call us, we'll call you": this is an
-inversion of control.</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_abstraction <span class="hl opt">(</span>x<span class="hl opt">,</span> t<span class="hl opt">,</span> f<span class="hl opt">)</span> <span class="hl opt">=</span>
-  <span class="hl kwa">let</span> x <span class="hl opt">=</span> <span class="hl kwd">Syntax</span><span class="hl opt">.</span>refresh x <span class="hl kwa">in</span>
-  f <span class="hl opt">(</span><span class="hl kwd">Neutral</span> <span class="hl opt">(</span><span class="hl kwd">Var</span> x<span class="hl opt">)) (</span><span class="hl kwa">fun</span> body <span class="hl opt">-&gt;</span> <span class="hl opt">(</span>x<span class="hl opt">,</span> reify t<span class="hl opt">,</span> reify body<span class="hl opt">))</span>
+<pre class="code-ocaml"><span class="hl kwa">let</span> pf_body <span class="hl opt">=</span>
+  <span class="hl kwd">Term</span><span class="hl opt">.</span>mkApp <span class="hl opt">(</span><span class="hl kwd">Term</span><span class="hl opt">.</span>mkRel <span class="hl num">1</span><span class="hl opt">,</span>
+              <span class="hl opt">[</span>| <span class="hl kwd">Term</span><span class="hl opt">.</span>mkApp <span class="hl opt">(</span>c<span class="hl opt">,</span> <span class="hl kwd">Termops</span><span class="hl opt">.</span>extended_rel_vect <span class="hl num">1</span> ctx<span class="hl opt">)</span> |<span class="hl opt">])</span>
 </pre>
 
+<p>The term <code>pf_body</code> corresponds to the internal representation of the
+above <code>m (c x1 ... xn)</code>.  As should be obvious with their names, the
+function <code>Term.mkApp</code> builds an application, and <code>Term.mkRel</code> builds a
+term that is a de Bruijn index that points to the nearest binder. The
+function <code>Termops.extended_rel_vect</code> is slightly more complicated: it
+builds a vector of de Bruijn indices, lifted by 1. </p>
 
-</div>
+<p>Now, we need to build the <code>fun</code> part. We build exactly one <code>lambda</code>
+for each product that occurred in the type of the term <code>c</code>, plus one
+for the parameter of type <code>t -&gt; concl</code>. To do so, we simply extend the
+former context with a new definition.  (Note here that the type <code>t</code>
+may depend on the context <code>ctx</code>. Yet, there is no need to lift <code>t</code>,
+because it is used in the exact same context as before; and <code>concl</code>
+should be a closed term.)</p>
 
-<p>For typing reason (the reification is polymorphic), this simple style
-doesn't quite work here, we must explicitly represent the continuation
-value with a first-class polymorphic type (as a record field);</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_abstraction <span class="hl opt">(</span>x<span class="hl opt">,</span> t<span class="hl opt">,</span> f<span class="hl opt">)</span> <span class="hl opt">=</span>
-  <span class="hl kwa">let</span> x <span class="hl opt">=</span> <span class="hl kwd">Syntax</span><span class="hl opt">.</span>refresh x <span class="hl kwa">in</span>
-  <span class="hl opt">(</span>f <span class="hl opt">(</span><span class="hl kwd">Neutral</span> <span class="hl opt">(</span><span class="hl kwd">Var</span> x<span class="hl opt">))).</span>call
-    <span class="hl opt">(</span><span class="hl kwa">fun</span> body <span class="hl opt">-&gt;</span> <span class="hl opt">(</span>x<span class="hl opt">,</span> reify t<span class="hl opt">,</span> reify body<span class="hl opt">))</span>
+<pre class="code-ocaml"><span class="hl kwa">let</span> ctx <span class="hl opt">= (</span><span class="hl kwd">Names</span><span class="hl opt">.</span><span class="hl kwd">Anonymous</span><span class="hl opt">,</span><span class="hl kwd">None</span><span class="hl opt">,</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>mkArrow t concl <span class="hl opt">) ::</span> ctx <span class="hl kwa">in</span> 
+<span class="hl kwa">let</span> pf_term <span class="hl opt">=</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>it_mkLambda_or_LetIn pf_body ctx <span class="hl kwa">in</span>
 </pre>
 
+<p>The function <code>Term.it_mkLambda_or_LetIn</code> iterates the function that
+creates a lambda, for each of the elements of the context
+<code>ctx</code>. Finally, we can call the built-in <code>apply</code> tactics to finish the
+job. </p>
 
-</div>
-
-<p>The type <code>abstraction</code> accepted by the function needs to be changed from:</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> abstraction <span class="hl opt">=</span> variable <span class="hl opt">*</span> <span class="hl kwa">value</span> <span class="hl opt">* (</span><span class="hl kwa">value</span> <span class="hl opt">-&gt;</span> <span class="hl kwa">value</span><span class="hl opt">)</span>
+<pre class="code-ocaml"><span class="hl kwd">Tactics</span><span class="hl opt">.</span>apply pf_term gl
 </pre>
 
+<p>There is one wrinkle here: with my version of Coq, the sub-goals that
+are generated are not in the same order as with the LTac version
+(which is a problem if we have to deal with backward compatibility of
+proof-scripts). More precisely, the proof obligation that corresponds
+to <code>t -&amp;gt; concl</code> comes first. In order to avoid this problem, we will
+rely on a slightly more arcane piece of code.</p>
 
-</div>
-
-<p>into:</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> abstraction <span class="hl opt">=</span>
-  variable <span class="hl opt">*</span> <span class="hl kwa">value</span> <span class="hl opt">* (</span><span class="hl kwa">value</span> <span class="hl opt">-&gt;</span> <span class="hl kwa">value</span> continuation<span class="hl opt">)</span>
-
-<span class="hl kwa">and</span> 'a continuation <span class="hl opt">=</span> <span class="hl opt">{</span> call <span class="hl opt">:</span> 'b <span class="hl opt">.</span> <span class="hl opt">(</span>'a <span class="hl opt">-&gt;</span> 'b<span class="hl opt">)</span> <span class="hl opt">-&gt;</span> 'b <span class="hl opt">}</span>
+<pre class="code-ocaml"><span class="hl kwd">Tactics</span><span class="hl opt">.</span>apply_term
+  pf_term <span class="hl opt">(</span><span class="hl kwd">List</span><span class="hl opt">.</span>map <span class="hl opt">(</span><span class="hl kwa">fun</span> _ <span class="hl opt">-&gt;</span> <span class="hl kwd">Evarutil</span><span class="hl opt">.</span>mk_new_meta <span class="hl opt">())</span> ctx<span class="hl opt">)</span> gl
 </pre>
 
+<p>The function <code>apply_term</code> seems to be a variant of apply to which we
+give a term, and a list of arguments to which the term is
+applied. Here, we provide as arguments a bunch of <code>_</code> (in the same
+fashion as we would have done for <code>refine</code>). For a reason that I do
+not fully grasp, this gives us exactly the same sub-goals as the above
+LTac <code>exploit</code>.</p>
 
-</div>
+<p>The last line of our OCaml plugin enrichs Coq's tactic environments
+with our new tactic. This declaration is made of three parts: a unique
+identifier <code>foobar</code> (that is used internally by Coq), the syntax
+extension, and the actual OCaml code of the tactic (here, we simply
+wrap a call to <code>exploit</code>):</p>
 
-<p>We have to fix some parts of the program to adapt to that change. When
-we before used an abstraction body directly as a function, <code>f x</code> we
-now need to pass it a continuation. In <code>reify_abstraction</code> we were
-carefull to pass just the right continuation to have a tail-call, but
-the other uses are not critical for our input, so we can just pass
-them the identity continuation, that immediately returns the result.</p>
-
-<p>For example in <code>equal_abstraction</code>,</p>
-
-<div>
-
-
-<pre class="code-ocaml"> <span class="hl kwa">and</span> equal_abstraction <span class="hl opt">(</span>x<span class="hl opt">,</span> v1<span class="hl opt">,</span> f1<span class="hl opt">) (</span>_<span class="hl opt">,</span> v2<span class="hl opt">,</span> f2<span class="hl opt">) =</span>
-   equal v1 v2 <span class="hl opt">&amp;&amp;</span>
-    <span class="hl opt">(</span><span class="hl kwa">let</span> x <span class="hl opt">=</span> <span class="hl kwd">Neutral</span> <span class="hl opt">(</span><span class="hl kwd">Var</span> <span class="hl opt">(</span><span class="hl kwd">Syntax</span><span class="hl opt">.</span>refresh x<span class="hl opt">))</span> <span class="hl kwa">in</span>
-      equal <span class="hl opt">(</span>f1 x<span class="hl opt">) (</span>f2 x<span class="hl opt">))</span>
+<pre class="code-ocaml"><span class="hl kwd">TACTIC EXTEND</span> foobar
+  | <span class="hl opt">[</span><span class="hl str">"exploit"</span> constr<span class="hl opt">(</span>c<span class="hl opt">)] -&gt; [</span>exploit c<span class="hl opt">]</span>
+<span class="hl kwd">END</span><span class="hl opt">;;</span>
 </pre>
 
+<p>And that's it: mission accomplished. </p>
 
-</div>
+<p>There is one extra benefit to our brand new implementation of
+<code>exploit</code>: the former version was not working properly if it was given
+a theorem of type, e.g., <code>A -&gt; B -&gt; ~C</code>. Let <code>D</code> be the goal, the
+sub-goals that were generated were <code>A</code>, <code>B</code>, <code>C</code> and <code>False -&gt; D</code>.
+This short-coming is solved with our new implementation.  </p>
 
-<p>The last line becomes:</p>
+<p>In the end, our new tactic is 9 lines long, compared to 20 something
+repetitions of the same pattern in the LTac implementation. (To be
+honest, we omit on this 9 lines count a few lines of boilerplate that
+must be written for each new OCaml tactic, like the makefile
+that is needed to compile the plugin.)</p>
 
-<div>
+<p>Moving to OCaml, we lost the safety-belt that is provided by LTac: for
+instance, it is possible to get the de Bruijn indices wrong by one
+when we build a proof-term. But it gives us the full power of the best
+programming language ever ;) to build our new tactics. </p>
 
+<p>The plugin that was build in this tutorial is available from the
+public GitHub repository <a href="https://github.com/braibant/exploit-plugin">here</a>. From the
+root of the repository</p>
 
-<pre class="code-ocaml">      equal <span class="hl opt">((</span>f1 x<span class="hl opt">).</span>call id<span class="hl opt">) ((</span>f2 x<span class="hl opt">).</span>call id<span class="hl opt">))</span>
+<pre class="code-txt">make
+make -f Makefile.coq install
 </pre>
 
-
-</div>
-
-<p>The three other changes can be seen in <a href="https://github.com/gasche/tt/commit/3bd35cdb0d98b0794485e432f3b0b132a029df9f">the corresponding commit</a>.</p>
-
-<p>Let's put this to test:</p>
-
-<div>
-
-
-<pre class="code-txt">$ make native &amp;&amp; echo "Eval power two (times four five)." | OCAMLRUNPARAM="b" ./tt.native -l church.tt
-ocamlbuild -tag annot -tag debug -lib unix -use-menhir tt.native
-Finished, 38 targets (30 cached) in 00:00:00.
-tt master
-[Type Ctrl-D to exit or "Help." for help.]
-# Fatal error: exception Stack_overflow
-Raised at file "list.ml", line 157, characters 19-30
-Called from file "value.ml", line 78, characters 33-43
-Called from file "value.ml", line 95, characters 47-54
-Called from file "value.ml", line 78, characters 33-43
-Called from file "value.ml", line 95, characters 47-54
-Called from file "value.ml", line 78, characters 33-43
-Called from file "value.ml", line 95, characters 47-54
-Called from file "value.ml", line 78, characters 33-43
-[...]
-</pre>
-
-
-</div>
-
-<p>Not there yet: we have made one particular part of the program tail-recursive, but we still need to fix the rest. The next problem arises in the treatment of the right-hand side (RHS) of application:</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_neutral' <span class="hl opt">=</span> <span class="hl kwa">function</span>
-  | <span class="hl kwd">Var</span> x <span class="hl opt">-&gt;</span> <span class="hl kwd">Syntax</span><span class="hl opt">.</span><span class="hl kwd">Var</span> x
-  | <span class="hl kwd">App</span> <span class="hl opt">(</span>n<span class="hl opt">,</span> v<span class="hl opt">) -&gt;</span> <span class="hl kwd">Syntax</span><span class="hl opt">.</span><span class="hl kwd">App</span> <span class="hl opt">(</span>reify_neutral n<span class="hl opt">,</span> reify v<span class="hl opt">)</span>
-</pre>
-
-
-</div>
-
-<p>As the problem on our particular input comes from the right arguments
-of application nodes, the call we would like to make tail-recursive
-here is <code>reify v</code>.</p>
-
-<p>This part of the program is less complicated from a typing point of
-view, so we don't need the explicit record wrapping for
-polymorphism. However, the fix is larger as we we are in the middle of
-several mutually recursive functions (<code>reify</code>, <code>reify'</code>,
-<code>reify_neutral'</code>, <code>reify_neutral</code>) that all need to be made CPS
-somehow.</p>
-
-<p>Fortunately, this can be done step-by-step. First turn this <code>reify v</code>
-call in a tail-call to a yet-to-be-defined <code>reify_cont</code> function:</p>
-
-<div>
-
-
-<pre class="code-ocaml">| <span class="hl kwd">App</span> <span class="hl opt">(</span>n<span class="hl opt">,</span> v<span class="hl opt">) -&gt;</span>
-    reify_cont v <span class="hl opt">(</span><span class="hl kwa">fun</span> v <span class="hl opt">-&gt;</span> <span class="hl kwd">Syntax</span><span class="hl opt">.</span><span class="hl kwd">App</span> <span class="hl opt">(</span>reify_neutral n<span class="hl opt">,</span> v<span class="hl opt">))</span>
-</pre>
-
-
-</div>
-
-<p>The simplest way to define <code>reify_cont v ret</code> (where <code>ret</code> is the name
-of the continuation, of which we can think of as a "return") is the
-following:</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_cont v ret <span class="hl opt">=</span> ret <span class="hl opt">(</span>reify v<span class="hl opt">)</span>
-</pre>
-
-
-</div>
-
-<p>Of course, this definition doesn't solve anything, as it's no more tail-recursive than the initial version. But we can iteratively refine this definition to expand the continuation-passing-style.</p>
-
-<p>First, inline the definition of <code>reify</code>:</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_cont v ret <span class="hl opt">=</span>
-  ret <span class="hl opt">(</span><span class="hl kwd">Syntax</span><span class="hl opt">.</span>nowhere <span class="hl opt">(</span>reify' v<span class="hl opt">))</span>
-</pre>
-
-
-</div>
-
-<p>Then turn this into a tail-call to a new <code>reify'_cont</code> function,
-naively defined. Note how the continuation passed to <code>reify'_cont</code>
-first applies the post-treatment of the <code>reify</code> function, then call
-the passed-in continuation <code>ret</code>.</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_cont v ret <span class="hl opt">=</span>
-  reify'_cont v <span class="hl opt">(</span><span class="hl kwa">fun</span> v <span class="hl opt">-&gt;</span> ret <span class="hl opt">(</span><span class="hl kwd">Syntax</span><span class="hl opt">.</span>nowhere v<span class="hl opt">))</span>
-
-<span class="hl kwa">and</span> reify'_cont v ret <span class="hl opt">=</span> ret <span class="hl opt">(</span>reify' v<span class="hl opt">)</span>
-</pre>
-
-
-</div>
-
-<p>It should now be routine: inline the call, then specialize the
-definition to expose a tail-call.</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify'_cont v ret <span class="hl opt">=</span> <span class="hl kwb">match</span> v <span class="hl kwb">with</span>
-  | <span class="hl kwd">Universe</span> _ | <span class="hl kwd">Pi</span> _ | <span class="hl kwd">Lambda</span> _ <span class="hl opt">-&gt;</span> ret <span class="hl opt">(</span>reify' v<span class="hl opt">)</span>
-  | <span class="hl kwd">Neutral</span> n <span class="hl opt">-&gt;</span> reify_neutral'_cont n ret
-</pre>
-
-
-</div>
-
-<p>Note that we have selectively handled the <code>Neutral</code> case, which is
-where the stack overflow happens and needs to be made tail-rec, while
-all the other cases reuse the non-CPS <code>reify'</code> function: adding CPS
-versions of our code duplicate some logic, but only in the code paths
-that need to be stack-preserving.</p>
-
-<p>The definition of <code>reify_neutral'_cont</code> again follows the same
-principle, but chains together the CPS versions of <code>reify</code> and
-<code>reify_neutral</code>:</p>
-
-<div>
-
-
-<pre class="code-ocaml"><span class="hl kwa">and</span> reify_neutral'_cont n ret <span class="hl opt">=</span> <span class="hl kwb">match</span> n <span class="hl kwb">with</span>
-  | <span class="hl kwd">Var</span> x <span class="hl opt">-&gt;</span> ret <span class="hl opt">(</span><span class="hl kwd">Syntax</span><span class="hl opt">.</span><span class="hl kwd">Var</span> x<span class="hl opt">)</span>
-  | <span class="hl kwd">App</span> <span class="hl opt">(</span>n<span class="hl opt">,</span> v<span class="hl opt">) -&gt;</span>
-    reify_cont v <span class="hl opt">(</span><span class="hl kwa">fun</span> v <span class="hl opt">-&gt;</span>
-      reify_neutral_cont n <span class="hl opt">(</span><span class="hl kwa">fun</span> n <span class="hl opt">-&gt;</span>
-        ret <span class="hl opt">(</span><span class="hl kwd">Syntax</span><span class="hl opt">.</span><span class="hl kwd">App</span> <span class="hl opt">(</span>n<span class="hl opt">,</span> v<span class="hl opt">))))</span>
-
-<span class="hl kwa">and</span> reify_neutral_cont n ret <span class="hl opt">=</span>
-  reify_neutral'_cont n <span class="hl opt">(</span><span class="hl kwa">fun</span> n <span class="hl opt">-&gt;</span> ret <span class="hl opt">(</span><span class="hl kwd">Syntax</span><span class="hl opt">.</span>nowhere n<span class="hl opt">))</span>
-</pre>
-
-
-</div>
-
-<p>This closes the loop: we have made a <code>_cont</code> version of all the
-functions involved in the mutual recursion that overflows the
-stack. And they were derived from their non-CPS definition in an
-simple and methodic way.</p>
-
-<p>Of course, this is still not enough:</p>
-
-<div>
-
-
-<pre class="code-txt">$ make native &amp;&amp; echo "Eval power two (times four five)." | OCAMLRUNPARAM="b" ./tt.native -l church.tt
-ocamlbuild -tag annot -tag debug -lib unix -use-menhir tt.native
-Finished, 38 targets (30 cached) in 00:00:00.
-tt master
-[Type Ctrl-D to exit or "Help." for help.]
-#     = Fatal error: exception Stack_overflow
-Raised at file "pervasives.ml", line 149, characters 10-33
-Called from file "beautify.ml", line 64, characters 14-41
-Called from file "beautify.ml", line 53, characters 27-56
-Called from file "beautify.ml", line 64, characters 14-41
-Called from file "beautify.ml", line 53, characters 27-56
-[...]
-</pre>
-
-
-</div>
-
-<p>This time, we manage to reify the result, but encounter a new overflow in the
-part of the code that prepares the result for pretty-printing, more
-specifically and as expected, in the handling of the RHS of applications.</p>
-
-<p>The same transformation method into CPS applies here again, as well as
-one step further in the pretty-printer code. Fixing each part of the
-code in this methodic way, if a bit repetitive, is rather quick.</p>
-
-<p>The commits associated to the fixes described in this post can be found on
-Gabriel Scherer's <a href="https://github.com/gasche/tt/commits/master">github
-repository</a>.</p>
-
-<p>Once this is done, we finally get a result (whose pretty-printing is
-not that interesting):</p>
-
-<div>
-
-
-<pre class="code-txt">$ make native &amp;&amp; echo "Eval power two (times four five)." | OCAMLRUNPARAM="b" ./tt.native -l church.tt                                                                                                       ocamlbuild -tag annot -tag debug -lib unix -use-menhir tt.native
-Finished, 38 targets (28 cached) in 00:00:00.
-tt master
-[Type Ctrl-D to exit or "Help." for help.]
-#     = fun A : Type 0 =&gt;
-      fun x : A -&gt; A =&gt;
-      fun x0 : A =&gt;
-      x
-      (x
-       (x
-        (x
-         (x
-          (x
-           (x
-            (x
-             (x
-              (x
-               (x
-                (x
-                 (x
-                  (x
-                   (x
-                    (x
-                     (x
-                      (x
-                       (x
-                        (x
-                         (x
-                          (x
-                           (x
-                            (x
-                             (x
-                              (x
-                               (x (x (x (x (x (x (x (x (x (... (...))))))))))))))))))))))))))))))))))))
-    : forall A : Type 0, (A -&gt; A) -&gt; A -&gt; A
-# %
-</pre>
-
-
-</div><a onclick="switchContent('post2','post1')" class="btn" href="#b5a34ba49273a26e68a4870c998886b1">Hide</a></div></span>
-<a name="ea85e6bbd2ab0d204b6a38cb979b6ef5"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Journée de cours Ocsigen à Paris - Développement d'applications Web en OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post3"><p>[Announcement for the french speaking Ocsigen Day dedicated to OCaml
+<p>should install the plugin in your Coq plugins directory. Then, it
+suffices to use the vernacular 
+&lt;coq&gt;
+Require Exploit.
+&lt;/coq&gt;
+to be able to use the <code>exploit</code> tactic, from any coq development. </p><a onclick="switchContent('post4','post3')" class="btn" href="#3c33eeb4f6e8fa3c634ac1b143a45a68">Hide</a></div></span>
+<a name="202b3d99be6dd1ffbce490a1d559050d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.04.html"> Caml Weekly News, 04 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">04 Dec 2012</span></span><span class="rss-description">phantom types and identity function / Github OCaml mirror available / creating a module from a #use directive in the toplevel / Other Caml News</span>
+<a name="6a0aaa9f8e0e9b830f847b4de52e42a4"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/union-find-and-coq-universes/index.html"> Performance improvements in the universe checker of Coq</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>
+One of my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">parsing-related</a>
+Coq files takes more than two hours to compile, which is pretty annoying
+when the file is less than one thousand lines long and does no complex
+computations. After some profiling, it appeared that Coq was spending
+most of its time in the <code>Univ</code> module. This module is part of the
+Coq kernel, its role is to check that the user is using universes in a
+consistent way.</p>
+
+
+
+<p>You can get an introduction of what universes are in
+<a href="http://adam.chlipala.net/cpdt/html/Universes.html">this book
+  chapter</a>. In Coq, universes are implicit: it is the role of the
+Coq kernel to determine whether it is possible to give a number to
+each occurrence of <code>Type</code>, in a manner that is proved not to
+introduce inconsistencies.</p>
+
+<a onclick="switchContent('post5','post6')" class="btn" href="#6a0aaa9f8e0e9b830f847b4de52e42a4">Read more...</a></div><div id="post6" style="display: none"><p>
+One of my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">parsing-related</a>
+Coq files takes more than two hours to compile, which is pretty annoying
+when the file is less than one thousand lines long and does no complex
+computations. After some profiling, it appeared that Coq was spending
+most of its time in the <code>Univ</code> module. This module is part of the
+Coq kernel, its role is to check that the user is using universes in a
+consistent way.</p>
+
+
+
+<p>You can get an introduction of what universes are in
+<a href="http://adam.chlipala.net/cpdt/html/Universes.html">this book
+  chapter</a>. In Coq, universes are implicit: it is the role of the
+Coq kernel to determine whether it is possible to give a number to
+each occurrence of <code>Type</code>, in a manner that is proved not to
+introduce inconsistencies.</p>
+
+<p>This computation is done in the <code>Univ</code> module: the rest of the Coq
+kernel generates some constraints, and this module is supposed to warn
+if they are not satisfiable. Roughly, theses constraints are of the
+form: "universe A has an index strictly smaller than universe B", or
+"universe A has an index smaller or equal to universe B". In order to
+check that they are satisfiable, it is enough to see all these
+constraints as a graph where edges are constraints and vertexes are
+universes, and check that there is no cycle containing a strict
+constraint.</p>
+
+<p>This graph can be simplified: if there is a cycle of large
+constraints, that does mean that all universes in this cycle are in
+fact necessarily equivalent, and we can replace this cycle with only
+one universe. We have to keep track of equivalences, using a
+specialized data structure. We recognize here the classical
+<a href="http://en.wikipedia.org/wiki/Disjoint-set_data_structure">union-find 
+problem</a>, which have very efficient solutions.</p>
+
+<p>However, in order to do this task, in Coq, a naive approach is used:
+it builds equivalence trees, but nothing is done to prevent these
+trees to be very unbalanced. And, in fact, that was the problem in my
+file: for some reason, my tactics generated hundred of universes constraints.
+All these universes were inferred to be equivalent. In order to keep track
+of this information, a long chain of universes were created: for each
+of them, Coq knows that it is equivalent to the next one, but it does
+not know how to go directly to the head of the chain, that is effectively
+present in the graph. So, it was actually spending most of its time
+following this long chain...</p>
+
+<p>In the literature, there are two main heuristics to solve this
+(classical) problem: "union by rank" and "path compression". Using
+either one gives logarithmic amortized complexity, and they give
+a practically constant amortized complexity if implemented
+together. By experience, I know that each of these heuristics gives
+very good performances when used alone, because the worst case is very
+rare. Moreover, it is not easy to implement path compression in a
+<a href="http://en.wikipedia.org/wiki/Persistent_data_structure">persistent
+  way</a>, because it involves side effects. So, I decided to
+  implement "union by rank" inside the Univ module of Coq.</p>
+
+<p>It was not really difficult: I just added a <code>rank</code> field
+in the record representing the nodes of the graph, that contains the
+length of the longest path of equivalences leading to this node. So,
+when we are merging nodes, we can chose to keep the node having the
+longest chain as the head node. This keeps the graph balanced: if the
+other nodes were part of smaller chains, the longest chain's length
+doesn't increase.</p>
+
+<p>I got a spectacular improvement of performances when Coq is executed
+on my code: from more than two hours, I went to about 6.5
+minutes. I get a reasonable 1% improvement when compiling the Coq
+standard library: it is actually expected, because the standard
+library does not contain a lot of complex polymorphic code.</p>
+
+<p>You can see the current patch (which may still evolve a bit)
+in <a href="https://github.com/coq/coq/pull/2">this pull
+request</a>. My first implementation was against 8.3, this patch is on
+the trunk version of Coq, and we're planning to port it to 8.4
+soon. Do not hesitate to test it if you have universe-heavy
+developments; any feedback is welcome.</p><a onclick="switchContent('post6','post5')" class="btn" href="#6a0aaa9f8e0e9b830f847b4de52e42a4">Hide</a></div></span>
+<a name="ea85e6bbd2ab0d204b6a38cb979b6ef5"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Journée de cours Ocsigen à Paris - Développement d'applications Web en OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post7"><p>[Announcement for the french speaking Ocsigen Day dedicated to OCaml
 programmers. December 14 at IRILL. English version below]
 </p>
 <h1>
@@ -666,7 +604,7 @@ LIEU : Salle ORANGE, 5e étage, Inria, 23, avenue d'Italie,75013 Paris
 <p>
 DATE : Vendredi 14 Décembre de 10h00 à 18h00.
 </p>
-<a onclick="switchContent('post3','post4')" class="btn" href="#ea85e6bbd2ab0d204b6a38cb979b6ef5">Read more...</a></div><div id="post4" style="display: none"><p>[Announcement for the french speaking Ocsigen Day dedicated to OCaml
+<a onclick="switchContent('post7','post8')" class="btn" href="#ea85e6bbd2ab0d204b6a38cb979b6ef5">Read more...</a></div><div id="post8" style="display: none"><p>[Announcement for the french speaking Ocsigen Day dedicated to OCaml
 programmers. December 14 at IRILL. English version below]
 </p>
 <h1>
@@ -710,13 +648,13 @@ DATE : Vendredi 14 Décembre de 10h00 à 18h00.
 To get more frequent annoucements about Ocsigen, follow us on 
 <a href="https://twitter.com/ocsigen">Twitter</a>,
 <a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
-<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post4','post3')" class="btn" href="#ea85e6bbd2ab0d204b6a38cb979b6ef5">Hide</a></div></span>
-<a name="488819739afed57419cb3e91edff7efc"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/11/29/how-to-implement-dependent-type-theory-iii/"> How to implement dependent type theory III</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post5"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#ea85e6bbd2ab0d204b6a38cb979b6ef5">Hide</a></div></span>
+<a name="488819739afed57419cb3e91edff7efc"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/11/29/how-to-implement-dependent-type-theory-iii/"> How to implement dependent type theory III</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post9"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
 <p>The code is available on Github in the repository <a href="https://github.com/andrejbauer/tt/tree/blog-part-III">andrejbauer/tt</a> (the <code>blog-part-III</code> branch).</p>
 <p><span id="more-1337"></span></p>
 <p>People say that de Bruijn indices and explicit substitutions are difficult to implement. I agree, I spent far too long debugging my code. But because every bug crashed and burnt my program immediately, I at least knew I was not done. In contrast, “manual” substitutions hide their bugs really well, and so are even more difficult to get right. I am convinced that my implementation from part II is still buggy.</p>
 <h3>Blitz introduction to de Bruijn indices and explicit substitution</h3>
-<a onclick="switchContent('post5','post6')" class="btn" href="#488819739afed57419cb3e91edff7efc">Read more...</a></div><div id="post6" style="display: none"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
+<a onclick="switchContent('post9','post10')" class="btn" href="#488819739afed57419cb3e91edff7efc">Read more...</a></div><div id="post10" style="display: none"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
 <p>The code is available on Github in the repository <a href="https://github.com/andrejbauer/tt/tree/blog-part-III">andrejbauer/tt</a> (the <code>blog-part-III</code> branch).</p>
 <p><span id="more-1337"></span></p>
 <p>People say that de Bruijn indices and explicit substitutions are difficult to implement. I agree, I spent far too long debugging my code. But because every bug crashed and burnt my program immediately, I at least knew I was not done. In contrast, “manual” substitutions hide their bugs really well, and so are even more difficult to get right. I am convinced that my implementation from part II is still buggy.</p>
@@ -834,7 +772,7 @@ $$(\lambda \, e_1)\, e_2 = [e_2 \cdot \uparrow^0] e_1.$$</p>
 <li>there is a lot of shifting happening when we look things up in the context, perhaps some of those could be avoided</li>
 </ul>
 <p>If anyone wants to work on these, I would be delighted to make a pull request.</p>
-<p>I really have to do some serious math and stop playing around, so do not expect the next part anytime soon.</p><a onclick="switchContent('post6','post5')" class="btn" href="#488819739afed57419cb3e91edff7efc">Hide</a></div></span>
+<p>I really have to do some serious math and stop playing around, so do not expect the next part anytime soon.</p><a onclick="switchContent('post10','post9')" class="btn" href="#488819739afed57419cb3e91edff7efc">Hide</a></div></span>
 <a name="c3b516ab38f13accdd3df24b36ff284e"></a><span class="rss-header"><span class="rss-title"><a href="http://www.lexifi.com/blog/note-about-performance-printf-and-format"> A note about the performance of Printf and Format</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">LexiFi</span>, <span class="rss-date">28 Nov 2012</span></span><span class="rss-description"><div class="content-wide-padding white-bg light-grey-border">
 <p>
   The goal is to display the following to stdout:
@@ -860,98 +798,6 @@ $$(\lambda \, e_1)\, e_2 = [e_2 \cdot \uparrow^0] e_1.$$</p>
   extend this same notion.
 </p></div><p><a href="http://www.lexifi.com/blog/type-based-selection-label-and-constructors" target="_blank">read more</a></p></span>
 <a name="9af1d5db458dcc344455b1e57d0f19a4"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=818"> Stog 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">22 Nov 2012</span></span><span class="rss-description">Stog is a kind of Jekyll in OCaml: It is a static web site generator, able to handle blog posts as well as regular pages.</span>
-<a name="356e3f0da13f4e3ea3fdcf9d20edc44b"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=817"> Xtmpl 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">22 Nov 2012</span></span><span class="rss-description">Xtmpl is a small XML templating library for OCaml.</span>
-<a name="d70d491cd82020f9a4aaa50c37091682"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.11.20.html"> Caml Weekly News, 20 Nov 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">20 Nov 2012</span></span><span class="rss-description">Camlimages with ocamlbuild / OCaml messages in French / About ocamlbuild / GADT exhaustiveness check / DWARF output for native-code / Poll results of OASIS, package manager and misc.</span>
-<a name="e9ab0afb9dae2acbc8df14359d4e1b86"></a><span class="rss-header"><span class="rss-title"><a href="https://ocaml.janestreet.com/?q=node/112"> Maps, sets, and hashtables in core</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Jane Street</span>, <span class="rss-date">12 Nov 2012</span></span><span class="rss-description"><div id="post7"><p>The below post is mostly lifted from an email I sent to the <a href="https://groups.google.com/forum/#!forum/ocaml-core">Core mailing list</a>. It explains the type hackery we employ in order to get a really nice interface for maps, sets, hashtables and other such containers. It may look complex, but actually it works out remarkably simple to use, and ends up giving you a good number of static guarantees.</p>
-
-<p>I'll use the example of hashtables, but the language readily
-translates into sets / maps.</p>
-
-<p>There are two types of hashtables in core. Ones that use polymorphic
-comparison, and ones that use a specific comparision function that is
-hopefully more efficient and has non-surprising semantics (we
-basically think polymorphic comparison, despite its convenience, is
-too surprising to be an overall good thing).</p>
-
-<a onclick="switchContent('post7','post8')" class="btn" href="#e9ab0afb9dae2acbc8df14359d4e1b86">Read more...</a></div><div id="post8" style="display: none"><p>The below post is mostly lifted from an email I sent to the <a href="https://groups.google.com/forum/#!forum/ocaml-core">Core mailing list</a>. It explains the type hackery we employ in order to get a really nice interface for maps, sets, hashtables and other such containers. It may look complex, but actually it works out remarkably simple to use, and ends up giving you a good number of static guarantees.</p>
-
-<p>I'll use the example of hashtables, but the language readily
-translates into sets / maps.</p>
-
-<p>There are two types of hashtables in core. Ones that use polymorphic
-comparison, and ones that use a specific comparision function that is
-hopefully more efficient and has non-surprising semantics (we
-basically think polymorphic comparison, despite its convenience, is
-too surprising to be an overall good thing).</p>
-
-<p>The type of hashtables using polymorphic comparison is
-<span class="geshifilter"><code class="geshifilter-text">('key, 'value) Hashtbl.Poly.t</code></span>. The type of hashtables using, <em>e.g.</em>,
-int comparison for the keys is 'value Int.Table.t. Given the previous
-paragraph, you should always try to use Foo.Table when you can.</p>
-
-<p>When you create a hashtable (<em>e.g.</em> using <code>create</code>, <span class="geshifilter"><code class="geshifilter-text">of_alist</code></span>, or
-<span class="geshifilter"><code class="geshifilter-text">t_of_sexp</code></span>), you must use the specific module name. <em>i.e.</em>
-<span class="geshifilter"><code class="geshifilter-text">let table = Int.Table.create () in</code></span>. However, when you
-already have a hashtable in your hands, and you want to use accessor
-functions, you should just use Hashtbl.foo, regardless of what
-comparison function it uses.</p>
-
-<p>To translate into Maps and Sets:</p>
-
-<p></p><div class="geshifilter"><pre style="font-family: monospace;" class="text geshifilter-text">'value Foo.Table.t  ('key,'value) Hashtbl.Poly.t  Hashtbl.foo
-'value Foo.Map.t    ('key,'value) Map.Poly.t      Map.foo
-Foo.Set.t           'element Set.Poly.t           Set.foo</pre></div><p></p>
-
-<hr/>
-
-<p>If you have your own type and want to make Table, Map and Set
-submodules, it's really easy:</p>
-
-<p></p><div class="geshifilter"><pre style="font-family: monospace;" class="ocaml geshifilter-ocaml"><span style="color: #06c; font-weight: bold;">module</span> T <span style="color: #a52a2a;">=</span> <span style="color: #06c; font-weight: bold;">struct</span>
-  <span style="color: #06c; font-weight: bold;">type</span> t <span style="color: #a52a2a;">=</span> <span style="color: #a52a2a;">...</span> <span style="color: #06c; font-weight: bold;">with</span> <span style="color: #06c; font-weight: bold;">compare</span>, sexp
-  <span style="color: #06c; font-weight: bold;">let</span> hash <span style="color: #a52a2a;">=</span> <span style="color: #5d478b; font-style: italic;">(* your hash function, maybe Hashtbl.hash *)</span>
-<span style="color: #06c; font-weight: bold;">end</span>
-<span style="color: #06c; font-weight: bold;">include</span> Comparable<span style="color: #a52a2a;">.</span><span style="color: #060;">Make</span><span style="color: #6c6;">(</span>T<span style="color: #6c6;">)</span>
-<span style="color: #06c; font-weight: bold;">include</span> Hashable<span style="color: #a52a2a;">.</span><span style="color: #060;">Make</span><span style="color: #6c6;">(</span>T<span style="color: #6c6;">)</span></pre></div><p></p>
-
-<p>Saying "with compare" generates you an efficient comparison function
-specialised to your type. (Note that all component types need to have
-comparison functions defined too, whether through "with compare" or
-through primitives.) The Comparable.Make functor adds in modules to
-make you satisfy the Comparable.S signature (basically the Set and Map
-modules, and a few more). The Hashable.Make functor adds in modules to
-make you satisfy Hashable.S (basically Hashtbl, as well as some others
-like Hash_set). If you don't want the Hashable stuff, there is no need
-to define a hash function. (Although Hashtbl.hash is normally not a
-bad choice.)</p>
-
-<hr/>
-
-<p>Here's how this all works under the hood:</p>
-
-<p>The type of maps is "really" <span class="geshifilter"><code class="geshifilter-text">('key, 'value, 'comparator) Map.t</code></span>. Maps
-contain in their values the function that is used for comparing keys,
-<em>i.e.</em> a function of type <span class="geshifilter"><code class="geshifilter-text">'key -&gt; 'key -&gt; int</code></span>. But what is this
-"comparator" thing?</p>
-
-<p>We can first motivate things by saying: it's a pain to have to type
-Int.Map.find for int-maps, String.Map.find for string-maps, etc. etc.
-It'd be nice to have a single type and use Map.find for everything.
-But this presents a problem because of functions like Map.merge, which
-takes two maps and combines them. You need to know that the comparison
-functions are identical, but how can you do this?</p>
-
-<p>So we have this extra comparator phantom type. Nothing in the actual
-representation has a type involving 'comparator: it's just for static
-checking. If you want to have a new comparison function, you must mint
-a new comparator type. (Including the Comparable signature does this
-for you.)</p>
-
-<p>I originally wrote this last section with hashtables in mind, but due to a wrinkle, hashtables work a little differently. Maps and sets are fully comparator-ified, but we're yet to completely cut over hashtables. As a result, the following code types but gives a runtime error:</p>
-
-<p></p><div class="geshifilter"><pre style="font-family: monospace;" class="ocaml geshifilter-ocaml"><span style="color: #06c; font-weight: bold;">Hashtbl</span><span style="color: #a52a2a;">.</span><span style="color: #060;">merge</span> <span style="color: #6c6;">(</span>Int<span style="color: #a52a2a;">.</span><span style="color: #060;">Table</span><span style="color: #a52a2a;">.</span><span style="color: #060;">create</span> <span style="color: #6c6;">(</span><span style="color: #6c6;">)</span><span style="color: #6c6;">)</span> <span style="color: #6c6;">(</span><span style="color: #06c; font-weight: bold;">Hashtbl</span><span style="color: #a52a2a;">.</span><span style="color: #060;">Poly</span><span style="color: #a52a2a;">.</span><span style="color: #060;">create</span> <span style="color: #6c6;">(</span><span style="color: #6c6;">)</span><span style="color: #6c6;">)</span></pre></div><p></p>
-
-<p>(The situation is not fully terrible: the above example only works if one side is Hashtbl.Poly.) We're working on fixing this inconsistency -- expect to see it in a version of core soon.</p><a onclick="switchContent('post8','post7')" class="btn" href="#e9ab0afb9dae2acbc8df14359d4e1b86">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
