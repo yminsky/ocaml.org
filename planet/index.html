@@ -149,7 +149,267 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+    <div class="planet"><a name="5b1590d3bf1ff54b87bf52ade842ac66"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/canswer/"> Canswer</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">Canswer is an OCaml library allowing one to do certain rewriting. It is a support tool for the CQA (Certain Query Answering) research.</span>
+<a name="a0653bd809a506d026a0c34a935de78d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.11.html"> Caml Weekly News, 11 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">otags reloaded 4.00.1 for OCaml 4.00 / ocaml.org infrastructure list available / Js_of_ocaml 1.3 / GODI imports OASIS / Documenting the compiler / Ocsigen: Eliom 3 / Creating fresh OPAM repository / Other Caml News</span>
+<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>
+we are celebrating Ada's birthday by bringing out a major update of
+Eliom - the advanced framework for client/server web applications in
+OCaml - and some minor updates for Ocsigenserver and Tyxml.
+</p>
+<p>
+Here is a list of major new features (and short code snippets can be
+found at the end of this email):
+</p>
+
+<ul>
+<li>The tightest integration of client value within the server code
+   ever made possible in a major statically typed programming
+   language [1]
+   </li><li>
+ Easy access to top-level server values - and (Lwt-)functions -
+   from within the client code [2]
+   </li><li>
+ Access to other users' states of Eliom references
+   </li><li>
+ Improved support of Eliom's source files in the compilation tools
+   eliom{c,opt,dep}
+   </li><li>
+ A new tool, eliom-destillery, for creating basic projects fast &amp;
+   easy
+ </li>
+</ul>
+
+<p>
+The manual, a cheat-sheet, a comprehensive tutorial, and the
+API-documentation of the various Ocsigen projects are available on
+<a href="http://ocsigen.org">http://ocsigen.org</a>.
+</p>
+<a onclick="switchContent('post1','post2')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post2" style="display: none"><p>
+we are celebrating Ada's birthday by bringing out a major update of
+Eliom - the advanced framework for client/server web applications in
+OCaml - and some minor updates for Ocsigenserver and Tyxml.
+</p>
+<p>
+Here is a list of major new features (and short code snippets can be
+found at the end of this email):
+</p>
+
+<ul>
+<li>The tightest integration of client value within the server code
+   ever made possible in a major statically typed programming
+   language [1]
+   </li><li>
+ Easy access to top-level server values - and (Lwt-)functions -
+   from within the client code [2]
+   </li><li>
+ Access to other users' states of Eliom references
+   </li><li>
+ Improved support of Eliom's source files in the compilation tools
+   eliom{c,opt,dep}
+   </li><li>
+ A new tool, eliom-destillery, for creating basic projects fast &amp;
+   easy
+ </li>
+</ul>
+
+<p>
+The manual, a cheat-sheet, a comprehensive tutorial, and the
+API-documentation of the various Ocsigen projects are available on
+<a href="http://ocsigen.org">http://ocsigen.org</a>.
+</p>
+<p>
+The probably simplest and most generic way to install Eliom is by
+using OPAM. But also Debian packages are already available (in
+experimental, thanks Stéphane!), Gentoo-ebuilds are on their way, the
+Ocsigen-bundle is still at hand, and the archives can be found at
+<a href="http://ocsigen.org/eliom/install">http://ocsigen.org/eliom/install</a>.
+</p>
+<p>
+And maybe you may want to become social with us on
+</p>
+<ul>
+<li>
+<a href="https://twitter.com/ocsigen">Twitter</a>
+</li>
+<li>
+<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google +</a>
+</li>
+<li>
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>
+</li>
+</ul>
+
+<p>
+Enjoy!
+</p>
+<p>
+-- The Ocsigen-team
+</p>
+
+<pre>[1]
+{server{ (* This marks server-side code *)
+  let value_history_on_client =
+    {ref string{ ref [] }} (* A client value within the server code *)
+  let _ = My_app.register_service ~path ~get_params
+    (fun value () -&gt;
+      (* Push the GET parameter to the client's history a side effect *)
+      ignore {unit{
+        %value_history_on_client := %value :: ! %value_history_on_client
+      }};
+      Lwt.return html)
+}}
+
+[2]
+{server{
+  let f = server_function Json.t&lt;string&gt;
+    (fun x -&gt; Printf.eprintf "Client says: %s\n%!" x; Lwt.return ())
+}}
+{client{ (* This marks client-side code *)
+  (* %f makes the server's value f, a client-ready server function,
+     available in the client code *)
+  ... %f "hello!" ...
+}}
+</pre><a onclick="switchContent('post2','post1')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
+<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>In
+  my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
+  post</a>, I explained my work on verifying a parser for
+  Compcert. I was mainly explaining the solutions I found to my
+  performances problems. Here, I will discuss an other interesting
+  problem I have, concerning the context sensitivity of the C99
+  grammar.</p>
+
+
+
+<h2>An alternative to the lexer hack</h2>
+
+<p>The &lt;emph&gt;lexer hack&lt;/emph&gt; is the typical solution to the problem
+  of context sensitivity of the C grammar outlined in
+  the <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">previous
+  blog article</a> and explained more in depth
+  in <a href="http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-c%E2%80%99s-grammar-revisited/">this
+  external blog article</a>. It cannot be implemented in our parser,
+  because it uses some side effect in the semantic actions of the
+  grammar in order to give some information to the lexer, and, as you
+  might know, side effects are forbidden in Coq.</p>
+
+<a onclick="switchContent('post3','post4')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post4" style="display: none"><p>In
+  my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
+  post</a>, I explained my work on verifying a parser for
+  Compcert. I was mainly explaining the solutions I found to my
+  performances problems. Here, I will discuss an other interesting
+  problem I have, concerning the context sensitivity of the C99
+  grammar.</p>
+
+
+
+<h2>An alternative to the lexer hack</h2>
+
+<p>The &lt;emph&gt;lexer hack&lt;/emph&gt; is the typical solution to the problem
+  of context sensitivity of the C grammar outlined in
+  the <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">previous
+  blog article</a> and explained more in depth
+  in <a href="http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-c%E2%80%99s-grammar-revisited/">this
+  external blog article</a>. It cannot be implemented in our parser,
+  because it uses some side effect in the semantic actions of the
+  grammar in order to give some information to the lexer, and, as you
+  might know, side effects are forbidden in Coq.</p>
+
+<p>Any Haskell programmer would say that the solution is to use a
+  state monad, but both the semantic actions described in the grammar
+  and the lexer would need to compute in this monad, in order to
+  communicate with each other. Then, it becomes very hard to specify
+  what is a valid semantic value for a token sequence, because one has
+  to specify how the lexer and the parser semantic actions
+  interleaves. This becomes a real nightmare when you allow the parser
+  to ask the lexer for a lookahead token before deciding to call some
+  semantic action...</p>
+
+<p>So it is necessary to find another approach. After some thoughts,
+  I remembered the parsing approach of &lt;emph&gt;mixfix operators&lt;/emph&gt;
+  in the Agda programming language, advertized in Gallium by our own
+  Agda expert <a href="http://nicolaspouillard.fr/">Nicolas
+  Pouillard</a>. Mixfix operators are syntactic constructions that can
+  be created dynamically: this is comparable to
+  the <code>Notation</code> command of Coq. The way they are handled
+  in Agda is described
+  in <a href="http://www.cse.chalmers.se/~nad/publications/danielsson-norell-mixfix.pdf">this
+  paper</a>. Roughly, the parser only analyzes the main structure of
+  the file. The expressions are not analyzed at this point: they are
+  left at the state of list of tokens. At a later stage of processing,
+  an other module uses the extra context information it knows (notably
+  the mixfix operators available) to parse expressions. This new
+  information is obtained from the first parsing phase, which brings
+  enough structure to go on.</p>
+
+<p>Here, the situation is very similar: we need some more context
+  information (whether a given identifier is a type or a variable
+  name) in order to parse expressions and declarations. We can use a
+  similar technique: if the parser is not able to parse those,
+  then it should store them as a list of tokens in the abstract syntax
+  tree. A second pass in then necessary to parse those "chunks"
+  correctly. Recursively, this second pass can delay parsing for
+  smaller chunks, and so on.</p>
+
+<p>Obviously, I have omitted some details here. First, it requires
+  some serious engineering on the C99 grammar in order to separate it
+  into a "safe" part, where the extra information given by the context
+  is not needed, and a "dangerous" part, where the parser needs that
+  the two different flavors of identifiers (type names and variable
+  names) are represented by two different tokens. Second, recognizing
+  the end of these chunks without actually parsing them requires
+  recognizing some patterns, typically like matching parentheses.</p>
+
+<h2>Avoiding polluting the AST with chunks</h2>
+
+<p>Storing chunks in the abstract syntax tree has a major drawback: it
+  requires adding some constructors in its types for those chunks,
+  which do not have any real sense in the language. The solution I use
+  instead is to make all my semantic actions compute in a state
+  monad, which passes the contextual environment information: while
+  parsing, the semantic actions build the syntax tree in the form of
+  a tree of closures. Once something has been parsed, the caller gives
+  the initial environment as a parameter to the head closure, and the
+  environment information propagates along the tree.</p>
+
+<p>When there is a chunk in some node of the AST, the corresponding
+  semantic action first uses the environment information to convert
+  identifier tokens to their right flavor, then recursively parses the
+  chunk, and finally gives the current environment to the returned
+  semantic value, so that it can itself evaluate.</p>
+
+<p>This monad is a bit more complicated than a simple state monad,
+  because it also handles error (nested parsing can fail), and open
+  recursion (the parser has to call itself, when it is not already
+  defined).</p>
+
+<h2>Conclusion</h2>
+
+<p><a href="http://gallium.inria.fr/~scherer/gagallium/Parser.vy.html">Here</a> is a working version of the
+  parser, using those ideas. A bit surprisingly, using all this monad
+  machinery and delaying parsing does not decrease the performances
+  too much. I have still some troubles proving it, and I'm looking
+  forward to ideas to state all the invariants in a not-too-verbose
+  way.</p>
+
+<p>This work is still in progress, so I would be happy if you could
+  give me your comments or ideas. But, in any case, I am now
+  convinced that it is really possible to have a formalization of a
+  parser for the C language, and particularly for the lexer hack. And
+  this is a good thing, because, as its name suggest, the lexer hack
+  is a hack, whose correctness is far from clear.</p>
+
+<p>I have to say that, even if this work of proving a parser for
+  a C compiler is sometimes quite tiresome, it allowed me to learn
+  things in many different domains, from designing powerful automaton
+  tactics in Coq to OCaml code optimization and LR(1)
+  hackery: it's been a very challenging and rewarding experience.</p>
+
+<p>If I wanted to work on that again in the future, there is still
+  many things one would want to prove: does the parser terminates on
+  all inputs? Are we sure it does not ask for a lookahead token after
+  the end of the stream (that could be a problem in interactive
+  languages, because it could block the input)?</p><a onclick="switchContent('post4','post3')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
+<a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
 OCaml bytecode to Javascript. This release is compatible with OCaml
 4.x. It adds WebSocket bindings and fixes a number of bugs.
 </p>
@@ -177,7 +437,7 @@ OCaml bytecode to Javascript. This release is compatible with OCaml
 </ul>
 
 <h3>Bugfixes</h3>
-<a onclick="switchContent('post1','post2')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post2" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+<a onclick="switchContent('post5','post6')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post6" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
 OCaml bytecode to Javascript. This release is compatible with OCaml
 4.x. It adds WebSocket bindings and fixes a number of bugs.
 </p>
@@ -227,8 +487,8 @@ OCaml bytecode to Javascript. This release is compatible with OCaml
 To get more frequent annoucements about Ocsigen, follow us on 
 <a href="https://twitter.com/ocsigen">Twitter</a>,
 <a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
-<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post2','post1')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
-<a name="3c33eeb4f6e8fa3c634ac1b143a45a68"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/your-first-coq-plugin/index.html"> Emancipate yourself from LTac: Your first Coq plugin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">05 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>I recently started a post-doc in the Gallium team, and it is past
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post6','post5')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
+<a name="91a7e575dadea383e3e05bf91d65d03b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/your-first-coq-plugin"> Emancipate yourself from LTac: Your first Coq plugin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">05 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>I recently started a post-doc in the Gallium team, and it is past
 due-time for my first blog post. I will not start with a research
 oriented blog right now (but stay tuned!); and I will rather talk
 about one of my hobbies: writing Coq plugins in OCaml to build new
@@ -248,7 +508,7 @@ of partial proof terms; and it is often instructive to get an idea of
 the proof term that is being built, using the <code>Show Proof</code> vernacular
 command.</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#3c33eeb4f6e8fa3c634ac1b143a45a68">Read more...</a></div><div id="post4" style="display: none"><p>I recently started a post-doc in the Gallium team, and it is past
+<a onclick="switchContent('post7','post8')" class="btn" href="#91a7e575dadea383e3e05bf91d65d03b">Read more...</a></div><div id="post8" style="display: none"><p>I recently started a post-doc in the Gallium team, and it is past
 due-time for my first blog post. I will not start with a research
 oriented blog right now (but stay tuned!); and I will rather talk
 about one of my hobbies: writing Coq plugins in OCaml to build new
@@ -316,7 +576,7 @@ tactic is a generalized version of the modus-ponens.</p>
 <p>This tactic has two drawbacks. First, it is a bit inefficient: it
 tries to apply the <code>modusponens</code> theorem to <code>x</code> applied to a
 decreasing number of arguments (obviously we do not want to get two
-subgoals <code>A</code> and <code>B -&gt; C -&gt; D -&gt; G</code>). Yet, this is a pity, because
+subgoals <code>A</code> and <code>(B -&gt; C -&gt; D) -&gt; G</code>). Yet, this is a pity, because
 most of the time, the right application has a low number of arguments,
 and the execution of <code>exploit</code> must go through twenty-something
 failures before reaching a successful of <code>refine</code>. The second drawback
@@ -471,184 +731,8 @@ suffices to use the vernacular
 &lt;coq&gt;
 Require Exploit.
 &lt;/coq&gt;
-to be able to use the <code>exploit</code> tactic, from any coq development. </p><a onclick="switchContent('post4','post3')" class="btn" href="#3c33eeb4f6e8fa3c634ac1b143a45a68">Hide</a></div></span>
+to be able to use the <code>exploit</code> tactic, from any coq development. </p><a onclick="switchContent('post8','post7')" class="btn" href="#91a7e575dadea383e3e05bf91d65d03b">Hide</a></div></span>
 <a name="202b3d99be6dd1ffbce490a1d559050d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.04.html"> Caml Weekly News, 04 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">04 Dec 2012</span></span><span class="rss-description">phantom types and identity function / Github OCaml mirror available / creating a module from a #use directive in the toplevel / Other Caml News</span>
-<a name="6a0aaa9f8e0e9b830f847b4de52e42a4"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/union-find-and-coq-universes/index.html"> Performance improvements in the universe checker of Coq</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>
-One of my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">parsing-related</a>
-Coq files takes more than two hours to compile, which is pretty annoying
-when the file is less than one thousand lines long and does no complex
-computations. After some profiling, it appeared that Coq was spending
-most of its time in the <code>Univ</code> module. This module is part of the
-Coq kernel, its role is to check that the user is using universes in a
-consistent way.</p>
-
-
-
-<p>You can get an introduction of what universes are in
-<a href="http://adam.chlipala.net/cpdt/html/Universes.html">this book
-  chapter</a>. In Coq, universes are implicit: it is the role of the
-Coq kernel to determine whether it is possible to give a number to
-each occurrence of <code>Type</code>, in a manner that is proved not to
-introduce inconsistencies.</p>
-
-<a onclick="switchContent('post5','post6')" class="btn" href="#6a0aaa9f8e0e9b830f847b4de52e42a4">Read more...</a></div><div id="post6" style="display: none"><p>
-One of my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">parsing-related</a>
-Coq files takes more than two hours to compile, which is pretty annoying
-when the file is less than one thousand lines long and does no complex
-computations. After some profiling, it appeared that Coq was spending
-most of its time in the <code>Univ</code> module. This module is part of the
-Coq kernel, its role is to check that the user is using universes in a
-consistent way.</p>
-
-
-
-<p>You can get an introduction of what universes are in
-<a href="http://adam.chlipala.net/cpdt/html/Universes.html">this book
-  chapter</a>. In Coq, universes are implicit: it is the role of the
-Coq kernel to determine whether it is possible to give a number to
-each occurrence of <code>Type</code>, in a manner that is proved not to
-introduce inconsistencies.</p>
-
-<p>This computation is done in the <code>Univ</code> module: the rest of the Coq
-kernel generates some constraints, and this module is supposed to warn
-if they are not satisfiable. Roughly, theses constraints are of the
-form: "universe A has an index strictly smaller than universe B", or
-"universe A has an index smaller or equal to universe B". In order to
-check that they are satisfiable, it is enough to see all these
-constraints as a graph where edges are constraints and vertexes are
-universes, and check that there is no cycle containing a strict
-constraint.</p>
-
-<p>This graph can be simplified: if there is a cycle of large
-constraints, that does mean that all universes in this cycle are in
-fact necessarily equivalent, and we can replace this cycle with only
-one universe. We have to keep track of equivalences, using a
-specialized data structure. We recognize here the classical
-<a href="http://en.wikipedia.org/wiki/Disjoint-set_data_structure">union-find 
-problem</a>, which have very efficient solutions.</p>
-
-<p>However, in order to do this task, in Coq, a naive approach is used:
-it builds equivalence trees, but nothing is done to prevent these
-trees to be very unbalanced. And, in fact, that was the problem in my
-file: for some reason, my tactics generated hundred of universes constraints.
-All these universes were inferred to be equivalent. In order to keep track
-of this information, a long chain of universes were created: for each
-of them, Coq knows that it is equivalent to the next one, but it does
-not know how to go directly to the head of the chain, that is effectively
-present in the graph. So, it was actually spending most of its time
-following this long chain...</p>
-
-<p>In the literature, there are two main heuristics to solve this
-(classical) problem: "union by rank" and "path compression". Using
-either one gives logarithmic amortized complexity, and they give
-a practically constant amortized complexity if implemented
-together. By experience, I know that each of these heuristics gives
-very good performances when used alone, because the worst case is very
-rare. Moreover, it is not easy to implement path compression in a
-<a href="http://en.wikipedia.org/wiki/Persistent_data_structure">persistent
-  way</a>, because it involves side effects. So, I decided to
-  implement "union by rank" inside the Univ module of Coq.</p>
-
-<p>It was not really difficult: I just added a <code>rank</code> field
-in the record representing the nodes of the graph, that contains the
-length of the longest path of equivalences leading to this node. So,
-when we are merging nodes, we can chose to keep the node having the
-longest chain as the head node. This keeps the graph balanced: if the
-other nodes were part of smaller chains, the longest chain's length
-doesn't increase.</p>
-
-<p>I got a spectacular improvement of performances when Coq is executed
-on my code: from more than two hours, I went to about 6.5
-minutes. I get a reasonable 1% improvement when compiling the Coq
-standard library: it is actually expected, because the standard
-library does not contain a lot of complex polymorphic code.</p>
-
-<p>You can see the current patch (which may still evolve a bit)
-in <a href="https://github.com/coq/coq/pull/2">this pull
-request</a>. My first implementation was against 8.3, this patch is on
-the trunk version of Coq, and we're planning to port it to 8.4
-soon. Do not hesitate to test it if you have universe-heavy
-developments; any feedback is welcome.</p><a onclick="switchContent('post6','post5')" class="btn" href="#6a0aaa9f8e0e9b830f847b4de52e42a4">Hide</a></div></span>
-<a name="ea85e6bbd2ab0d204b6a38cb979b6ef5"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Journée de cours Ocsigen à Paris - Développement d'applications Web en OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post7"><p>[Announcement for the french speaking Ocsigen Day dedicated to OCaml
-programmers. December 14 at IRILL. English version below]
-</p>
-<h1>
- JFLO’12
-Journée Francophone de Leçons sur Ocsigen —
-Développement d'applications Web en OCaml
-</h1>
-<p>
-Nous organisons une journée didactique autour d'Ocsigen dédiée aux
-programmeurs OCaml. Cette journée aura lieu le 14 décembre à l'IRILL (cf
-infos pratiques plus bas). Vous êtes invités à vous inscrire en ici :
-</p>
-<p>
-<a href="https://docs.google.com/spreadsheet/viewform?formkey=dEUyaXNCeVNWQmI5cHFnU2tTc1dmaXc6MQ">Inscription</a>
-</p>
-<p>
-Au programme, des cours et tutoriels sur les principaux composants du
-projet Ocsigen :
-</p>
-<ul>
-<li>Programmation concurrente avec Lwt ;
-</li>
-<li>Programmation côté client avec le compilateur Js_of_ocaml ;
-</li>
-<li>Programmation d'applications Web client-server avec Eliom.</li>
-</ul>
-<p>
-Informations pratiques :</p>
-<p>
-LIEU : Salle ORANGE, 5e étage, Inria, 23, avenue d'Italie,75013 Paris
-</p>
-<p>
-DATE : Vendredi 14 Décembre de 10h00 à 18h00.
-</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#ea85e6bbd2ab0d204b6a38cb979b6ef5">Read more...</a></div><div id="post8" style="display: none"><p>[Announcement for the french speaking Ocsigen Day dedicated to OCaml
-programmers. December 14 at IRILL. English version below]
-</p>
-<h1>
- JFLO’12
-Journée Francophone de Leçons sur Ocsigen —
-Développement d'applications Web en OCaml
-</h1>
-<p>
-Nous organisons une journée didactique autour d'Ocsigen dédiée aux
-programmeurs OCaml. Cette journée aura lieu le 14 décembre à l'IRILL (cf
-infos pratiques plus bas). Vous êtes invités à vous inscrire en ici :
-</p>
-<p>
-<a href="https://docs.google.com/spreadsheet/viewform?formkey=dEUyaXNCeVNWQmI5cHFnU2tTc1dmaXc6MQ">Inscription</a>
-</p>
-<p>
-Au programme, des cours et tutoriels sur les principaux composants du
-projet Ocsigen :
-</p>
-<ul>
-<li>Programmation concurrente avec Lwt ;
-</li>
-<li>Programmation côté client avec le compilateur Js_of_ocaml ;
-</li>
-<li>Programmation d'applications Web client-server avec Eliom.</li>
-</ul>
-<p>
-Informations pratiques :</p>
-<p>
-LIEU : Salle ORANGE, 5e étage, Inria, 23, avenue d'Italie,75013 Paris
-</p>
-<p>
-DATE : Vendredi 14 Décembre de 10h00 à 18h00.
-</p>
-<ul>
-<li>les cours seront en français ;</li>
-<li>il est fortement conseillé de venir muni de son ordinateur portable ;</li>
-<li>si possible avec une version récente d'Eliom installée.</li>
-</ul>
-<p>
-To get more frequent annoucements about Ocsigen, follow us on 
-<a href="https://twitter.com/ocsigen">Twitter</a>,
-<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
-<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#ea85e6bbd2ab0d204b6a38cb979b6ef5">Hide</a></div></span>
 <a name="488819739afed57419cb3e91edff7efc"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/11/29/how-to-implement-dependent-type-theory-iii/"> How to implement dependent type theory III</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post9"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
 <p>The code is available on Github in the repository <a href="https://github.com/andrejbauer/tt/tree/blog-part-III">andrejbauer/tt</a> (the <code>blog-part-III</code> branch).</p>
 <p><span id="more-1337"></span></p>
@@ -789,7 +873,6 @@ $$(\lambda \, e_1)\, e_2 = [e_2 \cdot \uparrow^0] e_1.$$</p>
   with the idiomatic way, which is to use format strings as provided
   by the <tt>Printf</tt> module from OCaml standard library:
 </p></div><p><a href="http://www.lexifi.com/blog/note-about-performance-printf-and-format" target="_blank">read more</a></p></span>
-<a name="0b7415981db8c02f1d7c9a8d2f7c23ed"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.11.27.html"> Caml Weekly News, 27 Nov 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">27 Nov 2012</span></span><span class="rss-description">Poll results of OASIS, package manager and misc. / open faculty position in Big Data at Wright State University / how to wrap a command line call correctly? / Monad Library? / RPM's for OCaml 4.00.1 and associated libs for Mageia 2 / opass - encrypted password db / Multithreaded https requests in ocamlnet netclient / New group: Pragmatic functional programming research / Other Caml News</span>
 <a name="bfcbacfbb0db1e239d978d522713b1cb"></a><span class="rss-header"><span class="rss-title"><a href="http://www.lexifi.com/blog/type-based-selection-label-and-constructors"> Type-based selection of label and constructors</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">LexiFi</span>, <span class="rss-date">27 Nov 2012</span></span><span class="rss-description"><div class="content-wide-padding white-bg light-grey-border">
 <p>
   Most languages provide some way to manipulate tuples of values with
@@ -797,7 +880,6 @@ $$(\lambda \, e_1)\, e_2 = [e_2 \cdot \uparrow^0] e_1.$$</p>
   records in OCaml; objects as found in most mainstream OO languages
   extend this same notion.
 </p></div><p><a href="http://www.lexifi.com/blog/type-based-selection-label-and-constructors" target="_blank">read more</a></p></span>
-<a name="9af1d5db458dcc344455b1e57d0f19a4"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=818"> Stog 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">22 Nov 2012</span></span><span class="rss-description">Stog is a kind of Jekyll in OCaml: It is a static web site generator, able to handle blog posts as well as regular pages.</span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
