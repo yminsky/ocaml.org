@@ -149,7 +149,8 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
+    <div class="planet"><a name="3aeebe7a5873af158331e6566e6c7b25"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/cryptodbm/"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">Library for creating and reading encrypted databases (serverless, encrypted key-value databases).</span>
+<a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
 <a name="e54acddb53f86b28cf68b31b0c1e9abe"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=840"> RTT 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">17 Dec 2012</span></span><span class="rss-description">RTT is a prototype implementation of run-time typing in OCaml. It allows programmers to use functions such as to_string: 'a -&gt; string (for all 'a). The present solution focuses on being fully automatic, and providing the actual run-time type of values (including when it is more precise than the static type, because of polymorphism). On the other side, types are represented in an untyped way (no GADTs) and we only provide a minimal library for the purpose of the demonstration.</span>
 <a name="e0ca9978210bd9433c604be02ebe358d"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=806"> Eliom 3.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">17 Dec 2012</span></span><span class="rss-description">With Eliom, you can implement client-server Web applications fully in OCaml. 
 Client parts, delimited by a syntax extension, are automatically extracted 
@@ -742,130 +743,6 @@ suffices to use the vernacular
 Require Exploit.
 &lt;/coq&gt;
 to be able to use the <code>exploit</code> tactic, from any coq development. </p><a onclick="switchContent('post8','post7')" class="btn" href="#91a7e575dadea383e3e05bf91d65d03b">Hide</a></div></span>
-<a name="488819739afed57419cb3e91edff7efc"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/11/29/how-to-implement-dependent-type-theory-iii/"> How to implement dependent type theory III</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">29 Nov 2012</span></span><span class="rss-description"><div id="post9"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
-<p>The code is available on Github in the repository <a href="https://github.com/andrejbauer/tt/tree/blog-part-III">andrejbauer/tt</a> (the <code>blog-part-III</code> branch).</p>
-<p><span id="more-1337"></span></p>
-<p>People say that de Bruijn indices and explicit substitutions are difficult to implement. I agree, I spent far too long debugging my code. But because every bug crashed and burnt my program immediately, I at least knew I was not done. In contrast, “manual” substitutions hide their bugs really well, and so are even more difficult to get right. I am convinced that my implementation from part II is still buggy.</p>
-<h3>Blitz introduction to de Bruijn indices and explicit substitution</h3>
-<a onclick="switchContent('post9','post10')" class="btn" href="#488819739afed57419cb3e91edff7efc">Read more...</a></div><div id="post10" style="display: none"><p>I spent a week trying to implement higher-order pattern unification. I looked at couple of PhD dissertations, talked to lots of smart people, and failed because the substitutions were just getting in the way all the time. So today we are going to bite the bullet and implement <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a>.</p>
-<p>The code is available on Github in the repository <a href="https://github.com/andrejbauer/tt/tree/blog-part-III">andrejbauer/tt</a> (the <code>blog-part-III</code> branch).</p>
-<p><span id="more-1337"></span></p>
-<p>People say that de Bruijn indices and explicit substitutions are difficult to implement. I agree, I spent far too long debugging my code. But because every bug crashed and burnt my program immediately, I at least knew I was not done. In contrast, “manual” substitutions hide their bugs really well, and so are even more difficult to get right. I am convinced that my implementation from part II is still buggy.</p>
-<h3>Blitz introduction to de Bruijn indices and explicit substitution</h3>
-<p>If you do not know about <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> and <a href="http://en.wikipedia.org/wiki/Explicit_substitution">explicit substitutions</a> you should first read the relevant Wikipedia pages, and perhaps the <a href="http://www.hpl.hp.com/techreports/Compaq-DEC/SRC-RR-54.pdf">original paper on explicit substitutions</a>, written by a truly impressive group of authors. Here is an inadequate short explanation for those who cannot be bothered to click on links.</p>
-<p>We keep looking up variables in a context by their names, which seems a bit inefficient. We might have the bright idea of referring to <em>positions</em> in the context directly. We can indeed do this, and because a context is like a stack there are two choices:</p>
-<ul>
-<li><em>de Bruijn levels</em> are positions as counted from the bottom of the stack,</li>
-<li><em>de Bruijn indices</em> are positions as counter from the top of the stack.</li>
-</ul>
-<p>We will use the indices. Thus, when the context grows all the old indices have to be <em>shifted</em> by one, which sounds more horrible than it is, as levels bring their own problems (which?). For instance, the $\lambda$-term $\lambda x \,.\, \lambda y \,.\, x$ is written with de Bruijn indices as $\lambda \, (\lambda \, 1)$, whereas $\lambda x \,.\, \lambda y \,.\, y$ is written as $\lambda \, (\lambda \, 0)$. (Just go read the Wikipedia article on <a href="http://en.wikipedia.org/wiki/De_Bruijn_index">de Bruijn indices</a> if you have not seen this before.)</p>
-<p>The shifting and pushing of new things onto the context is expressed with explicit substitutions:</p>
-<pre class="brush: plain; title: ; notranslate">type substitution =
-  | Shift of int
-  | Dot of expr * substitution
-</pre>
-<p>Read <code>Shift k</code> as “add $k$ to all indices” and <code>Dot(e,s)</code> as “push $e$ and use $s$”. In mathematical notation we write $\uparrow^n$ instead of <code>Shift n</code> and $e \cdot \sigma$ instead of <code>Dot(e,sigma)</code>. An explicit substitution $\sigma$ acts on an expression $e$ to give a new expression $[\sigma] e$. For example:</p>
-<ul>
-<li>$[\uparrow^k] (\mathtt{Var}\, m) = \mathtt{Var} (k + m)$</li>
-<li>$[e \cdot \sigma)] (\mathtt{Var}\, 0) = e$</li>
-<li>$[e \cdot \sigma)] (\mathtt{Var}\, (k+1)) = [\sigma](\mathtt{Var}\, k).$</li>
-</ul>
-<p>Below we will read off the other equations from the source code. Substitutions are performed on demand, which means that $[\sigma] e$ is an expression that needs to be accounted for in the syntax.</p>
-<h3>Splitting the syntax</h3>
-<p>The user is going to type in syntax with names, which we have to convert to an internal syntax that uses the indices. We should also keep the original names around for pretty-printing purposes. Therefore we need a datatype <a href="https://github.com/andrejbauer/tt/blob/blog-part-III/input.ml"><code>Input.exp</code></a> for parsing,</p>
-<pre class="brush: plain; title: ; notranslate">(** Abstract syntax of expressions as given by the user. *)
-type expr = expr' * Common.position
-and expr' =
-  | Var of Common.variable
-  | Universe of int
-  | Pi of abstraction
-  | Lambda of abstraction
-  | App of expr * expr
-
-(** An abstraction [(x,t,e)] indicates that [x] of type [t] is bound in [e]. *)
-and abstraction = Common.variable * expr * expr
-</pre>
-<p>and a datatype <a href="https://github.com/andrejbauer/tt/blob/blog-part-III/syntax.ml"><code>Syntax.expr</code></a> for the internal syntax:</p>
-<pre class="brush: plain; title: ; notranslate">(** Abstract syntax of expressions, where de Bruijn indices are used to represent
-    variables. *)
-type expr = expr' * Common.position
-and expr' =
-  | Var of int                   (* de Briujn index *)
-  | Subst of substitution * expr (* explicit substitution *)
-  | Universe of universe
-  | Pi of abstraction
-  | Lambda of abstraction
-  | App of expr * expr
-
-(** An abstraction [(x,t,e)] indicates that [x] of type [t] is bound in [e]. We also keep around
-    the original name [x] of the bound variable for pretty-printing purposes. *)
-and abstraction = Common.variable * expr * expr
-
-(** Explicit substitutions. *)
-and substitution =
-  | Shift of int
-  | Dot of expr * substitution
-</pre>
-<p>Conversion from one to the other is done by <a href="https://github.com/andrejbauer/tt/blob/blog-part-III/desugar.ml"><code>Desugar.desugar</code></a>. Notice that we do not throw away variable names, but rather keep them around in the internal syntax so that we can print them out later. Strangely enough, <a href="https://github.com/andrejbauer/tt/blob/blog-part-III/beautify.ml"><code>beautify.ml</code></a> gets shorter with de Bruijn indices.</p>
-<h3>Explicit substitutions</h3>
-<p>The <a href="https://github.com/andrejbauer/tt/blob/blog-part-III/syntax.ml"><code>Syntax</code></a> module contains a couple of functions for handling explicit substitutions. First we have <code>Syntax.composition</code> which tells us how substitutions are composed:</p>
-<pre class="brush: plain; title: ; notranslate">let rec compose s t =
-  match s, t with
-    | s, Shift 0 -&gt; s
-    | Dot (e, s), Shift m -&gt; compose s (Shift (m - 1))
-    | Shift m, Shift n -&gt; Shift (m + n)
-    | s, Dot (e, t) -&gt; Dot (mk_subst s e, compose s t)
-</pre>
-<p>In mathematical notation:</p>
-<ul>
-<li>$\sigma \circ \uparrow^0 = \sigma$</li>
-<li>$(e \cdot \sigma) \circ \uparrow^{m} = s \circ \uparrow^{m-1}$</li>
-<li>$\uparrow^{m} \circ \uparrow^{n} = \uparrow^{m + n}$</li>
-<li>$\sigma \circ (e \cdot \tau) = [\sigma] e \cdot (\sigma \circ \tau)$</li>
-</ul>
-<p>Of course, composition $\circ$ is the operation characterized by the equation $[\sigma \circ \tau] e = [\sigma]([\tau] e)$. Next we have <code>Syntax.subst</code> which explains how substitutions are performed:</p>
-<pre class="brush: plain; title: ; notranslate">(** [subst s e] applies explicit substitution [s] in expression [e]. It does so
-    lazily, i.e., it does just enough to expose the outermost constructor of [e]. *)
-let subst =
-  let rec subst s ((e', loc) as e) =
-    match s, e' with
-      | Shift m, Var k -&gt; Var (k + m), loc
-      | Dot (e, s), Var 0 -&gt; subst idsubst e
-      | Dot (e, s), Var k -&gt; subst s (Var (k - 1), loc)
-      | s, Subst (t, e) -&gt; subst s (subst t e)
-      | _, Universe _ -&gt; e
-      | s, Pi a -&gt; Pi (subst_abstraction s a), loc
-      | s, Lambda a -&gt; Lambda (subst_abstraction s a), loc
-      | s, App (e1, e2) -&gt; App (mk_subst s e1, mk_subst s e2), loc
-  and subst_abstraction s (x, e1, e2) =
-    let e1 = mk_subst s e1 in
-    let e2 = mk_subst (Dot (mk_var 0, compose (Shift 1) s)) e2 in
-      (x, e1, e2)
-  in
-    subst
-</pre>
-<p>The code is not very readable, but in mathematical notation the interesting bits say:</p>
-<ul>
-<li>$[\uparrow^m](\mathtt{Var}\,k) = \mathtt{Var}\,(k + m)$</li>
-<li>$[e \cdot \sigma] (\mathtt{Var}\,0) = e$</li>
-<li>$[e \cdot \sigma] (\mathtt{Var}\,k) = [\sigma](\mathtt{Var}(k-1))$</li>
-<li>$[\sigma](\lambda\, e) = \lambda \, ([\mathtt{Var}\,0 \cdot (\uparrow^1 \circ \sigma)] e)$</li>
-<li>$[\sigma](e_1\,e_2) = ([\sigma]e_1)([\sigma]e_2)$</li>
-</ul>
-<p>There is also <code>Syntax.occurs</code> which checks whether a given index appears freely in an expression. This is not entirely trivial because explicit substitutions and abstractions change the indices, so the function has to keep track of what is what.</p>
-<p>You may wonder what happened to $\beta$-reduction. If you look at <code>Norm.norm</code> you will discover it burried in the code for normalization of applications:<br/>
-$$(\lambda \, e_1)\, e_2 = [e_2 \cdot \uparrow^0] e_1.$$</p>
-<h3>Normalization</h3>
-<p>In the last part we demonstrated normalization by evaluation. We always normalized everything all the way, which is an overkill. For example, during equality checking the <a href="http://encyclopedia2.thefreedictionary.com/Weak+Head+Normal+Form">weak head normal form</a> suffices to get the comparison started, and then we normalize on demand. So I replaced normalization by evaluation with direct normalization, as done in <a href="https://github.com/andrejbauer/tt/blob/blog-part-III/norm.ml"><code>norm.ml</code></a>. We still need normal forms when the user asks for them. Luckily, a single function can perform both kinds of normalization.</p>
-<h3>Optimization</h3>
-<p>The source contains no optimizations at all because its purpose is to be as clear as possible. The whole program is still pretty small, we are at 824 lines while the core is just 247 lines. The speed is comparable to the previous version, but with a bit of effort we should be able to speed it up considerably. Here are some opportunities:</p>
-<ul>
-<li>we normalize a definition every time we look it up in the context,</li>
-<li>explicit substitutions tend to cancel out, and it is a good idea to look for common special cases, like composition with the identity substitution,</li>
-<li>there is a lot of shifting happening when we look things up in the context, perhaps some of those could be avoided</li>
-</ul>
-<p>If anyone wants to work on these, I would be delighted to make a pull request.</p>
-<p>I really have to do some serious math and stop playing around, so do not expect the next part anytime soon.</p><a onclick="switchContent('post10','post9')" class="btn" href="#488819739afed57419cb3e91edff7efc">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
