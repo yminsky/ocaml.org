@@ -151,6 +151,209 @@
     </div>
     <div class="planet"><a name="3aeebe7a5873af158331e6566e6c7b25"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/cryptodbm/"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">Library for creating and reading encrypted databases (serverless, encrypted key-value databases).</span>
 <a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
+<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>This is a call to arms: to improve the OCaml compiler, we
+sorely need a suite of representative benchmarks. If you have ever
+written performance-sensitive programs in OCaml, you can
+contribute.</p>
+
+
+
+
+<p>PS: When I originally started to write this blog post, it was about
+a small experiment on optimizing a small program for float
+unboxing. Writing a general introduction on the few joys and numerous
+pitfalls of compiler optimizations suddenly turned it into a totally
+different post. Oh well.</p>
+
+<h2>Having a simple compiler is a valid design choice</h2>
+
+<p>The OCaml native compiler is well-known for its simple and robust
+behavior. Thanks to efficient choices of value representation and
+a sophisticated garbage collector (GC), it is able to make good OCaml
+programs run fast. But it doesn't actually optimize in clever way:
+efficient code will give an efficient program, but little is done to
+make inefficient code efficient.</p>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post2" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
+sorely need a suite of representative benchmarks. If you have ever
+written performance-sensitive programs in OCaml, you can
+contribute.</p>
+
+
+
+
+<p>PS: When I originally started to write this blog post, it was about
+a small experiment on optimizing a small program for float
+unboxing. Writing a general introduction on the few joys and numerous
+pitfalls of compiler optimizations suddenly turned it into a totally
+different post. Oh well.</p>
+
+<h2>Having a simple compiler is a valid design choice</h2>
+
+<p>The OCaml native compiler is well-known for its simple and robust
+behavior. Thanks to efficient choices of value representation and
+a sophisticated garbage collector (GC), it is able to make good OCaml
+programs run fast. But it doesn't actually optimize in clever way:
+efficient code will give an efficient program, but little is done to
+make inefficient code efficient.</p>
+
+<p>This approach has some nice advantages. On the user side, it makes for
+a predictable compiler (no hope of the killer optimization kicking in
+when it actually doesn't due to a small change). On the developer
+side we have a well-written and rather simple post-frontend that is
+easy to understand and maintain. Compilation times are also usually
+very small: with the additional good support for separate compilation,
+compilation times is rarely a problem in OCaml as it can be in some
+other compiled languages (<em>cough</em> C++ <em>cough</em>).</p>
+
+<p>Yet this also comes with drawbacks. For example, "inefficient" code is
+rarely written by OCaml programmers (smart men and women), of
+course :), but is easy to obtain when you're doing automatic code
+generation; you may have to be a bit careful if you produce OCaml
+programs to not spit out stupid code, while a general whole-program
+optimizer could have taken care of this for you.</p>
+
+<p>Another problem is that some abstractions are more costly that we
+would like them to be. It's hard to write monadic code, for example,
+without generating a lot of (often unnecessary) closures. While the
+cost of the additional closure allocations and function calls are
+often drowned by the overall monadic logic (for example thread
+scheduling in monadic cooperative threading libraries such as Lwt and
+Async), fine-grained monad style can still have a sensible overhead.</p>
+
+<p>For example, Arnaud Spiwak
+<a href="https://sympa.inria.fr/sympa/arc/coq-club/2012-10/msg00013.html">reported</a>
+that switching the Coq internal tactics to a pervasive monadic style
+incurred sensible overhead (~15% slowdown on the whole Coq archive,
+with some individual tactics getting several times slower). Using
+Coq's inlining engine to maximally reduce monadic closures, he was
+able to get a 10% performance gain over what "idiomatic monadic OCaml
+code" produces through the OCaml compiler. (Remark that inlining is
+easier to do in Coq thanks to a pure (including total) programming
+language with sensible strong reduction semantics.)</p>
+
+<p>Finally, not every programming style and application domain is equal
+in the face of OCaml compilation choices. Memory allocation, tail
+calls, exceptions and pattern matching on algebraic datatypes are
+extremely fast, and code using lot of them (typically: a compiler,
+a proof assistant, symbolic computations in general) will have you
+extremely satisfied. But this sometimes required compromises that have
+downsides for other language features, and the sophistication effort
+that went there didn't necessarily find itself reproduced in other
+parts of the language features that were of less interest at the time
+of the compiler's inception.</p>
+
+<p>As a concrete example, OCaml does not shine at number crunching: its
+integers are tagged to make the GC life easier, and its
+(double-precision) floating points are boxed to keep an uniform value
+representation. The compiler is well aware of these facts and tries to
+suppress this overhead when it is easy to do so, but those
+optimization are relatively simple and have room for improvement.</p>
+
+<p>This doesn't mean that OCaml should not be used when a problem domain
+involves some number crunching: the benefit you can gain from
+expressive language features and a reasonable type system may very
+well outweigh, in terms of productivity and final code efficiency, the
+approximate halving of performance (when compared to C) on numeric
+benchmarks. A large number of people pay a sensibly higher performance
+price to use less-efficient language everyday, for example Javascript
+(even on today's highly-optimized runtimes, that took exponentially
+more effort to develop than the OCaml native compiler).</p>
+
+<h2>Compiler optimization is an ungrateful business</h2>
+
+<p>Just above I've mentioned a few fronts (function inlining, local
+unboxing or untagging) on which the OCaml compiler could possibly help
+with more aggressive optimizations. There are other specific areas
+where compilation choices could be improved. The problem with compiler
+optimizations is that there is a large disconnect between what we,
+compiler programmers and language geeks, find satisfying to work on,
+and the hard reality of actual program performances.</p>
+
+<p>It is easy to spend some months implementing and debugging, say,
+a state-of-the-art register allocator, only to find out that it makes
+practically no performance difference on the programs you have at
+hand. Why then would the maintainer accept a large code change that
+certainly introduces bug and doesn't provably improves over the naive
+but simple and debugged-by-time current implementation?</p>
+
+<p>If advertising for a change in a compiler with the argument that "the
+generated code is much nicer", you're doing it wrong. It is
+surprisingly often the case that while the generated code looks much
+nicer to the naked eye, it is not actually faster on today's
+overly-complicated processors. More importantly, it is generally the
+case that said nicer code never actually appears in the hot section of
+your program, and therefore produces no observable performance
+change. Again, "if it ain't broke, don't fix it", it would be
+unreasonable to accept a change that cannot demonstrate a real
+improvement on a real program -- while it's generally easy to craft
+micro-benchmark that demonstrate impressive improvements.</p>
+
+<p>I have personally experienced this problem in <a href="http://caml.inria.fr/mantis/view.php?id=4800">the work on
+PR#4800</a>. Currently,
+OCaml optimizes tupled assignments such as <code>let (x,y,z) = (foo, bar, baz)</code>
+to remove the tuple construction and destruction that would
+happen per the naive pattern-matching semantics. However this only
+works if the right-hand-side is syntactically a tuple, and would fail
+for example on <code>let (x,y) = if foo then (bar, baz) else (foobar, foobaz)</code>.</p>
+
+<p>Alain Frisch proposed a patch to optimize this (and some other)
+situation, to make this multi-binding style more convenient to
+use. I've spent some time reviewing the patch and proposing an
+alternative implementation, but we've both been unable to find an
+actual real-world example where adding this optimization made
+a significant difference.</p>
+
+<p>This is a delicate point because those optimizations are here to make
+new abstractions available that were previously avoided. If we don't
+observe any difference, maybe it is because OCaml programmers have
+avoided that idiom so far, but would make convenient use of it if it
+was cost-free. However, if we can't demonstrate a real example where
+this optimization is important, it's probably not a good idea to
+include it upstream.</p>
+
+<h2>We really need a benchmark suite, and you can help</h2>
+
+<p>What we really need is a benchmark suite that would contain
+representative examples of real-world OCaml code. There is a handful
+of benchmarks distributed with the compiler but they don't cover
+much. Likewise, the programs in <a href="http://benchmarksgame.alioth.debian.org/u64q/ocaml.php">the
+Shootout</a> are
+too small to be representative of actual uses of OCaml.</p>
+
+<p>This is why we currently use "big software" in OCaml to evaluate
+performance changes (eg. bootstrap the OCaml compiler itself, or
+compile Coq). Some big OCaml users have internal performance
+testsuites (for example Pascal Cuoq, which works on Frama-C,
+infrequently contributes performance-improving changes to the
+OCaml compiler), but we severely lack an easily-available, informative
+benchmark suite to evaluate performance changes.</p>
+
+<p>This is a losing situation because optimization-related changes cannot
+be reliably assessed in absence of representative code, and specific
+problem domains that we can't measure against will not be improved.</p>
+
+<p>The good think with benchmark suite is that it's a problem the
+community at large can efficiently solve in parallel. If everyone
+contributed a piece of code that comes from real-world OCaml software
+and is representative of its performance-critical part, we would have
+a complete benchmark suite by now.</p>
+
+<p>Feel free to <strong>contribute</strong> by providing, either here in the blog
+comments or by mail (gabriel dot scherer at inria, or at gmail), your
+benchmark program(s). Code that has few external dependencies and that
+comes with a simple interface to parametrize running time is highly
+preferred. Of course, an open source license is required (say MIT/BSD
+or LGPL with linking exception).</p>
+
+<p>What is a representative benchmark? A benchmark is representative when
+performance changes observed in the benchmark will reliably be
+reproducible against (some use cases of) the whole software it was
+extracted or inspired from. The changes must be comparable in
+magnitude: if a 80% performance change (improvement or degradation) in
+the benchmark code results in a 0.5% performance change in the actual
+software, it's difficult to rely on benchmark results to make design
+compromises.</p><a onclick="switchContent('post2','post1')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
 <a name="e54acddb53f86b28cf68b31b0c1e9abe"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=840"> RTT 0.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">17 Dec 2012</span></span><span class="rss-description">RTT is a prototype implementation of run-time typing in OCaml. It allows programmers to use functions such as to_string: 'a -&gt; string (for all 'a). The present solution focuses on being fully automatic, and providing the actual run-time type of values (including when it is more precise than the static type, because of polymorphism). On the other side, types are represented in an untyped way (no GADTs) and we only provide a minimal library for the purpose of the demonstration.</span>
 <a name="e0ca9978210bd9433c604be02ebe358d"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=806"> Eliom 3.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">17 Dec 2012</span></span><span class="rss-description">With Eliom, you can implement client-server Web applications fully in OCaml. 
 Client parts, delimited by a syntax extension, are automatically extracted 
@@ -162,7 +365,7 @@ makes it possible to mix usual Web interactions with advanced client side
 features.</span>
 <a name="5b1590d3bf1ff54b87bf52ade842ac66"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/canswer/"> Canswer</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">Canswer is an OCaml library allowing one to do certain rewriting. It is a support tool for the CQA (Certain Query Answering) research.</span>
 <a name="a0653bd809a506d026a0c34a935de78d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.11.html"> Caml Weekly News, 11 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">otags reloaded 4.00.1 for OCaml 4.00 / ocaml.org infrastructure list available / Js_of_ocaml 1.3 / GODI imports OASIS / Documenting the compiler / Ocsigen: Eliom 3 / Creating fresh OPAM repository / Other Caml News</span>
-<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>
+<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>
 we are celebrating Ada's birthday by bringing out a major update of
 Eliom - the advanced framework for client/server web applications in
 OCaml - and some minor updates for Ocsigenserver and Tyxml.
@@ -195,7 +398,7 @@ The manual, a cheat-sheet, a comprehensive tutorial, and the
 API-documentation of the various Ocsigen projects are available on
 <a href="http://ocsigen.org">http://ocsigen.org</a>.
 </p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post2" style="display: none"><p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post4" style="display: none"><p>
 we are celebrating Ada's birthday by bringing out a major update of
 Eliom - the advanced framework for client/server web applications in
 OCaml - and some minor updates for Ocsigenserver and Tyxml.
@@ -280,8 +483,8 @@ Enjoy!
      available in the client code *)
   ... %f "hello!" ...
 }}
-</pre><a onclick="switchContent('post2','post1')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
-<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>In
+</pre><a onclick="switchContent('post4','post3')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
+<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>In
   my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
   post</a>, I explained my work on verifying a parser for
   Compcert. I was mainly explaining the solutions I found to my
@@ -303,7 +506,7 @@ Enjoy!
   grammar in order to give some information to the lexer, and, as you
   might know, side effects are forbidden in Coq.</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post4" style="display: none"><p>In
+<a onclick="switchContent('post5','post6')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post6" style="display: none"><p>In
   my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
   post</a>, I explained my work on verifying a parser for
   Compcert. I was mainly explaining the solutions I found to my
@@ -419,8 +622,8 @@ Enjoy!
   many things one would want to prove: does the parser terminates on
   all inputs? Are we sure it does not ask for a lookahead token after
   the end of the stream (that could be a problem in interactive
-  languages, because it could block the input)?</p><a onclick="switchContent('post4','post3')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
-<a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+  languages, because it could block the input)?</p><a onclick="switchContent('post6','post5')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
+<a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
 OCaml bytecode to Javascript. This release is compatible with OCaml
 4.x. It adds WebSocket bindings and fixes a number of bugs.
 </p>
@@ -448,7 +651,7 @@ OCaml bytecode to Javascript. This release is compatible with OCaml
 </ul>
 
 <h3>Bugfixes</h3>
-<a onclick="switchContent('post5','post6')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post6" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+<a onclick="switchContent('post7','post8')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post8" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
 OCaml bytecode to Javascript. This release is compatible with OCaml
 4.x. It adds WebSocket bindings and fixes a number of bugs.
 </p>
@@ -498,251 +701,7 @@ OCaml bytecode to Javascript. This release is compatible with OCaml
 To get more frequent annoucements about Ocsigen, follow us on 
 <a href="https://twitter.com/ocsigen">Twitter</a>,
 <a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
-<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post6','post5')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
-<a name="91a7e575dadea383e3e05bf91d65d03b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/your-first-coq-plugin"> Emancipate yourself from LTac: Your first Coq plugin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">05 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>I recently started a post-doc in the Gallium team, and it is past
-due-time for my first blog post. I will not start with a research
-oriented blog right now (but stay tuned!); and I will rather talk
-about one of my hobbies: writing Coq plugins in OCaml to build new
-tactics. I reckon that this deviates a bit from standard practice, so
-I will try to make things clear.</p>
-
-
-
-
-<p>First, a Coq proof script is usually a program written in
-<em>LTac</em>. Executing a proof script builds incrementally a
-<em>proof-term</em>. The tactics themselves are not trusted: at <code>Qed</code> time, Coq
-checks that the proof term that was built is well-typed and that its
-type is the same as the statement of the theorem. One must remember
-that LTac tactics can always be understood in terms of manipulations
-of partial proof terms; and it is often instructive to get an idea of
-the proof term that is being built, using the <code>Show Proof</code> vernacular
-command.</p>
-
-<a onclick="switchContent('post7','post8')" class="btn" href="#91a7e575dadea383e3e05bf91d65d03b">Read more...</a></div><div id="post8" style="display: none"><p>I recently started a post-doc in the Gallium team, and it is past
-due-time for my first blog post. I will not start with a research
-oriented blog right now (but stay tuned!); and I will rather talk
-about one of my hobbies: writing Coq plugins in OCaml to build new
-tactics. I reckon that this deviates a bit from standard practice, so
-I will try to make things clear.</p>
-
-
-
-
-<p>First, a Coq proof script is usually a program written in
-<em>LTac</em>. Executing a proof script builds incrementally a
-<em>proof-term</em>. The tactics themselves are not trusted: at <code>Qed</code> time, Coq
-checks that the proof term that was built is well-typed and that its
-type is the same as the statement of the theorem. One must remember
-that LTac tactics can always be understood in terms of manipulations
-of partial proof terms; and it is often instructive to get an idea of
-the proof term that is being built, using the <code>Show Proof</code> vernacular
-command.</p>
-
-<p>Usually, one build new tactics in LTac. LTac is a powerful
-domain-specific language with some interesting programming constructs,
-and it is possible to build powerful new tactics using a few
-combinators and leveraging the existing automation (builtin tactics,
-decision procedures and so on). I have read that LTac is vindicated as
-one of the <a href="http://adam.chlipala.net/cpdt/html/Intro.html">strong points of
-Coq</a>, and part of me agree with that statement: there is a lot of
-use cases in which LTac is a good tool.  Yet, writing a LTac tactic
-is often tedious, the code that needs to be written is hard to debug,
-and it may be quite inefficient.</p>
-
-<p>The alternative is to write custom tactics in OCaml, the meta-language
-that is used to implement Coq (and all the primitive tactics). In the
-following, I will demonstrate how to write such a tactic, and give you
-a handful of the necessary entry points into Coq's code.</p>
-
-<p>The tactic that we are going to code is the following one, shamefully
-stolen from Compcert's code.</p>
-
-<pre class="code-"><span class="hl kwd">Lemma</span> modusponens<span class="hl opt">:</span> forall <span class="hl opt">(</span><span class="hl kwd">P Q</span><span class="hl opt">:</span> <span class="hl kwd">Prop</span><span class="hl opt">),</span> <span class="hl kwd">P</span> <span class="hl opt">-&gt; (</span><span class="hl kwd">P</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">Q</span><span class="hl opt">) -&gt;</span> <span class="hl kwc">Q</span><span class="hl opt">.</span>
-<span class="hl kwc">Proof</span><span class="hl opt">.</span> auto<span class="hl opt">.</span> <span class="hl kwc">Qed</span><span class="hl opt">.</span>
-
-<span class="hl kwd">Ltac</span> exploit x <span class="hl opt">:=</span>
-   refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _ _ _ _ _ _ _ _ _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
-|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _ _ _ _ _ _ _ _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
-<span class="hl com">(* Lots of lines elided.  The actual code handle cases upto </span>
-<span class="hl com">  35 arguments *)</span>
-|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
-|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _ _<span class="hl opt">)</span> _<span class="hl opt">)</span>
-|| refine <span class="hl opt">(</span>modusponens _ _ <span class="hl opt">(</span>x _<span class="hl opt">)</span> _<span class="hl opt">).</span>
-</pre>
-
-<p>What does <code>exploit</code> do ? Well, the best thing is to give an
-example. In the following context, </p>
-
-<pre class="code-"><span class="hl kwd">A</span><span class="hl opt">,</span> <span class="hl kwd">B</span><span class="hl opt">,</span> <span class="hl kwd">C</span><span class="hl opt">,</span> <span class="hl kwd">D</span><span class="hl opt">,</span> <span class="hl kwd">G</span> <span class="hl opt">:</span> <span class="hl kwd">Prop</span>
-<span class="hl kwd">H</span> <span class="hl opt">:</span> <span class="hl kwd">A</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">B</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">C</span> <span class="hl opt">-&gt;</span> <span class="hl kwd">D</span>
-<span class="hl opt">============================</span>
-<span class="hl kwd">G</span>
-</pre>
-
-<p><code>exploit H</code> will produce four sub-goals in which the user needs to
-prove <code>A</code>, <code>B</code>, <code>C</code>, and <code>D -&gt; G</code>. That is, the <code>exploit</code>
-tactic is a generalized version of the modus-ponens.</p>
-
-<p>This tactic has two drawbacks. First, it is a bit inefficient: it
-tries to apply the <code>modusponens</code> theorem to <code>x</code> applied to a
-decreasing number of arguments (obviously we do not want to get two
-subgoals <code>A</code> and <code>(B -&gt; C -&gt; D) -&gt; G</code>). Yet, this is a pity, because
-most of the time, the right application has a low number of arguments,
-and the execution of <code>exploit</code> must go through twenty-something
-failures before reaching a successful of <code>refine</code>. The second drawback
-is that one has to repeat by hand the same pattern (<code>x</code> followed by a
-given number of holes), to handle all reasonable use-cases of the
-tactic. </p>
-
-<p>Now, we probably could imagine other (LTac) implementations of exploit,
-but it is not the point of this article, and you should definitely not
-try to do that at home! What we will do is implement this tactic as 9
-lines long tactic in an OCaml plugin, way shorter than the LTac implementation.</p>
-
-<p>Here we go. </p>
-
-<pre class="code-ocaml"> 
-<span class="hl kwa">let</span> exploit <span class="hl opt">(</span>c<span class="hl opt">:</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>constr<span class="hl opt">) =</span> <span class="hl kwa">fun</span> gl <span class="hl opt">-&gt;</span>  
-<span class="hl com">(* the type of [c] is [ty] *)</span>
-<span class="hl kwa">let</span> ty <span class="hl opt">=</span> <span class="hl kwd">Tacmach</span><span class="hl opt">.</span>pf_type_of gl c <span class="hl kwa">in</span> 
-
-<span class="hl com">(* In the general case, [ty] can be written as [forall (x1:t1)</span>
-<span class="hl com">... (xn:tn), t]. We decompose this arity in two parts: [ctx] which</span>
-<span class="hl com">is [(xn, tn); ...; (x1,t1)] and the conclusion [t] *)</span>
-<span class="hl kwa">let</span> ctx<span class="hl opt">,</span> t <span class="hl opt">=</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>decompose_prod_assum ty <span class="hl kwa">in</span>
-
-<span class="hl com">(* We will also need the type of the conclusion of the goal *)</span>
-<span class="hl kwa">let</span> concl <span class="hl opt">=</span> <span class="hl kwd">Tacmach</span><span class="hl opt">.</span>pf_concl gl <span class="hl kwa">in</span> 
-</pre>
-
-<p>We encounter functions from two modules here:</p>
-
-<ul>
-<li><p><code>coq-v8.4/kernel/term.ml</code> contains the definition of Coq terms, the
-<code>constr</code> data-type, and various operations on it. For instance,
-<code>decompose_prod_assum</code> takes as arguments a <code>constr</code> and decomposes
-it into two parts: a telescope of products (that is, a context
-<code>cxt</code>), and the final type <code>t</code>. At this point, it is crucial to note
-that this manipulation of terms is very syntactic: the term <code>t</code> may
-contain de Bruijn indices that refers to variables bound in the
-context. Therefore, we shall manipulate <code>t</code> with some care and not
-forget to, e.g., lift it when needed.</p></li>
-<li><p><code>coq-v8.4/proofs/tacmach.ml</code> contains the API that I use most often
-to interact with the proof machinery. For instance, <code>pf_type_of</code>
-takes as argument the current proof environment (that is, the goal,
-the typing context, and so on) and a <code>constr</code>, and returns its coq
-type. The function <code>pf_concl</code> returns the conclusion of the current
-goal.</p></li>
-</ul>
-
-<p>All in all, the above snippet is quite straightforward: get the type of
-the argument of the tactic, and the conclusion of the current
-goal. Nothing fancy, but here comes the meaty stuff. </p>
-
-<p>Recall that a tactic builds a partial proof-term, which is a regular
-Coq term. Here, the proof-term that we want to generate is </p>
-
-<pre class="code-"><span class="hl opt">(</span><span class="hl kwa">fun</span> <span class="hl opt">(</span>x1<span class="hl opt">:</span>t1<span class="hl opt">) ... (</span>xn<span class="hl opt">:</span>tn<span class="hl opt">) (</span>m <span class="hl opt">:</span> t <span class="hl opt">-&gt;</span> concl<span class="hl opt">) =&gt;</span> m <span class="hl opt">(</span>c x1 <span class="hl opt">...</span> xn<span class="hl opt">))</span> 
-</pre>
-
-<p>(intuitively, if we were to <code>apply</code> this term in Coq, we would get a
-sub-goal for each of the arguments of the function)</p>
-
-<pre class="code-ocaml"><span class="hl kwa">let</span> pf_body <span class="hl opt">=</span>
-  <span class="hl kwd">Term</span><span class="hl opt">.</span>mkApp <span class="hl opt">(</span><span class="hl kwd">Term</span><span class="hl opt">.</span>mkRel <span class="hl num">1</span><span class="hl opt">,</span>
-              <span class="hl opt">[</span>| <span class="hl kwd">Term</span><span class="hl opt">.</span>mkApp <span class="hl opt">(</span>c<span class="hl opt">,</span> <span class="hl kwd">Termops</span><span class="hl opt">.</span>extended_rel_vect <span class="hl num">1</span> ctx<span class="hl opt">)</span> |<span class="hl opt">])</span>
-</pre>
-
-<p>The term <code>pf_body</code> corresponds to the internal representation of the
-above <code>m (c x1 ... xn)</code>.  As should be obvious with their names, the
-function <code>Term.mkApp</code> builds an application, and <code>Term.mkRel</code> builds a
-term that is a de Bruijn index that points to the nearest binder. The
-function <code>Termops.extended_rel_vect</code> is slightly more complicated: it
-builds a vector of de Bruijn indices, lifted by 1. </p>
-
-<p>Now, we need to build the <code>fun</code> part. We build exactly one <code>lambda</code>
-for each product that occurred in the type of the term <code>c</code>, plus one
-for the parameter of type <code>t -&gt; concl</code>. To do so, we simply extend the
-former context with a new definition.  (Note here that the type <code>t</code>
-may depend on the context <code>ctx</code>. Yet, there is no need to lift <code>t</code>,
-because it is used in the exact same context as before; and <code>concl</code>
-should be a closed term.)</p>
-
-<pre class="code-ocaml"><span class="hl kwa">let</span> ctx <span class="hl opt">= (</span><span class="hl kwd">Names</span><span class="hl opt">.</span><span class="hl kwd">Anonymous</span><span class="hl opt">,</span><span class="hl kwd">None</span><span class="hl opt">,</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>mkArrow t concl <span class="hl opt">) ::</span> ctx <span class="hl kwa">in</span> 
-<span class="hl kwa">let</span> pf_term <span class="hl opt">=</span> <span class="hl kwd">Term</span><span class="hl opt">.</span>it_mkLambda_or_LetIn pf_body ctx <span class="hl kwa">in</span>
-</pre>
-
-<p>The function <code>Term.it_mkLambda_or_LetIn</code> iterates the function that
-creates a lambda, for each of the elements of the context
-<code>ctx</code>. Finally, we can call the built-in <code>apply</code> tactics to finish the
-job. </p>
-
-<pre class="code-ocaml"><span class="hl kwd">Tactics</span><span class="hl opt">.</span>apply pf_term gl
-</pre>
-
-<p>There is one wrinkle here: with my version of Coq, the sub-goals that
-are generated are not in the same order as with the LTac version
-(which is a problem if we have to deal with backward compatibility of
-proof-scripts). More precisely, the proof obligation that corresponds
-to <code>t -&amp;gt; concl</code> comes first. In order to avoid this problem, we will
-rely on a slightly more arcane piece of code.</p>
-
-<pre class="code-ocaml"><span class="hl kwd">Tactics</span><span class="hl opt">.</span>apply_term
-  pf_term <span class="hl opt">(</span><span class="hl kwd">List</span><span class="hl opt">.</span>map <span class="hl opt">(</span><span class="hl kwa">fun</span> _ <span class="hl opt">-&gt;</span> <span class="hl kwd">Evarutil</span><span class="hl opt">.</span>mk_new_meta <span class="hl opt">())</span> ctx<span class="hl opt">)</span> gl
-</pre>
-
-<p>The function <code>apply_term</code> seems to be a variant of apply to which we
-give a term, and a list of arguments to which the term is
-applied. Here, we provide as arguments a bunch of <code>_</code> (in the same
-fashion as we would have done for <code>refine</code>). For a reason that I do
-not fully grasp, this gives us exactly the same sub-goals as the above
-LTac <code>exploit</code>.</p>
-
-<p>The last line of our OCaml plugin enrichs Coq's tactic environments
-with our new tactic. This declaration is made of three parts: a unique
-identifier <code>foobar</code> (that is used internally by Coq), the syntax
-extension, and the actual OCaml code of the tactic (here, we simply
-wrap a call to <code>exploit</code>):</p>
-
-<pre class="code-ocaml"><span class="hl kwd">TACTIC EXTEND</span> foobar
-  | <span class="hl opt">[</span><span class="hl str">"exploit"</span> constr<span class="hl opt">(</span>c<span class="hl opt">)] -&gt; [</span>exploit c<span class="hl opt">]</span>
-<span class="hl kwd">END</span><span class="hl opt">;;</span>
-</pre>
-
-<p>And that's it: mission accomplished. </p>
-
-<p>There is one extra benefit to our brand new implementation of
-<code>exploit</code>: the former version was not working properly if it was given
-a theorem of type, e.g., <code>A -&gt; B -&gt; ~C</code>. Let <code>D</code> be the goal, the
-sub-goals that were generated were <code>A</code>, <code>B</code>, <code>C</code> and <code>False -&gt; D</code>.
-This short-coming is solved with our new implementation.  </p>
-
-<p>In the end, our new tactic is 9 lines long, compared to 20 something
-repetitions of the same pattern in the LTac implementation. (To be
-honest, we omit on this 9 lines count a few lines of boilerplate that
-must be written for each new OCaml tactic, like the makefile
-that is needed to compile the plugin.)</p>
-
-<p>Moving to OCaml, we lost the safety-belt that is provided by LTac: for
-instance, it is possible to get the de Bruijn indices wrong by one
-when we build a proof-term. But it gives us the full power of the best
-programming language ever ;) to build our new tactics. </p>
-
-<p>The plugin that was build in this tutorial is available from the
-public GitHub repository <a href="https://github.com/braibant/exploit-plugin">here</a>. From the
-root of the repository</p>
-
-<pre class="code-txt">make
-make -f Makefile.coq install
-</pre>
-
-<p>should install the plugin in your Coq plugins directory. Then, it
-suffices to use the vernacular 
-&lt;coq&gt;
-Require Exploit.
-&lt;/coq&gt;
-to be able to use the <code>exploit</code> tactic, from any coq development. </p><a onclick="switchContent('post8','post7')" class="btn" href="#91a7e575dadea383e3e05bf91d65d03b">Hide</a></div></span>
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
