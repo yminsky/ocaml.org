@@ -359,7 +359,7 @@ val eval_op : string -&gt; int -&gt; int -&gt; int = &lt;fun&gt;
   </p>
 <pre class="listing">
 <span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fib </span><span class="ocaml-variable">x </span>= <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> fib (x - 1) + fib (x - 2)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val fib : int -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span>trace fib<span class="ocamltop-prompt">;;</span>
+</span><span class="ocamltop-prompt"># </span>#trace fib<span class="ocamltop-prompt">;;</span>
 <span class="ocamltop-output">fib is now traced.</span>
 <span class="ocamltop-prompt"># </span>fib 3<span class="ocamltop-prompt">;;</span>
 <span class="ocamltop-output">fib &lt;-- 3
