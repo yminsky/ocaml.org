@@ -149,7 +149,560 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><span class="weberizer-error">The function associated to $(rss http://planet.ocaml.org/rss20.xml) raised an exception</span></div>
+    <div class="planet"><a name="2f9fc6a8ae811c870e3859f2689319a7"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/tptp/"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Dec 2012</span></span><span class="rss-description">Library for parsing FOF and CNF formulas from TPTP format. Depends on: zarith.</span>
+<a name="7848ce5e403469fa5a3757e71a0f8191"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=817"> Xtmpl 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Xtmpl is a small XML templating library for OCaml.</span>
+<a name="7ff089ca4b443c810138d4a7c8e8b486"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=818"> Stog 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Stog is a kind of Jekyll in OCaml: It is a static web site generator, able to handle blog posts as well as regular pages.</span>
+<a name="3aeebe7a5873af158331e6566e6c7b25"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/cryptodbm/"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">Library for creating and reading encrypted databases (serverless, encrypted key-value databases).</span>
+<a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
+<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>This is a call to arms: to improve the OCaml compiler, we
+sorely need a suite of representative benchmarks. If you have ever
+written performance-sensitive programs in OCaml, you can
+contribute.</p>
+
+
+
+
+<p>PS: When I originally started to write this blog post, it was about
+a small experiment on optimizing a small program for float
+unboxing. Writing a general introduction on the few joys and numerous
+pitfalls of compiler optimizations suddenly turned it into a totally
+different post. Oh well.</p>
+
+<h2>Having a simple compiler is a valid design choice</h2>
+
+<p>The OCaml native compiler is well-known for its simple and robust
+behavior. Thanks to efficient choices of value representation and
+a sophisticated garbage collector (GC), it is able to make good OCaml
+programs run fast. But it doesn't actually optimize in clever way:
+efficient code will give an efficient program, but little is done to
+make inefficient code efficient.</p>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post2" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
+sorely need a suite of representative benchmarks. If you have ever
+written performance-sensitive programs in OCaml, you can
+contribute.</p>
+
+
+
+
+<p>PS: When I originally started to write this blog post, it was about
+a small experiment on optimizing a small program for float
+unboxing. Writing a general introduction on the few joys and numerous
+pitfalls of compiler optimizations suddenly turned it into a totally
+different post. Oh well.</p>
+
+<h2>Having a simple compiler is a valid design choice</h2>
+
+<p>The OCaml native compiler is well-known for its simple and robust
+behavior. Thanks to efficient choices of value representation and
+a sophisticated garbage collector (GC), it is able to make good OCaml
+programs run fast. But it doesn't actually optimize in clever way:
+efficient code will give an efficient program, but little is done to
+make inefficient code efficient.</p>
+
+<p>This approach has some nice advantages. On the user side, it makes for
+a predictable compiler (no hope of the killer optimization kicking in
+when it actually doesn't due to a small change). On the developer
+side we have a well-written and rather simple post-frontend that is
+easy to understand and maintain. Compilation times are also usually
+very small: with the additional good support for separate compilation,
+compilation times is rarely a problem in OCaml as it can be in some
+other compiled languages (<em>cough</em> C++ <em>cough</em>).</p>
+
+<p>Yet this also comes with drawbacks. For example, "inefficient" code is
+rarely written by OCaml programmers (smart men and women), of
+course :), but is easy to obtain when you're doing automatic code
+generation; you may have to be a bit careful if you produce OCaml
+programs to not spit out stupid code, while a general whole-program
+optimizer could have taken care of this for you.</p>
+
+<p>Another problem is that some abstractions are more costly that we
+would like them to be. It's hard to write monadic code, for example,
+without generating a lot of (often unnecessary) closures. While the
+cost of the additional closure allocations and function calls are
+often drowned by the overall monadic logic (for example thread
+scheduling in monadic cooperative threading libraries such as Lwt and
+Async), fine-grained monad style can still have a sensible overhead.</p>
+
+<p>For example, Arnaud Spiwak
+<a href="https://sympa.inria.fr/sympa/arc/coq-club/2012-10/msg00013.html">reported</a>
+that switching the Coq internal tactics to a pervasive monadic style
+incurred sensible overhead (~15% slowdown on the whole Coq archive,
+with some individual tactics getting several times slower). Using
+Coq's inlining engine to maximally reduce monadic closures, he was
+able to get a 10% performance gain over what "idiomatic monadic OCaml
+code" produces through the OCaml compiler. (Remark that inlining is
+easier to do in Coq thanks to a pure (including total) programming
+language with sensible strong reduction semantics.)</p>
+
+<p>Finally, not every programming style and application domain is equal
+in the face of OCaml compilation choices. Memory allocation, tail
+calls, exceptions and pattern matching on algebraic datatypes are
+extremely fast, and code using lot of them (typically: a compiler,
+a proof assistant, symbolic computations in general) will have you
+extremely satisfied. But this sometimes required compromises that have
+downsides for other language features, and the sophistication effort
+that went there didn't necessarily find itself reproduced in other
+parts of the language features that were of less interest at the time
+of the compiler's inception.</p>
+
+<p>As a concrete example, OCaml does not shine at number crunching: its
+integers are tagged to make the GC life easier, and its
+(double-precision) floating points are boxed to keep a uniform value
+representation. The compiler is well aware of these facts and tries to
+suppress this overhead when it is easy to do so, but those
+optimization are relatively simple and have room for improvement.</p>
+
+<p>This doesn't mean that OCaml should not be used when a problem domain
+involves some number crunching: the benefit you can gain from
+expressive language features and a reasonable type system may very
+well outweigh, in terms of productivity and final code efficiency, the
+approximate halving of performance (when compared to C) on numeric
+benchmarks. A large number of people pay a sensibly higher performance
+price to use less-efficient language everyday, for example Javascript
+(even on today's highly-optimized runtimes, that took exponentially
+more effort to develop than the OCaml native compiler).</p>
+
+<h2>Compiler optimization is an ungrateful business</h2>
+
+<p>Just above I've mentioned a few fronts (function inlining, local
+unboxing or untagging) on which the OCaml compiler could possibly help
+with more aggressive optimizations. There are other specific areas
+where compilation choices could be improved. The problem with compiler
+optimizations is that there is a large disconnect between what we,
+compiler programmers and language geeks, find satisfying to work on,
+and the hard reality of actual program performances.</p>
+
+<p>It is easy to spend some months implementing and debugging, say,
+a state-of-the-art register allocator, only to find out that it makes
+practically no performance difference on the programs you have at
+hand. Why then would the maintainer accept a large code change that
+certainly introduces bug and doesn't provably improves over the naive
+but simple and debugged-by-time current implementation?</p>
+
+<p>If advertising for a change in a compiler with the argument that "the
+generated code is much nicer", you're doing it wrong. It is
+surprisingly often the case that while the generated code looks much
+nicer to the naked eye, it is not actually faster on today's
+overly-complicated processors. More importantly, it is generally the
+case that said nicer code never actually appears in the hot section of
+your program, and therefore produces no observable performance
+change. Again, "if it ain't broke, don't fix it", it would be
+unreasonable to accept a change that cannot demonstrate a real
+improvement on a real program -- while it's generally easy to craft
+micro-benchmark that demonstrate impressive improvements.</p>
+
+<p>I have personally experienced this problem in <a href="http://caml.inria.fr/mantis/view.php?id=4800">the work on
+PR#4800</a>. Currently,
+OCaml optimizes tupled assignments such as <code>let (x,y,z) = (foo, bar, baz)</code>
+to remove the tuple construction and destruction that would
+happen per the naive pattern-matching semantics. However this only
+works if the right-hand-side is syntactically a tuple, and would fail
+for example on <code>let (x,y) = if foo then (bar, baz) else (foobar, foobaz)</code>.</p>
+
+<p>Alain Frisch proposed a patch to optimize this (and some other)
+situation, to make this multi-binding style more convenient to
+use. I've spent some time reviewing the patch and proposing an
+alternative implementation, but we've both been unable to find an
+actual real-world example where adding this optimization made
+a significant difference.</p>
+
+<p>This is a delicate point because those optimizations are here to make
+new abstractions available that were previously avoided. If we don't
+observe any difference, maybe it is because OCaml programmers have
+avoided that idiom so far, but would make convenient use of it if it
+was cost-free. However, if we can't demonstrate a real example where
+this optimization is important, it's probably not a good idea to
+include it upstream.</p>
+
+<h2>We really need a benchmark suite, and you can help</h2>
+
+<p>What we really need is a benchmark suite that would contain
+representative examples of real-world OCaml code. There is a handful
+of benchmarks distributed with the compiler but they don't cover
+much. Likewise, the programs in <a href="http://benchmarksgame.alioth.debian.org/u64q/ocaml.php">the
+Shootout</a> are
+too small to be representative of actual uses of OCaml.</p>
+
+<p>This is why we currently use "big software" in OCaml to evaluate
+performance changes (eg. bootstrap the OCaml compiler itself, or
+compile Coq). Some big OCaml users have internal performance
+testsuites (for example Pascal Cuoq, which works on Frama-C,
+infrequently contributes performance-improving changes to the
+OCaml compiler), but we severely lack an easily-available, informative
+benchmark suite to evaluate performance changes.</p>
+
+<p>This is a losing situation because optimization-related changes cannot
+be reliably assessed in absence of representative code, and specific
+problem domains that we can't measure against will not be improved.</p>
+
+<p>The good thing with benchmark needs is that it's a problem the
+community at large can efficiently solve in parallel. If everyone
+contributed a piece of code that comes from real-world OCaml software
+and is representative of its performance-critical part, we would have
+a complete benchmark suite by now.</p>
+
+<p>Feel free to <strong>contribute</strong> by providing, either here in the blog
+comments or by mail (gabriel dot scherer at inria, or at gmail), your
+benchmark program(s). Code that has few external dependencies and that
+comes with a simple interface to parametrize running time is highly
+preferred. Of course, an open source license is required (say MIT/BSD
+or LGPL with linking exception).</p>
+
+<p>What is a representative benchmark? A benchmark is representative when
+performance changes observed in the benchmark will reliably be
+reproducible against (some use cases of) the whole software it was
+extracted or inspired from. The changes must be comparable in
+magnitude: if a 80% performance change (improvement or degradation) in
+the benchmark code results in a 0.5% performance change in the actual
+software, it's difficult to rely on benchmark results to make design
+compromises.</p><a onclick="switchContent('post2','post1')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
+<a name="a0653bd809a506d026a0c34a935de78d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.11.html"> Caml Weekly News, 11 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">otags reloaded 4.00.1 for OCaml 4.00 / ocaml.org infrastructure list available / Js_of_ocaml 1.3 / GODI imports OASIS / Documenting the compiler / Ocsigen: Eliom 3 / Creating fresh OPAM repository / Other Caml News</span>
+<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>
+we are celebrating Ada's birthday by bringing out a major update of
+Eliom - the advanced framework for client/server web applications in
+OCaml - and some minor updates for Ocsigenserver and Tyxml.
+</p>
+<p>
+Here is a list of major new features (and short code snippets can be
+found at the end of this email):
+</p>
+
+<ul>
+<li>The tightest integration of client value within the server code
+   ever made possible in a major statically typed programming
+   language [1]
+   </li><li>
+ Easy access to top-level server values - and (Lwt-)functions -
+   from within the client code [2]
+   </li><li>
+ Access to other users' states of Eliom references
+   </li><li>
+ Improved support of Eliom's source files in the compilation tools
+   eliom{c,opt,dep}
+   </li><li>
+ A new tool, eliom-destillery, for creating basic projects fast &amp;
+   easy
+ </li>
+</ul>
+
+<p>
+The manual, a cheat-sheet, a comprehensive tutorial, and the
+API-documentation of the various Ocsigen projects are available on
+<a href="http://ocsigen.org">http://ocsigen.org</a>.
+</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post4" style="display: none"><p>
+we are celebrating Ada's birthday by bringing out a major update of
+Eliom - the advanced framework for client/server web applications in
+OCaml - and some minor updates for Ocsigenserver and Tyxml.
+</p>
+<p>
+Here is a list of major new features (and short code snippets can be
+found at the end of this email):
+</p>
+
+<ul>
+<li>The tightest integration of client value within the server code
+   ever made possible in a major statically typed programming
+   language [1]
+   </li><li>
+ Easy access to top-level server values - and (Lwt-)functions -
+   from within the client code [2]
+   </li><li>
+ Access to other users' states of Eliom references
+   </li><li>
+ Improved support of Eliom's source files in the compilation tools
+   eliom{c,opt,dep}
+   </li><li>
+ A new tool, eliom-destillery, for creating basic projects fast &amp;
+   easy
+ </li>
+</ul>
+
+<p>
+The manual, a cheat-sheet, a comprehensive tutorial, and the
+API-documentation of the various Ocsigen projects are available on
+<a href="http://ocsigen.org">http://ocsigen.org</a>.
+</p>
+<p>
+The probably simplest and most generic way to install Eliom is by
+using OPAM. But also Debian packages are already available (in
+experimental, thanks Stéphane!), Gentoo-ebuilds are on their way, the
+Ocsigen-bundle is still at hand, and the archives can be found at
+<a href="http://ocsigen.org/eliom/install">http://ocsigen.org/eliom/install</a>.
+</p>
+<p>
+And maybe you may want to become social with us on
+</p>
+<ul>
+<li>
+<a href="https://twitter.com/ocsigen">Twitter</a>
+</li>
+<li>
+<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google +</a>
+</li>
+<li>
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>
+</li>
+</ul>
+
+<p>
+Enjoy!
+</p>
+<p>
+-- The Ocsigen-team
+</p>
+
+<pre>[1]
+{server{ (* This marks server-side code *)
+  let value_history_on_client =
+    {ref string{ ref [] }} (* A client value within the server code *)
+  let _ = My_app.register_service ~path ~get_params
+    (fun value () -&gt;
+      (* Push the GET parameter to the client's history a side effect *)
+      ignore {unit{
+        %value_history_on_client := %value :: ! %value_history_on_client
+      }};
+      Lwt.return html)
+}}
+
+[2]
+{server{
+  let f = server_function Json.t&lt;string&gt;
+    (fun x -&gt; Printf.eprintf "Client says: %s\n%!" x; Lwt.return ())
+}}
+{client{ (* This marks client-side code *)
+  (* %f makes the server's value f, a client-ready server function,
+     available in the client code *)
+  ... %f "hello!" ...
+}}
+</pre><a onclick="switchContent('post4','post3')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
+<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>In
+  my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
+  post</a>, I explained my work on verifying a parser for
+  Compcert. I was mainly explaining the solutions I found to my
+  performances problems. Here, I will discuss an other interesting
+  problem I have, concerning the context sensitivity of the C99
+  grammar.</p>
+
+
+
+<h2>An alternative to the lexer hack</h2>
+
+<p>The &lt;emph&gt;lexer hack&lt;/emph&gt; is the typical solution to the problem
+  of context sensitivity of the C grammar outlined in
+  the <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">previous
+  blog article</a> and explained more in depth
+  in <a href="http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-c%E2%80%99s-grammar-revisited/">this
+  external blog article</a>. It cannot be implemented in our parser,
+  because it uses some side effect in the semantic actions of the
+  grammar in order to give some information to the lexer, and, as you
+  might know, side effects are forbidden in Coq.</p>
+
+<a onclick="switchContent('post5','post6')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post6" style="display: none"><p>In
+  my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
+  post</a>, I explained my work on verifying a parser for
+  Compcert. I was mainly explaining the solutions I found to my
+  performances problems. Here, I will discuss an other interesting
+  problem I have, concerning the context sensitivity of the C99
+  grammar.</p>
+
+
+
+<h2>An alternative to the lexer hack</h2>
+
+<p>The &lt;emph&gt;lexer hack&lt;/emph&gt; is the typical solution to the problem
+  of context sensitivity of the C grammar outlined in
+  the <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">previous
+  blog article</a> and explained more in depth
+  in <a href="http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-c%E2%80%99s-grammar-revisited/">this
+  external blog article</a>. It cannot be implemented in our parser,
+  because it uses some side effect in the semantic actions of the
+  grammar in order to give some information to the lexer, and, as you
+  might know, side effects are forbidden in Coq.</p>
+
+<p>Any Haskell programmer would say that the solution is to use a
+  state monad, but both the semantic actions described in the grammar
+  and the lexer would need to compute in this monad, in order to
+  communicate with each other. Then, it becomes very hard to specify
+  what is a valid semantic value for a token sequence, because one has
+  to specify how the lexer and the parser semantic actions
+  interleaves. This becomes a real nightmare when you allow the parser
+  to ask the lexer for a lookahead token before deciding to call some
+  semantic action...</p>
+
+<p>So it is necessary to find another approach. After some thoughts,
+  I remembered the parsing approach of &lt;emph&gt;mixfix operators&lt;/emph&gt;
+  in the Agda programming language, advertized in Gallium by our own
+  Agda expert <a href="http://nicolaspouillard.fr/">Nicolas
+  Pouillard</a>. Mixfix operators are syntactic constructions that can
+  be created dynamically: this is comparable to
+  the <code>Notation</code> command of Coq. The way they are handled
+  in Agda is described
+  in <a href="http://www.cse.chalmers.se/~nad/publications/danielsson-norell-mixfix.pdf">this
+  paper</a>. Roughly, the parser only analyzes the main structure of
+  the file. The expressions are not analyzed at this point: they are
+  left at the state of list of tokens. At a later stage of processing,
+  an other module uses the extra context information it knows (notably
+  the mixfix operators available) to parse expressions. This new
+  information is obtained from the first parsing phase, which brings
+  enough structure to go on.</p>
+
+<p>Here, the situation is very similar: we need some more context
+  information (whether a given identifier is a type or a variable
+  name) in order to parse expressions and declarations. We can use a
+  similar technique: if the parser is not able to parse those,
+  then it should store them as a list of tokens in the abstract syntax
+  tree. A second pass in then necessary to parse those "chunks"
+  correctly. Recursively, this second pass can delay parsing for
+  smaller chunks, and so on.</p>
+
+<p>Obviously, I have omitted some details here. First, it requires
+  some serious engineering on the C99 grammar in order to separate it
+  into a "safe" part, where the extra information given by the context
+  is not needed, and a "dangerous" part, where the parser needs that
+  the two different flavors of identifiers (type names and variable
+  names) are represented by two different tokens. Second, recognizing
+  the end of these chunks without actually parsing them requires
+  recognizing some patterns, typically like matching parentheses.</p>
+
+<h2>Avoiding polluting the AST with chunks</h2>
+
+<p>Storing chunks in the abstract syntax tree has a major drawback: it
+  requires adding some constructors in its types for those chunks,
+  which do not have any real sense in the language. The solution I use
+  instead is to make all my semantic actions compute in a state
+  monad, which passes the contextual environment information: while
+  parsing, the semantic actions build the syntax tree in the form of
+  a tree of closures. Once something has been parsed, the caller gives
+  the initial environment as a parameter to the head closure, and the
+  environment information propagates along the tree.</p>
+
+<p>When there is a chunk in some node of the AST, the corresponding
+  semantic action first uses the environment information to convert
+  identifier tokens to their right flavor, then recursively parses the
+  chunk, and finally gives the current environment to the returned
+  semantic value, so that it can itself evaluate.</p>
+
+<p>This monad is a bit more complicated than a simple state monad,
+  because it also handles error (nested parsing can fail), and open
+  recursion (the parser has to call itself, when it is not already
+  defined).</p>
+
+<h2>Conclusion</h2>
+
+<p><a href="http://gallium.inria.fr/~scherer/gagallium/Parser.vy.html">Here</a> is a working version of the
+  parser, using those ideas. A bit surprisingly, using all this monad
+  machinery and delaying parsing does not decrease the performances
+  too much. I have still some troubles proving it, and I'm looking
+  forward to ideas to state all the invariants in a not-too-verbose
+  way.</p>
+
+<p>This work is still in progress, so I would be happy if you could
+  give me your comments or ideas. But, in any case, I am now
+  convinced that it is really possible to have a formalization of a
+  parser for the C language, and particularly for the lexer hack. And
+  this is a good thing, because, as its name suggest, the lexer hack
+  is a hack, whose correctness is far from clear.</p>
+
+<p>I have to say that, even if this work of proving a parser for
+  a C compiler is sometimes quite tiresome, it allowed me to learn
+  things in many different domains, from designing powerful automaton
+  tactics in Coq to OCaml code optimization and LR(1)
+  hackery: it's been a very challenging and rewarding experience.</p>
+
+<p>If I wanted to work on that again in the future, there is still
+  many things one would want to prove: does the parser terminates on
+  all inputs? Are we sure it does not ask for a lookahead token after
+  the end of the stream (that could be a problem in interactive
+  languages, because it could block the input)?</p><a onclick="switchContent('post6','post5')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
+<a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+OCaml bytecode to Javascript. This release is compatible with OCaml
+4.x. It adds WebSocket bindings and fixes a number of bugs.
+</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://ocsigen.org/js_of_ocaml/">Project home page</a>
+</li><li><a href="http://ocsigen.org/download/js_of_ocaml-1.3.1.tar.gz">Download</a>
+</li><li>Get source code: <code>darcs get http://ocsigen.org/darcs/js_of_ocaml/</code>
+</li><li><a href="http://ocsigen.org/js_of_ocaml/manual/">Documentation</a>
+</li>
+</ul>
+
+<h2>Changes</h2>
+
+<h3>Features/Changes</h3>
+<ul>
+<li>Runtime and toplevel updates to support OCaml 4.0
+</li><li>Add WebSocket bindings
+</li><li>Added -debuginfo option to output source code location information
+    (patch by Kensuke Matsuzaki)
+</li><li>Dom_html: added change, input and hashChange event bindings
+</li>
+</ul>
+
+<h3>Bugfixes</h3>
+<a onclick="switchContent('post7','post8')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post8" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
+OCaml bytecode to Javascript. This release is compatible with OCaml
+4.x. It adds WebSocket bindings and fixes a number of bugs.
+</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://ocsigen.org/js_of_ocaml/">Project home page</a>
+</li><li><a href="http://ocsigen.org/download/js_of_ocaml-1.3.1.tar.gz">Download</a>
+</li><li>Get source code: <code>darcs get http://ocsigen.org/darcs/js_of_ocaml/</code>
+</li><li><a href="http://ocsigen.org/js_of_ocaml/manual/">Documentation</a>
+</li>
+</ul>
+
+<h2>Changes</h2>
+
+<h3>Features/Changes</h3>
+<ul>
+<li>Runtime and toplevel updates to support OCaml 4.0
+</li><li>Add WebSocket bindings
+</li><li>Added -debuginfo option to output source code location information
+    (patch by Kensuke Matsuzaki)
+</li><li>Dom_html: added change, input and hashChange event bindings
+</li>
+</ul>
+
+<h3>Bugfixes</h3>
+<ul>
+<li>Fix array and string blitting with overlapping regions
+</li><li>Url module: fix encoding of '+'
+</li><li>Library: use 'this' instead of 'window' for better portability
+</li><li>Dom_html: fix creation of elements with type or name attribute
+    under IE 9
+</li><li>Compiler: small fix to bytecode parsing that could result in
+    incorrect generated code
+</li><li>Dom_html: fix mouse wheel event bindings
+</li><li>Dom: fix the type of item methods
+</li><li>Deriving_json: tail-recursive serialisation of lists (by Hugo Heuzard)
+</li><li>Deriving_json: fix parsing of float arrays and polymorphic variants
+    (by Hugo Heuzard)
+</li>
+</ul>
+<p>
+-- Jérôme Vouillon
+</p>
+<p>
+To get more frequent annoucements about Ocsigen, follow us on 
+<a href="https://twitter.com/ocsigen">Twitter</a>,
+<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
+<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
+<script type="text/javascript">function switchContent(id1,id2) {
+     // Get the DOM reference
+     var contentId1 = document.getElementById(id1);
+     var contentId2 = document.getElementById(id2);
+     // Toggle
+     contentId1.style.display = "none";
+     contentId2.style.display = "block";
+     }</script></div>
 
   
     </div>
