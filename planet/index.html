@@ -149,12 +149,57 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="2f9fc6a8ae811c870e3859f2689319a7"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/tptp/"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Dec 2012</span></span><span class="rss-description">Library for parsing FOF and CNF formulas from TPTP format. Depends on: zarith.</span>
+    <div class="planet"><a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+<p><span id="more-1387"></span></p>
+<p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
+<h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
+<p>You would not claim that a real-valued function $f : \mathbb{R} \to \mathbb{R}$ is “the same thing” as its definite integral $\int_{\mathbb{R}} f(x) \, d x$, would you? One is a real function, the other is a real number. Likewise, $\phi$ is a truth &lt;emph&gt;function&lt;/emph&gt; and $\forall x \,.\, \phi(x)$ is a truth &lt;emph&gt;value&lt;/emph&gt;.</p>
+<h3>Reason 2: functions are not their own values</h3>
+<a onclick="switchContent('post1','post2')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Read more...</a></div><div id="post2" style="display: none"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+<p><span id="more-1387"></span></p>
+<p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
+<h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
+<p>You would not claim that a real-valued function $f : \mathbb{R} \to \mathbb{R}$ is “the same thing” as its definite integral $\int_{\mathbb{R}} f(x) \, d x$, would you? One is a real function, the other is a real number. Likewise, $\phi$ is a truth &lt;emph&gt;function&lt;/emph&gt; and $\forall x \,.\, \phi(x)$ is a truth &lt;emph&gt;value&lt;/emph&gt;.</p>
+<h3>Reason 2: functions are not their own values</h3>
+<p>To be quite precise, the expression $\phi$ by itself is not a function, just like the expression $x + \sin x$ is not a function. To make it into a function we must first &lt;emph&gt;abstract&lt;/emph&gt; the variable $x$, which is usually written as $x \mapsto x + \sin x$, or $\lambda x \,.\, x + \sin x$, or <code>fun x -&gt; x +. sin x</code>. In logic we indicate the fact that $\phi$ is a function by putting it in a &lt;emph&gt;context&lt;/emph&gt;, so we write something like $x : \mathbb{R} \vdash \phi$.</p>
+<p>Why is all this nit-picking necessary? Try answering these questions with “yes” and “no” consistently:</p>
+<ol>
+<li>Is $x + \sin x$ a function in variable $x$?</li>
+<li>Is $x + \sin x$ a function in variables $x$ and $y$?</li>
+<li>Is $y – y + x + \sin x$ a function in variables $x$ and $y$?</li>
+<li>Is $x + \sin x = y – y + x + \sin x$?</li>
+</ol>
+<p>A similar sort of mistake happens in algebra where people think that polynomials are functions. They are not. They are elements of a certain freely generated ring.</p>
+<h3>Reason 3: They are not logically equivalent</h3>
+<p>It is absurd to claim that $\phi$ and $\forall x \in \mathbb{R} \,.\, \phi$ are logically equivalent statements. Suppose $\forall x \in \mathbb{R} \,.\, x &gt; 2$ were equivalent to $x &gt; 2$. Then I could replace one by the other in any formula I wish. So I choose the formula $\exists x \in \mathbb{R} \,.\, x &gt; 2$. It must be equivalent to $\exists x \in \mathbb{R} \,.\, \forall x \in \mathbb{R} \,.\, x &gt; 2$, but since $\forall x \in \mathbb{R} \,.\, x &gt; 2$ is false, we get $\exists x \in \mathbb{R} \,.\, \bot$, which is false. We proved that there is no number larger than 2.</p>
+<h3>Reason 4: They are not inter-derivable</h3>
+<p>If you can tell the difference between an implication and logical entailment, perhaps you might try to counter reason 3 by pointing out that $\phi$ and $\forall x \,.\, \phi$ are either both derivable, or both not derivable. That is to say, we can prove one if, and only if, we can prove the other. But again, this is not the case. We can prove $\forall x \in \emptyset \,.\, \bot$ but we cannot prove $\bot$.</p>
+<h3>Reason 5: Bound variables can be renamed but free variables cannot</h3>
+<p>The formula $x &gt; 2$ is obviously not the same thing as the formula $y &gt; 2$. But the formula $\forall x \in \mathbb{R} . x &gt; 2$ is actually the same as $\forall y \in \mathbb{R} . y &gt; 2$. If you find this confusing it is because you were never taught properly how to handle <a href="http://en.wikipedia.org/wiki/Free_variables_and_bound_variables">free and bound variables</a>.</p>
+<h3>Reason 6: You cannot prove $\forall x \,.\, \phi$ without allowing $x$ to become free</h3>
+<p>Perhaps we can just forbid free variables altogether and &lt;emph&gt;stipulate&lt;/emph&gt; that all variables must always be quantified. But how are you then going to prove $\forall x \in \mathbb{R} \,.\, \phi$? The usual way</p>
+<blockquote><p>
+“Consider any $x \in \mathbb{R}$. Then bla bla bla, therefore $\phi$.”
+</p></blockquote>
+<p>is now forbidden because the first sentence introduces $x$ as a free variable.</p>
+<p>We can abolish variables altogether if we wish, by resorting to combinators, but it makes no sense to keep variables and make them all bound all the time.</p>
+<h3>Epilogue: so in what sense are they the same?</h3>
+<p>There is a theorem in model theory:</p>
+<blockquote><p>
+Let $\phi$ be a formula in context $x_1, \ldots, x_n$ and $M$ a structure in which we can interpret $\phi$. The following are equivalent:</p>
+<ol>
+<li>the universal closure $\forall x_1, \ldots, x_n \,.\, \phi$ is valid in $M$,</li>
+<li>for every valuation $\nu : \lbrace x_1, \ldots, x_n \rbrace \to M$, $\phi[\nu]$ is valid in $M$.</li>
+</ol>
+</blockquote>
+<p>This is sometimes abbreviated (quite inaccurately) as “a formula and its universal closure are semantically equivalent”. This theorem is causing a lot of harm because mathematicians interpret it as “free variables are implicitly universally bound”. But the theorem itself clearly distinguishes a formula from its universal closure. It has a limited range of applications in model theory. It is not a general reasoning principle that would allow you to dispose of thinking about free variables.</p>
+<p>You are in good company. Philosophers have thought about free variables for millennia, although they phrase the problem in the language of <a href="http://en.wikipedia.org/wiki/Universal_(metaphysics)">universals</a> and <a href="http://en.wikipedia.org/wiki/Particular">particulars</a>. They wonder whether “dog” is the same thing as the set of all dogs, or perhaps there is an ideal dog which is “pure dogness”, but then do we need two ideal dogs to make ideal pups, etc. The answer is simple: a free variable is a projection from a cartesian product.</p><a onclick="switchContent('post2','post1')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Hide</a></div></span>
+<a name="2f9fc6a8ae811c870e3859f2689319a7"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/tptp/"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Dec 2012</span></span><span class="rss-description">Library for parsing FOF and CNF formulas from TPTP format. Depends on: zarith.</span>
 <a name="7848ce5e403469fa5a3757e71a0f8191"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=817"> Xtmpl 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Xtmpl is a small XML templating library for OCaml.</span>
 <a name="7ff089ca4b443c810138d4a7c8e8b486"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=818"> Stog 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Stog is a kind of Jekyll in OCaml: It is a static web site generator, able to handle blog posts as well as regular pages.</span>
 <a name="3aeebe7a5873af158331e6566e6c7b25"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/cryptodbm/"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">Library for creating and reading encrypted databases (serverless, encrypted key-value databases).</span>
 <a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
-<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>This is a call to arms: to improve the OCaml compiler, we
+<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>This is a call to arms: to improve the OCaml compiler, we
 sorely need a suite of representative benchmarks. If you have ever
 written performance-sensitive programs in OCaml, you can
 contribute.</p>
@@ -177,7 +222,7 @@ programs run fast. But it doesn't actually optimize in clever way:
 efficient code will give an efficient program, but little is done to
 make inefficient code efficient.</p>
 
-<a onclick="switchContent('post1','post2')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post2" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
+<a onclick="switchContent('post3','post4')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post4" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
 sorely need a suite of representative benchmarks. If you have ever
 written performance-sensitive programs in OCaml, you can
 contribute.</p>
@@ -356,9 +401,9 @@ extracted or inspired from. The changes must be comparable in
 magnitude: if a 80% performance change (improvement or degradation) in
 the benchmark code results in a 0.5% performance change in the actual
 software, it's difficult to rely on benchmark results to make design
-compromises.</p><a onclick="switchContent('post2','post1')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
+compromises.</p><a onclick="switchContent('post4','post3')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
 <a name="a0653bd809a506d026a0c34a935de78d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.11.html"> Caml Weekly News, 11 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">otags reloaded 4.00.1 for OCaml 4.00 / ocaml.org infrastructure list available / Js_of_ocaml 1.3 / GODI imports OASIS / Documenting the compiler / Ocsigen: Eliom 3 / Creating fresh OPAM repository / Other Caml News</span>
-<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>
+<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>
 we are celebrating Ada's birthday by bringing out a major update of
 Eliom - the advanced framework for client/server web applications in
 OCaml - and some minor updates for Ocsigenserver and Tyxml.
@@ -391,7 +436,7 @@ The manual, a cheat-sheet, a comprehensive tutorial, and the
 API-documentation of the various Ocsigen projects are available on
 <a href="http://ocsigen.org">http://ocsigen.org</a>.
 </p>
-<a onclick="switchContent('post3','post4')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post4" style="display: none"><p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post6" style="display: none"><p>
 we are celebrating Ada's birthday by bringing out a major update of
 Eliom - the advanced framework for client/server web applications in
 OCaml - and some minor updates for Ocsigenserver and Tyxml.
@@ -476,8 +521,8 @@ Enjoy!
      available in the client code *)
   ... %f "hello!" ...
 }}
-</pre><a onclick="switchContent('post4','post3')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
-<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>In
+</pre><a onclick="switchContent('post6','post5')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
+<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>In
   my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
   post</a>, I explained my work on verifying a parser for
   Compcert. I was mainly explaining the solutions I found to my
@@ -499,7 +544,7 @@ Enjoy!
   grammar in order to give some information to the lexer, and, as you
   might know, side effects are forbidden in Coq.</p>
 
-<a onclick="switchContent('post5','post6')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post6" style="display: none"><p>In
+<a onclick="switchContent('post7','post8')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post8" style="display: none"><p>In
   my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
   post</a>, I explained my work on verifying a parser for
   Compcert. I was mainly explaining the solutions I found to my
@@ -615,86 +660,7 @@ Enjoy!
   many things one would want to prove: does the parser terminates on
   all inputs? Are we sure it does not ask for a lookahead token after
   the end of the stream (that could be a problem in interactive
-  languages, because it could block the input)?</p><a onclick="switchContent('post6','post5')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
-<a name="3736a0b8afed70ff31acacf3b9c5fa8e"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Js_of_ocaml 1.3 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">06 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
-OCaml bytecode to Javascript. This release is compatible with OCaml
-4.x. It adds WebSocket bindings and fixes a number of bugs.
-</p>
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="http://ocsigen.org/js_of_ocaml/">Project home page</a>
-</li><li><a href="http://ocsigen.org/download/js_of_ocaml-1.3.1.tar.gz">Download</a>
-</li><li>Get source code: <code>darcs get http://ocsigen.org/darcs/js_of_ocaml/</code>
-</li><li><a href="http://ocsigen.org/js_of_ocaml/manual/">Documentation</a>
-</li>
-</ul>
-
-<h2>Changes</h2>
-
-<h3>Features/Changes</h3>
-<ul>
-<li>Runtime and toplevel updates to support OCaml 4.0
-</li><li>Add WebSocket bindings
-</li><li>Added -debuginfo option to output source code location information
-    (patch by Kensuke Matsuzaki)
-</li><li>Dom_html: added change, input and hashChange event bindings
-</li>
-</ul>
-
-<h3>Bugfixes</h3>
-<a onclick="switchContent('post7','post8')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Read more...</a></div><div id="post8" style="display: none"><p>I'm happy to announce release 1.3 of Js_of_ocaml, a compiler from
-OCaml bytecode to Javascript. This release is compatible with OCaml
-4.x. It adds WebSocket bindings and fixes a number of bugs.
-</p>
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="http://ocsigen.org/js_of_ocaml/">Project home page</a>
-</li><li><a href="http://ocsigen.org/download/js_of_ocaml-1.3.1.tar.gz">Download</a>
-</li><li>Get source code: <code>darcs get http://ocsigen.org/darcs/js_of_ocaml/</code>
-</li><li><a href="http://ocsigen.org/js_of_ocaml/manual/">Documentation</a>
-</li>
-</ul>
-
-<h2>Changes</h2>
-
-<h3>Features/Changes</h3>
-<ul>
-<li>Runtime and toplevel updates to support OCaml 4.0
-</li><li>Add WebSocket bindings
-</li><li>Added -debuginfo option to output source code location information
-    (patch by Kensuke Matsuzaki)
-</li><li>Dom_html: added change, input and hashChange event bindings
-</li>
-</ul>
-
-<h3>Bugfixes</h3>
-<ul>
-<li>Fix array and string blitting with overlapping regions
-</li><li>Url module: fix encoding of '+'
-</li><li>Library: use 'this' instead of 'window' for better portability
-</li><li>Dom_html: fix creation of elements with type or name attribute
-    under IE 9
-</li><li>Compiler: small fix to bytecode parsing that could result in
-    incorrect generated code
-</li><li>Dom_html: fix mouse wheel event bindings
-</li><li>Dom: fix the type of item methods
-</li><li>Deriving_json: tail-recursive serialisation of lists (by Hugo Heuzard)
-</li><li>Deriving_json: fix parsing of float arrays and polymorphic variants
-    (by Hugo Heuzard)
-</li>
-</ul>
-<p>
--- Jérôme Vouillon
-</p>
-<p>
-To get more frequent annoucements about Ocsigen, follow us on 
-<a href="https://twitter.com/ocsigen">Twitter</a>,
-<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google+</a>, or
-<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#3736a0b8afed70ff31acacf3b9c5fa8e">Hide</a></div></span>
+  languages, because it could block the input)?</p><a onclick="switchContent('post8','post7')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
