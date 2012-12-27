@@ -149,7 +149,11 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+    <div class="planet"><a name="442a8cf9808ce87d6f90546225bcb702"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=867"> Macaque 0.6.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">26 Dec 2012</span></span><span class="rss-description"><pre class="rss-text">This is mostly a bugfix release: Jacques-Pascal Deplaix has spotted a bug in the way Macaque handles PostgreSQL rather baroque string escaping convention (you don't want to know the details), and after some head scratching we have a reasonable fix.
+
+In addition, Petter Urkedal has contributed support for the 'bytea' and 'int32_array' datatypes; for now, there is no literal syntax to describe them in the syntax extension, so one should build values on the OCaml side, through Sql.Value.bytea and Sql.Value.int32_array.</pre></span>
+<a name="e6c5dd3a656929c1664b08fc37901245"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.25.html"> Caml Weekly News, 25 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description">new ocaml.org website / OCaml wiki / OCaml search into libraries for ocaml.org / Post-doc/Software Engineer at OCamlPro / Other Caml News</span>
+<a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
 <p><span id="more-1387"></span></p>
 <p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
 <h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
@@ -402,7 +406,6 @@ magnitude: if a 80% performance change (improvement or degradation) in
 the benchmark code results in a 0.5% performance change in the actual
 software, it's difficult to rely on benchmark results to make design
 compromises.</p><a onclick="switchContent('post4','post3')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
-<a name="a0653bd809a506d026a0c34a935de78d"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.11.html"> Caml Weekly News, 11 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">11 Dec 2012</span></span><span class="rss-description">otags reloaded 4.00.1 for OCaml 4.00 / ocaml.org infrastructure list available / Js_of_ocaml 1.3 / GODI imports OASIS / Documenting the compiler / Ocsigen: Eliom 3 / Creating fresh OPAM repository / Other Caml News</span>
 <a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>
 we are celebrating Ada's birthday by bringing out a major update of
 Eliom - the advanced framework for client/server web applications in
@@ -522,145 +525,6 @@ Enjoy!
   ... %f "hello!" ...
 }}
 </pre><a onclick="switchContent('post6','post5')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
-<a name="e93970411baf98fb039a1ccbbf0b5954"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler-2"> Verifying a parser for a C compiler (continued)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Dec 2012</span></span><span class="rss-description"><div id="post7"><p>In
-  my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
-  post</a>, I explained my work on verifying a parser for
-  Compcert. I was mainly explaining the solutions I found to my
-  performances problems. Here, I will discuss an other interesting
-  problem I have, concerning the context sensitivity of the C99
-  grammar.</p>
-
-
-
-<h2>An alternative to the lexer hack</h2>
-
-<p>The &lt;emph&gt;lexer hack&lt;/emph&gt; is the typical solution to the problem
-  of context sensitivity of the C grammar outlined in
-  the <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">previous
-  blog article</a> and explained more in depth
-  in <a href="http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-c%E2%80%99s-grammar-revisited/">this
-  external blog article</a>. It cannot be implemented in our parser,
-  because it uses some side effect in the semantic actions of the
-  grammar in order to give some information to the lexer, and, as you
-  might know, side effects are forbidden in Coq.</p>
-
-<a onclick="switchContent('post7','post8')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Read more...</a></div><div id="post8" style="display: none"><p>In
-  my <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">last
-  post</a>, I explained my work on verifying a parser for
-  Compcert. I was mainly explaining the solutions I found to my
-  performances problems. Here, I will discuss an other interesting
-  problem I have, concerning the context sensitivity of the C99
-  grammar.</p>
-
-
-
-<h2>An alternative to the lexer hack</h2>
-
-<p>The &lt;emph&gt;lexer hack&lt;/emph&gt; is the typical solution to the problem
-  of context sensitivity of the C grammar outlined in
-  the <a href="http://gallium.inria.fr/~scherer/gagallium/verifying-a-parser-for-a-c-compiler/">previous
-  blog article</a> and explained more in depth
-  in <a href="http://eli.thegreenplace.net/2011/05/02/the-context-sensitivity-of-c%E2%80%99s-grammar-revisited/">this
-  external blog article</a>. It cannot be implemented in our parser,
-  because it uses some side effect in the semantic actions of the
-  grammar in order to give some information to the lexer, and, as you
-  might know, side effects are forbidden in Coq.</p>
-
-<p>Any Haskell programmer would say that the solution is to use a
-  state monad, but both the semantic actions described in the grammar
-  and the lexer would need to compute in this monad, in order to
-  communicate with each other. Then, it becomes very hard to specify
-  what is a valid semantic value for a token sequence, because one has
-  to specify how the lexer and the parser semantic actions
-  interleaves. This becomes a real nightmare when you allow the parser
-  to ask the lexer for a lookahead token before deciding to call some
-  semantic action...</p>
-
-<p>So it is necessary to find another approach. After some thoughts,
-  I remembered the parsing approach of &lt;emph&gt;mixfix operators&lt;/emph&gt;
-  in the Agda programming language, advertized in Gallium by our own
-  Agda expert <a href="http://nicolaspouillard.fr/">Nicolas
-  Pouillard</a>. Mixfix operators are syntactic constructions that can
-  be created dynamically: this is comparable to
-  the <code>Notation</code> command of Coq. The way they are handled
-  in Agda is described
-  in <a href="http://www.cse.chalmers.se/~nad/publications/danielsson-norell-mixfix.pdf">this
-  paper</a>. Roughly, the parser only analyzes the main structure of
-  the file. The expressions are not analyzed at this point: they are
-  left at the state of list of tokens. At a later stage of processing,
-  an other module uses the extra context information it knows (notably
-  the mixfix operators available) to parse expressions. This new
-  information is obtained from the first parsing phase, which brings
-  enough structure to go on.</p>
-
-<p>Here, the situation is very similar: we need some more context
-  information (whether a given identifier is a type or a variable
-  name) in order to parse expressions and declarations. We can use a
-  similar technique: if the parser is not able to parse those,
-  then it should store them as a list of tokens in the abstract syntax
-  tree. A second pass in then necessary to parse those "chunks"
-  correctly. Recursively, this second pass can delay parsing for
-  smaller chunks, and so on.</p>
-
-<p>Obviously, I have omitted some details here. First, it requires
-  some serious engineering on the C99 grammar in order to separate it
-  into a "safe" part, where the extra information given by the context
-  is not needed, and a "dangerous" part, where the parser needs that
-  the two different flavors of identifiers (type names and variable
-  names) are represented by two different tokens. Second, recognizing
-  the end of these chunks without actually parsing them requires
-  recognizing some patterns, typically like matching parentheses.</p>
-
-<h2>Avoiding polluting the AST with chunks</h2>
-
-<p>Storing chunks in the abstract syntax tree has a major drawback: it
-  requires adding some constructors in its types for those chunks,
-  which do not have any real sense in the language. The solution I use
-  instead is to make all my semantic actions compute in a state
-  monad, which passes the contextual environment information: while
-  parsing, the semantic actions build the syntax tree in the form of
-  a tree of closures. Once something has been parsed, the caller gives
-  the initial environment as a parameter to the head closure, and the
-  environment information propagates along the tree.</p>
-
-<p>When there is a chunk in some node of the AST, the corresponding
-  semantic action first uses the environment information to convert
-  identifier tokens to their right flavor, then recursively parses the
-  chunk, and finally gives the current environment to the returned
-  semantic value, so that it can itself evaluate.</p>
-
-<p>This monad is a bit more complicated than a simple state monad,
-  because it also handles error (nested parsing can fail), and open
-  recursion (the parser has to call itself, when it is not already
-  defined).</p>
-
-<h2>Conclusion</h2>
-
-<p><a href="http://gallium.inria.fr/~scherer/gagallium/Parser.vy.html">Here</a> is a working version of the
-  parser, using those ideas. A bit surprisingly, using all this monad
-  machinery and delaying parsing does not decrease the performances
-  too much. I have still some troubles proving it, and I'm looking
-  forward to ideas to state all the invariants in a not-too-verbose
-  way.</p>
-
-<p>This work is still in progress, so I would be happy if you could
-  give me your comments or ideas. But, in any case, I am now
-  convinced that it is really possible to have a formalization of a
-  parser for the C language, and particularly for the lexer hack. And
-  this is a good thing, because, as its name suggest, the lexer hack
-  is a hack, whose correctness is far from clear.</p>
-
-<p>I have to say that, even if this work of proving a parser for
-  a C compiler is sometimes quite tiresome, it allowed me to learn
-  things in many different domains, from designing powerful automaton
-  tactics in Coq to OCaml code optimization and LR(1)
-  hackery: it's been a very challenging and rewarding experience.</p>
-
-<p>If I wanted to work on that again in the future, there is still
-  many things one would want to prove: does the parser terminates on
-  all inputs? Are we sure it does not ask for a lookahead token after
-  the end of the stream (that could be a problem in interactive
-  languages, because it could block the input)?</p><a onclick="switchContent('post8','post7')" class="btn" href="#e93970411baf98fb039a1ccbbf0b5954">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
