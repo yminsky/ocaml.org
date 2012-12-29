@@ -149,17 +149,290 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="442a8cf9808ce87d6f90546225bcb702"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=867"> Macaque 0.6.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">26 Dec 2012</span></span><span class="rss-description"><pre class="rss-text">This is mostly a bugfix release: Jacques-Pascal Deplaix has spotted a bug in the way Macaque handles PostgreSQL rather baroque string escaping convention (you don't want to know the details), and after some head scratching we have a reasonable fix.
+    <div class="planet"><a name="c2fcb8b4aa00ad4abb174274b6a1d45f"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/singleton-types-for-code-inference"> Singleton types for code inference</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">29 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Could the compiler <em>guess</em> a part of the program I am
+currently writing? It's impossible in general, but it may be possible,
+and hopefully interesting, in special cases. For a start, I am
+interested in a situation where there is <em>only one possibility</em>: at
+the expected type, there is only one possible program -- modulo
+(an approximation of) program equivalence.</p>
+
+<p>In a fixed environment, a type is a <em>singleton type</em> if it has only
+one inhabitant. How widespread are those? Would a language feature to
+infer their inhabitants be useful? Can we have more interesting
+singleton types by enriching the type system?</p>
+
+<p>Don't expect a structured story with a happy ending: this is only
+a writing-ideas-down session for something I have been thinking about
+lately.</p>
+
+
+
+
+<h2>From erasable coercions to singleton types</h2>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#c2fcb8b4aa00ad4abb174274b6a1d45f">Read more...</a></div><div id="post2" style="display: none"><p>Could the compiler <em>guess</em> a part of the program I am
+currently writing? It's impossible in general, but it may be possible,
+and hopefully interesting, in special cases. For a start, I am
+interested in a situation where there is <em>only one possibility</em>: at
+the expected type, there is only one possible program -- modulo
+(an approximation of) program equivalence.</p>
+
+<p>In a fixed environment, a type is a <em>singleton type</em> if it has only
+one inhabitant. How widespread are those? Would a language feature to
+infer their inhabitants be useful? Can we have more interesting
+singleton types by enriching the type system?</p>
+
+<p>Don't expect a structured story with a happy ending: this is only
+a writing-ideas-down session for something I have been thinking about
+lately.</p>
+
+
+
+
+<h2>From erasable coercions to singleton types</h2>
+
+<p>I started to think about this kind of singleton types seriously when
+discussing with one of our fellow students at Gallium, <a href="http://gallium.inria.fr/~jcretin/">Julien
+Cretin</a>. Julien has been working on
+coercions for long enough that, if you listen to him, basically
+anything in a type system is a coercion in disguise. But for the most
+part he has worked on <em>erasable coercions</em>, that are terms from a type
+<code>A</code> to a type <code>B</code> that are just the identity function (once you erase
+the type annotations that make them useful).</p>
+
+<p>One example in System F is the coercion</p>
+
+<pre><code>λ(f:A→∀α.B). Λα.λ(x:A). f x α
+</code></pre>
+
+<p>from <code>A→∀α.B</code> to <code>∀α.(A→B)</code>. Note that if you erase all the type
+annotations (including type abstractions and applications), this
+becomes just <code>λfλx. f x</code>, which is an η-expansion of the identity
+function. Those identities are "erasable" in the sense that, after the
+type-checking phase, you can just drop them from your program and you
+will never notice: they do not affect the runtime semantics of the
+program.</p>
+
+<p>Erasable coercions are fairly interesting as a way to structure and
+explain type systems. For example, they allow to understand various
+variants of System F (System Fη, Fsub, and MLF) as instances of
+a general version of System F enhanced with abstraction on coercions,
+whose formal study is surprisingly challenging. You can learn about
+this in <a href="http://gallium.inria.fr/~remy/coercions/Cretin-Remy:coercions@popl2012.pdf">Julien's 2012 paper with Didier
+Rémy</a>
+(<a href="http://hal.inria.fr/docs/00/60/85/66/PDF/full.pdf">long version</a>).</p>
+
+<p>But what would be a notion of <em>non-erasable</em> coercion? My suggestion
+was to consider terms that may not exactly be the identity, but that
+are unique at their type. This is actually a fairly different concept:
+some coercions (for example <code>int → int</code>) are not unique in their
+types, and some unique inhabitants (for example in <code>∀αβ.(α*β)→(β*α)</code>)
+have a runtime behavior that is fairly different from the identity.</p>
+
+<h2>Singleton types in practice</h2>
+
+<p>As a thought experiment, imagine adding the keyword <code>?</code> in the
+syntactic class of expressions of your programming language. The
+semantics of <code>?</code> is as follows: at typing time, it can take absolutely
+any type and will never raise a type error. After the program has been
+verified to be type-correct, we look at each occurrence of <code>?</code> and its
+inferred type. If the type is a singleton (assume we know how to
+check this), we replace <code>?</code> with the unique inhabitant, otherwise we
+fail with an error.</p>
+
+<p>That's an inference-centered point of view. In languages with less
+robust type inference than ML languages, we could have a more robust
+feature with a construction <code>(? : σ)</code> that is given a precise type,
+which should later turn out to be a singleton. A simple <code>?</code> is then
+explained as <code>(? : _)</code>, where <code>_</code> means "infer me" at the type level.</p>
+
+<p>Consider for example those lines of OCaml or Haskell code found in
+the wild (in fact in the OCaml type-checker and in GHC):</p>
+
+<pre><code>(List.map (fun (name, smty, smodl) -&gt; (name, smty))
+
+zipWith3M f xs ys zs =
+  zipWithM (\x -&gt; \(y,z) -&gt; (f x y z)) xs (zip ys zs)
+</code></pre>
+
+<p>The functions passed to <code>List.map</code> and <code>zipWithM</code> here are the
+typical kind of boilerplate that is boring to write. Provided that
+"the types are distinct enough", they are also singleton types: <code>fun
+(x,y,z) -&gt; (x,y)</code> is a singleton type as long as the types for <code>x</code>,
+<code>y</code> and <code>z</code> are distinct (in this example I checked and they are),
+likewise in the second example. Wouldn't it be nice to be able to write:</p>
+
+<pre><code>(List.map ?)
+
+zipWith3M f xs ys ys = zipWithM (? f) xs (zip ys zs)
+</code></pre>
+
+<p>The hope is that some of the case where you think "This is dumb,
+I should not have to write it" may turn out to be, when looking at
+them the right way, inferrable through singleton types.</p>
+
+<h2>Singleton types precisely</h2>
+
+<p>What does it mean for a type to be a singleton type? We have to make
+a choice on four aspects:</p>
+
+<ul>
+<li><p>The type system we consider (the static semantics). Are we looking
+for singleton types in ML, in System F, in a dependently typed
+calculus? All those choices have merit, but for the purpose of the
+demonstration I will mostly use examples in System F.</p></li>
+<li><p>The language of the terms we infer (the dynamic semantics). If we
+consider the full term language of OCaml (or Haskell) as the space
+of our search, no interesting type is a singleton because of
+non-terminating terms inhabiting any type. We want to restrict
+ourselves to a pure (including total) lambda-calculus. For a start,
+just the obvious explicitly typed thing with variables, lambdas and
+applications will be fine.</p></li>
+<li><p>Our notion of program equivalence: if we consider <code>t</code> and <code>(λx.x) t</code>
+as two different programs, we will have trouble finding unique
+inhabitants. On the other end, observational equivalence is often
+undecidable for realistic languages, so we may have to pick
+reasonable restrictions. I will just imagine I can perfectly decide
+observational equivalence for now.</p></li>
+<li><p>The typing context where inhabitants live: I am asking whether a type
+<code>σ</code> has a unique inhabitant <code>t : σ</code>. To consider this properly
+I need to pick a typing context <code>Γ</code> and ask about <code>Γ ⊢ ? : σ</code>. We
+could imagine giving the user some freedom to specify the context in
+which the search should take place. A good starting choice is to
+consider the super-empty context: a context with no variables, but
+also <em>no constants</em>: forget about <code>0, 1, 2, true, false</code>, etc., to
+get even more singleton types (<code>bool → int → bool</code>,
+for example). Other reasonable choices include the empty context
+with constants, the current context of the program, or a restriction
+of the current context with only the variables that have been marked
+"implicit" of sorts.</p></li>
+</ul>
+
+<p>The restriction to an empty context is why I wrote <code>(? f)</code> in the
+previous example:</p>
+
+<pre><code>zipWithM3 f xs ys zs = zipWithM (? f) xs (zip ys zs)
+</code></pre>
+
+<p>If I just write <code>zipWithM ? xs ..</code>, this tries to infer code at the
+type <code>(a → (b, c) → m d)</code>, which is not inhabited in an empty
+context. On the contrary, the <code>?</code> in <code>(? f)</code> has type
+<code>(a → b → c → m d) → (a → (b, c) → m d)</code>, which is a singleton
+type. This shows that this construct can actually be used for
+<em>partial</em> term inference, just add the hints as parameters to
+<code>?</code>. (Another possibility would be to add syntax to specify
+a context by hand, eg. <code>(f,g |- ? : σ)</code>.)</p>
+
+<p>Similarly, it can also be used for plumbing: if you cannot remember
+which of <code>x</code> or <code>y</code> comes first as a parameter to <code>f</code>, and they have
+different types, <code>(? f x y)</code> can do the job. (If they don't have
+different types there is a potential for non-statically-catchable
+error and that's bad. OCaml's <a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual006.html#toc35">labeled
+arguments</a>
+are very nice when used to fight this, but it's orthogonal to the
+present considerations.)</p>
+
+<h2>Related Work</h2>
+
+<p>I know of surprisingly little work on the topic of "code inference"
+(looking for this search string on Google Scholar for example brings
+up very little hits), and would welcome pertinent pointers. There is
+a paper at PLDI last year, <a href="http://research.microsoft.com/en-us/um/people/sumitg/pubs/pldi12.pdf">Type-Directed Completion of Partial
+Expressions</a>
+by Daniel Perelman, Sumit Gulwani, Thomas Ball and Dan Grossman, but
+it is much more practically oriented: "let's look for completions
+using typing hints and see how often we were right in ranking highly
+a suggestion to the user". In the limit, you get something fuzzy and
+interactive and machine-learning-based, where type-correctness is just
+one ranking criterion among others, as you can find in <a href="http://research.microsoft.com/en-us/people/smcdirm/">Sean
+McDirmid</a>'s work
+on touch-based programming or calls to <a href="http://www.cs.rutgers.edu/~ccshan/rational/pcr.pdf">Programming as collaborative
+reference</a>, but
+that is not where I want to go now. The idea here more to study the
+mathematical structure of singleton types, which is quite a different
+subject.</p>
+
+<p>Of course, "singleton types" is just a special case: it could also be
+interesting for code inference to determine which types have only two
+inhabitants; the compiler then wouldn't choose automatically
+(that would break principality) but instead give the choice to the
+user. Joe B. Wells has a paper with Boris Yakobowski (which is,
+incidentally, a former <a href="http://gallium.inria.fr/~yakobows/">Gallium PhD
+student</a>), <a href="http://www.macs.hw.ac.uk/~jbw/papers/#Wel+Yak:LOPSTR-2004-informal">Graph-based proof
+counting and enumeration with applications for program fragment
+synthesis</a>,
+that does exactly this: count the number of inhabitants of types in an
+intuitionistic type theory, and devise a term enumeration algorithm
+out of it. It is the most pertinent previous work that I know of, and
+was done with program synthesis in mind.</p>
+
+<h2>Singleton types and programming experience</h2>
+
+<p>I've mentioned that singleton types is only one specific case in the
+wider setting of "please find me the inhabitants of this
+type". I think however that focusing on singleton types is maybe not
+as ad-hoc at is looks like: if a type has a finite number of
+inhabitants, it can probably be decomposed as a sum of singleton
+types. Maybe we could tell to the user of our <code>?</code> construction that
+"you're not a singleton yet, you have to make a choice between this
+type and this type", and let him add just enough information to
+determine which situation she's interested in. That would be
+potentially even more useful than enumerating the full terms and
+letting the user choose one, as <code>?</code> may be more robust in the face of
+code maintenance than system-spewed boilerplate.</p>
+
+<p>More robust, or more fragile: being a singleton is not stable by
+instantiation. The type <code>∀αβ. α*β → β*α</code> is a singleton, but
+instantiating <code>α:=int, β:=int</code> breaks this property. (Note that it
+is interesting in practice only if the type is inferred,
+because it is just as long as the term.). People are
+surprised/dismayed by this aspect when I give them examples of
+singleton types, but I think it's fine: we are checking singletons
+<em>after</em> type inference, where type abstractions and applications
+have been fully determined. Yet I don't know how robust those <code>?</code>
+would be in practice. I think the idea of doing all this <em>after</em>
+type inference is a sane protection: I have this intuition that we
+probably don't want a system that tries to infer <em>simultaneously</em>
+the types of some part of our program, and the terms of another.</p>
+
+<p>Note that it is possible to see the work on type classes as a specific
+instance of the idea of singleton types. Using an operation of a type
+class would add a <code>?</code> to synthesize the expected dictionary. Instance
+declarations are function declarations (instance dependencies being
+function arrows) that populate the context of search. The coherence
+relations that reduce ambiguities in Haskell are a way to ensure
+unicity of inhabitants. Finally, inference of class predicates
+(the way <code>Eq a =&gt;</code> gets added to an inferred function type if you use
+<code>(==)</code> inside the body of the function) is a way to ensure that there
+is always an inhabitant.</p>
+
+<p>This is not a realization of the highest importance, because it
+actually tells us little new about type classes; singletons are
+a rather general way to look at everything that involves some form of
+"guessing code" that is a bit principled (and doesn't just produce
+code at random); this recasting should work for other features that
+can be expressed as code inference. It tells us, however, that some
+particular forms in the design space for putting singleton types in
+practice have already found themselves useful enough for
+programmers. I think that justifies looking at the concept at a wide
+angle.</p>
+
+<h2>A temporary ending -- or delay</h2>
+
+<p>This post is getting quite long, so I'll temporarily conclude
+here. Stay tuned for another blog post with even more ramblings about
+singleton types !</p><a onclick="switchContent('post2','post1')" class="btn" href="#c2fcb8b4aa00ad4abb174274b6a1d45f">Hide</a></div></span>
+<a name="442a8cf9808ce87d6f90546225bcb702"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=867"> Macaque 0.6.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">26 Dec 2012</span></span><span class="rss-description"><pre class="rss-text">This is mostly a bugfix release: Jacques-Pascal Deplaix has spotted a bug in the way Macaque handles PostgreSQL rather baroque string escaping convention (you don't want to know the details), and after some head scratching we have a reasonable fix.
 
 In addition, Petter Urkedal has contributed support for the 'bytea' and 'int32_array' datatypes; for now, there is no literal syntax to describe them in the syntax extension, so one should build values on the OCaml side, through Sql.Value.bytea and Sql.Value.int32_array.</pre></span>
 <a name="e6c5dd3a656929c1664b08fc37901245"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.25.html"> Caml Weekly News, 25 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description">new ocaml.org website / OCaml wiki / OCaml search into libraries for ocaml.org / Post-doc/Software Engineer at OCamlPro / Other Caml News</span>
-<a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+<a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
 <p><span id="more-1387"></span></p>
 <p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
 <h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
 <p>You would not claim that a real-valued function $f : \mathbb{R} \to \mathbb{R}$ is “the same thing” as its definite integral $\int_{\mathbb{R}} f(x) \, d x$, would you? One is a real function, the other is a real number. Likewise, $\phi$ is a truth &lt;emph&gt;function&lt;/emph&gt; and $\forall x \,.\, \phi(x)$ is a truth &lt;emph&gt;value&lt;/emph&gt;.</p>
 <h3>Reason 2: functions are not their own values</h3>
-<a onclick="switchContent('post1','post2')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Read more...</a></div><div id="post2" style="display: none"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Read more...</a></div><div id="post4" style="display: none"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
 <p><span id="more-1387"></span></p>
 <p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
 <h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
@@ -197,13 +470,13 @@ Let $\phi$ be a formula in context $x_1, \ldots, x_n$ and $M$ a structure in whi
 </ol>
 </blockquote>
 <p>This is sometimes abbreviated (quite inaccurately) as “a formula and its universal closure are semantically equivalent”. This theorem is causing a lot of harm because mathematicians interpret it as “free variables are implicitly universally bound”. But the theorem itself clearly distinguishes a formula from its universal closure. It has a limited range of applications in model theory. It is not a general reasoning principle that would allow you to dispose of thinking about free variables.</p>
-<p>You are in good company. Philosophers have thought about free variables for millennia, although they phrase the problem in the language of <a href="http://en.wikipedia.org/wiki/Universal_(metaphysics)">universals</a> and <a href="http://en.wikipedia.org/wiki/Particular">particulars</a>. They wonder whether “dog” is the same thing as the set of all dogs, or perhaps there is an ideal dog which is “pure dogness”, but then do we need two ideal dogs to make ideal pups, etc. The answer is simple: a free variable is a projection from a cartesian product.</p><a onclick="switchContent('post2','post1')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Hide</a></div></span>
+<p>You are in good company. Philosophers have thought about free variables for millennia, although they phrase the problem in the language of <a href="http://en.wikipedia.org/wiki/Universal_(metaphysics)">universals</a> and <a href="http://en.wikipedia.org/wiki/Particular">particulars</a>. They wonder whether “dog” is the same thing as the set of all dogs, or perhaps there is an ideal dog which is “pure dogness”, but then do we need two ideal dogs to make ideal pups, etc. The answer is simple: a free variable is a projection from a cartesian product.</p><a onclick="switchContent('post4','post3')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Hide</a></div></span>
 <a name="2f9fc6a8ae811c870e3859f2689319a7"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/tptp/"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Dec 2012</span></span><span class="rss-description">Library for parsing FOF and CNF formulas from TPTP format. Depends on: zarith.</span>
 <a name="7848ce5e403469fa5a3757e71a0f8191"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=817"> Xtmpl 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Xtmpl is a small XML templating library for OCaml.</span>
 <a name="7ff089ca4b443c810138d4a7c8e8b486"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=818"> Stog 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Stog is a kind of Jekyll in OCaml: It is a static web site generator, able to handle blog posts as well as regular pages.</span>
 <a name="3aeebe7a5873af158331e6566e6c7b25"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/cryptodbm/"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">Library for creating and reading encrypted databases (serverless, encrypted key-value databases).</span>
 <a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
-<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>This is a call to arms: to improve the OCaml compiler, we
+<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>This is a call to arms: to improve the OCaml compiler, we
 sorely need a suite of representative benchmarks. If you have ever
 written performance-sensitive programs in OCaml, you can
 contribute.</p>
@@ -226,7 +499,7 @@ programs run fast. But it doesn't actually optimize in clever way:
 efficient code will give an efficient program, but little is done to
 make inefficient code efficient.</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post4" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
+<a onclick="switchContent('post5','post6')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post6" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
 sorely need a suite of representative benchmarks. If you have ever
 written performance-sensitive programs in OCaml, you can
 contribute.</p>
@@ -405,126 +678,7 @@ extracted or inspired from. The changes must be comparable in
 magnitude: if a 80% performance change (improvement or degradation) in
 the benchmark code results in a 0.5% performance change in the actual
 software, it's difficult to rely on benchmark results to make design
-compromises.</p><a onclick="switchContent('post4','post3')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
-<a name="621e599503238029afb486f7f9bfd0b7"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Ocsigen Eliom 3.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">10 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>
-we are celebrating Ada's birthday by bringing out a major update of
-Eliom - the advanced framework for client/server web applications in
-OCaml - and some minor updates for Ocsigenserver and Tyxml.
-</p>
-<p>
-Here is a list of major new features (and short code snippets can be
-found at the end of this email):
-</p>
-
-<ul>
-<li>The tightest integration of client value within the server code
-   ever made possible in a major statically typed programming
-   language [1]
-   </li><li>
- Easy access to top-level server values - and (Lwt-)functions -
-   from within the client code [2]
-   </li><li>
- Access to other users' states of Eliom references
-   </li><li>
- Improved support of Eliom's source files in the compilation tools
-   eliom{c,opt,dep}
-   </li><li>
- A new tool, eliom-destillery, for creating basic projects fast &amp;
-   easy
- </li>
-</ul>
-
-<p>
-The manual, a cheat-sheet, a comprehensive tutorial, and the
-API-documentation of the various Ocsigen projects are available on
-<a href="http://ocsigen.org">http://ocsigen.org</a>.
-</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Read more...</a></div><div id="post6" style="display: none"><p>
-we are celebrating Ada's birthday by bringing out a major update of
-Eliom - the advanced framework for client/server web applications in
-OCaml - and some minor updates for Ocsigenserver and Tyxml.
-</p>
-<p>
-Here is a list of major new features (and short code snippets can be
-found at the end of this email):
-</p>
-
-<ul>
-<li>The tightest integration of client value within the server code
-   ever made possible in a major statically typed programming
-   language [1]
-   </li><li>
- Easy access to top-level server values - and (Lwt-)functions -
-   from within the client code [2]
-   </li><li>
- Access to other users' states of Eliom references
-   </li><li>
- Improved support of Eliom's source files in the compilation tools
-   eliom{c,opt,dep}
-   </li><li>
- A new tool, eliom-destillery, for creating basic projects fast &amp;
-   easy
- </li>
-</ul>
-
-<p>
-The manual, a cheat-sheet, a comprehensive tutorial, and the
-API-documentation of the various Ocsigen projects are available on
-<a href="http://ocsigen.org">http://ocsigen.org</a>.
-</p>
-<p>
-The probably simplest and most generic way to install Eliom is by
-using OPAM. But also Debian packages are already available (in
-experimental, thanks Stéphane!), Gentoo-ebuilds are on their way, the
-Ocsigen-bundle is still at hand, and the archives can be found at
-<a href="http://ocsigen.org/eliom/install">http://ocsigen.org/eliom/install</a>.
-</p>
-<p>
-And maybe you may want to become social with us on
-</p>
-<ul>
-<li>
-<a href="https://twitter.com/ocsigen">Twitter</a>
-</li>
-<li>
-<a href="https://plus.google.com/u/0/105890612060116987398/posts">Google +</a>
-</li>
-<li>
-<a href="https://www.facebook.com/pages/Ocsigen/289974521051526">Facebook</a>
-</li>
-</ul>
-
-<p>
-Enjoy!
-</p>
-<p>
--- The Ocsigen-team
-</p>
-
-<pre>[1]
-{server{ (* This marks server-side code *)
-  let value_history_on_client =
-    {ref string{ ref [] }} (* A client value within the server code *)
-  let _ = My_app.register_service ~path ~get_params
-    (fun value () -&gt;
-      (* Push the GET parameter to the client's history a side effect *)
-      ignore {unit{
-        %value_history_on_client := %value :: ! %value_history_on_client
-      }};
-      Lwt.return html)
-}}
-
-[2]
-{server{
-  let f = server_function Json.t&lt;string&gt;
-    (fun x -&gt; Printf.eprintf "Client says: %s\n%!" x; Lwt.return ())
-}}
-{client{ (* This marks client-side code *)
-  (* %f makes the server's value f, a client-ready server function,
-     available in the client code *)
-  ... %f "hello!" ...
-}}
-</pre><a onclick="switchContent('post6','post5')" class="btn" href="#621e599503238029afb486f7f9bfd0b7">Hide</a></div></span>
+compromises.</p><a onclick="switchContent('post6','post5')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
