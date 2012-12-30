@@ -54,12 +54,13 @@
   </a>
   <ul class="dropdown-menu">
     <li><a href="../description.html">What is OCaml?</a></li>
-    <li><a href="http://try.ocamlpro.com/">Try it in your browser</a></li>
-    <li><a href="../taste.html">A Hundred Lines of OCaml</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it Online</a></li>
+    <li><a href="../taste.html">100 Lines of OCaml</a></li>
     <li><a href="../success.html">Success Stories</a></li>
-    <li><a href="../companies.html">Who is using it?</a></li>
+    <li><a href="../companies.html">Who Is Using It?</a></li>
     <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
-    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a>
+        <a href="http://langref.org/ocaml">langref.org</a></li>
   </ul>
 </li>
 <li class="dropdown">
@@ -68,6 +69,7 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
+    <li><a href="../releases.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -79,10 +81,10 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../libraries.html">Libraries</a></li>
-    <li><a href="../dev_tools.html">Development tools</a></li>
+    <li><a href="../dev_tools.html">Development Tools</a></li>
     <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
-    <li><a href="../tutorials/#advanced">Advanced tutorials &amp; Papers</a></li>
-    <li><a href="http://search.ocaml.jp/">OCaml API search</a></li>
+    <li><a href="../tutorials/#advanced">Advanced Tutorials and Papers</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
     <li><a href="https://github.com/languages/OCaml">Github</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
@@ -92,8 +94,8 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Community
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
-    <li><a href="../mailing_lists.html">Mailing lists</a></li>
-    <li><a href="../planet/">OCaml Planet (blogs)</a></li>
+    <li><a href="../mailing_lists.html">Mailing Lists</a></li>
+    <li><a href="../planet/">Blogs</a></li>
     <li><a href="../meetings.html">Meetings</a></li>
     <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
     <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
@@ -149,7 +151,262 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="c2fcb8b4aa00ad4abb174274b6a1d45f"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/singleton-types-for-code-inference"> Singleton types for code inference</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">29 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>Could the compiler <em>guess</em> a part of the program I am
+    <div class="planet"><a name="4253f74339fd819282cbe40f9ebd13b2"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/singleton-types-for-code-inference-2"> Singleton types for code inference, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">30 Dec 2012</span></span><span class="rss-description"><div id="post1"><p>In this post you can find out what was cut from the <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference">previous post on
+singleton
+types</a>. These are
+more technical considerations that may require some familiarity with
+type theory. In particular, I'll discuss linear and dependent types in
+the context of describing more and more singletons.</p>
+
+
+
+
+<p>In <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference">the previous
+post</a>,
+I discussed a code inference construction <code>(Γ |- ? : σ)</code> that would be
+replaced, after type-checking, by the unique term <code>t</code> of type <code>σ</code>
+(modulo program equivalence) in the environment Γ, or fail if no term
+or several distinct terms exist at type σ.</p>
+
+<h2>More singletons</h2>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#4253f74339fd819282cbe40f9ebd13b2">Read more...</a></div><div id="post2" style="display: none"><p>In this post you can find out what was cut from the <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference">previous post on
+singleton
+types</a>. These are
+more technical considerations that may require some familiarity with
+type theory. In particular, I'll discuss linear and dependent types in
+the context of describing more and more singletons.</p>
+
+
+
+
+<p>In <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference">the previous
+post</a>,
+I discussed a code inference construction <code>(Γ |- ? : σ)</code> that would be
+replaced, after type-checking, by the unique term <code>t</code> of type <code>σ</code>
+(modulo program equivalence) in the environment Γ, or fail if no term
+or several distinct terms exist at type σ.</p>
+
+<h2>More singletons</h2>
+
+<p>I have argued that the terms we will look for should live in
+a different term language than the host language in which we would
+consider using code-inference, to restrict ourselves to well-behaved,
+pure terms. Any term language is fine as long as it can be embedded
+into the host language, and can reasonably be shown to the user: you
+may want to keep the <code>?</code> in the source code, but also sometimes show
+the inferred term to the user, to help program understanding, or
+because finding the term was the point as in my example of "I forgot
+the argument order".</p>
+
+<p>Another point of variability in the type system: we can in fact pick
+any type system we want: in the most explicit form where the user
+would write <code>(Γ |- ? : σ)</code> in the source, the type <code>σ</code> could live in
+the type system for code inference, and not be a type expressions in
+the host language. We only need to be able to translate the inferred
+<em>terms</em> back into the host term language (and then we can verify
+that they are type-correct if we don't trust the term
+inference engine).</p>
+
+<p>The embedding of the host type system to the type system for code
+inference could be partial: maybe we won't be able to handle some of
+the types inferred by the host system when using the simple <code>?</code>
+construction, and those cases would fail with an error. The more
+interesting aspect is that we can also have <em>finer types</em> in the
+type system for code inference. For example, we can have linear
+types.</p>
+
+<p>For example, <code>∀α. (α → α → α) → α → α</code> is not a singleton type: it is
+inhabited by <code>fun f x -&gt; x</code>, but also <code>fun f x -&gt; f x x</code>, <code>fun f x -&gt;
+f x (f x x)</code>, etc. However, <code>∀α. (α → α → α) → α ⊸ α</code>, where the last
+arrow is the linear arrow <code>⊸</code> (<code>-o</code> in glorious ASCII) which means "use
+my argument exactly once", is a singleton type.</p>
+
+<p>This suggests some experiment with finer type systems. For example,
+<code>(β→γ) → (α*β*α) → (α*γ*α)</code> is not a singleton type:
+the first and third components of the input tuple, of the same
+type α, could be swapped in the output. But there are some type
+systems (some of which my coworker Julien is working on) that are
+somehow stricter than linear type systems in that they request not
+only each input to be consumed exactly once, but its structure to be
+preserved (no swapping of pair elements, etc.). Consider for example
+a language of subtyping coercions: if you have a coercion of type
+<code>β ≤ γ</code> in context, then there is only one coercion of type
+<code>(α * β * α) ≤ (α * γ * α)</code>, and if seen as a function it does not
+swap the tuple components.</p>
+
+<p>We can observe the difference between the usual arrow <code>→</code>, the
+linear arrow <code>⊸</code> and a notion of structure-preserving arrow
+sketched above, that I would write <code>⇒</code>, on the type of <code>List.map</code>:</p>
+
+<ul>
+<li><p><code>∀αβ. (α → β) → (List α → List β)</code> is inhabited by any function
+that applies its function argument to the elements of its list
+argument, but may drop or reorder some of them. For example,
+always returning the empty list is ok.</p></li>
+<li><p>the inhabitants <code>∀αβ. (α ⊸ β) → (List α ⊸ List β)</code> are not
+allowed to drop elements from the input list anymore, but may
+still reorder them. <code>[x1,x2] ↦ [f x2, f x1]</code> is ok</p></li>
+<li><p>the inhabitants of <code>∀αβ. (α ⇒ β) → (List α ⇒ List β)</code> must
+preserve the structure of the input list, neither reordering nor
+dropping elements; it is a singleton type. I think of it as the
+coercion <code>(α ≤ β) |- List α ≤ List β</code> turned into a term.</p></li>
+</ul>
+
+<p>(You may be unsure what the <code>→</code> arrow between the function argument
+and rest means in the two latter example. I am as well.)</p>
+
+<h2>Towards dependent types</h2>
+
+<p>Of course, another obvious direction to refine the type system is to
+introduce dependent types (and refinement types, etc.). Consider the
+type of List.fold_right: <code>∀αβ. (α → β → β) → (List α → β → β)</code>: in
+this case, using linear or structure-preserving arrows does not get
+us a singleton type, because there is no structure in the return
+type <code>β</code> to be preserved. However, a dependent type for <code>fold_right</code>
+on lists (with arguments reordered for readability) is a singleton:</p>
+
+<pre><code>∀α ∀(P : List α → ★).
+  P nil →
+  (∀(x : α) (xs : List α). P xs → P (cons x xs)) → 
+  ∀(li : List α). P li
+</code></pre>
+
+<p>Of course, you may notice that writing this type is in no way easier
+than writing the corresponding term:</p>
+
+<pre><code>let rec fold init f = function
+  | nil -&gt; init
+  | cons x xs -&gt; f x xs (fold init xs)
+</code></pre>
+
+<p>If you move to sophisticated enough type systems, the idea that
+"types help you infer code" becomes a bit of cheating as writing the
+types themselves is just as much work as writing the terms. The idea of
+using singleton types for code inference is not a magic wand that
+will have you suddenly write order of magnitudes less <em>stuff</em>,
+rather one principled way to move between term implementation and
+type specification, type and code inference, and to study the
+practical aspects under different points of view. The study of
+singleton types in sufficiently sophisticated type systems may turn
+out to be of theoretical rather than practical interest, but it's
+enough for me, because it looks <em>fun</em>.</p>
+
+<h3>Singleton types?</h3>
+
+<p>The concept of singleton types already exists in the literature in
+a quite different form: for any term <code>M</code>, we can consider the type
+<code>(= M)</code> which classifies the set of programs... equal to <code>M</code>. This has
+been found quite useful by the people working on module systems to
+capture just the level of dependent types needed to express public
+type declarations in a module signature (they're used one level up:
+singleton <em>kinds</em> that publish equalities with a <em>type</em>; but the
+term/type level is more convenient for explanations).</p>
+
+<p>Of course, the type <code>(= M)</code> is clearly a singleton type, and if you
+determine that a type σ has a unique inhabitant <code>t</code>, this should be
+equivalent to saying that you've discovered an equality between <code>σ</code>
+and the singleton type <code>(= t)</code>. For example, if <code>∀αβ.(α*β)→(β*α)</code> is
+"a singleton type" then it is the same type as
+<code>(= λ(x,y).(y,x))</code>. This means that you could do everything of
+interest by adding this notion of singleton types <code>(= M)</code> in your
+language, and proving type equalities between regular types and this
+explicit form of singletons.</p>
+
+<p>However that only works if the <em>host</em> language and the <em>search</em>
+language are the same. If I use singleton types to infer code in OCaml
+or Haskell, I'll want to infer stuff from <code>∀αβ.(α*β)→(β*α)</code> while this
+type is not equal to <code>(= λ(x,y).(y,x))</code> in the host language. I'd
+rather keep the two different notions of singleton types separate, to
+emphasize that my focus here is on code inference, not equality
+reasoning (which, again, may not hold in the host language).</p>
+
+<h2>Singleton types as "proof search"</h2>
+
+<p>There is a nice interplay with Curry-Howard (already explicitly
+employed in the previous works of Wells and Yakobowski): if we see
+terms as proofs, we are interested in properties that have a <em>unique</em>
+proof. I am not aware of logicians having worked on this question
+(probably ignorance on my side), but to be fair mathematicians tend to
+be interested in <em>existence</em> of proofs (the question of
+type inhabitation) more than unicity. A good thing however is that
+a large part of the literature on proof search is concerned with
+finding <em>canonical</em> proofs, to avoid "redundancy" between proof
+terms. Proof nets, uniform proofs, focusing are all somehow concerned
+about this aspect (because proving meta-theorems about your proof
+system is easier when proof objects are strongly structured). And it
+turns out that the work to have more "canonical" proofs consists
+exactly in finding representations where less different proofs are
+equivalent as programs. This is an excellent excuse to learn more
+about the proof search literature, to see if we can find ideas inside
+that are helpful to determine singleton types.</p>
+
+<p>As a form of proof search, there is also a clear relation with
+<em>tactics</em> (or maybe even more with this fascinating Emacs gadget
+that Agda users have, that allows them to interactively refine proof
+goals with "obvious" steps according to the shape of the goal). <code>?</code>
+is a specific kind of tactics that is interested not only in finding
+some proof term, but in the details of its dynamic semantics. Are
+there other "tactics" that are also useful for programming rather
+than proving?</p>
+
+<h2>A closing remark and a quote</h2>
+
+<p>Some readers will have recognized some example of types I gave here as
+examples of reasoning on parametricity. The fact that <code>∀α.α→α</code> is only
+inhabited by the identity function is, for example, often argued by
+invoking the kind of results of "Theorems for free!". But a simple
+algorithm to find singletons will simply prove that there is only one
+correct βη-normal form of this type: first you have to use a Λαλ(x:α)
+by η-expanding, and then you have nothing to use as a function body in
+your context other than (x:α).</p>
+
+<p>I'll remark that the link between parametricity and singleton types is
+maybe weaker than it could seem, as a practical algorithm to determine
+that types are singleton will rather work by trying to exhaust the
+search space for terms, than reasoning on semantic relations derived
+from the type -- but who knows. Let's say, at least, that I understand
+term search better than I understand parametricity, a topic on which
+I suspect we have still a lot to find out.</p>
+
+<p>Let me conclude with
+a nice 2011 quote from Conor McBride <a href="http://www.quora.com/Why-do-programming-languages-use-type-systems">on
+Quora</a>
+(no idea why he put it there). </p>
+
+<blockquote>
+  <p>Whilst I don't want to gainsay the importance of types as a source
+of corrective raspberry-blowing, I would like to offer the prospect
+that types might have an active role to play, structuring the
+process of program inference. Overloading allows you to get rid of
+boring lumps of code if it can be figured out from
+types. Datatype-generic programming uses representations of the
+structure of types to calculate specific instances of
+algorithm-schemes. Dependent type systems often allow
+run-time-relevant values to be inferred silently from type
+information.</p>
+
+<p>Crucially, also, types structure the search for programs in useful
+ways, provided your editing environment offers you type information
+and makes it easy to select type-appropriate choices. Sometimes it's
+easier to search for good programs in the space of well typed
+programs, rather than in the space of ascii turds.</p>
+
+<p>This position constitutes a change of viewpoint in the purpose of
+types. If programs worked just the same with the types rubbed out,
+then types would represent a form of piety often inadequate with
+respect to testing. It's when types contribute information to
+algorithm selection, design statements which program definitions
+need merely refine, that they constitute a significant win.</p>
+
+<p>To be fair, even in last century's typed languages, types had
+a beneficial organisational effect on programmers. This century,
+it's just possible types will have a comparable effect on
+programs. Types are concepts and now mechanisms supporting
+program-discovery as well as error-discovery. I think that's more
+than just gravy.</p>
+</blockquote><a onclick="switchContent('post2','post1')" class="btn" href="#4253f74339fd819282cbe40f9ebd13b2">Hide</a></div></span>
+<a name="c2fcb8b4aa00ad4abb174274b6a1d45f"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/singleton-types-for-code-inference"> Singleton types for code inference</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">29 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>Could the compiler <em>guess</em> a part of the program I am
 currently writing? It's impossible in general, but it may be possible,
 and hopefully interesting, in special cases. For a start, I am
 interested in a situation where there is <em>only one possibility</em>: at
@@ -167,10 +424,14 @@ lately.</p>
 
 
 
+
+<p>PS: See <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference-2">the next
+post</a> for more
+details on the idea.</p>
 
 <h2>From erasable coercions to singleton types</h2>
 
-<a onclick="switchContent('post1','post2')" class="btn" href="#c2fcb8b4aa00ad4abb174274b6a1d45f">Read more...</a></div><div id="post2" style="display: none"><p>Could the compiler <em>guess</em> a part of the program I am
+<a onclick="switchContent('post3','post4')" class="btn" href="#c2fcb8b4aa00ad4abb174274b6a1d45f">Read more...</a></div><div id="post4" style="display: none"><p>Could the compiler <em>guess</em> a part of the program I am
 currently writing? It's impossible in general, but it may be possible,
 and hopefully interesting, in special cases. For a start, I am
 interested in a situation where there is <em>only one possibility</em>: at
@@ -188,6 +449,10 @@ lately.</p>
 
 
 
+
+<p>PS: See <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference-2">the next
+post</a> for more
+details on the idea.</p>
 
 <h2>From erasable coercions to singleton types</h2>
 
@@ -421,18 +686,21 @@ angle.</p>
 
 <p>This post is getting quite long, so I'll temporarily conclude
 here. Stay tuned for another blog post with even more ramblings about
-singleton types !</p><a onclick="switchContent('post2','post1')" class="btn" href="#c2fcb8b4aa00ad4abb174274b6a1d45f">Hide</a></div></span>
+singleton types !</p>
+
+<p>PS: <a href="http://gallium.inria.fr/~scherer/gagallium/site-url/&amp;gt;singleton-types-for-code-inference-2">The next
+post</a> is now out.</p><a onclick="switchContent('post4','post3')" class="btn" href="#c2fcb8b4aa00ad4abb174274b6a1d45f">Hide</a></div></span>
 <a name="442a8cf9808ce87d6f90546225bcb702"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=867"> Macaque 0.6.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">26 Dec 2012</span></span><span class="rss-description"><pre class="rss-text">This is mostly a bugfix release: Jacques-Pascal Deplaix has spotted a bug in the way Macaque handles PostgreSQL rather baroque string escaping convention (you don't want to know the details), and after some head scratching we have a reasonable fix.
 
 In addition, Petter Urkedal has contributed support for the 'bytea' and 'int32_array' datatypes; for now, there is no literal syntax to describe them in the syntax extension, so one should build values on the OCaml side, through Sql.Value.bytea and Sql.Value.int32_array.</pre></span>
 <a name="e6c5dd3a656929c1664b08fc37901245"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.25.html"> Caml Weekly News, 25 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description">new ocaml.org website / OCaml wiki / OCaml search into libraries for ocaml.org / Post-doc/Software Engineer at OCamlPro / Other Caml News</span>
-<a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post3"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+<a name="e672efd955ba77a031ef9e8392474060"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/2012/12/25/free-variables-are-not-implicitly-universally-quantified/"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">25 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
 <p><span id="more-1387"></span></p>
 <p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
 <h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
 <p>You would not claim that a real-valued function $f : \mathbb{R} \to \mathbb{R}$ is “the same thing” as its definite integral $\int_{\mathbb{R}} f(x) \, d x$, would you? One is a real function, the other is a real number. Likewise, $\phi$ is a truth &lt;emph&gt;function&lt;/emph&gt; and $\forall x \,.\, \phi(x)$ is a truth &lt;emph&gt;value&lt;/emph&gt;.</p>
 <h3>Reason 2: functions are not their own values</h3>
-<a onclick="switchContent('post3','post4')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Read more...</a></div><div id="post4" style="display: none"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Read more...</a></div><div id="post6" style="display: none"><p>Mathematicians are often confused about the meaning of variables. I hear them say “a free variable is implicitly universally quantified”, by which they mean that it is ok to equate a formula $\phi$ with a free variable $x$ with its universal closure $\forall x \,.\, \phi$. I am addressing this post to those who share this opinion.</p>
 <p><span id="more-1387"></span></p>
 <p>I will give several reasons, which are all essentially the same, why “there is no difference between $\phi$ and $\forall x \,.\, \phi$” is a really bad opinion to have.</p>
 <h3>Reason 1: you wouldn’t equate a function with its definite integral</h3>
@@ -470,215 +738,12 @@ Let $\phi$ be a formula in context $x_1, \ldots, x_n$ and $M$ a structure in whi
 </ol>
 </blockquote>
 <p>This is sometimes abbreviated (quite inaccurately) as “a formula and its universal closure are semantically equivalent”. This theorem is causing a lot of harm because mathematicians interpret it as “free variables are implicitly universally bound”. But the theorem itself clearly distinguishes a formula from its universal closure. It has a limited range of applications in model theory. It is not a general reasoning principle that would allow you to dispose of thinking about free variables.</p>
-<p>You are in good company. Philosophers have thought about free variables for millennia, although they phrase the problem in the language of <a href="http://en.wikipedia.org/wiki/Universal_(metaphysics)">universals</a> and <a href="http://en.wikipedia.org/wiki/Particular">particulars</a>. They wonder whether “dog” is the same thing as the set of all dogs, or perhaps there is an ideal dog which is “pure dogness”, but then do we need two ideal dogs to make ideal pups, etc. The answer is simple: a free variable is a projection from a cartesian product.</p><a onclick="switchContent('post4','post3')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Hide</a></div></span>
+<p>You are in good company. Philosophers have thought about free variables for millennia, although they phrase the problem in the language of <a href="http://en.wikipedia.org/wiki/Universal_(metaphysics)">universals</a> and <a href="http://en.wikipedia.org/wiki/Particular">particulars</a>. They wonder whether “dog” is the same thing as the set of all dogs, or perhaps there is an ideal dog which is “pure dogness”, but then do we need two ideal dogs to make ideal pups, etc. The answer is simple: a free variable is a projection from a cartesian product.</p><a onclick="switchContent('post6','post5')" class="btn" href="#e672efd955ba77a031ef9e8392474060">Hide</a></div></span>
 <a name="2f9fc6a8ae811c870e3859f2689319a7"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/tptp/"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Dec 2012</span></span><span class="rss-description">Library for parsing FOF and CNF formulas from TPTP format. Depends on: zarith.</span>
 <a name="7848ce5e403469fa5a3757e71a0f8191"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=817"> Xtmpl 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Xtmpl is a small XML templating library for OCaml.</span>
 <a name="7ff089ca4b443c810138d4a7c8e8b486"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=818"> Stog 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">19 Dec 2012</span></span><span class="rss-description">Stog is a kind of Jekyll in OCaml: It is a static web site generator, able to handle blog posts as well as regular pages.</span>
 <a name="3aeebe7a5873af158331e6566e6c7b25"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/cryptodbm/"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">Library for creating and reading encrypted databases (serverless, encrypted key-value databases).</span>
 <a name="ebe2a7c57571bc1eb87b0df1ac92c1c5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2012.12.18.html"> Caml Weekly News, 18 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description">new OPAM command-line interface / RTT (Run-time types) online toplevel for trying / Other Caml News</span>
-<a name="cbef3ca3cfb05f18395bdae71d4ad36b"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/~scherer/gagallium/we-need-a-representative-benchmark-suite"> OCaml compiler optimizations: we need a representative benchmark suite</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">18 Dec 2012</span></span><span class="rss-description"><div id="post5"><p>This is a call to arms: to improve the OCaml compiler, we
-sorely need a suite of representative benchmarks. If you have ever
-written performance-sensitive programs in OCaml, you can
-contribute.</p>
-
-
-
-
-<p>PS: When I originally started to write this blog post, it was about
-a small experiment on optimizing a small program for float
-unboxing. Writing a general introduction on the few joys and numerous
-pitfalls of compiler optimizations suddenly turned it into a totally
-different post. Oh well.</p>
-
-<h2>Having a simple compiler is a valid design choice</h2>
-
-<p>The OCaml native compiler is well-known for its simple and robust
-behavior. Thanks to efficient choices of value representation and
-a sophisticated garbage collector (GC), it is able to make good OCaml
-programs run fast. But it doesn't actually optimize in clever way:
-efficient code will give an efficient program, but little is done to
-make inefficient code efficient.</p>
-
-<a onclick="switchContent('post5','post6')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Read more...</a></div><div id="post6" style="display: none"><p>This is a call to arms: to improve the OCaml compiler, we
-sorely need a suite of representative benchmarks. If you have ever
-written performance-sensitive programs in OCaml, you can
-contribute.</p>
-
-
-
-
-<p>PS: When I originally started to write this blog post, it was about
-a small experiment on optimizing a small program for float
-unboxing. Writing a general introduction on the few joys and numerous
-pitfalls of compiler optimizations suddenly turned it into a totally
-different post. Oh well.</p>
-
-<h2>Having a simple compiler is a valid design choice</h2>
-
-<p>The OCaml native compiler is well-known for its simple and robust
-behavior. Thanks to efficient choices of value representation and
-a sophisticated garbage collector (GC), it is able to make good OCaml
-programs run fast. But it doesn't actually optimize in clever way:
-efficient code will give an efficient program, but little is done to
-make inefficient code efficient.</p>
-
-<p>This approach has some nice advantages. On the user side, it makes for
-a predictable compiler (no hope of the killer optimization kicking in
-when it actually doesn't due to a small change). On the developer
-side we have a well-written and rather simple post-frontend that is
-easy to understand and maintain. Compilation times are also usually
-very small: with the additional good support for separate compilation,
-compilation times is rarely a problem in OCaml as it can be in some
-other compiled languages (<em>cough</em> C++ <em>cough</em>).</p>
-
-<p>Yet this also comes with drawbacks. For example, "inefficient" code is
-rarely written by OCaml programmers (smart men and women), of
-course :), but is easy to obtain when you're doing automatic code
-generation; you may have to be a bit careful if you produce OCaml
-programs to not spit out stupid code, while a general whole-program
-optimizer could have taken care of this for you.</p>
-
-<p>Another problem is that some abstractions are more costly that we
-would like them to be. It's hard to write monadic code, for example,
-without generating a lot of (often unnecessary) closures. While the
-cost of the additional closure allocations and function calls are
-often drowned by the overall monadic logic (for example thread
-scheduling in monadic cooperative threading libraries such as Lwt and
-Async), fine-grained monad style can still have a sensible overhead.</p>
-
-<p>For example, Arnaud Spiwak
-<a href="https://sympa.inria.fr/sympa/arc/coq-club/2012-10/msg00013.html">reported</a>
-that switching the Coq internal tactics to a pervasive monadic style
-incurred sensible overhead (~15% slowdown on the whole Coq archive,
-with some individual tactics getting several times slower). Using
-Coq's inlining engine to maximally reduce monadic closures, he was
-able to get a 10% performance gain over what "idiomatic monadic OCaml
-code" produces through the OCaml compiler. (Remark that inlining is
-easier to do in Coq thanks to a pure (including total) programming
-language with sensible strong reduction semantics.)</p>
-
-<p>Finally, not every programming style and application domain is equal
-in the face of OCaml compilation choices. Memory allocation, tail
-calls, exceptions and pattern matching on algebraic datatypes are
-extremely fast, and code using lot of them (typically: a compiler,
-a proof assistant, symbolic computations in general) will have you
-extremely satisfied. But this sometimes required compromises that have
-downsides for other language features, and the sophistication effort
-that went there didn't necessarily find itself reproduced in other
-parts of the language features that were of less interest at the time
-of the compiler's inception.</p>
-
-<p>As a concrete example, OCaml does not shine at number crunching: its
-integers are tagged to make the GC life easier, and its
-(double-precision) floating points are boxed to keep a uniform value
-representation. The compiler is well aware of these facts and tries to
-suppress this overhead when it is easy to do so, but those
-optimization are relatively simple and have room for improvement.</p>
-
-<p>This doesn't mean that OCaml should not be used when a problem domain
-involves some number crunching: the benefit you can gain from
-expressive language features and a reasonable type system may very
-well outweigh, in terms of productivity and final code efficiency, the
-approximate halving of performance (when compared to C) on numeric
-benchmarks. A large number of people pay a sensibly higher performance
-price to use less-efficient language everyday, for example Javascript
-(even on today's highly-optimized runtimes, that took exponentially
-more effort to develop than the OCaml native compiler).</p>
-
-<h2>Compiler optimization is an ungrateful business</h2>
-
-<p>Just above I've mentioned a few fronts (function inlining, local
-unboxing or untagging) on which the OCaml compiler could possibly help
-with more aggressive optimizations. There are other specific areas
-where compilation choices could be improved. The problem with compiler
-optimizations is that there is a large disconnect between what we,
-compiler programmers and language geeks, find satisfying to work on,
-and the hard reality of actual program performances.</p>
-
-<p>It is easy to spend some months implementing and debugging, say,
-a state-of-the-art register allocator, only to find out that it makes
-practically no performance difference on the programs you have at
-hand. Why then would the maintainer accept a large code change that
-certainly introduces bug and doesn't provably improves over the naive
-but simple and debugged-by-time current implementation?</p>
-
-<p>If advertising for a change in a compiler with the argument that "the
-generated code is much nicer", you're doing it wrong. It is
-surprisingly often the case that while the generated code looks much
-nicer to the naked eye, it is not actually faster on today's
-overly-complicated processors. More importantly, it is generally the
-case that said nicer code never actually appears in the hot section of
-your program, and therefore produces no observable performance
-change. Again, "if it ain't broke, don't fix it", it would be
-unreasonable to accept a change that cannot demonstrate a real
-improvement on a real program -- while it's generally easy to craft
-micro-benchmark that demonstrate impressive improvements.</p>
-
-<p>I have personally experienced this problem in <a href="http://caml.inria.fr/mantis/view.php?id=4800">the work on
-PR#4800</a>. Currently,
-OCaml optimizes tupled assignments such as <code>let (x,y,z) = (foo, bar, baz)</code>
-to remove the tuple construction and destruction that would
-happen per the naive pattern-matching semantics. However this only
-works if the right-hand-side is syntactically a tuple, and would fail
-for example on <code>let (x,y) = if foo then (bar, baz) else (foobar, foobaz)</code>.</p>
-
-<p>Alain Frisch proposed a patch to optimize this (and some other)
-situation, to make this multi-binding style more convenient to
-use. I've spent some time reviewing the patch and proposing an
-alternative implementation, but we've both been unable to find an
-actual real-world example where adding this optimization made
-a significant difference.</p>
-
-<p>This is a delicate point because those optimizations are here to make
-new abstractions available that were previously avoided. If we don't
-observe any difference, maybe it is because OCaml programmers have
-avoided that idiom so far, but would make convenient use of it if it
-was cost-free. However, if we can't demonstrate a real example where
-this optimization is important, it's probably not a good idea to
-include it upstream.</p>
-
-<h2>We really need a benchmark suite, and you can help</h2>
-
-<p>What we really need is a benchmark suite that would contain
-representative examples of real-world OCaml code. There is a handful
-of benchmarks distributed with the compiler but they don't cover
-much. Likewise, the programs in <a href="http://benchmarksgame.alioth.debian.org/u64q/ocaml.php">the
-Shootout</a> are
-too small to be representative of actual uses of OCaml.</p>
-
-<p>This is why we currently use "big software" in OCaml to evaluate
-performance changes (eg. bootstrap the OCaml compiler itself, or
-compile Coq). Some big OCaml users have internal performance
-testsuites (for example Pascal Cuoq, which works on Frama-C,
-infrequently contributes performance-improving changes to the
-OCaml compiler), but we severely lack an easily-available, informative
-benchmark suite to evaluate performance changes.</p>
-
-<p>This is a losing situation because optimization-related changes cannot
-be reliably assessed in absence of representative code, and specific
-problem domains that we can't measure against will not be improved.</p>
-
-<p>The good thing with benchmark needs is that it's a problem the
-community at large can efficiently solve in parallel. If everyone
-contributed a piece of code that comes from real-world OCaml software
-and is representative of its performance-critical part, we would have
-a complete benchmark suite by now.</p>
-
-<p>Feel free to <strong>contribute</strong> by providing, either here in the blog
-comments or by mail (gabriel dot scherer at inria, or at gmail), your
-benchmark program(s). Code that has few external dependencies and that
-comes with a simple interface to parametrize running time is highly
-preferred. Of course, an open source license is required (say MIT/BSD
-or LGPL with linking exception).</p>
-
-<p>What is a representative benchmark? A benchmark is representative when
-performance changes observed in the benchmark will reliably be
-reproducible against (some use cases of) the whole software it was
-extracted or inspired from. The changes must be comparable in
-magnitude: if a 80% performance change (improvement or degradation) in
-the benchmark code results in a 0.5% performance change in the actual
-software, it's difficult to rely on benchmark results to make design
-compromises.</p><a onclick="switchContent('post6','post5')" class="btn" href="#cbef3ca3cfb05f18395bdae71d4ad36b">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
