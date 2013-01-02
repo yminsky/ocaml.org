@@ -8,7 +8,7 @@
     <meta content="IE=8" http-equiv="X-UA-Compatible"/>
     <title>OCaml :: 99 Problems (solved) in OCaml</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contrinutors" name="author"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
     <meta content="" name="description"/>
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
@@ -74,6 +74,7 @@
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
     <li><a href="../videos.html">Videos</a></li>
+    <li><a href="../papers.html">Papers</a></li>
   </ul>
 </li>
 <li class="dropdown">
@@ -83,7 +84,6 @@
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
     <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
-    <li><a href="../tutorials/#advanced">Advanced Tutorials and Papers</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
     <li><a href="https://github.com/languages/OCaml">Github</a></li>
@@ -116,7 +116,7 @@
             </ul>
 	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
 	      <input placeholder="Search" class="search-query" name="q" type="text"/>
-	      <input value="site:http://www.ocaml-lang.org/" name="q" type="hidden"/>
+	      <input value="site:http://www.ocaml.org/" name="q" type="hidden"/>
 	    </form>
             
 	    
@@ -946,7 +946,7 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = Unix.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.004364013671875
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.00428605079650878906
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 3.0040740966796875e-05
 </span></pre>
 </div>
