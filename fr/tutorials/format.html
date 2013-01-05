@@ -677,19 +677,19 @@ Prix TTC <b></b>=<b></b> 100 Euros
 <p> J'utilise le module format pour imprimer les lambda-termes:
 </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open Format</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">ident</span> = print_string
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">ident</span> = print_string
   <span class="kwa">let </span><span class="ocaml-variable">kwd</span> = print_string</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val ident : string -&gt; unit = &lt;fun&gt;
 val kwd : string -&gt; unit = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">rec </span><span class="ocaml-variable">print_exp0 </span>= <span class="kwb">function</span>
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">print_exp0 </span>= <span class="kwb">function</span>
     | Var s -&gt;  ident s
     | lam -&gt; open_hovbox 1; kwd &quot;(&quot;; print_lambda lam; kwd &quot;)&quot;; close_box ()
-  <span class="kwa">and </span><span class="ocaml-variable">print_app</span> = function
+  <span class="kwa">and</span> <span class="ocaml-function">print_app </span>= <span class="kwb">function</span>
     | e -&gt; open_hovbox 2; print_other_applications e; close_box ()
   <span class="kwa">and</span> <span class="ocaml-function">print_other_applications </span><span class="ocaml-variable">f </span>=
     <span class="kwb">match</span> f <span class="kwb">with</span>
     | Apply (f, arg) -&gt; print_app f; print_space (); print_exp0 arg
     | f -&gt; print_exp0 f
-  <span class="kwa">and </span><span class="ocaml-variable">print_lambda</span> = function
+  <span class="kwa">and</span> <span class="ocaml-function">print_lambda </span>= <span class="kwb">function</span>
     | Lambda (s, lam) -&gt;
         open_hovbox 1;
         kwd &quot;\\&quot;; ident s; kwd &quot;.&quot;; print_space(); print_lambda lam;
@@ -729,7 +729,7 @@ val print_lambda : lambda -&gt; unit = &lt;fun&gt;
   formats d'impression à la <code>fprintf</code>.
 </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open Format</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident </span><span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident </span><span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s
   <span class="kwa">let</span> <span class="ocaml-function">kwd </span><span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val ident : formatter -&gt; string -&gt; unit = &lt;fun&gt;
 val kwd : formatter -&gt; string -&gt; unit = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">pr_exp0 </span><span class="ocaml-variable">ppf </span>= <span class="kwb">function</span>
