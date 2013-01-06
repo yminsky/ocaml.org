@@ -6,7 +6,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     
     <meta content="IE=8" http-equiv="X-UA-Compatible"/>
-    <title>OCaml :: Camlp4 3.10</title>
+    <title>OCaml :: Caml Light - FAQ</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
     <meta content="" name="description"/>
@@ -21,7 +21,7 @@
     
     
 
-    <meta content="Camlp4 3.10" property="og:title"/>
+    <meta content="Caml Light - FAQ" property="og:title"/>
     <meta content="non_profit" property="og:type"/>
 
     <meta content="all" name="robots"/>
@@ -127,68 +127,47 @@
 
     <div class="container">
       <span class="navigation-bar">
-	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Camlp4 3.10
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Caml Light</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Caml Light - FAQ
 	<span id="language">
 	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
 	</span>
       </span>
 
       
-<h1><span>Camlp4 3.10</span></h1>
+<h1>Caml Light - FAQ</h1>
 
-<a name="Camlp4_3_10"></a><h2><span>Camlp4 3.10</span></h2>
-<p class="first_para"><strong>Camlp4</strong>, the OCaml &quot;pre-processor pretty printer&quot; is an advanced macro system which allows complex abstract syntax tree transformations on ocaml programs, and on other recursive decent grammars.</p>
-<p><strong>Warning</strong> this page contains advanced material.</p>
-<p>Camlp4 underwent a major revision between the version included in ocaml 3.09 and 3.10.  The supplied documentation as of this pages' creation is very small.  This page is experimental and user supported content.</p>
-<a name="External_Documents"></a><h2><span>External Documents</span></h2>
-<p class="first_para">The semi-official documentation: <a title="http://brion.inria.fr/gallium/index.php/Camlp4" class="external" href="http://brion.inria.fr/gallium/index.php/Camlp4">http://brion.inria.fr/gallium/index.php/Camlp4</a></p>
-<p>The ocaml beta announcement: <a title="http://pauillac.inria.fr/~pouillar/camlp4-changes.html" class="external" href="http://pauillac.inria.fr/~pouillar/camlp4-changes.html">http://pauillac.inria.fr/~pouillar/camlp4-changes.html</a></p>
-<a name="The_examples"></a><h2><span>The examples</span></h2>
-<p class="first_para">An example written for Camlp4 3.10:</p>
-<ul><li><a title="Camlp4 3.10/Foreach Tutorial" class="internal" href="camlp4_3.10/foreach_tutorial.html">Camlp4 3.10/Foreach Tutorial</a></li></ul>
-<p class="first_para">These examples are from the camlp4 beta announcement:</p>
-<ul><li><a title="Camlp4 3.10/dynamic_old_syntax.ml" class="internal" href="camlp4_3.10/dynamic_old_syntax.html">Camlp4 3.10/dynamic_old_syntax.ml</a></li>
-<li><a title="Camlp4 3.10/static_old_syntax.ml" class="internal" href="camlp4_3.10/static_old_syntax.html">Camlp4 3.10/static_old_syntax.ml</a></li>
-<li><a title="Camlp4 3.10/quick_non_extensible_example.ml" class="internal" href="camlp4_3.10/quick_non_extensible_example.html">Camlp4 3.10/quick_non_extensible_example.ml</a></li>
-<li><a title="Camlp4 3.10/dynamic_functor_example.ml" class="internal" href="camlp4_3.10/dynamic_functor_example.html">Camlp4 3.10/dynamic_functor_example.ml</a></li>
-<li><a title="Camlp4 3.10/static_functor_example.ml" class="internal" href="camlp4_3.10/static_functor_example.html">Camlp4 3.10/static_functor_example.ml</a></li></ul>
-<p class="first_para">This is a translation of M. Jambon's json_static to Camlp4 3.10 by N. Poulliard.</p>
-<p>The patch:</p>
-<p><a title="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.patch" class="external" href="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.patch">http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.patch</a></p>
-<p>The new version (compiles with camlp4orf):</p>
-<p><a title="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.ml" class="external" href="http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.ml">http://gallium.inria.fr/~pouillar/pub/camlp4/rosetta/pa_json_static/pa_json_static.ml</a></p>
-<p>Commentary:</p>
-<p><a title="http://www.nabble.com/-Camlp4-3.10--The-rosetta-stone-(Was:-lists-without-$list:...$)-t3463823.html" class="external" href="http://www.nabble.com/-Camlp4-3.10--The-rosetta-stone-(Was:-lists-without-$list:...$)-t3463823.html">http://www.nabble.com/-Camlp4-3.10--The-rosetta-stone-(Was:-lists-without-$list:...$)-t3463823.html</a></p>
-<a name="The_command_line"></a><h2><span>The command line</span></h2>
-<p class="first_para">In the beta announcement, there was mention of new binaries camlp4xxx that come preloaded with selections of new and old syntaxes</p>
+<div class="Q">Is it possible to get error message in my own
+language?</div>
 
-<p>New commands:</p>
+<div class="A">You can choose the language that Caml Light uses to
+write its messages. For this:
+
 <ul>
-  <li><strong>camlp4orf</strong>: camlp4o + Grammar, macro and revised
-    quotation syntaxes.</li>
-  <li><strong>camlp4oof</strong>: camlp4o + Grammar, macro and the
-    same syntax for quotations.</li>
-  <li><strong>camlp4rf</strong>: camlp4r + Grammar, macro and the same
-    syntax for quotations.</li>
+  <li>under Unix: define the <code>LANG</code> environment variable,
+  or call the Caml Light system with option <code>-lang</code>.</li>
+
+  <li>under Windows use the <code>-lang</code> option on the command
+  line, or in the <code>CAMLWIN.INI</code> file.</li>
+
+  <li>with a Macintosh, edit the resource of the Caml
+  application.</li>
 </ul>
 
-<p>It is not necessary to use a <code>.cma</code> file to create a
-  regular camlp4 extension.  The <code>.cmi</code> libraries are for
-  creating standalone executables.  Only the <code>.cmi</code> files
-  from the include path are needed.</p>
-<p>So as an example:</p>
-<pre>
-$ ocamlc -I +camlp4 -pp camlp4orf -c dynamic_functor_example3.ml
-</pre>
+Language currently available are:
 
-<a name="The__cma_files"></a><h2><span>The .cma files</span></h2>
-<p class="first_para">From N. Poulliard <a title="http://caml.inria.fr/pub/ml-archives/caml-list/2007/04/47c5c935136351afaefee6a0aa9cc506.en.html" class="external" href="../caml.inria.fr/pub/ml-archives/caml-list/2007/04/47c5c935136351afaefee6a0aa9cc506.en.html">http://caml.inria.fr/pub/ml-archives/caml-list/2007/04/47c5c935136351afaefee6a0aa9cc506.en.html</a></p>
-<p>There is a list of libraries provided with camlp4:</p>
-<p>camlp4{o,of,orf,r,rf}.cma are toplevel libs there are only made to be loaded in the ocaml toplevel</p>
-<p>camlp4lib.cma contains the Camlp4 module which holds the camlp4 kernel.</p>
-<p>camlp4fullilb.cma contains modules of camlp4lib.cma plus all parsers and filters.</p>
+<ul>
+  <li><code>fr</code>: french.</li>
+  <li><code>es</code>: spanish.</li>
+  <li><code>de</code>: german.</li>
+  <li><code>it</code>: italian.</li>
+  <li><code>src</code>: english.</li>
+</ul>
 
-
+English is the default language for messages that cannot be
+translated. If your language is not yet available, and if you want to
+translate Caml Light messages (about 50 messages), you're welcome to
+contact the Caml team (mail to caml-light@inria.fr).
+</div>
 
 
     </div>

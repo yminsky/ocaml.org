@@ -1795,9 +1795,9 @@ contrast with an explicit encoding:
 <p>
   even though you get:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">iterator</span> <span class="ocaml-variable">f x l </span>=
-    <span class="ocaml-mod">List</span>.fold_right (<span class="ocaml-mod">List</span>.fold_left f) [<span class="ocaml-mod">List</span>.map x l] l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val iterator : ('a list -&gt; 'a -&gt; 'a list) -&gt; ('a -&gt; 'a) -&gt; 'a list -&gt; 'a list =
+    <span class="ocaml-mod">List</span>.fold_right (<span class="ocaml-mod">List</span>.fold_left f) [<span class="ocaml-mod">List</span>.map x l] l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val iterator : ('a list -&gt; 'a -&gt; 'a list) -&gt; ('a -&gt; 'a) -&gt; 'a list -&gt; 'a list =
   &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">iterator (<span class="kwb">fun</span> l x -&gt; x :: l) (<span class="kwb">fun</span> l -&gt; <span class="ocaml-mod">List</span>.rev l) [[1; 2; 3]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int list list = [[1; 2; 3]; [3; 2; 1]]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">iterator (<span class="kwb">fun</span> l x -&gt; x :: l) (<span class="kwb">fun</span> l -&gt; <span class="ocaml-mod">List</span>.rev l) [[1; 2; 3]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list list = [[1; 2; 3]; [3; 2; 1]]
 </span></pre>
 <p>
   In case of express need, you must be careful to add an explanatory

@@ -634,8 +634,8 @@ Prix TTC <b></b>=<b></b> 100 Euros
     <p>I use the format library to print the lambda-terms:
     </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">ident</span> = print_string
-  <span class="kwa">let </span><span class="ocaml-variable">kwd</span> = print_string</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val ident : string -&gt; unit = &lt;fun&gt;
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">ident</span> = print_string
+  <span class="kwa">let </span><span class="ocaml-variable">kwd</span> = print_string</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val ident : string -&gt; unit = &lt;fun&gt;
 val kwd : string -&gt; unit = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">print_exp0</span> = <span class="kwb">function</span>
     | Var s -&gt;  ident s
@@ -651,7 +651,7 @@ val kwd : string -&gt; unit = &lt;fun&gt;
         open_hovbox 1;
         kwd &quot;\\&quot;; ident s; kwd &quot;.&quot;; print_space(); print_lambda lam;
         close_box()
-    | e -&gt; print_app e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val print_exp0 : lambda -&gt; unit = &lt;fun&gt;
+    | e -&gt; print_app e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val print_exp0 : lambda -&gt; unit = &lt;fun&gt;
 val print_app : lambda -&gt; unit = &lt;fun&gt;
 val print_other_applications : lambda -&gt; unit = &lt;fun&gt;
 val print_lambda : lambda -&gt; unit = &lt;fun&gt;
@@ -690,8 +690,8 @@ val print_lambda : lambda -&gt; unit = &lt;fun&gt;
   routines can be written as follows:
 </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s
-  <span class="kwa">let</span> <span class="ocaml-function">kwd</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val ident : formatter -&gt; string -&gt; unit = &lt;fun&gt;
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s
+  <span class="kwa">let</span> <span class="ocaml-function">kwd</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val ident : formatter -&gt; string -&gt; unit = &lt;fun&gt;
 val kwd : formatter -&gt; string -&gt; unit = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">pr_exp0</span> <span class="ocaml-variable">ppf </span>= <span class="kwb">function</span>
     | Var s -&gt; fprintf ppf &quot;%a&quot; ident s
@@ -706,7 +706,7 @@ val kwd : formatter -&gt; string -&gt; unit = &lt;fun&gt;
     | Lambda (s, lam) -&gt;
        fprintf ppf &quot;@[&lt;1&gt;%a%a%a@ %a@]&quot;
                kwd &quot;\\&quot; ident s kwd &quot;.&quot; pr_lambda lam
-    | e -&gt; pr_app ppf e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val pr_exp0 : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
+    | e -&gt; pr_app ppf e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val pr_exp0 : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 val pr_app : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 val pr_other_applications : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 val pr_lambda : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
@@ -719,7 +719,7 @@ val pr_lambda : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 </p>
 
 <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">print_lambda</span> = pr_lambda std_formatter
-  <span class="kwa">let </span><span class="ocaml-variable">eprint_lambda</span> = pr_lambda err_formatter</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val print_lambda : lambda -&gt; unit = &lt;fun&gt;
+  <span class="kwa">let </span><span class="ocaml-variable">eprint_lambda</span> = pr_lambda err_formatter</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val print_lambda : lambda -&gt; unit = &lt;fun&gt;
 val eprint_lambda : lambda -&gt; unit = &lt;fun&gt;
 </span></pre>
 

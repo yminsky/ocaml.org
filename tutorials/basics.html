@@ -192,7 +192,7 @@ This expression has <span class="kwa">type</span> string * int but is here used 
 
 <p class="first_para">Type this into the OCaml &quot;toplevel&quot; (on Unix, type the command <code>ocaml</code> from the shell) and you'll see this:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val average : float -&gt; float -&gt; float = &lt;fun&gt;
+  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">If you look at the function definition closely, and also at what OCaml prints back at you, you'll have a number of questions:</p>
@@ -322,7 +322,7 @@ output_char : out_channel -&gt; char -&gt; unit
 <p>But OCaml is also a practical language, and for this reason it contains backdoors into the type system allowing you to bypass this checking on the rare occasions that it is sensible to do this. Only gurus will probably need to bypass the type checking.</p>
 <p>Let's go back to the <code>average</code> function which we typed into the OCaml toplevel:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val average : float -&gt; float -&gt; float = &lt;fun&gt;
+  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">Mirabile dictu! OCaml worked out all on its own that the function takes two <code>float</code> arguments and returns a <code>float</code>.</p>

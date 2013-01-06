@@ -150,12 +150,12 @@
       valeurs choisies :
   </p>
 
-    <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">square</span> <span class="ocaml-variable">x </span>= x * x</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val square : int -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">square 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 9
+    <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">square</span> <span class="ocaml-variable">x </span>= x * x</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val square : int -&gt; int = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">square 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 9
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fact</span> <span class="ocaml-variable">x </span>=
-    <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> x * fact (x - 1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val fact : int -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 120
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">square 120</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 14400
+    <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> x * fact (x - 1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val fact : int -&gt; int = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 120
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">square 120</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 14400
 </span></pre>
 
 
@@ -170,9 +170,9 @@
       liste est noté <code>::</code> (sous forme infixe).
   </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">l</span> = 1 :: 2 :: 3 :: []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val l : int list = [1; 2; 3]
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">[1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int list = [1; 2; 3]
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">5 :: l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int list = [5; 1; 2; 3]
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">l</span> = 1 :: 2 :: 3 :: []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val l : int list = [1; 2; 3]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">[1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list = [1; 2; 3]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">5 :: l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list = [5; 1; 2; 3]
 </span></pre>
 
 
@@ -187,7 +187,7 @@
 <span class="kwa">and</span> <span class="ocaml-function">insert</span> <span class="ocaml-variable">elem </span>= <span class="kwb">function</span>
   | [] -&gt; [elem]
   | x :: l -&gt; <span class="kwb">if</span> elem &lt; x <span class="kwb">then</span> elem :: x :: l
-              <span class="kwb">else</span> x :: insert elem l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val sort : 'a list -&gt; 'a list = &lt;fun&gt;
+              <span class="kwb">else</span> x :: insert elem l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val sort : 'a list -&gt; 'a list = &lt;fun&gt;
 val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
 
@@ -197,8 +197,8 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
   être appliquée aussi bien à une liste d'entiers qu'à une liste de
   chaînes de caractères.
   </p>
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [2; 1; 0]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int list = [0; 1; 2]
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [&quot;yes&quot;; &quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : string list = [&quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;; &quot;yes&quot;]
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [2; 1; 0]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list = [0; 1; 2]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [&quot;yes&quot;; &quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : string list = [&quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;; &quot;yes&quot;]
 </span></pre>
 
 
@@ -216,8 +216,8 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
   <span class="kwa">let </span><span class="ocaml-variable">result</span> = <span class="ocaml-mod">Array</span>.create (max n1 n2) 0 <span class="kwa">in</span>
   <span class="kwb">for</span> i = 0 <span class="kwb">to</span> n1 - 1 <span class="kwb">do</span> result.(i) &lt;- p1.(i) <span class="kwb">done</span>;
   <span class="kwb">for</span> i = 0 <span class="kwb">to</span> n2 - 1 <span class="kwb">do</span> result.(i) &lt;- result.(i) + p2.(i) <span class="kwb">done</span>;
-  result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val add_polynom : int array -&gt; int array -&gt; int array = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">add_polynom [| 1; 2 |] [| 1; 2; 3 |]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int array = [|2; 4; 3|]
+  result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val add_polynom : int array -&gt; int array -&gt; int array = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">add_polynom [| 1; 2 |] [| 1; 2; 3 |]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int array = [|2; 4; 3|]
 </span></pre>
 
   <p>OCaml offre des cellules mémoire modifiables
@@ -238,8 +238,8 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
     <span class="kwb">for</span> i = 2 <span class="kwb">to</span> n <span class="kwb">do</span>
       result := i * !result
     <span class="kwb">done</span>;
-    !result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val fact : int -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 120
+    !result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val fact : int -&gt; int = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 120
 </span></pre>
 
 
@@ -255,21 +255,21 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
 
 <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">sigma</span> <span class="ocaml-variable">f </span>= <span class="kwb">function</span>
     | [] -&gt; 0
-    | x :: l -&gt; f x + sigma f l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val sigma : ('a -&gt; int) -&gt; 'a list -&gt; int = &lt;fun&gt;
+    | x :: l -&gt; f x + sigma f l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val sigma : ('a -&gt; int) -&gt; 'a list -&gt; int = &lt;fun&gt;
 </span></pre>
 
   <p>On peut définir des fonctions anonymes à l'aide de la
   construction <code><b>fun</b></code> ou <code><b>function</b></code> :
   </p>
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sigma (<span class="kwb">fun</span> x -&gt; x * x) [1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 14
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sigma (<span class="kwb">fun</span> x -&gt; x * x) [1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 14
 </span></pre>
 
   <p>Polymorphisme et fonctions d'ordre supérieur permettent de
     définir la composition de fonctions sous sa forme la plus générale :
   </p>
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">compose</span> <span class="ocaml-variable">f g </span>= <span class="kwb">fun</span> x -&gt; f (g x)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val compose : ('a -&gt; 'b) -&gt; ('c -&gt; 'a) -&gt; 'c -&gt; 'b = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">square_o_fact</span> = compose square fact</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val square_o_fact : int -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">square_o_fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 14400
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">compose</span> <span class="ocaml-variable">f g </span>= <span class="kwb">fun</span> x -&gt; f (g x)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val compose : ('a -&gt; 'b) -&gt; ('c -&gt; 'a) -&gt; 'c -&gt; 'b = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">square_o_fact</span> = compose square fact</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val square_o_fact : int -&gt; int = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">square_o_fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 14400
 </span></pre>
 
 
@@ -281,7 +281,7 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
 
 <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">power</span> <span class="ocaml-variable">f n </span>= 
     <span class="kwb">if</span> n = 0 <span class="kwb">then</span> <span class="kwb">fun</span> x -&gt; x 
-    <span class="kwb">else</span> compose f (power f (n - 1))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val power : ('a -&gt; 'a) -&gt; int -&gt; 'a -&gt; 'a = &lt;fun&gt;
+    <span class="kwb">else</span> compose f (power f (n - 1))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val power : ('a -&gt; 'a) -&gt; int -&gt; 'a -&gt; 'a = &lt;fun&gt;
 </span></pre>
 
     <p>La dérivée <code>n</code><sup>ième</sup> d'une fonction peut
@@ -289,9 +289,9 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
       dérivée à la puissance <code>n</code> :
   </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">derivative</span> <span class="ocaml-variable">dx f </span>= <span class="kwb">fun</span> x -&gt; (f (x +. dx) -. f x) /. dx</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val derivative : float -&gt; (float -&gt; float) -&gt; float -&gt; float = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">sin'''</span> = power (derivative 1e-5) 3 sin</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val sin''' : float -&gt; float = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">pi</span> = 4.0 *. atan 1.0 <span class="kwa">in</span> sin''' pi</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : float = 0.999998972517346263
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">derivative</span> <span class="ocaml-variable">dx f </span>= <span class="kwb">fun</span> x -&gt; (f (x +. dx) -. f x) /. dx</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val derivative : float -&gt; (float -&gt; float) -&gt; float -&gt; float = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">sin'''</span> = power (derivative 1e-5) 3 sin</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val sin''' : float -&gt; float = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">pi</span> = 4.0 *. atan 1.0 <span class="kwa">in</span> sin''' pi</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : float = 0.999998972517346263
 </span></pre>
 
 
@@ -307,7 +307,7 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
     | Num <span class="kwb">of</span> int
     | Var <span class="kwb">of</span> string
     | Let <span class="kwb">of</span> string * expression * expression
-    | Binop <span class="kwb">of</span> string * expression * expression</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">type expression =
+    | Binop <span class="kwb">of</span> string * expression * expression</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>type expression =
     Num of int
   | Var of string
   | Let of string * expression * expression
@@ -334,7 +334,7 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
     | &quot;-&quot; -&gt; v1 - v2
     | &quot;*&quot; -&gt; v1 * v2
     | &quot;/&quot; -&gt; v1 / v2
-    | _ -&gt; <span class="kwb">failwith</span> (&quot;Unknown operator: &quot; ^ op)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val eval : (string * int) list -&gt; expression -&gt; int = &lt;fun&gt;
+    | _ -&gt; <span class="kwb">failwith</span> (&quot;Unknown operator: &quot; ^ op)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val eval : (string * int) list -&gt; expression -&gt; int = &lt;fun&gt;
 val eval_op : string -&gt; int -&gt; int -&gt; int = &lt;fun&gt;
 </span></pre>
 
@@ -342,7 +342,7 @@ val eval_op : string -&gt; int -&gt; int -&gt; int = &lt;fun&gt;
   1 <b>in</b> x + x</code> :
   </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">eval [] (Let (&quot;x&quot;, Num 1, Binop (&quot;+&quot;, Var &quot;x&quot;, Var &quot;x&quot;)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 2
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">eval [] (Let (&quot;x&quot;, Num 1, Binop (&quot;+&quot;, Var &quot;x&quot;, Var &quot;x&quot;)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 2
 </span></pre>
 
   <p>L'emploi du filtrage facilite la définition des fonctions opérant
@@ -360,7 +360,7 @@ val eval_op : string -&gt; int -&gt; int -&gt; int = &lt;fun&gt;
   les fonctions :
   </p>
 <pre class="listing">
-<span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fib</span> <span class="ocaml-variable">x </span>= <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> fib (x - 1) + fib (x - 2)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val fib : int -&gt; int = &lt;fun&gt;
+<span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fib</span> <span class="ocaml-variable">x </span>= <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> fib (x - 1) + fib (x - 2)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val fib : int -&gt; int = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span>#trace fib<span class="ocamltop-prompt">;;</span>
 <span class="ocamltop-output">fib is now traced.</span>
 <span class="ocamltop-prompt"># </span>fib 3<span class="ocamltop-prompt">;;</span>

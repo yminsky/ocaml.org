@@ -163,15 +163,15 @@ create table users
 <pre><span class="listing"><span class="kwa">type</span> 'a <span class="ocaml-mod">option</span> = None | Some <span class="kwb">of</span> 'a</span></pre>
 
 <p>A &quot;null pointer&quot; is written <code>None</code>. The type of age in our example above (an <code>int</code> which can be null) is <code>int option</code> [remember: backwards like <code>int list</code> and <code>int binary_tree</code>].</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int option = Some 3
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int option = Some 3
 </span></pre>
 
 <p>What about a list of optional ints?</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">[ None; Some 3; Some 6; None ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int option list = [None; Some 3; Some 6; None]
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">[ None; Some 3; Some 6; None ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int option list = [None; Some 3; Some 6; None]
 </span></pre>
 
 <p>And what about an optional list of ints?</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some [1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int list option = Some [1; 2; 3]
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some [1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list option = Some [1; 2; 3]
 </span></pre>
 
 <h2><a name="Assert__warnings__fatal_errors__and_printing_to_stderr"></a>
@@ -179,7 +179,7 @@ create table users
 
 <p>One great feature of Perl is the rich set of commands for debugging programs and handling unexpected errors, including the ability to print stack traces, throw and catch exceptions and the like. OCaml doesn't have quite such a rich set of debugging commands - better than Java, about the same as C, not nearly as good as Perl.  (We'll talk about exceptions in more detail later on.)</p>
 <p>First of all, <code>assert</code> takes an expression as an argument and throws an exception. Assuming that you don't catch this exception (it's probably unwise to catch this exception, particularly for beginners), this results in the program stopping and printing out the source file and line number where the error occurred. An example:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">assert</span> (<span class="ocaml-mod">Sys</span>.os_type = &quot;Win32&quot;)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">Exception: Assert_failure (&quot;&quot;, 1, 0).
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">assert</span> (<span class="ocaml-mod">Sys</span>.os_type = &quot;Win32&quot;)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>Exception: Assert_failure (&quot;&quot;, 1, 0).
 </span></pre>
 
 <p>(Running this on Win32, of course, won't throw an error).</p>
