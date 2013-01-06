@@ -69,7 +69,7 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="install.html">Install</a></li>
-    <li><a href="releases.html">Releases</a></li>
+    <li><a href="releases/latest.html">Releases</a></li>
     <li><a href="tutorials/">Tutorials</a></li>
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="books.html">Books</a></li>
@@ -166,7 +166,7 @@
       function:
     </p>
 <pre class="listing">
-<span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fib </span><span class="ocaml-variable">x </span>= <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> fib (x - 1) + fib (x - 2)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val fib : int -&gt; int = &lt;fun&gt;
+<span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fib</span> <span class="ocaml-variable">x </span>= <span class="kwb">if</span> x &lt;= 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> fib (x - 1) + fib (x - 2)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val fib : int -&gt; int = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span>#trace fib<span class="ocamltop-prompt">;;</span>
 <span class="ocamltop-output">fib is now traced.</span>
 <span class="ocamltop-prompt"># </span>fib 3<span class="ocamltop-prompt">;;</span>
@@ -193,14 +193,14 @@ fib --&gt; 3
       arguments and/or results. Consider a sorting algorithm (say
       bubble sort):
     </p>
-    <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">exchange </span><span class="ocaml-variable">i j v </span>=
+    <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">exchange</span> <span class="ocaml-variable">i j v </span>=
     <span class="kwa">let </span><span class="ocaml-variable">aux</span> = v.(i) <span class="kwa">in</span>
     v.(i) &lt;- v.(j); v.(j) &lt;- aux</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val exchange : int -&gt; int -&gt; 'a array -&gt; unit = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">one_pass_vect </span><span class="ocaml-variable">fin v </span>=
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">one_pass_vect</span> <span class="ocaml-variable">fin v </span>=
     <span class="kwb">for</span> j = 1 <span class="kwb">to</span> fin <span class="kwb">do</span>
       <span class="kwb">if</span> v.(j - 1) &gt; v.(j) <span class="kwb">then</span> exchange (j - 1) j v
     <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val one_pass_vect : int -&gt; 'a array -&gt; unit = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">bubble_sort_vect </span><span class="ocaml-variable">v </span>=
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">bubble_sort_vect</span> <span class="ocaml-variable">v </span>=
     <span class="kwb">for</span> i = <span class="ocaml-mod">Array</span>.length v - 1 <span class="kwb">downto</span> 0 <span class="kwb">do</span>
     one_pass_vect i v
   <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val bubble_sort_vect : 'a array -&gt; unit = &lt;fun&gt;
@@ -331,8 +331,8 @@ one_pass_vect* --&gt; ()
 
     <pre><span class="listing"><span class="ocaml-comment">(* file uncaught.ml *)</span>
 <span class="kwa">let </span><span class="ocaml-variable">l</span> = <span class="kwb">ref</span> [];;
-<span class="kwa">let</span> <span class="ocaml-function">find_address </span><span class="ocaml-variable">name </span>= <span class="ocaml-mod">List</span>.assoc name !l;;
-<span class="kwa">let</span> <span class="ocaml-function">add_address </span><span class="ocaml-variable">name address </span>= l := (name, address) :: ! l;;
+<span class="kwa">let</span> <span class="ocaml-function">find_address</span> <span class="ocaml-variable">name </span>= <span class="ocaml-mod">List</span>.assoc name !l;;
+<span class="kwa">let</span> <span class="ocaml-function">add_address</span> <span class="ocaml-variable">name address </span>= l := (name, address) :: ! l;;
 add_address "IRIA" "Rocquencourt";;
 print_string (find_address "INRIA"); print_newline ();;</span></pre>
 
@@ -410,7 +410,7 @@ Time : 11 - pc : 15500 - module List
       So the last function called is from module <code>List</code> at
       character 3562, that is :
     </p>
-    <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">assoc </span><span class="ocaml-variable">x </span>= <span class="kwb">function</span>
+    <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">assoc</span> <span class="ocaml-variable">x </span>= <span class="kwb">function</span>
     [] -> <span class="kwb">raise</span> Not_found
           ^
   | (a,b)::l -> <span class="kwb">if</span> a = x <span class="kwb">then</span> b <span class="kwb">else</span> assoc x l</span></pre>

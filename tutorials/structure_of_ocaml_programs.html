@@ -69,7 +69,7 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases.html">Releases</a></li>
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -149,18 +149,18 @@ average (double a, double b)
 </pre>
 
 <p class="first_para">Now let's do the same to our OCaml version:</p>
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">average </span><span class="ocaml-variable">a b </span>=
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
   <span class="kwa">let </span><span class="ocaml-variable">sum</span> = a +. b <span class="kwa">in</span>
   sum /. 2.0;;</span></pre>
 
 <p class="first_para">The standard phrase <code><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">name</span> = expression <span class="kwa">in</span></span></code> is used to define a named local expression, and <code>name</code> can then be used later on in the function instead of <code>expression</code>, till a <code>;;</code> which ends the block of code. Notice that we don't indent after the <code>in</code>. Just think of <code>let ... in</code> as if it were a statement.</p>
 <p>Now comparing C local variables and these named local expressions is a sleight of hand. In fact they are somewhat different. The C variable <code>sum</code> has a slot allocated for it on the stack. You can assign to <code>sum</code> later in the function if you want, or even take the address of <code>sum</code>. This is NOT true for the OCaml version. In the OCaml version, <code>sum</code> is just a shorthand name for the expression <code>a +. b</code>.  There is no way to assign to <code>sum</code> or change its value in any way. (We'll see how you can do variables whose value changes in a minute).</p>
 <p>Here's another example to make this clearer. The following two code snippets should return the same value (namely (a+b) + (a+b)<sup>2</sup>):</p>
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">a b </span>=
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">a b </span>=
   (a +. b) +. (a +. b) ** 2.
   ;;</span></pre>
 
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">a b </span>=
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">a b </span>=
   <span class="kwa">let </span><span class="ocaml-variable">x</span> = a +. b <span class="kwa">in</span>
   x +. x ** 2.
   ;;</span></pre>
@@ -173,13 +173,13 @@ average (double a, double b)
   <span class="ocaml-mod">GHtml</span>.html_from_string content
   ;;
 
-<span class="kwa">let</span> <span class="ocaml-function">menu_bold </span><span class="ocaml-variable">() </span>=
+<span class="kwa">let</span> <span class="ocaml-function">menu_bold</span> <span class="ocaml-variable">() </span>=
   <span class="kwb">match</span> bold_button#active <span class="kwb">with</span>
     true -&gt; html#set_font_style ~enable:[`BOLD] ()
   | false -&gt; html#set_font_style ~disable:[`BOLD] ()
   ;;
 
-<span class="kwa">let</span> <span class="ocaml-function">main </span><span class="ocaml-variable">() </span>=
+<span class="kwa">let</span> <span class="ocaml-function">main</span> <span class="ocaml-variable">() </span>=
   <span class="ocaml-comment">(* code omitted *)</span>
   factory#add_item &quot;Cut&quot; ~key:_X ~callback: html#cut
   ;;</span></pre>
@@ -244,9 +244,9 @@ bar (int *array, int offset, int size)
 </pre>
 
 <p class="first_para">You get the idea. Nested functions are, however, very useful and very heavily used in OCaml. Here is an example of a nested function from some real code:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">read_whole_channel </span><span class="ocaml-variable">chan </span>=
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">read_whole_channel</span> <span class="ocaml-variable">chan </span>=
   <span class="kwa">let </span><span class="ocaml-variable">buf</span> = <span class="ocaml-mod">Buffer</span>.create 4096 <span class="kwa">in</span>
-  <span class="kwa">let rec</span> <span class="ocaml-function">loop </span><span class="ocaml-variable">() </span>=
+  <span class="kwa">let rec</span> <span class="ocaml-function">loop</span> <span class="ocaml-variable">() </span>=
     <span class="kwa">let </span><span class="ocaml-variable">newline</span> = input_line chan <span class="kwa">in</span>
     <span class="ocaml-mod">Buffer</span>.add_string buf newline;
     <span class="ocaml-mod">Buffer</span>.add_char buf '\n';
@@ -293,7 +293,7 @@ read_line ();;</span></pre>
 <span class="ocaml-mod">Random</span>.self_init ();;
 <span class="ocaml-mod">Graphics</span>.open_graph &quot; 640x480&quot;;;
 
-<span class="kwa">let rec</span> <span class="ocaml-function">iterate </span><span class="ocaml-variable">r x_init i </span>=
+<span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init
   <span class="kwb">else</span>
     <span class="kwa">let </span><span class="ocaml-variable">x</span> = iterate r x_init (i-1) <span class="kwa">in</span>
@@ -330,7 +330,7 @@ read_line ();;</span></pre>
 <pre><span class="listing"><span class="ocaml-mod">Random</span>.self_init ();;
 <span class="ocaml-mod">Graphics</span>.open_graph " 640x480";;
 
-<span class="kwa">let rec</span> <span class="ocaml-function">iterate </span><span class="ocaml-variable">r x_init i </span>=
+<span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init
   <span class="kwb">else</span>
     <span class="kwa">let </span><span class="ocaml-variable">x</span> = iterate r x_init (i-1) <span class="kwa">in</span>
@@ -350,7 +350,7 @@ read_line ();;</span></pre>
 self_init ();;
 open_graph " 640x480"         <span class="ocaml-comment">(* ;; *)</span>
 
-<span class="kwa">let rec</span> <span class="ocaml-function">iterate </span><span class="ocaml-variable">r x_init i </span>=
+<span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init
   <span class="kwb">else</span>
     <span class="kwa">let </span><span class="ocaml-variable">x</span> = iterate r x_init (i-1) <span class="kwa">in</span>
@@ -402,18 +402,18 @@ expression.  <code>match foo with ...</code> is an expression.  The
 following code is perfectly legal (and all do the same thing):
 </p>
 
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">x b y </span>= <span class="kwb">if</span> b <span class="kwb">then</span> x+y <span class="kwb">else</span> x+0
-<span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">x b y </span>= x + (<span class="kwb">if</span> b <span class="kwb">then</span> y <span class="kwb">else</span> 0)
-<span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">x b y </span>= x + (<span class="kwb">match</span> b <span class="kwb">with</span> true -> y | false -> 0)
-<span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let</span> <span class="ocaml-function">g </span><span class="ocaml-variable">z </span>= <span class="kwb">function</span> true -> z | false -> 0 <span class="kwa">in</span> g y b)
-<span class="kwa">let</span> <span class="ocaml-function">f </span><span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let </span><span class="ocaml-variable">_</span> = y + 3 <span class="kwa">in</span> (); <span class="kwb">if</span> b <span class="kwb">then</span> y <span class="kwb">else</span> 0)</span></pre>
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= <span class="kwb">if</span> b <span class="kwb">then</span> x+y <span class="kwb">else</span> x+0
+<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwb">if</span> b <span class="kwb">then</span> y <span class="kwb">else</span> 0)
+<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwb">match</span> b <span class="kwb">with</span> true -> y | false -> 0)
+<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let</span> <span class="ocaml-function">g</span> <span class="ocaml-variable">z </span>= <span class="kwb">function</span> true -> z | false -> 0 <span class="kwa">in</span> g y b)
+<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let </span><span class="ocaml-variable">_</span> = y + 3 <span class="kwa">in</span> (); <span class="kwb">if</span> b <span class="kwb">then</span> y <span class="kwb">else</span> 0)</span></pre>
 
 <p>
 Note especially the last one - I'm using <code>;</code> as an operator
 to "join" two statements.  All functions in OCaml can be expressed as:
 </p>
 
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">name </span><span class="ocaml-variable">[parameters] </span>= expression</span></pre>
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">name</span> <span class="ocaml-variable">[parameters] </span>= expression</span></pre>
 
 <p>
 OCaml's definition of what is an expression is just a little wider
@@ -442,7 +442,7 @@ like:
 <span class="kwa">open</span> <span class="ocaml-mod">StdLabels</span>
 <span class="kwa">open</span> <span class="ocaml-mod">GMain</span>
 
-<span class="kwa">let</span> <span class="ocaml-function">file_dialog </span><span class="ocaml-variable">~title ~callback ?filename () </span>=
+<span class="kwa">let</span> <span class="ocaml-function">file_dialog</span> <span class="ocaml-variable">~title ~callback ?filename () </span>=
   <span class="kwa">let </span><span class="ocaml-variable">sel</span> =
     <span class="ocaml-mod">GWindow</span>.file_selection ~title ~modal:true ?filename () <span class="kwa">in</span>
   sel#cancel_button#connect#clicked ~callback:sel#destroy;

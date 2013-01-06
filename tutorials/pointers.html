@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    
+    <meta content="IE=8" http-equiv="X-UA-Compatible"/>
+    <title>OCaml :: Pointers in OCaml</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
+    <meta content="" name="description"/>
+    <meta content="" name="keywords"/>
+    <meta content="OCaml (Weberizer)" name="generator"/>
+
+    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link rel="stylesheet" href=".././css/bootstrap.css"/>
+    <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
+
+    
+    
+
+    <meta content="Pointers in OCaml" property="og:title"/>
+    <meta content="non_profit" property="og:type"/>
+
+    <meta content="all" name="robots"/>
+  </head>
+  <body>
+    <div id="header">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+	  
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href=".././" class="brand">OCaml</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+	      <li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Discover
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="../description.html">What is OCaml?</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it Online</a></li>
+    <li><a href="../taste.html">100 Lines of OCaml</a></li>
+    <li><a href="../success.html">Success Stories</a></li>
+    <li><a href="../companies.html">Who Is Using It?</a></li>
+    <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a>
+        <a href="http://langref.org/ocaml">langref.org</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Learn
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../install.html">Install</a></li>
+    <li><a href="../releases/latest.html">Releases</a></li>
+    <li><a href="../tutorials/">Tutorials</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../books.html">Books</a></li>
+    <li><a href="../videos.html">Videos</a></li>
+    <li><a href="../papers.html">Papers</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../libraries.html">Libraries</a></li>
+    <li><a href="../dev_tools.html">Development Tools</a></li>
+    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
+    <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
+    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Community
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../mailing_lists.html">Mailing Lists</a></li>
+    <li><a href="../planet/">Blogs</a></li>
+    <li><a href="../meetings.html">Meetings</a></li>
+    <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
+    <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
+    <li><a href="http://www.reddit.com/r/ocaml/">Reddit</a></li>
+    <li><a href="../support.html">Commercial Support</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">More
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="http://caml.inria.fr/mantis/">Mantis Bug Tracker</a></li>
+    <li><a href="../caml-light/">Caml Light</a></li>
+    <li><a href="../logos.html">Logos</a></li>
+  </ul>
+</li>
+
+            </ul>
+	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
+	      <input placeholder="Search" class="search-query" name="q" type="text"/>
+	      <input value="site:http://www.ocaml.org/" name="q" type="hidden"/>
+	    </form>
+            
+	    
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <span class="navigation-bar">
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Pointers in OCaml
+	<span id="language">
+	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
+	</span>
+      </span>
+
+      
+
+    <div style="margin-left: 1em" class="pull-right hero-unit">
+      <em>Table of contents</em>
+      <div class="toc"><ul class="toc-sub"><li class="toc-entry"><a href="#status">Status of pointers in OCaml</a></li><li class="toc-entry"><a href="#def">Defining pointers in Caml</a></li><li class="toc-entry"><a href="#integer-lists">Integer Lists</a></li><li class="toc-entry"><a href="#polymorphic-lists">Polymorphic lists</a></li></ul></div>
+    </div>
+
+<h1>Pointers in OCaml</h1>
+
+<h2><a name="status"></a>Status of pointers in OCaml</h2>
+
+<p>
+  Pointers exist in Caml, and in fact they spread all over the
+  place. They are used either implicitely (in the most cases), or
+  explicitely (in the rare occasions where implicit pointers are not
+  more handy). The vast majority of pointers usages that are found in
+  usual programming languages simply disapear in Caml, or more
+  exactly, those pointers are totally automatically handled by the
+  compiler and the Caml programmer can safely just ignore their
+  existence, focusing on the semantic of its program.  <br/> For
+  instance lists or trees are defined without explicit pointers using
+  a concrete datatype definition. The underlying implementation uses
+  pointers, but this is transparent to the programmer since pointer
+  handling is done by the compiler.
+</p>
+<p>
+  In the rare occasions where explicit pointers are needed (the most
+  common case is when translating in Caml an algorithm described in a
+  classic imperative language), Caml provides references that are
+  full-fledged pointers, even first class citizen pointers (references
+  can be passed as argument, embedded into arbitrary data structures,
+  and returned as function results).
+</p>
+
+<h3><a name="explicit"></a>Explicit pointers are Caml values of
+  type <code>ref</code></h3>
+
+<p>
+  You can program directly with explicit references if you want to,
+  but this is normally a vast of time and effort.
+</p>
+<p>
+  Let's examine the simple example of linked lists (integer lists to
+  be simple). This data type is defined in C (or in Pascal) using
+  explicit pointers, for instance:
+</p>
+<pre class="listing">
+/* Cells and lists type in C */
+struct cell {
+  int hd;
+  struct cell *tl;
+};
+
+typedef struct cell cell, *list;
+</pre>
+<pre class="listing">
+{Cells and lists type in Pascal}
+type
+ list = ^cell;
+ cell = record
+  hd: integer;
+  tl: cell;
+ end;
+</pre>
+
+<p>
+  We can translate this in Caml, using a sum type definition, without
+  pointers:
+</p>
+
+<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">list</span> = Nil | Cons <span class="kwb">of</span> int * list</span></pre>
+
+<p> Cell lists are thus represented as pairs, and the recursive
+  structure of lists is evident, with the two alternatives, empty list
+  (the <code>Nil</code>constructor) and non empty list (the
+  <code>Cons</code> constructor).<br/> Automatic management of
+  pointers and automatic memory allocation shine when allocating list
+  values: one just writes <code>Cons (x, l)</code> to
+  add <code>x</code> in front of the list
+  <code>l</code>. In C, you need to write this function, to
+  allocate a new cell and then fill its fields. For instance:
+</p>
+
+<pre class="listing">
+/* The empty list */
+#define nil NULL
+
+/* The constructor of lists */
+list cons (element x, list l)
+{
+  list result;
+  result = (list) malloc (sizeof (cellule));
+  result -&gt; hd = x;
+  result -&gt; tl = l;
+  return (result);
+}
+</pre>
+<p>Similarly, in Pascal:</p>
+<pre class="listing">
+{Creating a list cell}
+function cons (x: integer; l: list): list;
+ var p: list;
+ begin
+  new(p);
+  p^.hd := x;
+  p^.tl := l;
+  cons := p
+ end;
+</pre>
+<p>
+  We thus see that fields of list cells in the C program have to be
+  mutable, otherwise initialization is impossible. By contrast in
+  Caml, allocation and initialization are merged into a single basic
+  operation: constructor application. This way, immutable data
+  structures are definable (those data types are often refered to as
+  “pure” or “functionnal” data structures). If physical
+  modifications are necessary for other reasons than mere
+  initialization, Caml provides records with mutable fields. For
+  instance, a list type defining lists whose elements can be in place
+  modified could be written:
+</p>
+
+<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">list</span> = Nil | Cons <span class="kwb">of</span> cell
+<span class="kwa">and </span><span class="ocaml-variable">cell</span> = { <span class="kwb">mutable</span> hd : int; tl : list }</span></pre>
+
+<p>If the structure of the list itself must also be modified (cells
+  must be physically removed from the list), the
+  <code>tl</code> field would also be declared as mutable:
+</p>
+
+<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">list</span> = | Nil | Cons <span class="kwb">of</span> cell
+<span class="kwa">and </span><span class="ocaml-variable">cell</span> = {<span class="kwb">mutable</span> hd : int; <span class="kwb">mutable</span> tl : list};;</span></pre>
+
+<p>
+  Physical assignments are still useless to allocate mutable data: you
+  write <code>Cons {hd = 1; tl = l}</code> to add
+  <code>1</code> to the list <code>l</code>. Physical assigments
+  that remain in Caml programs should be just those assignments
+  that are mandatory to implement the algorithm at hand.
+</p>
+
+<h3><a name="mutable"></a>Pointers and mutable fields or vectors</h3>
+
+<p>
+  Very often, pointers are used to implement physical modification of
+  data structures. In Caml programs this means using vectors or
+  mutable fields in records. For this kind of use of pointers, the
+  Pascal's instruction:
+  <code>x^.label := <b>val</b></code> (where
+  <code>x</code> is a value of a record having a <code>label</code>
+  field) corresponds to the Caml construct
+  <code>x.label &lt;- <b>val</b></code> (where <code>x</code> is a
+  value of a record having a <code>label</code> mutable field). The
+  Pascal's <code>^</code> symbol simply disapears, since dereferencing
+  is automatically handled by the Caml compiler.
+</p>
+
+<p>
+  <strong>In conclusion:</strong>
+  You can use explicit pointers in Caml, exactly as in Pascal or C,
+  but this is not natural, since you get back the usual drawbacks
+  and difficulties of explicit pointers manipulation of classical
+  algorithmic languages. See a more complete example below.
+</p>
+
+
+<h2><a name="def"></a>Defining pointers in Caml</h2>
+
+<p>
+  The general pointer type can be defined using the definition of a
+  pointer: a pointer is either null, or a pointer to an assignable
+  memory location:
+</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> 'a <span class="ocaml-mod">pointer</span> = Null | Pointer <span class="kwb">of</span> 'a <span class="kwb">ref</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">type 'a pointer = Null | Pointer of 'a ref
+</span></pre>
+
+<p>
+  Explicit dereferencing (or reading the pointer's designated value)
+  and pointer assignment (or writing to the pointer's designated
+  memory location) are easily defined. We define dereferencing as a
+  prefix operator named <code>!^</code>, and assigment as the
+  infix <code>^:=</code>.
+</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">( !^ )</span> = <span class="kwb">function</span>
+    | Null -&gt; invalid_arg &quot;Attempt <span class="kwb">to</span> dereference the null pointer&quot;
+    | Pointer r -&gt; !r</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val ( !^ ) : 'a pointer -&gt; 'a = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">( ^:= )</span> <span class="ocaml-variable">p v </span>=
+    <span class="kwb">match</span> p <span class="kwb">with</span>
+    | Null -&gt; invalid_arg &quot;Attempt <span class="kwb">to</span> assign the null pointer&quot;
+    | Pointer r -&gt; r := v</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val ( ^:= ) : 'a pointer -&gt; 'a -&gt; unit = &lt;fun&gt;
+</span></pre>
+
+<p>
+  Now we define the allocation of a new pointer initialized to points
+  to a given value:
+</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">new_pointer</span> <span class="ocaml-variable">x </span>= Pointer (<span class="kwb">ref</span> x)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val new_pointer : 'a -&gt; 'a pointer = &lt;fun&gt;
+</span></pre>
+
+<p>
+  For instance, let's define and then assign a pointer to an integer:
+</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">p</span> = new_pointer 0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val p : int pointer = Pointer {contents = 0}
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">p ^:= 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">!^p</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : int = 1
+</span></pre>
+
+
+<h2><a name="integer-lists">Integer Lists</a></h2>
+
+<p>
+  Now we can define lists using explicit pointers as in usual
+  imperative languages:
+</p>
+
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* The list <span class="kwa">type</span> ``&agrave; la Pascal'' *)</span>
+  <span class="kwa">type</span> <span class="ocaml-mod">ilist</span> = cell pointer
+  <span class="kwa">and </span><span class="ocaml-variable">cell</span> = {<span class="kwb">mutable</span> hd : int; <span class="kwb">mutable</span> tl : ilist}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">type ilist = cell pointer
+and cell = { mutable hd : int; mutable tl : ilist; }
+</span></pre>
+
+<p>
+  We then define allocation of a new cell, the list constructor and
+  its associated destructors.
+</p>
+
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">new_cell</span> <span class="ocaml-variable">() </span>= {hd = 0; tl = Null}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val new_cell : unit -&gt; cell = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">cons</span> <span class="ocaml-variable">x l </span>=
+    <span class="kwa">let </span><span class="ocaml-variable">c</span> = new_cell () <span class="kwa">in</span>
+    c.hd &lt;- x;
+    c.tl &lt;- l;
+    (new_pointer c : ilist)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val cons : int -&gt; ilist -&gt; ilist = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">hd</span> <span class="ocaml-variable">(l : ilist) </span>= !^l.hd</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val hd : ilist -&gt; int = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">tl</span> <span class="ocaml-variable">(l : ilist) </span>= !^l.tl</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val tl : ilist -&gt; ilist = &lt;fun&gt;
+</span></pre>
+
+<p>
+  We can now write all kind of classical algorithms, based on pointers
+  manipulation, with their associated loops, their unwanted sharing
+  problems and their null pointer errors. For instance, list
+  concatenation, as often described in litterature, physically
+  modifies its first list argument, hooking the second list to the end
+  of the first:
+</p>
+
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Physical append *)</span>
+  <span class="kwa">let</span> <span class="ocaml-function">append</span> <span class="ocaml-variable">(l1 : ilist) (l2 : ilist) </span>=
+    <span class="kwa">let </span><span class="ocaml-variable">temp</span> = <span class="kwb">ref</span> l1 <span class="kwa">in</span>
+    <span class="kwb">while</span> tl !temp &lt;&gt; Null <span class="kwb">do</span>
+      temp := tl !temp
+    <span class="kwb">done</span>;
+    !^ !temp.tl &lt;- l2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val append : ilist -&gt; ilist -&gt; unit = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* An example: *)</span>
+  <span class="kwa">let </span><span class="ocaml-variable">l1</span> = cons 1 (cons 2 Null)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val l1 : ilist =
+  Pointer
+   {contents = {hd = 1; tl = Pointer {contents = {hd = 2; tl = Null}}}}
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">l2</span> = cons 3 Null</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val l2 : ilist = Pointer {contents = {hd = 3; tl = Null}}
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">append l1 l2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : unit = ()
+</span></pre>
+
+<p>
+  The lists <code>l1</code> and <code>l2</code> are effectively catenated:
+</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">l1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : ilist =
+Pointer
+ {contents =
+   {hd = 1;
+    tl =
+     Pointer
+      {contents = {hd = 2; tl = Pointer {contents = {hd = 3; tl = Null}}}}}}
+</span></pre>
+
+<p>
+  Just a nasty side effect of physical list concatenation:
+    <code>l1</code> now contains the concatenation of the two lists
+    <code>l1</code> and <code>l2</code>, thus the list
+    <code>l1</code> no longer exists: in some sense
+    <code>append</code> <em>consumes</em> its first argument. In
+    other words, the value of a list data now depends on its history,
+    that is on the sequence of function calls that use the value.
+    This strange behaviour leads to a lot of difficulties when
+    explicitely manipulating pointers. Try for instance, the
+    seemingly harmless:
+  
+</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">append l1 l1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : unit = ()
+</span></pre>
+<p>Then evaluate <code>l1</code>:</p>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">l1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">- : ilist =
+Pointer
+ {contents =
+   {hd = 1;
+    tl =
+     Pointer
+      {contents =
+        {hd = 2;
+         tl =
+          Pointer
+           {contents = {hd = 3; tl = Pointer {contents = {hd = 1; tl = ...}}}}}}}}
+</span></pre>
+
+
+<h2><a name="polymorphic-lists"></a>Polymorphic lists</h2>
+
+<p>
+  To go beyond Pascal type system, we define polymorphic lists using
+  pointers; here is a simple implementation of those polymorphic
+  mutable lists:
+</p>
+
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> 'a <span class="ocaml-mod">lists</span> = 'a cell pointer
+  and 'a cell = {<span class="kwb">mutable</span> hd : 'a pointer; <span class="kwb">mutable</span> tl : 'a lists}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">type 'a lists = 'a cell pointer
+and 'a cell = { mutable hd : 'a pointer; mutable tl : 'a lists; }
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">new_cell</span> <span class="ocaml-variable">() </span>= {hd = Null; tl = Null}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val new_cell : unit -&gt; 'a cell = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">cons</span> <span class="ocaml-variable">x l </span>=
+    <span class="kwa">let </span><span class="ocaml-variable">c</span> = new_cell () <span class="kwa">in</span>
+    c.hd &lt;- new_pointer x;
+    c.tl &lt;- l;
+    (new_pointer c : 'a lists)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val cons : 'a -&gt; 'a lists -&gt; 'a lists = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">hd</span> <span class="ocaml-variable">(l : 'a lists) </span>= !^l.hd</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val hd : 'a lists -&gt; 'a pointer = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">tl</span> <span class="ocaml-variable">(l : 'a lists) </span>= !^l.tl</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val tl : 'a lists -&gt; 'a lists = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">append</span> <span class="ocaml-variable">(l1 : 'a lists) (l2 : 'a lists) </span>=
+    <span class="kwa">let </span><span class="ocaml-variable">temp</span> = <span class="kwb">ref</span> l1 <span class="kwa">in</span>
+    <span class="kwb">while</span> tl !temp &lt;&gt; Null <span class="kwb">do</span>
+      temp := tl !temp
+    <span class="kwb">done</span>;
+    !^ !temp.tl &lt;- l2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val append : 'a lists -&gt; 'a lists -&gt; unit = &lt;fun&gt;
+</span></pre>
+
+  
+    </div>
+
+    
+    <br/>
+    <hr/>
+    <div id="footer">
+      Contribute to this project!
+      Find us on <a href="https://github.com/ocaml/ocaml.org">Github</a>.
+    </div>
+    <span title=".././img/ = image directory from the base of the site"></span>
+
+
+    
+    
+    
+
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <script src=".././js/jquery-1.8.0.min.js"></script>
+    
+    <script src=".././js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-22552764-2']); _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body></html>

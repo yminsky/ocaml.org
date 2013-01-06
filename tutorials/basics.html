@@ -69,7 +69,7 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases.html">Releases</a></li>
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -150,7 +150,7 @@
 <pre><span class="listing"><span class="ocaml-comment">(* This code is broken ...
 
 (* Primality test. *)
-<span class="kwa">let</span> <span class="ocaml-function">is_prime </span><span class="ocaml-variable">n </span>=
+<span class="kwa">let</span> <span class="ocaml-function">is_prime</span> <span class="ocaml-variable">n </span>=
   (* note <span class="kwb">to</span> self: ask about this on the mailing lists *) XXX;;
 
 *)</span></span></pre>
@@ -187,11 +187,11 @@ This expression has <span class="kwa">type</span> string * int but is here used 
 <a name="Defining_a_function"></a><h2><span>Defining a function</span></h2>
 <p class="first_para">You all know how to define a function (or static method, for Java-heads) in our existing languages. How do we do it in OCaml?</p>
 <p>The OCaml syntax is pleasantly concise. Here's a function which takes two floating point numbers and calculates the average:</p>
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">average </span><span class="ocaml-variable">a b </span>=
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
   (a +. b) /. 2.0;;</span></pre>
 
 <p class="first_para">Type this into the OCaml &quot;toplevel&quot; (on Unix, type the command <code>ocaml</code> from the shell) and you'll see this:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average </span><span class="ocaml-variable">a b </span>=
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
   (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
@@ -266,13 +266,13 @@ Error: This expression has type int but an expression was expected of type
 <p class="first_para">You might think that these explicit casts are ugly, time-consuming even, and you have a point, but there are at least two arguments in their favour. Firstly, OCaml needs this explicit casting to be able to do type inference (see below), and type inference is such a wonderful time-saving feature that it easily offsets the extra keyboarding of explicit casts. Secondly, if you've spent time debugging C programs you'll know that (a) implicit casts cause errors which are hard to find, and (b) much of the time you're sitting there trying to work out where the implicit casts happen.  Making the casts explicit helps you in debugging.  Thirdly, some casts (particularly int &lt;-&gt; float) are actually very expensive operations.  You do yourself no favours by hiding them.</p>
 <a name="Ordinary_functions_and_recursive_functions"></a><h2><span>Ordinary functions and recursive functions</span></h2>
 <p class="first_para">Unlike in C-derived languages, a function isn't recursive unless you explicitly say so by using <code>let rec</code> instead of just <code>let</code>. Here's an example of a recursive function:</p>
-<pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">range </span><span class="ocaml-variable">a b </span>=
+<pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">range</span> <span class="ocaml-variable">a b </span>=
   <span class="kwb">if</span> a > b <span class="kwb">then</span> []
   <span class="kwb">else</span> a :: range (a+1) b</span></pre>
 
 <p class="first_para">Notice that <code>range</code> calls itself.</p>
 <p>The only difference between <code>let</code> and <code>let rec</code> is in the scoping of the function name. If the above function had been defined with just <code>let</code>, then the call to <code>range</code> would have tried to look for an existing (previously defined) function called <code>range</code>, not the currently-being-defined function.  Using <code>let</code> (without <code>rec</code>) allows you to re-define a value in terms of the previous definition.  For example:</p>
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">positive_sum </span><span class="ocaml-variable">a b </span>= 
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">positive_sum</span> <span class="ocaml-variable">a b </span>= 
     <span class="kwa">let </span><span class="ocaml-variable">a</span> = max a 0
     <span class="kwa">and </span><span class="ocaml-variable">b</span> = max b 0 <span class="kwa">in</span>
     a + b</span></pre>
@@ -308,7 +308,7 @@ output_char : out_channel -&gt; char -&gt; unit
 
 <h3>Polymorphic functions</h3>
 <p class="first_para">Now for something a bit stranger. What about a function which takes <em>anything</em> as an argument? Here's a odd function which takes an argument, but just ignores it and always returns 3:</p>
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">give_me_a_three </span><span class="ocaml-variable">x </span>= 3</span></pre>
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">give_me_a_three</span> <span class="ocaml-variable">x </span>= 3</span></pre>
 
 <p class="first_para">What is the type of this function? In OCaml we use a special placeholder to mean &quot;any type you fancy&quot;. It's a single quote character followed by a letter. The type of the above function would normally be written:</p>
 <pre><span class="listing">give_me_a_three : 'a -> int</span></pre>
@@ -321,7 +321,7 @@ output_char : out_channel -&gt; char -&gt; unit
 <p>In addition OCaml goes on to check all your types match up (even across different files).</p>
 <p>But OCaml is also a practical language, and for this reason it contains backdoors into the type system allowing you to bypass this checking on the rare occasions that it is sensible to do this. Only gurus will probably need to bypass the type checking.</p>
 <p>Let's go back to the <code>average</code> function which we typed into the OCaml toplevel:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average </span><span class="ocaml-variable">a b </span>=
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
   (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output">val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 

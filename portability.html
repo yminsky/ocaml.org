@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    
+    <meta content="IE=8" http-equiv="X-UA-Compatible"/>
+    <title>OCaml :: Portability</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
+    <meta content="" name="description"/>
+    <meta content="" name="keywords"/>
+    <meta content="OCaml (Weberizer)" name="generator"/>
+
+    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link href="css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
+
+    
+    
+
+    <meta content="Portability" property="og:title"/>
+    <meta content="non_profit" property="og:type"/>
+
+    <meta content="all" name="robots"/>
+  </head>
+  <body>
+    <div id="header">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+	  
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href="./" class="brand">OCaml</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+	      <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    Discover
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="description.html">What is OCaml?</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it Online</a></li>
+    <li><a href="taste.html">100 Lines of OCaml</a></li>
+    <li><a href="success.html">Success Stories</a></li>
+    <li><a href="companies.html">Who Is Using It?</a></li>
+    <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a>
+        <a href="http://langref.org/ocaml">langref.org</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    Learn
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="install.html">Install</a></li>
+    <li><a href="releases/latest.html">Releases</a></li>
+    <li><a href="tutorials/">Tutorials</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="videos.html">Videos</a></li>
+    <li><a href="papers.html">Papers</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Use
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="libraries.html">Libraries</a></li>
+    <li><a href="dev_tools.html">Development Tools</a></li>
+    <li><a href="documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
+    <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
+    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Community
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="mailing_lists.html">Mailing Lists</a></li>
+    <li><a href="planet/">Blogs</a></li>
+    <li><a href="meetings.html">Meetings</a></li>
+    <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
+    <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
+    <li><a href="http://www.reddit.com/r/ocaml/">Reddit</a></li>
+    <li><a href="support.html">Commercial Support</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">More
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="http://caml.inria.fr/mantis/">Mantis Bug Tracker</a></li>
+    <li><a href="caml-light/">Caml Light</a></li>
+    <li><a href="logos.html">Logos</a></li>
+  </ul>
+</li>
+
+            </ul>
+	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
+	      <input placeholder="Search" class="search-query" name="q" type="text"/>
+	      <input value="site:http://www.ocaml.org/" name="q" type="hidden"/>
+	    </form>
+            
+	    
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <span class="navigation-bar">
+	<a href="./">Home</a><span class="separation"><img src="img/right_arrow.png" alt="&gt;"/></span>Portability
+	<span id="language">
+	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
+	</span>
+      </span>
+
+      
+<h1>Portability</h1>
+
+<h2>Supported platforms</h2>
+
+<p>The bytecoded system currently runs on any POSIX-compliant
+operating system with an ANSI-compliant C compiler (and tries hard to
+accommodate deviations from POSIX and ANSI-C). It should run straight
+out of the box on all Unix and Unix-compatible systems, including
+Linux and MacOS X. (See below for MS Windows.) While not mandatory, it
+is recommended to use the GNU gcc compiler to compile the
+distribution.</p>
+
+<p>The native-code compiler currently supports the following
+processor/operating system combinations:</p>
+
+<table class="array">
+  <tr>
+    <th colspan="1" rowspan="1">Processors</th>
+    <th colspan="1" rowspan="1">Operating systems</th>
+  </tr>
+  <tr>
+    <td rowspan="1" colspan="2">
+      Tier 1 platforms<br/>
+      (actively used and maintained by the core Caml team):
+    </td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">AMD64 (Intel and AMD x86 processors in
+    64-bit mode)</td>
+    <td colspan="1" rowspan="1">Linux, MacOS X</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">IA32 (Intel and AMD x86 processors in
+    32-bit mode)</td>
+    <td colspan="1" rowspan="1">Linux, FreeBSD, MacOS X, Microsoft
+    Windows</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">Power PC</td>
+    <td colspan="1" rowspan="1">Linux, Mac OS X</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">ARM</td>
+    <td colspan="1" rowspan="1">Linux</td>
+  </tr>
+  <tr>
+    <td rowspan="1" colspan="2"> Tier 2 platforms<br/> (maintained
+    but less actively, with help from users):</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">AMD64</td>
+    <td colspan="1" rowspan="1">Microsoft Windows, FreeBSD,
+    OpenBSD</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">IA32</td>
+    <td colspan="1" rowspan="1">NetBSD, OpenBSD, Solaris 9</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">PowerPC</td>
+    <td colspan="1" rowspan="1">NetBSD</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">SPARC</td>
+    <td colspan="1" rowspan="1">Solaris 9, Linux, NetBSD</td>
+  </tr>
+</table>
+
+<p>Other operating systems for the processors above have not been
+tested, but the compiler may work under other operating systems with
+little work.</p>
+
+<h2>Ports for Microsoft Windows</h2>
+
+<p>There are no less than four ports of Objective Caml for Microsoft
+Windows available:</p>
+<ul>
+  <li>a native Win32 port, built with the <a shape="rect" href="http://sourceforge.net/projects/mingw/files/Automated MinGW
+  Installer/mingw-get-inst/">MinGW</a> development
+  tools;</li>
+
+  <li>a native Win32 port, built with the Microsoft development tools
+  (Microsoft Visual C++ and Microsoft Assembler);</li>
+
+  <li>a port consisting of the Unix sources compiled under the <a shape="rect" href="http://cygwin.com/">Cygwin</a> Unix-like
+  environment for Windows.</li>
+
+  <li>a native Win64 (64-bit Windows) port, built with the Microsoft
+  development tools (Microsoft Visual C++ and Microsoft
+  Assembler);</li>
+</ul>
+
+<p>Here is a summary of the main differences between these ports:</p>
+
+<table style="white-space: nowrap;" class="array">
+  <tr>
+    <th colspan="1" rowspan="1"></th>
+    <th colspan="1" rowspan="1" style="width: 20%;">Native
+    Microsoft</th>
+    <th colspan="1" rowspan="1" style="width: 20%;"> Native MinGW</th>
+    <th colspan="1" rowspan="1" style="width: 20%;">Cygwin</th>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">
+      Third-party software required<br/>
+      - for base bytecode system<br/>
+      - for <tt>ocamlc -custom</tt><br/>
+      - for native-code generation
+    </td>
+    <td colspan="1" rowspan="1">
+      <br/>
+      none<br/>
+      MSVC<br/>
+      MSVC + MASM
+    </td>
+    <td colspan="1" rowspan="1">
+      <br/>
+      none<br/>
+      Cygwin<br/>
+      Cygwin
+    </td>
+    <td colspan="1" rowspan="1">
+      <br/>
+      none<br/>
+      Cygwin<br/>
+      Cygwin
+    </td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">Speed of bytecode interpreter</td>
+    <td colspan="1" rowspan="1">70 %</td>
+    <td colspan="1" rowspan="1">100 %</td>
+    <td colspan="1" rowspan="1">100 %</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">Debugger</td>
+    <td colspan="1" rowspan="1">partial</td>
+    <td colspan="1" rowspan="1">partial</td>
+    <td colspan="1" rowspan="1">full</td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">
+      Libraries<br/>
+      - Unix<br/>
+      - Threads<br/>
+      - Graphics
+    </td>
+    <td colspan="1" rowspan="1">
+      <br/>
+      partial<br/>
+      yes<br/>
+      yes
+    </td>
+    <td colspan="1" rowspan="1">
+      <br/>
+      partial<br/>
+      yes<br/>
+      yes
+    </td>
+    <td colspan="1" rowspan="1">
+      <br/>
+      full<br/>
+      yes<br/>
+      no
+    </td>
+  </tr>
+  <tr>
+    <td colspan="1" rowspan="1">Restrictions on generated executables</td>
+    <td colspan="1" rowspan="1">none</td>
+    <td colspan="1" rowspan="1">none</td>
+    <td colspan="1" rowspan="1">yes*</td>
+  </tr>
+</table>
+
+<p>* Cygwin-generated <tt>.exe</tt> files refer to a DLL that is
+distributed under the GPL.  Thus, these <tt>.exe</tt> files can only
+be distributed under a license that is compatible with the GPL.
+Executables generated by MSVC or by MinGW have no such
+restrictions.</p>
+
+
+    </div>
+
+    
+    <br/>
+    <hr/>
+    <div id="footer">
+      Contribute to this project!
+      Find us on <a href="https://github.com/ocaml/ocaml.org">Github</a>.
+    </div>
+    <span title="img/ = image directory from the base of the site"></span>
+
+
+    
+    
+    
+
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <script src="js/jquery-1.8.0.min.js"></script>
+    
+    <script src="js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-22552764-2']); _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body></html>

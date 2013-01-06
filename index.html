@@ -69,7 +69,7 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="install.html">Install</a></li>
-    <li><a href="releases.html">Releases</a></li>
+    <li><a href="releases/latest.html">Releases</a></li>
     <li><a href="tutorials/">Tutorials</a></li>
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="books.html">Books</a></li>
@@ -167,7 +167,7 @@
 	  <h2>Learn</h2>
 	  <ul>
 	    <li><a href="install.html">Install</a></li>
-            <li><a href="releases.html">Releases</a></li>
+            <li><a href="releases/latest.html">Releases</a></li>
 	    <li><a href="tutorials/index.html">Tutorials</a></li>
 	    <li><a href="faq.html">FAQ</a></li>
 	    <li><a href="books.html">Books</a></li>
@@ -232,14 +232,14 @@
 <pre class="listing"><span class="listing"><span class="ocaml-comment">(* Binary tree <span class="kwb">with</span> leaves carrying an integer. *)</span>
 <span class="kwa">type</span> <span class="ocaml-mod">tree</span> = Leaf <span class="kwb">of</span> int | Node <span class="kwb">of</span> tree * tree
 
-<span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf </span><span class="ocaml-variable">test tree </span>=
+<span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf</span> <span class="ocaml-variable">test tree </span>=
   <span class="kwb">match</span> tree <span class="kwb">with</span>
   | Leaf v -> test v
   | Node (left, right) ->
       exists_leaf test left
       || exists_leaf test right
 
-<span class="kwa">let</span> <span class="ocaml-function">has_even_leaf </span><span class="ocaml-variable">tree </span>=
+<span class="kwa">let</span> <span class="ocaml-function">has_even_leaf</span> <span class="ocaml-variable">tree </span>=
   exists_leaf (<span class="kwb">fun</span> n -> n mod 2 = 0) tree</span></pre>
 
 	  <p>OCaml is a lot more powerful than this simple example shows.
@@ -250,7 +250,7 @@
 	<div class="span6">
 	  <h2>News from the community</h2>    
 	  
-	  <div id="news"><ul><li><span class="rss-title"><a href="planet#de8a5b43b4b100ac2ecc59bc44a7b76e"> Caml Weekly News, 01 Jan 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">01 Jan 2013</span></li><li><span class="rss-title"><a href="planet#4253f74339fd819282cbe40f9ebd13b2"> Singleton types for code inference, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">30 Dec 2012</span></li><li><span class="rss-title"><a href="planet#c2fcb8b4aa00ad4abb174274b6a1d45f"> Singleton types for code inference</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">29 Dec 2012</span></li><li><span class="rss-title"><a href="planet#442a8cf9808ce87d6f90546225bcb702"> Macaque 0.6.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">26 Dec 2012</span></li><li><span class="rss-title"><a href="planet#e6c5dd3a656929c1664b08fc37901245"> Caml Weekly News, 25 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">25 Dec 2012</span></li><li><span class="rss-title"><a href="planet#e672efd955ba77a031ef9e8392474060"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">25 Dec 2012</span></li><li><span class="rss-title"><a href="planet#2f9fc6a8ae811c870e3859f2689319a7"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">21 Dec 2012</span></li><li><span class="rss-title"><a href="planet#7848ce5e403469fa5a3757e71a0f8191"> Xtmpl 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">19 Dec 2012</span></li><li><span class="rss-title"><a href="planet#7ff089ca4b443c810138d4a7c8e8b486"> Stog 0.5</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">19 Dec 2012</span></li><li><span class="rss-title"><a href="planet#3aeebe7a5873af158331e6566e6c7b25"> Cryptodbm: Encrypted dbm</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">18 Dec 2012</span></li></ul></div>
+	  <div id="news"><ul><li><span class="rss-title"><a href="planet#fe4a9758a84119967b2ef7808523bb20"> Winter distribution</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">05 Jan 2013</span></li><li><span class="rss-title"><a href="planet#35bc65a5fb94a57f1ad507d1edd0f509"> Experiences using Result.t vs Exceptions in Ocaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">04 Jan 2013</span></li><li><span class="rss-title"><a href="planet#bc1b8a06674f25766c2ef19b23b7d866"> Introduction to Result.t vs Exceptions in Ocaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">03 Jan 2013</span></li><li><span class="rss-title"><a href="planet#de8a5b43b4b100ac2ecc59bc44a7b76e"> Caml Weekly News, 01 Jan 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">01 Jan 2013</span></li><li><span class="rss-title"><a href="planet#4253f74339fd819282cbe40f9ebd13b2"> Singleton types for code inference, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">30 Dec 2012</span></li><li><span class="rss-title"><a href="planet#c2fcb8b4aa00ad4abb174274b6a1d45f"> Singleton types for code inference</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">29 Dec 2012</span></li><li><span class="rss-title"><a href="planet#442a8cf9808ce87d6f90546225bcb702"> Macaque 0.6.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">26 Dec 2012</span></li><li><span class="rss-title"><a href="planet#e6c5dd3a656929c1664b08fc37901245"> Caml Weekly News, 25 Dec 2012</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">25 Dec 2012</span></li><li><span class="rss-title"><a href="planet#e672efd955ba77a031ef9e8392474060"> Free variables are not “implicitly universally quantified”!</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">25 Dec 2012</span></li><li><span class="rss-title"><a href="planet#2f9fc6a8ae811c870e3859f2689319a7"> tptp</a></span>&nbsp;&mdash;&nbsp;<span class="rss-date">21 Dec 2012</span></li></ul></div>
 	</div>
     </div>
   </div>
