@@ -69,7 +69,6 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -81,12 +80,14 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
-    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../books.html#manual">User Manual</a></li>
+    <li><a href="../cheat_sheets.html">Cheat Sheets</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
-    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
   </ul>
 </li>
@@ -150,7 +151,7 @@
   programmers.  Nevertheless, all detailed notifications of possible
   errors or omissions will be noted with pleasure.  To send your
   comments
-  using <a href="https://github.com/ocaml/ocaml.org/issues?state=open">Github issues</a>.
+  using <a href="https://github.com/ocaml/ocaml.org/issues?state=open">GitHub issues</a>.
   <br/>Original translation from French:
   <span id="ocaml_3">Ruchira Datta &#9001;datta<abbr title="(at) &rarr; @">(at)</abbr>math.berkeley.edu&#9002;</span><script type="text/javascript"><!--;
 local = "datta";
@@ -245,9 +246,9 @@ followed by a space:
 	values simultaneously.
       
 	<pre><span class="listing"><span class="kwb">match</span> x, y <span class="kwb">with</span>
-| 1, _ -> ...
-| x, 1 -> ...
-| x, y -> ...</span></pre>
+| 1, _ -&gt; ...
+| x, 1 -&gt; ...
+| x, y -&gt; ...</span></pre>
 	<blockquote><p><strong>Justification</strong>: The point is to
             match several values in parallel, not to construct a
             tuple. Moreover, the expressions being matched are set off
@@ -330,8 +331,8 @@ an indication of string continuation at the end of each line (a
 <code>\</code> character at the end of the line that omits white
 spaces on the beginning of next line):
 <pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">universal_declaration</span> =
-  "-1- Programs are born and remain free and equal under the law;\n\
-   distinctions can only be based on the common good." <span class="kwa">in</span>
+  &quot;-1- Programs are born and remain free and equal under the law;\n\
+   distinctions can only be based on the common good.&quot; <span class="kwa">in</span>
   ...</span></pre>
  
  
@@ -435,15 +436,15 @@ recommended.
   With a regular indentation of 1 or 2 spaces:
 </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x </span>= <span class="kwb">function</span>
-  | C ->
-  | D ->
+  | C -&gt;
+  | D -&gt;
   ...
 
 <span class="kwa">let</span> <span class="ocaml-function">g</span> <span class="ocaml-variable">x </span>=
   <span class="kwa">let </span><span class="ocaml-variable">tmp</span> =
     <span class="kwb">match</span> x <span class="kwb">with</span>
-    | C -> 1
-    | x -> 0 <span class="kwa">in</span>
+    | C -&gt; 1
+    | x -&gt; 0 <span class="kwa">in</span>
   tmp + 1</span></pre>
 
 <blockquote><p>
@@ -457,8 +458,8 @@ Other conventions are acceptable, for example:
     The body is left-justified in the case of pattern-matching.
     
     <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x </span>= <span class="kwb">function</span>
-| C ->
-| D ->
+| C -&gt;
+| D -&gt;
 ...</span></pre>
     <blockquote><p>
 	<strong>Justification</strong>:
@@ -474,7 +475,7 @@ Other conventions are acceptable, for example:
     <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x </span>=
     <span class="kwa">let </span><span class="ocaml-variable">tmp</span> = ... <span class="kwa">in</span>
     <span class="kwb">try</span> g x <span class="kwb">with</span>
-    | Not_found ->
+    | Not_found -&gt;
     ...</span></pre>
     <blockquote><p>
 	<strong>Justification</strong>:
@@ -728,12 +729,12 @@ For a <code><strong>match</strong></code> or a
 construct:
 
 <pre><span class="listing"><span class="kwb">match</span> lam <span class="kwb">with</span>
-| Abs (x, body) -> 1 + size_lambda body
-| App (lam1, lam2) -> size_lambda lam1 + size_lambda lam2
-| Var v -> 1</span></pre>
+| Abs (x, body) -&gt; 1 + size_lambda body
+| App (lam1, lam2) -&gt; size_lambda lam1 + size_lambda lam2
+| Var v -&gt; 1</span></pre>
 <pre><span class="listing"><span class="kwb">try</span> f x <span class="kwb">with</span>
-| Not_found -> ...
-| Failure "not yet implemented" -> ...</span></pre>
+| Not_found -&gt; ...
+| Failure &quot;not yet implemented&quot; -&gt; ...</span></pre>
 
 Put the keyword <code><strong>with</strong></code> at the end of the
 line. If the preceding expression extends beyond one line, put
@@ -742,8 +743,8 @@ line. If the preceding expression extends beyond one line, put
   <span class="kwa">let </span><span class="ocaml-variable">y</span> = f x <span class="kwa">in</span>
   <span class="kwb">if</span> ...
 <span class="kwb">with</span>
-| Not_found -> ...
-| Failure "not yet implemented" -> ...</span></pre>
+| Not_found -&gt; ...
+| Failure &quot;not yet implemented&quot; -&gt; ...</span></pre>
 <blockquote><p>
     <strong>Justification</strong>: The
     keyword <code><strong>with</strong></code>, on a line by itself shows
@@ -756,18 +757,18 @@ If the expression on the right of the pattern matching arrow is too
 large, cut the line after the arrow.
 
 <pre><span class="listing"><span class="kwb">match</span> lam <span class="kwb">with</span>
-| Abs (x, body) ->
+| Abs (x, body) -&gt;
    1 + size_lambda body
-| App (lam1, lam2) ->
+| App (lam1, lam2) -&gt;
    size_lambda lam1 + size_lambda lam2
-| Var v -></span></pre>
+| Var v -&gt;</span></pre>
 
 <p>
   Some programmers generalize this rule to all clauses, as soon
   as one expressions overflows. They will then indent the last clause
   like this:
 </p>
-<pre><span class="listing">| Var v ->
+<pre><span class="listing">| Var v -&gt;
    1</span></pre>
 
 <p>
@@ -775,11 +776,11 @@ large, cut the line after the arrow.
   systematically to any clause of any pattern matching.
 </p>
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">fib</span> = <span class="kwb">function</span>
-  | 0 ->
+  | 0 -&gt;
      1
-  | 1 ->
+  | 1 -&gt;
      1
-  | n ->
+  | n -&gt;
      fib (n - 1) + fib ( n - 2)</span></pre>
 <blockquote><p>
     <strong>Criticism</strong>: May be not compact enough; for simple
@@ -805,9 +806,9 @@ respect to the <code><strong>function</strong></code> keyword:
 
 <pre><span class="listing">map
   (function
-   | Abs (x, body) -> 1 + size_lambda 0 body
-   | App (lam1, lam2) -> size_lambda (size_lambda 0 lam1) lam2
-   | Var v -> 1)
+   | Abs (x, body) -&gt; 1 + size_lambda 0 body
+   | App (lam1, lam2) -&gt; size_lambda (size_lambda 0 lam1) lam2
+   | Var v -&gt; 1)
   lambda_list</span></pre>
 
 <h4>Pattern matching in named functions</h4>
@@ -820,14 +821,14 @@ preceding rules for pattern matching (the one for anonymous
 functions being evidently excepted). See above for recommanded styles.
 
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">size_lambda</span> <span class="ocaml-variable">accu </span>= <span class="kwb">function</span>
-  | Abs (x, body) -> size_lambda (succ accu) body
-  | App (lam1, lam2) -> size_lambda (size_lambda accu lam1) lam2
-  | Var v -> succ accu</span></pre>
+  | Abs (x, body) -&gt; size_lambda (succ accu) body
+  | App (lam1, lam2) -&gt; size_lambda (size_lambda accu lam1) lam2
+  | Var v -&gt; succ accu</span></pre>
 
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">size_lambda</span> <span class="ocaml-variable">accu </span>= <span class="kwb">function</span>
-| Abs (x, body) -> size_lambda (succ accu) body
-| App (lam1, lam2) -> size_lambda (size_lambda accu lam1) lam2
-| Var v -> succ accu</span></pre>
+| Abs (x, body) -&gt; size_lambda (succ accu) body
+| App (lam1, lam2) -&gt; size_lambda (size_lambda accu lam1) lam2
+| Var v -&gt; succ accu</span></pre>
 
 
 <h3><a name="indentation-pattern-bad"></a>Bad indentation
@@ -841,13 +842,13 @@ This consists in indenting normally under the keyword
 been pushed to the right. Don't write:
 
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x </span>= <span class="kwb">function</span>
-              | [] -> ...
+              | [] -&gt; ...
               ...</span></pre>
 but choose to indent the line under
 the <code><strong>let</strong></code> keyword:
 
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x </span>= <span class="kwb">function</span>
-  | [] -> ...
+  | [] -&gt; ...
   ...</span></pre>
 <blockquote><p>
     <strong>Justification</strong>:
@@ -861,9 +862,9 @@ Careful alignment of the arrows of a pattern matching is
 considered bad practice, as exemplify in the following fragment:
 
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> = <span class="kwb">function</span>
-  | C1          -> 1
-  | Long_name _ -> 2
-  | _           -> 3</span></pre>
+  | C1          -&gt; 1
+  | Long_name _ -&gt; 2
+  | _           -&gt; 3</span></pre>
 
 <blockquote><p>
 <strong>Justification</strong>:
@@ -934,7 +935,7 @@ well.
 
 In place of
 <pre><span class="listing"><span class="ocaml-mod">List</span>.map
-  (function x ->
+  (function x -&gt;
     blabla
     blabla
     blabla)
@@ -1088,10 +1089,10 @@ comments.
 *)</span>
 <span class="kwa">let rec</span> <span class="ocaml-function">print_lambda</span> <span class="ocaml-variable">lam </span>=
   <span class="kwb">match</span> lam <span class="kwb">with</span>
-  | Var s -> printf "%s" s
-  | Abs l -> printf "\\ %a" print_lambda l
-  | App (l1, l2) ->
-     printf "(%a %a)" print_lambda l1 print_lambda l2</span></pre>
+  | Var s -&gt; printf &quot;%s&quot; s
+  | Abs l -&gt; printf &quot;\\ %a&quot; print_lambda l
+  | App (l1, l2) -&gt;
+     printf &quot;(%a %a)&quot; print_lambda l1 print_lambda l2</span></pre>
 
 <h4>Usage in module interface</h4>
 
@@ -1112,7 +1113,7 @@ automatically if need be.
   usefully verified by assertions.
 </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x </span>=
-  <span class="kwb">assert</span> (x >= 0);
+  <span class="kwb">assert</span> (x &gt;= 0);
   ...</span></pre>
 <p>
   Note as well that an assertion is often preferable to a comment
@@ -1280,11 +1281,11 @@ For example:
   with the enclosed pattern-matching construct).  For example:
 </p>
 <pre><span class="listing"><span class="kwb">match</span> x <span class="kwb">with</span>
-| 1 ->
+| 1 -&gt;
   <span class="kwa">begin</span> <span class="kwb">match</span> y <span class="kwb">with</span>
   | ...
   <span class="kwa">end</span>
-| 2 ->
+| 2 -&gt;
 ...</span></pre>
 
 <h4>Sequences inside branches of <code><strong>if</strong></code></h4>
@@ -1352,7 +1353,7 @@ For example:
   in the display, that are difficult to trace. For instance:
 </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">() </span>=
-  <span class="ocaml-mod">Format</span>.print_string "Hello World!"; print_newline ()</span></pre>
+  <span class="ocaml-mod">Format</span>.print_string &quot;Hello World!&quot;; print_newline ()</span></pre>
 <p>
   is bogus since it does not call <code>Format.print_newline</code> to
   flush the pretty-printer queue and output <code>"Hello World!"</code>.
@@ -1373,7 +1374,7 @@ For example:
 <pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Num</span>
 
 <span class="kwa">let rec</span> <span class="ocaml-function">fib</span> <span class="ocaml-variable">n </span>=
-  <span class="kwb">if</span> n <= 2 <span class="kwb">then</span> Int 1 <span class="kwb">else</span> fib (n - 1) +/ fib (n - 2)</span></pre>
+  <span class="kwb">if</span> n &lt;= 2 <span class="kwb">then</span> Int 1 <span class="kwb">else</span> fib (n - 1) +/ fib (n - 2)</span></pre>
 <blockquote><p>
     <strong>Justification</strong>:
     The program would be less readable if you had to qualify all the
@@ -1495,16 +1496,16 @@ For example:
     (l1 @ l2) <span class="kwa">in</span> expression</span></code> write:
     
     <pre><span class="listing"><span class="kwb">match</span> <span class="ocaml-mod">List</span>.map succ (l1 @ l2) <span class="kwb">with</span>
-| [x; y] <span class="kwb">as</span> l -> expression
-| _ -> <span class="kwb">assert</span> false</span></pre>
+| [x; y] <span class="kwb">as</span> l -&gt; expression
+| _ -&gt; <span class="kwb">assert</span> false</span></pre>
   </li><li>
     Global definition with de-structuring lets should be rewritten
     with explicit pattern matching and tuples:
     
     <pre><span class="listing">let x, y, l =
   <span class="kwb">match</span> <span class="ocaml-mod">List</span>.map succ (l1 @ l2) <span class="kwb">with</span>
-  | [x; y] <span class="kwb">as</span> l -> x, y, l
-  | _ -> <span class="kwb">assert</span> false</span></pre>
+  | [x; y] <span class="kwb">as</span> l -&gt; x, y, l
+  | _ -&gt; <span class="kwb">assert</span> false</span></pre>
 </li></ul>
 <blockquote><p>
     <strong>Justification</strong>: There is no way to make the
@@ -1557,7 +1558,7 @@ print_newline ()</span></pre>
   definition:
     
   <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">add</span> <span class="ocaml-variable">x y </span>=
-  <span class="kwb">if</span> x > 1 <span class="kwb">then</span> print_int x;
+  <span class="kwb">if</span> x &gt; 1 <span class="kwb">then</span> print_int x;
   print_newline ();
   x + y;;</span></pre>
   into the clearer separate definitions    
@@ -1605,7 +1606,7 @@ e3</span></pre></blockquote>
 </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">find_index</span> <span class="ocaml-variable">e v </span>=
   <span class="kwa">let rec</span> <span class="ocaml-function">loop</span> <span class="ocaml-variable">i </span>=
-    <span class="kwb">if</span> i >= <span class="ocaml-mod">Array</span>.length v <span class="kwb">then</span> <span class="kwb">raise</span> Not_found <span class="kwb">else</span>
+    <span class="kwb">if</span> i &gt;= <span class="ocaml-mod">Array</span>.length v <span class="kwb">then</span> <span class="kwb">raise</span> Not_found <span class="kwb">else</span>
     <span class="kwb">if</span> v.(i) = e <span class="kwb">then</span> i <span class="kwb">else</span> loop (i + 1) <span class="kwa">in</span>
   loop 0;;</span></pre>
 <blockquote><p>
@@ -1672,7 +1673,7 @@ e3</span></pre></blockquote>
 <span class="kwb">try</span>
   treatment ic oc;
   close_in ic; close_out oc
-<span class="kwb">with</span> x -> close_in ic; close_out oc; <span class="kwb">raise</span> x</span></pre>
+<span class="kwb">with</span> x -&gt; close_in ic; close_out oc; <span class="kwb">raise</span> x</span></pre>
 <blockquote><p>
     <strong>Justification</strong>:
     <code><strong>try</strong> ... <strong>with</strong> _
@@ -1731,16 +1732,16 @@ e3</span></pre></blockquote>
     by
     <code>| Let <strong>of</strong> bool * string * expression</code>
     a typical pattern matching would look like:
-  </p><pre><span class="listing">| Let (_, v, e) <span class="kwb">as</span> def ->
+  </p><pre><span class="listing">| Let (_, v, e) <span class="kwb">as</span> def -&gt;
    <span class="kwb">if</span> recursivep def <span class="kwb">then</span> code_for_recursive_case
    <span class="kwb">else</span> code_for_non_recursive_case</span></pre><p>
     or, if <code>recursivep</code> can be applied to booleans:
-  </p><pre><span class="listing">| Let (b, v, e) ->
+  </p><pre><span class="listing">| Let (b, v, e) -&gt;
    <span class="kwb">if</span> recursivep def <span class="kwb">then</span> code_for_recursive_case
    <span class="kwb">else</span> code_for_non_recursive_case</span></pre><p>
 contrast with an explicit encoding:
-  </p><pre><span class="listing">| Let (Recursive, v, e) -> code_for_recursive_case
-| Let (Non_recursive, v, e) -> code_for_non_recursive_case</span></pre><p>
+  </p><pre><span class="listing">| Let (Recursive, v, e) -&gt; code_for_recursive_case
+| Let (Non_recursive, v, e) -&gt; code_for_non_recursive_case</span></pre><p>
     The difference between the two programs is subtle and you may
     think that this is just a matter of taste; however the explicit
     encoding is definitively more robust to modifications and fits better
@@ -1786,8 +1787,8 @@ contrast with an explicit encoding:
 <p>
   rather than:</p>
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">square_elements</span> = <span class="kwb">function</span>
-  | [] -> []
-  | elem :: elements -> square elem :: square_elements elements</span></pre>
+  | [] -&gt; []
+  | elem :: elements -&gt; square elem :: square_elements elements</span></pre>
 <p>
   On the other hand avoid writing:</p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">iterator</span> <span class="ocaml-variable">f x l </span>=
@@ -1795,9 +1796,9 @@ contrast with an explicit encoding:
 <p>
   even though you get:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">iterator</span> <span class="ocaml-variable">f x l </span>=
-    <span class="ocaml-mod">List</span>.fold_right (<span class="ocaml-mod">List</span>.fold_left f) [<span class="ocaml-mod">List</span>.map x l] l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val iterator : ('a list -&gt; 'a -&gt; 'a list) -&gt; ('a -&gt; 'a) -&gt; 'a list -&gt; 'a list =
+    <span class="ocaml-mod">List</span>.fold_right (<span class="ocaml-mod">List</span>.fold_left f) [<span class="ocaml-mod">List</span>.map x l] l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val iterator : ('a list -&gt; 'a -&gt; 'a list) -&gt; ('a -&gt; 'a) -&gt; 'a list -&gt; 'a list =
   &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">iterator (<span class="kwb">fun</span> l x -&gt; x :: l) (<span class="kwb">fun</span> l -&gt; <span class="ocaml-mod">List</span>.rev l) [[1; 2; 3]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list list = [[1; 2; 3]; [3; 2; 1]]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">iterator (<span class="kwb">fun</span> l x -&gt; x :: l) (<span class="kwb">fun</span> l -&gt; <span class="ocaml-mod">List</span>.rev l) [[1; 2; 3]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list list = [[1; 2; 3]; [3; 2; 1]]
 </span></pre>
 <p>
   In case of express need, you must be careful to add an explanatory
@@ -1883,14 +1884,14 @@ contrast with an explicit encoding:
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">list_length</span> <span class="ocaml-variable">l </span>=
   <span class="kwa">let </span><span class="ocaml-variable">l</span> = <span class="kwb">ref</span> l <span class="kwa">in</span>
   <span class="kwa">let </span><span class="ocaml-variable">res</span> = <span class="kwb">ref</span> 0 <span class="kwa">in</span>
-  <span class="kwb">while</span> !l &lt;&gt; [] <span class="kwb">do</span>
+  <span class="kwb">while</span> !l &amp;lt;&amp;gt; [] <span class="kwb">do</span>
     incr res; l := <span class="ocaml-mod">List</span>.tl !l
   <span class="kwb">done</span>;
   !res;;</span></pre>
 in place of the following recursive function, so simple and clear:
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">list_length</span> = <span class="kwb">function</span>
-  | [] -> 0
-  | _ :: l -> 1 + list_length l</span></pre>
+  | [] -&gt; 0
+  | _ :: l -&gt; 1 + list_length l</span></pre>
 (For those that would contest the equivalence of those two
 versions, see the <a href="#equivalenceprogrammes">note
 below</a>).
@@ -1948,12 +1949,12 @@ below</a>).
   <span class="kwb">if</span> not !psused <span class="kwb">then</span> psused := true</span></pre>
     or (more subtle)
     <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">sync</span> <span class="ocaml-variable">b </span>=
-  <span class="kwb">if</span> !last_is_dvi <> b <span class="kwb">then</span> last_is_dvi := b</span></pre>
+  <span class="kwb">if</span> !last_is_dvi &lt;&gt; b <span class="kwb">then</span> last_is_dvi := b</span></pre>
   </li><li> Code one construct with another. For example code a
     <code><strong>let</strong> ... <strong>in</strong></code> by the
     application of an anonymous function to an
     argument. You would write<br/>
-    <pre><span class="listing">(<span class="kwb">fun</span> x y -> x + y)
+    <pre><span class="listing">(<span class="kwb">fun</span> x y -&gt; x + y)
    e1 e2</span></pre>
     instead of simply writing
     <pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">x</span> = e1
@@ -1984,9 +1985,9 @@ x + y</span></pre>
 
   </li><li> Another efficient way to write unreadable code is to mix
     all or some of these methods. For example:
-    <pre><span class="listing">(<span class="kwb">fun</span> u -> print_string "world"; print_string u)
-  (<span class="kwa">let </span><span class="ocaml-variable">temp</span> = print_string "Hello"; "!" <span class="kwa">in</span>
-   ((<span class="kwb">fun</span> x -> print_string x; flush stdout) " ";
+    <pre><span class="listing">(<span class="kwb">fun</span> u -&gt; print_string &quot;world&quot;; print_string u)
+  (<span class="kwa">let </span><span class="ocaml-variable">temp</span> = print_string &quot;Hello&quot;; &quot;!&quot; <span class="kwa">in</span>
+   ((<span class="kwb">fun</span> x -&gt; print_string x; flush stdout) &quot; &quot;;
     temp));;</span></pre>
   </li></ul>
 <p>
@@ -2122,8 +2123,8 @@ document.getElementById("ocaml_4").innerHTML = '<a href="mailto:' + local + '@' 
 </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">list_length</span> <span class="ocaml-variable">l </span>=
   <span class="kwa">let rec</span> <span class="ocaml-function">loop</span> <span class="ocaml-variable">accu </span>= <span class="kwb">function</span>
-    | [] -> accu
-    | _ :: l -> loop (accu + 1) l <span class="kwa">in</span>
+    | [] -&gt; accu
+    | _ :: l -&gt; loop (accu + 1) l <span class="kwa">in</span>
   loop 0 l</span></pre>
 
 <p>This way, you get a program that has the same computational

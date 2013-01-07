@@ -69,7 +69,6 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -81,12 +80,14 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
-    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../books.html#manual">User Manual</a></li>
+    <li><a href="../cheat_sheets.html">Cheat Sheets</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
-    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
   </ul>
 </li>
@@ -163,15 +164,15 @@ create table users
 <pre><span class="listing"><span class="kwa">type</span> 'a <span class="ocaml-mod">option</span> = None | Some <span class="kwb">of</span> 'a</span></pre>
 
 <p>A &quot;null pointer&quot; is written <code>None</code>. The type of age in our example above (an <code>int</code> which can be null) is <code>int option</code> [remember: backwards like <code>int list</code> and <code>int binary_tree</code>].</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int option = Some 3
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int option = Some 3
 </span></pre>
 
 <p>What about a list of optional ints?</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">[ None; Some 3; Some 6; None ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int option list = [None; Some 3; Some 6; None]
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">[ None; Some 3; Some 6; None ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int option list = [None; Some 3; Some 6; None]
 </span></pre>
 
 <p>And what about an optional list of ints?</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some [1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int list option = Some [1; 2; 3]
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Some [1; 2; 3]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list option = Some [1; 2; 3]
 </span></pre>
 
 <h2><a name="Assert__warnings__fatal_errors__and_printing_to_stderr"></a>
@@ -179,27 +180,27 @@ create table users
 
 <p>One great feature of Perl is the rich set of commands for debugging programs and handling unexpected errors, including the ability to print stack traces, throw and catch exceptions and the like. OCaml doesn't have quite such a rich set of debugging commands - better than Java, about the same as C, not nearly as good as Perl.  (We'll talk about exceptions in more detail later on.)</p>
 <p>First of all, <code>assert</code> takes an expression as an argument and throws an exception. Assuming that you don't catch this exception (it's probably unwise to catch this exception, particularly for beginners), this results in the program stopping and printing out the source file and line number where the error occurred. An example:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">assert</span> (<span class="ocaml-mod">Sys</span>.os_type = &quot;Win32&quot;)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>Exception: Assert_failure (&quot;&quot;, 1, 0).
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">assert</span> (<span class="ocaml-mod">Sys</span>.os_type = &quot;Win32&quot;)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>Exception: Assert_failure (&quot;&quot;, 1, 0).
 </span></pre>
 
 <p>(Running this on Win32, of course, won't throw an error).</p>
 <p>You can also just call <code>assert false</code> to stop your program if things just aren't going well, but you're probably better to use ...</p>
 <p><code>failwith &quot;error message&quot;</code> throws a <code>Failure</code> exception, which again assuming you don't try to catch it, will stop the program with the given error message. <code>failwith</code> is often used during pattern matching, like this real example:</p>
 <pre><span class="listing"><span class="kwb">match</span> <span class="ocaml-mod">Sys</span>.os_type <span class="kwb">with</span>
-| "Unix" | "Cygwin" ->   <span class="ocaml-comment">(* code omitted *)</span>
-| "Win32" ->             <span class="ocaml-comment">(* code omitted *)</span>
-| "MacOS" ->             <span class="ocaml-comment">(* code omitted *)</span>
-| _ -> <span class="kwb">failwith</span> "this system is not supported"</span></pre>
+| &quot;Unix&quot; | &quot;Cygwin&quot; -&gt;   <span class="ocaml-comment">(* code omitted *)</span>
+| &quot;Win32&quot; -&gt;             <span class="ocaml-comment">(* code omitted *)</span>
+| &quot;MacOS&quot; -&gt;             <span class="ocaml-comment">(* code omitted *)</span>
+| _ -&gt; <span class="kwb">failwith</span> &quot;this system is not supported&quot;</span></pre>
 
 <p>Note a couple of extra pattern matching features in this example too. A so-called &quot;range pattern&quot; is used to match either <code>&quot;Unix&quot;</code> or <code>&quot;Cygwin&quot;</code>, and the special <code>_</code> pattern which matches &quot;anything else&quot;.</p>
 <p>If you want to debug your program, but, like me, you have an aversion to debuggers which aren't gdb, then you'll probably want to print out a warning some way through your function. Here's an example:</p>
 <pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Graphics</span>
 
 <span class="kwa">let</span> () =
-  open_graph " 640x480";
+  open_graph &quot; 640x480&quot;;
   <span class="kwb">for</span> i = 12 <span class="kwb">downto</span> 1 <span class="kwb">do</span>
     <span class="kwa">let </span><span class="ocaml-variable">radius</span> = i * 20 <span class="kwa">in</span>
-    prerr_endline ("radius is " ^ string_of_int radius);
+    prerr_endline (&quot;radius is &quot; ^ string_of_int radius);
     set_color (<span class="kwb">if</span> i mod 2 = 0 <span class="kwb">then</span> red <span class="kwb">else</span> yellow);
     fill_circle 320 240 radius
   <span class="kwb">done</span>;
@@ -210,10 +211,10 @@ create table users
 <span class="kwa">open</span> <span class="ocaml-mod">Printf</span>
 
 <span class="kwa">let</span> () =
-  open_graph " 640x480";
+  open_graph &quot; 640x480&quot;;
   <span class="kwb">for</span> i = 12 <span class="kwb">downto</span> 1 <span class="kwb">do</span>
     <span class="kwa">let </span><span class="ocaml-variable">radius</span> = i * 20 <span class="kwa">in</span>
-    eprintf "radius is %d\n" radius;
+    eprintf &quot;radius is %d\n&quot; radius;
     set_color (<span class="kwb">if</span> i mod 2 = 0 <span class="kwb">then</span> red <span class="kwb">else</span> yellow);
     fill_circle 320 240 radius
   <span class="kwb">done</span>;

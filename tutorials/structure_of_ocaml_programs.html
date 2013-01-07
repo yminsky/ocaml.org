@@ -69,7 +69,6 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -81,12 +80,14 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
-    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../books.html#manual">User Manual</a></li>
+    <li><a href="../cheat_sheets.html">Cheat Sheets</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
-    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
   </ul>
 </li>
@@ -175,13 +176,13 @@ average (double a, double b)
 
 <span class="kwa">let</span> <span class="ocaml-function">menu_bold</span> <span class="ocaml-variable">() </span>=
   <span class="kwb">match</span> bold_button#active <span class="kwb">with</span>
-    true -&gt; html#set_font_style ~enable:[`BOLD] ()
-  | false -&gt; html#set_font_style ~disable:[`BOLD] ()
+    true -&amp;gt; html#set_font_style ~enable:[`BOLD] ()
+  | false -&amp;gt; html#set_font_style ~disable:[`BOLD] ()
   ;;
 
 <span class="kwa">let</span> <span class="ocaml-function">main</span> <span class="ocaml-variable">() </span>=
   <span class="ocaml-comment">(* code omitted *)</span>
-  factory#add_item &quot;Cut&quot; ~key:_X ~callback: html#cut
+  factory#add_item &amp;quot;Cut&amp;quot; ~key:_X ~callback: html#cut
   ;;</span></pre>
 
 <p class="first_para">In this real piece of code, <code>html</code> is an HTML editing widget (an object from the lablgtk library) which is created once at the beginning of the program by the first <code>let html =</code> statement. It is then referred to in several later functions.</p>
@@ -194,15 +195,15 @@ average (double a, double b)
 <pre><span class="listing"><span class="kwb">ref</span> 0;;</span></pre>
 
 <p class="first_para">Actually that statement wasn't really very useful. We created the reference and then, because we didn't name it, the garbage collector came along and collected it immediately afterwards! (actually, it was probably thrown away at compile-time.) Let's name the reference:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">my_ref</span> = <span class="kwb">ref</span> 0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val my_ref : int ref = {contents = 0}
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">my_ref</span> = <span class="kwb">ref</span> 0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val my_ref : int ref = {contents = 0}
 </span></pre>
 
 <p class="first_para">This reference is currently storing a zero integer. Let's put something else into it (assignment):</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">my_ref := 100</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : unit = ()
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">my_ref := 100</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p class="first_para">And let's find out what the reference contains now:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">!my_ref</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>- : int = 100
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">!my_ref</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 100
 </span></pre>
 
 <p class="first_para">So the <code>:=</code> operator is used to assign to references, and the <code>!</code> operator dereferences to get out the contents. Here's a rough-and-ready comparison with C/C++:</p>
@@ -255,7 +256,7 @@ bar (int *array, int offset, int size)
   <span class="kwb">try</span>
     loop ()
   <span class="kwb">with</span>
-    End_of_file -&gt; <span class="ocaml-mod">Buffer</span>.contents buf</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val read_whole_channel : in_channel -&gt; string = &lt;fun&gt;
+    End_of_file -&gt; <span class="ocaml-mod">Buffer</span>.contents buf</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val read_whole_channel : in_channel -&gt; string = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">Don't worry about what this code does - it contains many concepts which haven't been discussed in this tutorial yet. Concentrate instead on the central nested function called <code>loop</code> which takes just a unit argument.  You can call <code>loop ()</code> from within the function <code>read_whole_channel</code>, but it's not defined outside this function. The nested function can access variables defined in the main function (here <code>loop</code> accesses the local names <code>buf</code> and <code>chan</code>).</p>
@@ -280,7 +281,7 @@ bar (int *array, int offset, int size)
 
 <span class="kwa">open</span> <span class="ocaml-mod">Graphics</span>;;
 
-open_graph &quot; 640x480&quot;;;
+open_graph &amp;quot; 640x480&amp;quot;;;
 <span class="kwb">for</span> i = 12 <span class="kwb">downto</span> 1 <span class="kwb">do</span>
   <span class="kwa">let </span><span class="ocaml-variable">radius</span> = i * 20 <span class="kwa">in</span>
   set_color (<span class="kwb">if</span> i mod 2 = 0 <span class="kwb">then</span> red <span class="kwb">else</span> yellow);
@@ -291,7 +292,7 @@ read_line ();;</span></pre>
 <pre><span class="listing"><span class="ocaml-comment">(* To compile this example: ocamlc graphics.cma grtest2.ml -o grtest2 *)</span>
 
 <span class="ocaml-mod">Random</span>.self_init ();;
-<span class="ocaml-mod">Graphics</span>.open_graph &quot; 640x480&quot;;;
+<span class="ocaml-mod">Graphics</span>.open_graph &amp;quot; 640x480&amp;quot;;;
 
 <span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init
@@ -318,7 +319,7 @@ read_line ();;</span></pre>
 <p class="first_para">What happens if you want to use symbols in the <code>Graphics</code> module, but you don't want to import all of them and you can't be bothered to type <code>Graphics</code> each time? Just rename it using this trick:</p>
 <pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">Gr</span> = <span class="ocaml-mod">Graphics</span>;;
 
-<span class="ocaml-mod">Gr</span>.open_graph " 640x480";;
+<span class="ocaml-mod">Gr</span>.open_graph &quot; 640x480&quot;;;
 <span class="ocaml-mod">Gr</span>.fill_circle 320 240 240;;
 read_line ();;</span></pre>
 
@@ -328,7 +329,7 @@ read_line ();;</span></pre>
 <p>Rule #1 is that you should use <code>;;</code> to separate statements at the top-level of your code, and <em>never</em> within function definitions or any other kind of statement.</p>
 <p>Have a look at a section from the second graphics example above:</p>
 <pre><span class="listing"><span class="ocaml-mod">Random</span>.self_init ();;
-<span class="ocaml-mod">Graphics</span>.open_graph " 640x480";;
+<span class="ocaml-mod">Graphics</span>.open_graph &quot; 640x480&quot;;;
 
 <span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init
@@ -348,7 +349,7 @@ read_line ();;</span></pre>
 <span class="kwa">open</span> <span class="ocaml-mod">Graphics</span>;;
 
 self_init ();;
-open_graph " 640x480"         <span class="ocaml-comment">(* ;; *)</span>
+open_graph &quot; 640x480&quot;         <span class="ocaml-comment">(* ;; *)</span>
 
 <span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init
@@ -404,8 +405,8 @@ following code is perfectly legal (and all do the same thing):
 
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= <span class="kwb">if</span> b <span class="kwb">then</span> x+y <span class="kwb">else</span> x+0
 <span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwb">if</span> b <span class="kwb">then</span> y <span class="kwb">else</span> 0)
-<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwb">match</span> b <span class="kwb">with</span> true -> y | false -> 0)
-<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let</span> <span class="ocaml-function">g</span> <span class="ocaml-variable">z </span>= <span class="kwb">function</span> true -> z | false -> 0 <span class="kwa">in</span> g y b)
+<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwb">match</span> b <span class="kwb">with</span> true -&gt; y | false -&gt; 0)
+<span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let</span> <span class="ocaml-function">g</span> <span class="ocaml-variable">z </span>= <span class="kwb">function</span> true -&gt; z | false -&gt; 0 <span class="kwa">in</span> g y b)
 <span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">x b y </span>= x + (<span class="kwa">let </span><span class="ocaml-variable">_</span> = y + 3 <span class="kwa">in</span> (); <span class="kwb">if</span> b <span class="kwb">then</span> y <span class="kwb">else</span> 0)</span></pre>
 
 <p>
@@ -413,7 +414,7 @@ Note especially the last one - I'm using <code>;</code> as an operator
 to "join" two statements.  All functions in OCaml can be expressed as:
 </p>
 
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">name</span> <span class="ocaml-variable">[parameters] </span>= expression</span></pre>
+<pre><span class="listing">let name [parameters] = expression</span></pre>
 
 <p>
 OCaml's definition of what is an expression is just a little wider
@@ -442,7 +443,7 @@ like:
 <span class="kwa">open</span> <span class="ocaml-mod">StdLabels</span>
 <span class="kwa">open</span> <span class="ocaml-mod">GMain</span>
 
-let file_dialog ~title ~callback ?filename () =
+<span class="kwa">let</span> <span class="ocaml-function">file_dialog</span> <span class="ocaml-variable">~title ~callback ?filename () </span>=
   <span class="kwa">let </span><span class="ocaml-variable">sel</span> =
     <span class="ocaml-mod">GWindow</span>.file_selection ~title ~modal:true ?filename () <span class="kwa">in</span>
   sel#cancel_button#connect#clicked ~callback:sel#destroy;
@@ -452,14 +453,14 @@ let file_dialog ~title ~callback ?filename () =
 <p class="first_para">Second snippet: Just a long list of global names at the top level. Notice that the author elided every single one of the <code>;;</code> because of Rule #2.</p>
 <pre><span class="listing"><span class="ocaml-comment">(* Second snippet *)</span>
 
-<span class="kwa">let </span><span class="ocaml-variable">window</span> = <span class="ocaml-mod">GWindow</span>.window ~width:500 ~height:300 ~title:"editor" ()
+<span class="kwa">let </span><span class="ocaml-variable">window</span> = <span class="ocaml-mod">GWindow</span>.window ~width:500 ~height:300 ~title:&quot;editor&quot; ()
 <span class="kwa">let </span><span class="ocaml-variable">vbox</span> = <span class="ocaml-mod">GPack</span>.vbox ~packing:window#add ()
 
 <span class="kwa">let </span><span class="ocaml-variable">menubar</span> = <span class="ocaml-mod">GMenu</span>.menu_bar ~packing:vbox#pack ()
 <span class="kwa">let </span><span class="ocaml-variable">factory</span> = <span class="kwb">new</span> <span class="ocaml-mod">GMenu</span>.factory menubar
 <span class="kwa">let </span><span class="ocaml-variable">accel_group</span> = factory#accel_group
-<span class="kwa">let </span><span class="ocaml-variable">file_menu</span> = factory#add_submenu "File"
-<span class="kwa">let </span><span class="ocaml-variable">edit_menu</span> = factory#add_submenu "Edit"
+<span class="kwa">let </span><span class="ocaml-variable">file_menu</span> = factory#add_submenu &quot;File&quot;
+<span class="kwa">let </span><span class="ocaml-variable">edit_menu</span> = factory#add_submenu &quot;Edit&quot;
 
 <span class="kwa">let </span><span class="ocaml-variable">hbox</span> = <span class="ocaml-mod">GPack</span>.hbox ~packing:vbox#add ()
 <span class="kwa">let </span><span class="ocaml-variable">editor</span> = <span class="kwb">new</span> editor ~packing:hbox#add ()
@@ -474,23 +475,23 @@ let file_dialog ~title ~callback ?filename () =
 <span class="kwa">let</span> () =
   window#connect#destroy ~callback:<span class="ocaml-mod">Main</span>.quit;
   <span class="kwa">let </span><span class="ocaml-variable">factory</span> = <span class="kwb">new</span> <span class="ocaml-mod">GMenu</span>.factory file_menu ~accel_group <span class="kwa">in</span>
-  factory#add_item "<span class="ocaml-mod">Open</span>..." ~key:_O ~callback:editor#open_file;
-  factory#add_item "Save" ~key:_S ~callback:editor#save_file;
-  factory#add_item "Save <span class="kwb">as</span>..." ~callback:editor#save_dialog;
+  factory#add_item &quot;<span class="ocaml-mod">Open</span>...&quot; ~key:_O ~callback:editor#open_file;
+  factory#add_item &quot;Save&quot; ~key:_S ~callback:editor#save_file;
+  factory#add_item &quot;Save <span class="kwb">as</span>...&quot; ~callback:editor#save_dialog;
   factory#add_separator ();
-  factory#add_item "Quit" ~key:_Q ~callback:window#destroy;
+  factory#add_item &quot;Quit&quot; ~key:_Q ~callback:window#destroy;
   <span class="kwa">let </span><span class="ocaml-variable">factory</span> = <span class="kwb">new</span> <span class="ocaml-mod">GMenu</span>.factory edit_menu ~accel_group <span class="kwa">in</span>
-  factory#add_item "Copy" ~key:_C ~callback:editor#text#copy_clipboard;
-  factory#add_item "Cut" ~key:_X ~callback:editor#text#cut_clipboard;
-  factory#add_item "Paste" ~key:_V ~callback:editor#text#paste_clipboard;
+  factory#add_item &quot;Copy&quot; ~key:_C ~callback:editor#text#copy_clipboard;
+  factory#add_item &quot;Cut&quot; ~key:_X ~callback:editor#text#cut_clipboard;
+  factory#add_item &quot;Paste&quot; ~key:_V ~callback:editor#text#paste_clipboard;
   factory#add_separator ();
-  factory#add_check_item "Word wrap" ~active:false
+  factory#add_check_item &quot;Word wrap&quot; ~active:false
     ~callback:editor#text#set_word_wrap;
-  factory#add_check_item "Read only" ~active:false
-    ~callback:(<span class="kwb">fun</span> b -> editor#text#set_editable (not b));
+  factory#add_check_item &quot;Read only&quot; ~active:false
+    ~callback:(<span class="kwb">fun</span> b -&gt; editor#text#set_editable (not b));
   window#add_accel_group accel_group;
   editor#text#event#connect#button_press
-    ~callback:(<span class="kwb">fun</span> ev ->
+    ~callback:(<span class="kwb">fun</span> ev -&gt;
       <span class="kwa">let </span><span class="ocaml-variable">button</span> = <span class="ocaml-mod">GdkEvent</span>.<span class="ocaml-mod">Button</span>.button ev <span class="kwa">in</span>
       <span class="kwb">if</span> button = 3 <span class="kwb">then</span> <span class="kwa">begin</span>
         file_menu#popup ~button ~time:(<span class="ocaml-mod">GdkEvent</span>.<span class="ocaml-mod">Button</span>.time ev); true

@@ -69,7 +69,6 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -81,12 +80,14 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
-    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../books.html#manual">User Manual</a></li>
+    <li><a href="../cheat_sheets.html">Cheat Sheets</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
-    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
   </ul>
 </li>
@@ -147,8 +148,8 @@
 <p>MiniGtk is also a good tutorial for people who want to write OCaml bindings around their favorite C library. If you've ever tried to write bindings for Perl or Java, you'll find doing the same for OCaml is surprisingly easy, although you do have to worry a bit about the garbage collector. </p>
 <p>Let's talk first about how MiniGtk is structured: rather than using a two layered approach as with lablgtk, I wanted to implement MiniGtk using a single (object-oriented) layer. This means that MiniGtk consists of a bunch of class definitions. Methods in those classes pretty much directly translate into calls to the C <code>libgtk-1.2.so</code> library. </p>
 <p>I also wanted to rationalise the module naming scheme for Gtk. So there is exactly one top-level module called (surprise!) <code>Gtk</code> and all classes are inside this module. A test program looks like this: </p>
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">win</span> = <span class="kwb">new</span> <span class="ocaml-mod">Gtk</span>.window ~title:"My window" ();;
-<span class="kwa">let </span><span class="ocaml-variable">lbl</span> = <span class="kwb">new</span> <span class="ocaml-mod">Gtk</span>.label ~text:"Hello" ();;
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">win</span> = <span class="kwb">new</span> <span class="ocaml-mod">Gtk</span>.window ~title:&quot;My window&quot; ();;
+<span class="kwa">let </span><span class="ocaml-variable">lbl</span> = <span class="kwb">new</span> <span class="ocaml-mod">Gtk</span>.label ~text:&quot;Hello&quot; ();;
 win#add lbl;;</span></pre>
 
 <pre><span class="listing"><span class="kwa">let</span> () =
@@ -158,7 +159,7 @@ win#add lbl;;</span></pre>
 <pre><span class="listing"><span class="kwa">type</span> obj</span></pre>
 
 <p class="first_para">As discussed in the last chapter, this defines an abstract type of which it is impossible to create any instances. In OCaml, at least. Certain C functions are going to create instances of this type. For instance, the function which creates new labels (ie. <code>GtkLabel</code> structures) is defined this way: </p>
-<pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">gtk_label_new</span>&nbsp;: string -> obj = "gtk_label_new_c"</span></pre>
+<pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">gtk_label_new</span>&nbsp;: string -&gt; obj = &quot;gtk_label_new_c&quot;</span></pre>
 
 <p class="first_para">This strange function definition defines an &lt;dfn&gt;external function&lt;/dfn&gt;, one coming from C. The C function is called <code>gtk_label_new_c</code>, and it takes a string and returns one of our abstract <code>obj</code> types. </p>
 <p>OCaml doesn't quite let you call <em>any</em> C function yet. You need to write a little C wrapper around the library's function to translate to and from OCaml's internal types and C types. <code>gtk_label_new_c</code> (note the additional <code>_c</code>) is my wrapper around the real Gtk C function called <code>gtk_label_new</code>. Here it is. I'll explain more about it later. </p>
@@ -175,7 +176,7 @@ gtk_label_new_c (value str)
 <p class="first_para">Before explaining this function further, I'm going to take a step back and look at the hierarchy of our Gtk classes. I've chosen to reflect the actual Gtk widget hierarchy as closely as possible. All Gtk widgets are derived from a virtual base class called <code>GtkObject</code>. In fact from this class is derived <code>GtkWidget</code> and the whole variety of Gtk widgets are derived from this. So we define our own <code>GtkObject</code> equivalent class like this (note that <code>object</code> is a reserved word in OCaml). </p>
 <pre><span class="listing"><span class="kwa">type</span> obj</span></pre>
 
-<pre><span class="listing"><span class="kwa">class virtual</span> <span class="ocaml-function">gtk_object</span> <span class="ocaml-variable">(obj : obj) </span>=
+<pre><span class="listing">class virtual gtk_object (obj : obj) =
 <span class="kwa">object</span> (self)
   <span class="kwa"><span class="kwa">val</span></span> <span class="ocaml-variable">obj</span> = obj
   <span class="kwa">method</span> <span class="ocaml-function">obj</span> = obj
@@ -192,23 +193,23 @@ gtk_label_new_c (value str)
 
 <p class="first_para">Of course the real <code>label</code> class doesn't inherit directly from <code>gtk_object</code> as shown above, but in principle this is how it works. </p>
 <p>Following the Gtk class hierarchy the only class derived directly from <code>gtk_object</code> is our <code>widget</code> class, defined like this: </p>
-<pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">gtk_widget_show</span>&nbsp;: obj -> unit = "gtk_widget_show_c"
-<span class="kwa">external</span> <span class="ocaml-function">gtk_widget_show_all</span>&nbsp;: obj -> unit = "gtk_widget_show_all_c"</span></pre>
+<pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">gtk_widget_show</span>&nbsp;: obj -&gt; unit = &quot;gtk_widget_show_c&quot;
+<span class="kwa">external</span> <span class="ocaml-function">gtk_widget_show_all</span>&nbsp;: obj -&gt; unit = &quot;gtk_widget_show_all_c&quot;</span></pre>
 
-<pre><span class="listing">class virtual widget ?show obj =
+<pre><span class="listing"><span class="kwa">class virtual</span> <span class="ocaml-function">widget</span> <span class="ocaml-variable">?show obj </span>=
   <span class="kwa">object</span> (self)
     <span class="kwa">inherit</span> gtk_object obj
     <span class="kwa">method</span> <span class="ocaml-function">show</span> = gtk_widget_show obj
     <span class="kwa">method</span> <span class="ocaml-function">show_all</span> = gtk_widget_show_all obj
-    <span class="kwa">initializer</span> <span class="kwb">if</span> show <> Some false <span class="kwb">then</span> self#show
+    <span class="kwa">initializer</span> <span class="kwb">if</span> show &lt;&gt; Some false <span class="kwb">then</span> self#show
   <span class="kwa">end</span></span></pre>
 
 <p class="first_para">This class is considerably more complex. Let's look at the initialization code first: </p>
-<pre><span class="listing">class virtual widget ?show obj =
+<pre><span class="listing"><span class="kwa">class virtual</span> <span class="ocaml-function">widget</span> <span class="ocaml-variable">?show obj </span>=
   <span class="kwa">object</span> (self)
     <span class="kwa">inherit</span> gtk_object obj
     <span class="kwa">initializer</span>
-      <span class="kwb">if</span> show <> Some false <span class="kwb">then</span> self#show
+      <span class="kwb">if</span> show &lt;&gt; Some false <span class="kwb">then</span> self#show
   <span class="kwa">end</span></span></pre>
 
 <p class="first_para">The <code>initializer</code> section may well be new to you. This is code which runs when an object is being created - the equivalent of a constructor in other languages. In this case we check the boolean optional <code>show</code> argument and unless the user specified it explicitly as <code>false</code> we automatically call the <code>#show</code> method. (All Gtk widgets need to be &quot;shown&quot; after being created unless you want a widget to be created but hidden). </p>
@@ -220,15 +221,15 @@ gtk_label_new_c (value str)
 <p>I want to describe the <code>label</code> class (the real one this time!), but in between <code>widget</code> and <code>label</code> is <code>misc</code>, a generic class which describes a large class of miscellaneous widgets. This class just adds padding and alignment around a widget such as a label. Here is its definition: </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">may</span> <span class="ocaml-variable">f x </span>=
   <span class="kwb">match</span> x <span class="kwb">with</span>
-  | None -> ()
-  | Some x -> f x</span></pre>
+  | None -&gt; ()
+  | Some x -&gt; f x</span></pre>
 
 <pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">gtk_misc_set_alignment</span>&nbsp;:
-  obj -&gt; float * float -&gt; unit = &quot;gtk_misc_set_alignment_c&quot;
+  obj -&amp;gt; float * float -&amp;gt; unit = &amp;quot;gtk_misc_set_alignment_c&amp;quot;
 <span class="kwa">external</span> <span class="ocaml-function">gtk_misc_set_padding</span>&nbsp;:
-  obj -&gt; int * int -&gt; unit = &quot;gtk_misc_set_padding_c&quot;</span></pre>
+  obj -&amp;gt; int * int -&amp;gt; unit = &amp;quot;gtk_misc_set_padding_c&amp;quot;</span></pre>
 
-<pre><span class="listing">class virtual misc ?alignment ?padding ?show obj =
+<pre><span class="listing"><span class="kwa">class virtual</span> <span class="ocaml-function">misc</span> <span class="ocaml-variable">?alignment ?padding ?show obj </span>=
   <span class="kwa">object</span> (self)
     <span class="kwa">inherit</span> widget ?show obj
     <span class="kwa">method</span> <span class="ocaml-function">set_alignment</span> = gtk_misc_set_alignment obj
@@ -247,15 +248,15 @@ gtk_label_new_c (value str)
 <p class="first_para">It's that tricky <code>may</code> function in action. <em>If</em> the user gave an <code>alignment</code> argument, then this will set the alignment on the object by calling <code>gtk_misc_set_alignment obj the_alignment</code>. But more commonly the user will omit the <code>alignment</code> argument, in which case <code>alignment</code> is <code>None</code> and this does nothing. (In effect we get Gtk's default alignment, whatever that is). A similar thing happens with the <code>padding</code>. Note there is a certain simplicity and elegance in the way this is done. </p>
 <p>Now we can finally get to the <code>label</code> class, which is derived directly from <code>misc</code>: </p>
 <pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">gtk_label_new</span>&nbsp;:
-    string -&gt; obj  = &quot;gtk_label_new_c&quot;
+    string -&amp;gt; obj  = &amp;quot;gtk_label_new_c&amp;quot;
 <span class="kwa">external</span> <span class="ocaml-function">gtk_label_set_text</span>&nbsp;:
-    obj -&gt; string -&gt; unit = &quot;gtk_label_set_text_c&quot;
+    obj -&amp;gt; string -&amp;gt; unit = &amp;quot;gtk_label_set_text_c&amp;quot;
 <span class="kwa">external</span> <span class="ocaml-function">gtk_label_set_justify</span>&nbsp;:
-    obj -&gt; <span class="ocaml-mod">Justification</span>.t -&gt; unit = &quot;gtk_label_set_justify_c&quot;
+    obj -&amp;gt; <span class="ocaml-mod">Justification</span>.t -&amp;gt; unit = &amp;quot;gtk_label_set_justify_c&amp;quot;
 <span class="kwa">external</span> <span class="ocaml-function">gtk_label_set_pattern</span>&nbsp;:
-    obj -&gt; string -&gt; unit = &quot;gtk_label_set_pattern_c&quot;
+    obj -&amp;gt; string -&amp;gt; unit = &amp;quot;gtk_label_set_pattern_c&amp;quot;
 <span class="kwa">external</span> <span class="ocaml-function">gtk_label_set_line_wrap</span>&nbsp;:
-    obj -&gt; bool -&gt; unit = &quot;gtk_label_set_line_wrap_c&quot;</span></pre>
+    obj -&amp;gt; bool -&amp;gt; unit = &amp;quot;gtk_label_set_line_wrap_c&amp;quot;</span></pre>
 
 <pre><span class="listing">class label ~text
   ?justify ?pattern ?line_wrap ?alignment

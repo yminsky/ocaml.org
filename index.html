@@ -69,7 +69,6 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="install.html">Install</a></li>
-    <li><a href="releases/latest.html">Releases</a></li>
     <li><a href="tutorials/">Tutorials</a></li>
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="books.html">Books</a></li>
@@ -81,12 +80,14 @@
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
+    <li><a href="releases/latest.html">Releases</a></li>
     <li><a href="libraries.html">Libraries</a></li>
     <li><a href="dev_tools.html">Development Tools</a></li>
-    <li><a href="documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="books.html#manual">User Manual</a></li>
+    <li><a href="cheat_sheets.html">Cheat Sheets</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
-    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
   </ul>
 </li>
@@ -167,7 +168,6 @@
 	  <h2>Learn</h2>
 	  <ul>
 	    <li><a href="install.html">Install</a></li>
-            <li><a href="releases/latest.html">Releases</a></li>
 	    <li><a href="tutorials/index.html">Tutorials</a></li>
 	    <li><a href="faq.html">FAQ</a></li>
 	    <li><a href="books.html">Books</a></li>
@@ -177,12 +177,14 @@
 	</td><td>
 	  <h2>Use</h2>
 	  <ul>
+            <li><a href="releases/latest.html">Releases</a></li>
 	    <li><a href="libraries.html">Libraries</a></li>
 	    <li><a href="dev_tools.html">Development Tools</a></li>
-	    <li><a href="documentation.html">Manuals and Cheat Sheets</a></li>
+	    <li><a href="books.html#manual">User Manual</a></li>
+            <li><a href="cheat_sheets.html">Cheat Sheets</a></li>
 	    <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
 	    <li><a href="http://forge.ocamlcore.org/">Forge</a>,
-	      <a href="https://github.com/languages/OCaml">Github</a>,
+	      <a href="https://github.com/languages/OCaml">GitHub</a>,
 	      <a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
 	  </ul>
 	</td><td>
@@ -206,17 +208,16 @@
       <div class="span3 pull-right big-announcements">
 	
 	<div class="hero-unit download">
-	  <h3><a href="install.html">Download OCaml 4.00.1 Now!
-
-	      <img src="img/download-button.png" alt="download" width="120px"/>
-	  </a></h3>
+	  <h3><a href="install.html">Download OCaml Now!</a></h3>
+          <a href="install.html">
+            <img src="img/download-button.png" alt="download" width="120px"/>
+          </a>
 	</div>
 
 	<div class="hero-unit">
-	  <h3>OCaml Users and Developers Meeting 2012</h3>
+	  <h3>OCaml Meeting 2012</h3>
 
-	  <p>Colocated with
-	    ICFP'2012 in Copenhagen!</p>
+	  <p>Colocated with ICFP!</p>
 	  <a class="btn pull-right" href="http://oud.ocaml.org">See videos &amp; slides</a><br/>
 	</div>
 	
@@ -234,13 +235,13 @@
 
 <span class="kwa">let rec</span> <span class="ocaml-function">exists_leaf</span> <span class="ocaml-variable">test tree </span>=
   <span class="kwb">match</span> tree <span class="kwb">with</span>
-  | Leaf v -> test v
-  | Node (left, right) ->
+  | Leaf v -&gt; test v
+  | Node (left, right) -&gt;
       exists_leaf test left
       || exists_leaf test right
 
 <span class="kwa">let</span> <span class="ocaml-function">has_even_leaf</span> <span class="ocaml-variable">tree </span>=
-  exists_leaf (<span class="kwb">fun</span> n -> n mod 2 = 0) tree</span></pre>
+  exists_leaf (<span class="kwb">fun</span> n -&gt; n mod 2 = 0) tree</span></pre>
 
 	  <p>OCaml is a lot more powerful than this simple example shows.
 	  Pursue with

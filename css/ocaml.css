@@ -405,6 +405,10 @@ div.A {
   color: #7792dd;
 }
 
+.ocamltop-stdout {
+  color: #0d89dd;
+}
+
 .ocamltop-stderr {
   font-style: italic;  
 }
@@ -477,4 +481,11 @@ blockquote {
 
 blockquote p {
   font-size: 100%;
+}
+
+/* Books
+ ***********************************************************************/
+
+.book img {
+    height: 128px;
 }

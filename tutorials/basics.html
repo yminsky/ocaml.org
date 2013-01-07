@@ -69,7 +69,6 @@
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><a href="../install.html">Install</a></li>
-    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../tutorials/">Tutorials</a></li>
     <li><a href="../faq.html">FAQ</a></li>
     <li><a href="../books.html">Books</a></li>
@@ -81,12 +80,14 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
+    <li><a href="../releases/latest.html">Releases</a></li>
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
-    <li><a href="../documentation.html">Manuals and Cheat Sheets</a></li>
+    <li><a href="../books.html#manual">User Manual</a></li>
+    <li><a href="../cheat_sheets.html">Cheat Sheets</a></li>
     <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
     <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
-    <li><a href="https://github.com/languages/OCaml">Github</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
     <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
   </ul>
 </li>
@@ -164,7 +165,7 @@ repeated (&quot;hello&quot;, 3)  /* this is C code */
 
 <p class="first_para">This means &quot;call the function <code>repeated</code> with two arguments, first argument the string hello and second argument the number 3&quot;.</p>
 <p>OCaml, in common with other functional languages, writes and brackets function calls differently, and this is the cause of many mistakes. Here is the same function call in OCaml:</p>
-<pre><span class="listing">repeated "hello" 3  <span class="ocaml-comment">(* this is OCaml code *)</span></span></pre>
+<pre><span class="listing">repeated &quot;hello&quot; 3  <span class="ocaml-comment">(* this is OCaml code *)</span></span></pre>
 
 <p class="first_para">Note — <strong>no</strong> brackets, and <strong>no</strong> comma between the arguments.</p>
 <p>The syntax <code>repeated (&quot;hello&quot;, 3)</code> <strong>is</strong> meaningful in OCaml. It means &quot;call the function <code>repeated</code> with ONE argument, that argument being a 'pair' structure of two elements&quot;. Of course that would be a mistake, because the <code>repeated</code> function is expecting two arguments, not one, and the first argument should be a string, not a pair. But let's not worry about pairs (&quot;tuples&quot;) just yet. Instead, just remember that it's a mistake to put the brackets and commas in around function call arguments.</p>
@@ -175,13 +176,13 @@ repeated (prompt_string (&quot;Name please: &quot;), 3)
 </pre>
 
 <pre><span class="listing"><span class="ocaml-comment">(* OCaml code: *)</span>
-repeated (prompt_string "Name please: ") 3</span></pre>
+repeated (prompt_string &quot;Name please: &quot;) 3</span></pre>
 
 <p class="first_para">Take a careful look at the bracketing and the missing comma. In the OCaml version, the brackets enclose the first argument of repeated because that argument is the result of another function call.  In general the rule is: &quot;bracket around the whole function call - don't put brackets around the arguments to a function call&quot;. Here are some more examples:</p>
-<pre><span class="listing">f 5 (g "hello") 3    <span class="ocaml-comment">(* f has three arguments, g has one argument *)</span>
+<pre><span class="listing">f 5 (g &quot;hello&quot;) 3    <span class="ocaml-comment">(* f has three arguments, g has one argument *)</span>
 f (g 3 4)            <span class="ocaml-comment">(* f has one argument, g has two arguments *)</span>
 
-# repeated ("hello", 3);;     <span class="ocaml-comment">(* OCaml will spot the mistake *)</span>
+# repeated (&quot;hello&quot;, 3);;     <span class="ocaml-comment">(* OCaml will spot the mistake *)</span>
 This expression has <span class="kwa">type</span> string * int but is here used <span class="kwb">with</span> <span class="kwa">type</span> string</span></pre>
 
 <a name="Defining_a_function"></a><h2><span>Defining a function</span></h2>
@@ -192,7 +193,7 @@ This expression has <span class="kwa">type</span> string * int but is here used 
 
 <p class="first_para">Type this into the OCaml &quot;toplevel&quot; (on Unix, type the command <code>ocaml</code> from the shell) and you'll see this:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
+  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">If you look at the function definition closely, and also at what OCaml prints back at you, you'll have a number of questions:</p>
@@ -267,7 +268,7 @@ Error: This expression has type int but an expression was expected of type
 <a name="Ordinary_functions_and_recursive_functions"></a><h2><span>Ordinary functions and recursive functions</span></h2>
 <p class="first_para">Unlike in C-derived languages, a function isn't recursive unless you explicitly say so by using <code>let rec</code> instead of just <code>let</code>. Here's an example of a recursive function:</p>
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">range</span> <span class="ocaml-variable">a b </span>=
-  <span class="kwb">if</span> a > b <span class="kwb">then</span> []
+  <span class="kwb">if</span> a &gt; b <span class="kwb">then</span> []
   <span class="kwb">else</span> a :: range (a+1) b</span></pre>
 
 <p class="first_para">Notice that <code>range</code> calls itself.</p>
@@ -311,7 +312,7 @@ output_char : out_channel -&gt; char -&gt; unit
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">give_me_a_three</span> <span class="ocaml-variable">x </span>= 3</span></pre>
 
 <p class="first_para">What is the type of this function? In OCaml we use a special placeholder to mean &quot;any type you fancy&quot;. It's a single quote character followed by a letter. The type of the above function would normally be written:</p>
-<pre><span class="listing">give_me_a_three : 'a -> int</span></pre>
+<pre><span class="listing">give_me_a_three : 'a -&gt; int</span></pre>
 
 <p class="first_para">where <code>'a</code> really does mean any type. You can, for example, call this function as <code>give_me_a_three &quot;foo&quot;</code> or <code>give_me_a_three 2.0</code> and both are quite valid expressions in OCaml.</p>
 <p>It won't be clear yet why polymorphic functions are useful, but they are very useful and very common, and so we'll discuss them later on. (Hint: polymorphism is kind of like templates in C++ or generics in Java 1.5).</p>
@@ -322,13 +323,13 @@ output_char : out_channel -&gt; char -&gt; unit
 <p>But OCaml is also a practical language, and for this reason it contains backdoors into the type system allowing you to bypass this checking on the rare occasions that it is sensible to do this. Only gurus will probably need to bypass the type checking.</p>
 <p>Let's go back to the <code>average</code> function which we typed into the OCaml toplevel:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
+  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">Mirabile dictu! OCaml worked out all on its own that the function takes two <code>float</code> arguments and returns a <code>float</code>.</p>
 <p>How did it do this? Firstly it looks at where <code>a</code> and <code>b</code> are used, namely in the expression <code>(a +. b)</code>. Now, <code>+.</code> is itself a function which always takes two <code>float</code> arguments, so by simple deduction, <code>a</code> and <code>b</code> must both also have type <code>float</code>.</p>
 <p>Secondly, the <code>/.</code> function returns a <code>float</code>, and this is the same as the return value of the <code>average</code> function, so <code>average</code> must return a <code>float</code>. The conclusion is that <code>average</code> has this type signature:</p>
-<pre><span class="listing">average : float -> float -> float</span></pre>
+<pre><span class="listing">average : float -&gt; float -&gt; float</span></pre>
 
 <p class="first_para">Type inference is obviously easy for such a short program, but it works even for large programs, and it's a major time-saving feature because it removes a whole class of errors which cause segfaults, <code>NullPointerException</code>s and <code>ClassCastException</code>s in other languages (or important but often ignored runtime warnings, as in Perl).</p>
 
