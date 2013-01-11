@@ -176,13 +176,13 @@ average (double a, double b)
 
 <span class="kwa">let</span> <span class="ocaml-function">menu_bold</span> <span class="ocaml-variable">() </span>=
   <span class="kwb">match</span> bold_button#active <span class="kwb">with</span>
-    true -&amp;gt; html#set_font_style ~enable:[`BOLD] ()
-  | false -&amp;gt; html#set_font_style ~disable:[`BOLD] ()
+    true -&gt; html#set_font_style ~enable:[`BOLD] ()
+  | false -&gt; html#set_font_style ~disable:[`BOLD] ()
   ;;
 
 <span class="kwa">let</span> <span class="ocaml-function">main</span> <span class="ocaml-variable">() </span>=
   <span class="ocaml-comment">(* code omitted *)</span>
-  factory#add_item &amp;quot;Cut&amp;quot; ~key:_X ~callback: html#cut
+  factory#add_item &quot;Cut&quot; ~key:_X ~callback: html#cut
   ;;</span></pre>
 
 <p class="first_para">In this real piece of code, <code>html</code> is an HTML editing widget (an object from the lablgtk library) which is created once at the beginning of the program by the first <code>let html =</code> statement. It is then referred to in several later functions.</p>
@@ -281,7 +281,7 @@ bar (int *array, int offset, int size)
 
 <span class="kwa">open</span> <span class="ocaml-mod">Graphics</span>;;
 
-open_graph &amp;quot; 640x480&amp;quot;;;
+open_graph &quot; 640x480&quot;;;
 <span class="kwb">for</span> i = 12 <span class="kwb">downto</span> 1 <span class="kwb">do</span>
   <span class="kwa">let </span><span class="ocaml-variable">radius</span> = i * 20 <span class="kwa">in</span>
   set_color (<span class="kwb">if</span> i mod 2 = 0 <span class="kwb">then</span> red <span class="kwb">else</span> yellow);
@@ -292,7 +292,7 @@ read_line ();;</span></pre>
 <pre><span class="listing"><span class="ocaml-comment">(* To compile this example: ocamlc graphics.cma grtest2.ml -o grtest2 *)</span>
 
 <span class="ocaml-mod">Random</span>.self_init ();;
-<span class="ocaml-mod">Graphics</span>.open_graph &amp;quot; 640x480&amp;quot;;;
+<span class="ocaml-mod">Graphics</span>.open_graph &quot; 640x480&quot;;;
 
 <span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="kwb">if</span> i = 1 <span class="kwb">then</span> x_init

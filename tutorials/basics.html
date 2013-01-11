@@ -183,7 +183,7 @@ repeated (prompt_string &quot;Name please: &quot;) 3</span></pre>
 f (g 3 4)            <span class="ocaml-comment">(* f has one argument, g has two arguments *)</span>
 
 # repeated (&quot;hello&quot;, 3);;     <span class="ocaml-comment">(* OCaml will spot the mistake *)</span>
-This expression has <span class="kwa">type</span> string * int but is here used <span class="kwb">with</span> <span class="kwa">type</span> string</span></pre>
+This expression has <span class="kwa">type</span> string * int but is here used <span class="kwb">with</span> <span class="kwa">type</span> <span class="ocaml-mod">string</span></span></pre>
 
 <a name="Defining_a_function"></a><h2><span>Defining a function</span></h2>
 <p class="first_para">You all know how to define a function (or static method, for Java-heads) in our existing languages. How do we do it in OCaml?</p>
@@ -193,7 +193,7 @@ This expression has <span class="kwa">type</span> string * int but is here used 
 
 <p class="first_para">Type this into the OCaml &quot;toplevel&quot; (on Unix, type the command <code>ocaml</code> from the shell) and you'll see this:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
+    (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">If you look at the function definition closely, and also at what OCaml prints back at you, you'll have a number of questions:</p>
@@ -274,9 +274,9 @@ Error: This expression has type int but an expression was expected of type
 <p class="first_para">Notice that <code>range</code> calls itself.</p>
 <p>The only difference between <code>let</code> and <code>let rec</code> is in the scoping of the function name. If the above function had been defined with just <code>let</code>, then the call to <code>range</code> would have tried to look for an existing (previously defined) function called <code>range</code>, not the currently-being-defined function.  Using <code>let</code> (without <code>rec</code>) allows you to re-define a value in terms of the previous definition.  For example:</p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">positive_sum</span> <span class="ocaml-variable">a b </span>= 
-    <span class="kwa">let </span><span class="ocaml-variable">a</span> = max a 0
-    <span class="kwa">and </span><span class="ocaml-variable">b</span> = max b 0 <span class="kwa">in</span>
-    a + b</span></pre>
+  <span class="kwa">let </span><span class="ocaml-variable">a</span> = max a 0
+  <span class="kwa">and </span><span class="ocaml-variable">b</span> = max b 0 <span class="kwa">in</span>
+  a + b</span></pre>
 
 <p class="first_para">This redefinition hides the previous &quot;bindings&quot; of <code>a</code> and <code>b</code> from the function definition.  In some situations coders prefer this pattern to using a new variable name (<code>let a_pos = max a 0</code>) as it makes the old binding inaccessible, so that only the latest values of a and b are accessible.</p>
 <p>There is no performance difference between functions defined using <code>let</code> and functions defined using <code>let rec</code>, so if you prefer you could always use the <code>let rec</code> form and get the same semantics as C-like languages.</p>
@@ -323,7 +323,7 @@ output_char : out_channel -&gt; char -&gt; unit
 <p>But OCaml is also a practical language, and for this reason it contains backdoors into the type system allowing you to bypass this checking on the rare occasions that it is sensible to do this. Only gurus will probably need to bypass the type checking.</p>
 <p>Let's go back to the <code>average</code> function which we typed into the OCaml toplevel:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
+    (a +. b) /. 2.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val average : float -&gt; float -&gt; float = &lt;fun&gt;
 </span></pre>
 
 <p class="first_para">Mirabile dictu! OCaml worked out all on its own that the function takes two <code>float</code> arguments and returns a <code>float</code>.</p>

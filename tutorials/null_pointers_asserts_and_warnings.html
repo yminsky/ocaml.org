@@ -186,7 +186,7 @@ create table users
 <p>(Running this on Win32, of course, won't throw an error).</p>
 <p>You can also just call <code>assert false</code> to stop your program if things just aren't going well, but you're probably better to use ...</p>
 <p><code>failwith &quot;error message&quot;</code> throws a <code>Failure</code> exception, which again assuming you don't try to catch it, will stop the program with the given error message. <code>failwith</code> is often used during pattern matching, like this real example:</p>
-<pre><span class="listing"><span class="kwb">match</span> <span class="ocaml-mod">Sys</span>.os_type <span class="kwb">with</span>
+<pre><span class="listing"><span class="kwb">match</span> <span class="ocaml-mod">Sys</span>.os_type <span class="ocaml-mod"><span class="kwb">with</span></span>
 | &quot;Unix&quot; | &quot;Cygwin&quot; -&gt;   <span class="ocaml-comment">(* code omitted *)</span>
 | &quot;Win32&quot; -&gt;             <span class="ocaml-comment">(* code omitted *)</span>
 | &quot;MacOS&quot; -&gt;             <span class="ocaml-comment">(* code omitted *)</span>

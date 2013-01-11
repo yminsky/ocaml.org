@@ -235,8 +235,8 @@ ask_ok (prompt =&gt; &quot;Are you sure?&quot;, retries =&gt; 2);
 <p>OCaml also has a way to label arguments and have optional arguments with default values.</p>
 <p>The basic syntax is:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">range</span> <span class="ocaml-variable">~first:a ~last:b </span>=
-  <span class="kwb">if</span> a &gt; b <span class="kwb">then</span> []
-  <span class="kwb">else</span> a :: range ~first:(a+1) ~last:b</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val range : first:int -&gt; last:int -&gt; int list = &lt;fun&gt;
+    <span class="kwb">if</span> a &gt; b <span class="kwb">then</span> []
+    <span class="kwb">else</span> a :: range ~first:(a+1) ~last:b</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val range : first:int -&gt; last:int -&gt; int list = &lt;fun&gt;
 </span></pre>
 
 <p>(Notice that both <code>to</code> and <code>end</code> are reserved words in OCaml, so they cannot be used as labels. So you cannot have <code>~from/~to</code> or <code>~start/~end</code>.)</p>
@@ -347,7 +347,7 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
     may ~f:(set_title window) title;
     may ~f:(set_width window) width;
     may ~f:(set_height window) height;
-    window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 1, characters 31-37:
+    window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 1, characters 30-200:
 Warning 16: this optional argument cannot be erased.
 </span>val open_window : ?title:string -&gt; ?width:int -&gt; ?height:int -&gt; window =
   &lt;fun&gt;
@@ -405,7 +405,7 @@ Warning 16: this optional argument cannot be erased.
 
 <p>There's another little wrinkle concerning optional arguments. Suppose we write a function around <code>open_window</code> to open up an application:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=
-    open_window ~title:&quot;My Application&quot; ~width ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 41-46:
+    open_window ~title:&quot;My Application&quot; ~width ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 40-46:
 Error: This expression has type 'a option
        but an expression was expected of type int
 </span></pre>
@@ -443,7 +443,7 @@ Error: This expression has type 'a option
 
 <p>On line 1 we have the function definition. Notice there are 5 optional arguments, and the mandatory <code>unit</code> 6<sup>th</sup> argument. Each of the optional arguments is going to define a variable, eg. <code>border_width</code>, of type <code>'a option</code>.</p>
 <p>On line 4 we use the special <code>?foo</code> form for passing optional arguments to functions which take optional arguments. <code>Container.set</code> has the following type:</p>
-<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">Container</span> = <span class="kwa">struct</span>
+<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">Container</span> <span class="ocaml-variable"></span>= <span class="kwa">struct</span>
   <span class="kwa">let</span> <span class="ocaml-function">set</span> <span class="ocaml-variable">?border_width ?(width = -2) ?(height = -2) w </span>=
     <span class="ocaml-comment">(* ... *)</span></span></pre>
 

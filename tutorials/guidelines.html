@@ -1884,7 +1884,7 @@ contrast with an explicit encoding:
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">list_length</span> <span class="ocaml-variable">l </span>=
   <span class="kwa">let </span><span class="ocaml-variable">l</span> = <span class="kwb">ref</span> l <span class="kwa">in</span>
   <span class="kwa">let </span><span class="ocaml-variable">res</span> = <span class="kwb">ref</span> 0 <span class="kwa">in</span>
-  <span class="kwb">while</span> !l &amp;lt;&amp;gt; [] <span class="kwb">do</span>
+  <span class="kwb">while</span> !l &lt;&gt; [] <span class="kwb">do</span>
     incr res; l := <span class="ocaml-mod">List</span>.tl !l
   <span class="kwb">done</span>;
   !res;;</span></pre>

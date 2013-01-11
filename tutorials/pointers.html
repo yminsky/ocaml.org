@@ -366,8 +366,8 @@ and cell = { mutable hd : int; mutable tl : ilist; }
     c.hd &lt;- x;
     c.tl &lt;- l;
     (new_pointer c : ilist)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val cons : int -&gt; ilist -&gt; ilist = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let hd (l : ilist) = !^l.hd</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val hd : ilist -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let tl (l : ilist) = !^l.tl</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val tl : ilist -&gt; ilist = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">hd</span> <span class="ocaml-variable">(l : ilist) </span>= !^l.hd</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val hd : ilist -&gt; int = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">tl</span> <span class="ocaml-variable">(l : ilist) </span>= !^l.tl</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val tl : ilist -&gt; ilist = &lt;fun&gt;
 </span></pre>
 
 <p>
@@ -380,7 +380,7 @@ and cell = { mutable hd : int; mutable tl : ilist; }
 </p>
 
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Physical append *)</span>
-  let append (l1 : ilist) (l2 : ilist) =
+  <span class="kwa">let</span> <span class="ocaml-function">append</span> <span class="ocaml-variable">(l1 : ilist) (l2 : ilist) </span>=
     <span class="kwa">let </span><span class="ocaml-variable">temp</span> = <span class="kwb">ref</span> l1 <span class="kwa">in</span>
     <span class="kwb">while</span> tl !temp &lt;&gt; Null <span class="kwb">do</span>
       temp := tl !temp
@@ -453,9 +453,9 @@ and 'a cell = { mutable hd : 'a pointer; mutable tl : 'a lists; }
     c.hd &lt;- new_pointer x;
     c.tl &lt;- l;
     (new_pointer c : 'a lists)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val cons : 'a -&gt; 'a lists -&gt; 'a lists = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let hd (l : 'a lists) = !^l.hd</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val hd : 'a lists -&gt; 'a pointer = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let tl (l : 'a lists) = !^l.tl</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val tl : 'a lists -&gt; 'a lists = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let append (l1 : 'a lists) (l2 : 'a lists) =
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">hd</span> <span class="ocaml-variable">(l : 'a lists) </span>= !^l.hd</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val hd : 'a lists -&gt; 'a pointer = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">tl</span> <span class="ocaml-variable">(l : 'a lists) </span>= !^l.tl</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val tl : 'a lists -&gt; 'a lists = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">append</span> <span class="ocaml-variable">(l1 : 'a lists) (l2 : 'a lists) </span>=
     <span class="kwa">let </span><span class="ocaml-variable">temp</span> = <span class="kwb">ref</span> l1 <span class="kwa">in</span>
     <span class="kwb">while</span> tl !temp &lt;&gt; Null <span class="kwb">do</span>
       temp := tl !temp
