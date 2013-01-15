@@ -6,7 +6,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     
     <meta content="IE=8" http-equiv="X-UA-Compatible"/>
-    <title>OCaml :: Command-line arguments</title>
+    <title>OCaml :: Comparison of Standard Containers</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
     <meta content="" name="description"/>
@@ -21,7 +21,7 @@
     
     
 
-    <meta content="Command-line arguments" property="og:title"/>
+    <meta content="Comparison of Standard Containers" property="og:title"/>
     <meta content="non_profit" property="og:type"/>
 
     <meta content="all" name="robots"/>
@@ -128,51 +128,108 @@
 
     <div class="container">
       <span class="navigation-bar">
-	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Command-line arguments
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Comparison of Standard Containers
 	<span id="language">
 	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
 	</span>
       </span>
 
       
-<h1><span>Command-line arguments</span></h1>
 
-<p>This is a short tutorial for those who are writing their first OCaml program and are wondering how to read arguments that are passed on the command line.</p>
-<a name="argv"></a><h2><span>argv</span></h2>
-<p>Like in the C programming language, the arguments that are passed to a given program are stored in an array. Following the tradition, this array is named <code>argv</code>. It is found in the <code>Sys</code> module of the standard library, therefore its full name is <code>Sys.argv</code>. The number of arguments including the name of the program itself is simply the length of the array. It is obtained using the <code>Array.length</code> function.</p>
-<a name="Simple_example"></a><h2><span>Simple example</span></h2>
-<p>The following program displays the arguments with their position in
-  <code>Sys.argv</code>:</p>
-<pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Printf</span>
+<div style="margin-left: 1em" class="pull-right hero-unit">
+      <em>Table of contents</em>
+      <div class="toc"><ul class="toc-sub"><li class="toc-entry"><a href="#Lists">Lists: immutable singly-linked lists</a></li><li class="toc-entry"><a href="#Arrays">Arrays and strings: mutable vectors</a></li><li class="toc-entry"><a href="#Set_and_Map">Set and Map: immutable trees</a></li><li class="toc-entry"><a href="#Hashtbl">Hashtbl: automatically growing hash tables</a></li><li class="toc-entry"><a href="#Buffer">Buffer: extensible strings</a></li><li class="toc-entry"><a href="#Queue">Queue</a></li><li class="toc-entry"><a href="#Stack">Stack</a></li></ul></div>
+    </div>
 
-<span class="kwa">let</span> () =
-  <span class="kwb">for</span> i = 0 <span class="kwb">to</span> <span class="ocaml-mod">Array</span>.length <span class="ocaml-mod">Sys</span>.argv - 1 <span class="kwb">do</span>
-    printf &quot;[%i] %s\n&quot; i <span class="ocaml-mod">Sys</span>.argv.(i)
-  <span class="kwb">done</span></span></pre>
+    
+<h1><span>Comparison of Standard Containers</span></h1>
 
-<p>If you save the program above as <code>args.ml</code>, and run <code>ocaml args.ml arg1 arg2 arg3</code>, here is what you get:</p>
-<pre>
-[0] args.ml
-[1] arg1
-[2] arg2
-[3] arg3
-</pre>
+<p>This is a rough comparison of the different container types that are provided by the OCaml language or by the OCaml standard library. In each case, n is the number of valid elements in the container.</p>
 
-<p>Note that <code>ocaml</code> launched a subprocess that actually runs the program where argv is <code>args.ml arg1 arg2 arg3</code>. You can also compile your program using <code>ocamlopt -o args args.ml</code>, and then run <code>./args arg1 arg2 arg3</code> and you will get:</p>
-<pre>
-[0] ./args
-[1] arg1
-[2] arg2
-[3] arg3
-</pre>
+<p>Note that the big-O cost given for some operations reflects the current implementation but is not guaranteed by the official documentation. Hopefully it will not become worse. Anyway, if you want more details, you should read the documentation about each of the modules. Often, it is also instructive to read the corresponding implementation.</p>
 
-<a name="Tools_for_parsing_command_line_options"></a><h2><span>Tools for parsing command-line options</span></h2>
-<p>A few libraries exist that let you process command-line arguments without having to scan the <code>Sys.argv</code> array yourself:</p>
-<ul><li><code><a title="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Arg.html" class="external" href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Arg.html">Arg</a></code> is a module of the standard library.</li>
-<li><code><a title="http://www.eleves.ens.fr/home/frisch/soft.html#Getopt" class="external" href="http://www.eleves.ens.fr/home/frisch/soft.html#Getopt">Getopt</a></code> for OCaml is similar to <a title="http://www.gnu.org/software/libc/manual/html_node/Getopt.html" class="external" href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html">GNU getopt</a>.</li>
-<li>The <a title="http://www.cs.cornell.edu/~ebreck/pa_arg/" class="external" href="http://www.cs.cornell.edu/~ebreck/pa_arg/">Pa_arg</a> library offers a convenient syntax for defining and reading options.</li></ul>
+<p>See also: <a title="Standard Library Examples" class="internal" href="standard_library_examples.html">Standard Library Examples</a></p>
 
+<h2><a name="Lists">Lists: immutable singly-linked lists</a></h2>
 
+<p>Adding an element always creates a new list l from an element x and list tl. tl remains unchanged, but it is not copied either.</p>
+
+<ul>
+<li>"adding" an element: O(1), cons operator (::)</li>
+<li>length: O(n), function List.length</li>
+<li>accessing cell i: O(i)</li>
+<li>finding an element: O(n)</li>
+</ul>
+  
+<p>Well-suited for: IO, pattern-matching</p>
+
+<p>Not very efficient for: random access, indexed elements</p>
+
+<h2><a name="Arrays">Arrays and strings: mutable vectors</a></h2>
+
+<p>Arrays and strings are very similar. Strings are specialized in storing chars (bytes), have some convenient syntax and store them compactly.</p>
+
+<ul>
+<li>"adding" an element: O(n)</li>
+<li>length: O(1), function Array.length</li>
+<li>accessing cell i: O(1)</li>
+<li>finding an element: O(n)</li>
+</ul>
+
+<p>Well-suited for sets of elements of known size, access by numeric index, in-place modification. Basic arrays and strings have a fixed length. For extensible strings, the standard Buffer type can be used (see below).</p>
+
+<h2><a name="Set_and_Map">Set and Map: immutable trees</a></h2>
+
+<p>Like lists, these are immutable and they may share some subtrees. They are a good solution for keeping older versions of sets of items.</p>
+
+<ul>
+<li>"adding" an element: O(log n)</li>
+<li>returning the number of elements: O(n)</li>
+<li>finding an element: O(log n)</li>
+</ul>
+
+<p>Sets and maps are very useful in compilation and meta-programming, but in other situations hash tables are often more appropriate (see below).</p>
+
+<h2><a name="Hashtbl">Hashtbl: automatically growing hash tables</a></h2>
+
+<p>Ocaml hash tables are mutable data structures, which are a good solution for storing (key, data) pairs in one single place.</p>
+
+<ul>
+<li>adding an element: O(1) if the initial size of the table is larger than the number of elements it contains; O(log n) on average if n elements have been added in a table which is initially much smaller than n.</li>
+<li>returning the number of elements: O(1)</li>
+<li>finding an element: O(1)</li>
+</ul>
+
+<h2><a name="Buffer">Buffer: extensible strings</a></h2>
+
+<p>Buffers provide an efficient way to accumulate a sequence of bytes in a single place. They are mutable.</p>
+
+<ul>
+<li>adding a char: O(1) if the buffer is big enough, or O(log n) on average if the initial size of the buffer was much smaller than the number of bytes n.</li>
+<li>adding a string of k chars: O(k * "adding a char")</li>
+<li>length: O(1)</li>
+<li>accessing cell i: O(1)</li>
+</ul>
+
+<h2><a name="Queue">Queue</a></h2>
+
+<p>OCaml queues are mutable first-in-first-out (FIFO) data structures.</p>
+
+<ul>
+<li>adding an element: O(1)</li>
+<li>taking an element: O(1)</li>
+<li>length: O(1)</li>
+</ul>
+
+<h2><a name="Stack">Stack</a></h2>
+
+<p>OCaml stacks are mutable last-in-first-out (LIFO) data structures. They are just like lists, except that they are mutable, i.e. adding an element doesn't create a new stack but simply adds it to the stack.</p>
+
+<ul>
+<li>adding an element: O(1)</li>
+<li>taking an element: O(1)</li>
+<li>length: O(n)</li>
+</ul>
 
 
     </div>

@@ -6,7 +6,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     
     <meta content="IE=8" http-equiv="X-UA-Compatible"/>
-    <title>OCaml :: Command-line arguments</title>
+    <title>OCaml :: Map</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
     <meta content="" name="description"/>
@@ -21,7 +21,7 @@
     
     
 
-    <meta content="Command-line arguments" property="og:title"/>
+    <meta content="Map" property="og:title"/>
     <meta content="non_profit" property="og:type"/>
 
     <meta content="all" name="robots"/>
@@ -128,51 +128,52 @@
 
     <div class="container">
       <span class="navigation-bar">
-	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Command-line arguments
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Map
 	<span id="language">
 	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
 	</span>
       </span>
 
       
-<h1><span>Command-line arguments</span></h1>
+<h1><span>Map</span></h1>
 
-<p>This is a short tutorial for those who are writing their first OCaml program and are wondering how to read arguments that are passed on the command line.</p>
-<a name="argv"></a><h2><span>argv</span></h2>
-<p>Like in the C programming language, the arguments that are passed to a given program are stored in an array. Following the tradition, this array is named <code>argv</code>. It is found in the <code>Sys</code> module of the standard library, therefore its full name is <code>Sys.argv</code>. The number of arguments including the name of the program itself is simply the length of the array. It is obtained using the <code>Array.length</code> function.</p>
-<a name="Simple_example"></a><h2><span>Simple example</span></h2>
-<p>The following program displays the arguments with their position in
-  <code>Sys.argv</code>:</p>
-<pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Printf</span>
+<a name="Map"></a><h2><span>Module Map</span></h2>
 
-<span class="kwa">let</span> () =
-  <span class="kwb">for</span> i = 0 <span class="kwb">to</span> <span class="ocaml-mod">Array</span>.length <span class="ocaml-mod">Sys</span>.argv - 1 <span class="kwb">do</span>
-    printf &quot;[%i] %s\n&quot; i <span class="ocaml-mod">Sys</span>.argv.(i)
-  <span class="kwb">done</span></span></pre>
+<p class="first_para">Map creates a "mapping". For instance lets say I have some data that is users and their associated passwords. I could with the Map module create a mapping from user names to their passwords. The mapping module not only does this but it does it fairly efficiently. It also does this in a functional way. In the example below I am going to do a mapping from strings to strings. However it is possible to do mappings with all different types of data.</p>
 
-<p>If you save the program above as <code>args.ml</code>, and run <code>ocaml args.ml arg1 arg2 arg3</code>, here is what you get:</p>
-<pre>
-[0] args.ml
-[1] arg1
-[2] arg2
-[3] arg3
-</pre>
+<p>To create a Map I can do:</p>
 
-<p>Note that <code>ocaml</code> launched a subprocess that actually runs the program where argv is <code>args.ml arg1 arg2 arg3</code>. You can also compile your program using <code>ocamlopt -o args args.ml</code>, and then run <code>./args arg1 arg2 arg3</code> and you will get:</p>
-<pre>
-[0] ./args
-[1] arg1
-[2] arg2
-[3] arg3
-</pre>
+<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">MyUsers</span> <span class="ocaml-variable"></span>= <span class="ocaml-mod">Map</span>.Make(String);;</span></pre>
 
-<a name="Tools_for_parsing_command_line_options"></a><h2><span>Tools for parsing command-line options</span></h2>
-<p>A few libraries exist that let you process command-line arguments without having to scan the <code>Sys.argv</code> array yourself:</p>
-<ul><li><code><a title="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Arg.html" class="external" href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Arg.html">Arg</a></code> is a module of the standard library.</li>
-<li><code><a title="http://www.eleves.ens.fr/home/frisch/soft.html#Getopt" class="external" href="http://www.eleves.ens.fr/home/frisch/soft.html#Getopt">Getopt</a></code> for OCaml is similar to <a title="http://www.gnu.org/software/libc/manual/html_node/Getopt.html" class="external" href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html">GNU getopt</a>.</li>
-<li>The <a title="http://www.cs.cornell.edu/~ebreck/pa_arg/" class="external" href="http://www.cs.cornell.edu/~ebreck/pa_arg/">Pa_arg</a> library offers a convenient syntax for defining and reading options.</li></ul>
+<p>Ok we have created the module now lets start putting something into it. Where do we start? Well lets try an empty module to begin with:</p>
 
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.empty;;</span></pre>
 
+<p>Hummm. An empty module is kind of boring so lets add some data.</p>
+
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;fred&quot; &quot;sugarplums&quot; m;;</span></pre>
+
+<p>We have now added "fred" and his password of "sugarplums" to are module. There is a fairly important point to make here. Once we have added the string "sugarplums" we have fixed the types of mappings that we can do. This means are mapping in are module MyUsers is from strings to strings. If we want a mapping from strings to integes or a mappings from integers to whatever we will have to create a different mapping.</p>
+
+<p>Lets add in some additional data just for kicks.</p>
+
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;tom&quot; &quot;ilovelucy&quot; m;;
+<span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;mark&quot; &quot;ocamlrules&quot; m;;
+<span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;pete&quot; &quot;linux&quot; m;;</span></pre>
+
+<p>Now that we have some data inside are Map module wouldn't it be nice to be able to view that data at some point? Lets begin by creating a simple print function.</p>
+
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">print_users</span> <span class="ocaml-variable">key password </span>= print_string(key ^ &quot; &quot; ^ password ^ &quot;\n&quot;);;</span></pre>
+
+<p>We have here a function that will take two strings, a key and a pasword and print them out nicely including a new line character at the end. All we need to do is have this function applied to are mapping. Here is what that would look like.</p>
+
+<pre><span class="listing"><span class="ocaml-mod">MyUsers</span>.iter print_users m;;</span></pre>
+
+<p>The reason we put are data into a mapping however is probably so we can quickly find the data. Lets actually show how to do a find.</p>
+
+<pre><span class="listing"><span class="ocaml-mod">MyUsers</span>.find &quot;fred&quot; m;;</span></pre>
+
+<p>This should quickly and efficienty return Fred's password of "sugarplums".</p>
 
 
     </div>
