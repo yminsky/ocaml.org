@@ -152,7 +152,120 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="f81fa2e6263500a46851e7258409c210"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=869"> ocurl 0.5.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description"><pre class="rss-text">ocurl is the set of bindings to libcurl - URL transfer library, supporting HTTP and many other protocols.
+    <div class="planet"><a name="14157a6ff510a7115b1195580c0b23fd"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/introduction-to-mezzo-2"> Introduction to Mezzo, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">30 Jan 2013</span></span><span class="rss-description"><div id="post1"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
+<p>The first question that comes fairly naturally is: why are we going such great lengths trying to design such a complex reasoning framework? Here are some answers:</p>
+<ul>
+<li>since mutable portions of the heap have a unique owner, programs written in <em><strong>Mezzo</strong></em> enjoy the property that they are data-race free, that is, we may never have two people trying to access a writable location at the same time;</li>
+<li>thus, we are allowed to perform strong updates, that is, updates that change the type of a variable.</li>
+</ul>
+<a onclick="switchContent('post1','post2')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Read more...</a></div><div id="post2" style="display: none"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
+<p>The first question that comes fairly naturally is: why are we going such great lengths trying to design such a complex reasoning framework? Here are some answers:</p>
+<ul>
+<li>since mutable portions of the heap have a unique owner, programs written in <em><strong>Mezzo</strong></em> enjoy the property that they are data-race free, that is, we may never have two people trying to access a writable location at the same time;</li>
+<li>thus, we are allowed to perform strong updates, that is, updates that change the type of a variable.</li>
+</ul>
+<p>The latter item may seem of dubious usefulness; indeed, the <code>mswap</code> example that I used seems artificial, and I have never needed it in practice. However, the example of <code>concat</code> at the end of the <a href="http://gallium.inria.fr/blog/introduction-to-mezzo/">previous post</a> is much more useful: it is emblematic of a more general concept of “destination-passing-style” algorithms that allow one to write functions in a safe, tail-recursive way, without resorting to unsafe hacks.</p>
+<p>However, as I hinted in the conclusion of the previous blog post, with the elements I have presented so far, there are some serious limitations.</p>
+<p>In this blog post, I will introduce a novel mechanism called <em>adoption</em> and <em>abandon</em>, which allows one to safely alias mutable data, while remaining inside the permission framework; in particular, this means we'll continue to guarantee the unique-owner property for mutable blocks. Of course, there's no free lunch: this <em>adoption</em> and <em>abandon</em> mechanism incurs a dynamic cost at runtime.</p>
+
+
+
+
+<h3 id="a-story-of-adoption-and-abandon">A story of adoption and abandon</h3>
+<h4 id="meet-the-fifo-our-favorite-example">Meet the fifo, our favorite example</h4>
+<p>The running example in this section will be a first-in first-out structure, that is, a fifo. Cells are appended at the end, and popped from the front of the fifo. The loop at the end of the fifo is just a trick to avoid making the <code>next</code> field an <code>option</code> type.</p>
+<div class="figure">
+<img src="http://gallium.inria.fr/blog/fifo.svg" alt="The pointer structure of the fifo"/><p class="caption">The pointer structure of the fifo</p>
+</div>
+<ul>
+<li>The type <code>cell</code> is mutable: we need to rewire the pointers when we we call either <code>retrieve</code> or <code>insert</code> on the fifo.</li>
+<li>The type <code>fifo</code> is also mutable, since its <code>head</code> and <code>tail</code> fields change over time.</li>
+</ul>
+<h4 id="an-aliasing-problem">An aliasing problem</h4>
+<p>One can see already that there is a problem with this aliasing pattern. If there's only one element in the fifo, and the user does:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> x = fifo.head <span class="kw">in</span>
+<span class="kw">let</span> y = fifo.tail <span class="kw">in</span>
+<span class="co">(* x @ cell ∗ y @ cell *)</span></code></pre>
+<p>...then the user has aliased the same cell, and has two exclusive permissions for it. This is a violation of our rules, and the permission system definitely won't allow that! So we can't declare the <code>head</code> and <code>tail</code> field to be <code>cell</code>s...</p>
+<h4 id="getting-back-an-ownership-tree">Getting back an ownership tree</h4>
+<p>In essence, the problem is that the ownership graph is not a forest, and the permission system can only express forest-like ownership patterns. We need to move back to a forest-like ownership pattern. We achieve this through the <em>adoption</em> mechanism.</p>
+<p>We say that the fifo can now <em>adopt the cells</em>. That is, the permission for the cells is “hidden” under the permission for the fifo; in other words, if you own the fifo, you own the cells. Once adopted, the type of a cell changes to reflect the fact that it may be owned by someone else.</p>
+<h5 id="some-data-types">Some data types</h5>
+<p>Let us first take a look at the definition of type <code>fifo a</code> and <code>cell a</code>, respectively fifo and cells holding elements of type <code>a</code>.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">mutable</span> data fifo a =
+  | <span class="dt">Empty</span> { head: (); tail: () }
+  | <span class="dt">NonEmpty</span> { head: dynamic; tail: dynamic }
+adopts cell a
+
+<span class="kw">mutable</span> data cell a =
+  | <span class="dt">Cell</span> { contents: a; next: dynamic }</code></pre>
+<p>The important point here is the <code>adopts</code> clause that's attached to the definition of <code>fifo</code>; this clause refers to the whole type. We will see in a minute the meaning of type <code>dynamic</code>.</p>
+<h5 id="adoption">Adoption</h5>
+<p>The first operation consists in giving up our ownership of a cell, and transferring it to the fifo object.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* x @ cell a ∗ f @ fifo a *)</span>
+give x <span class="kw">to</span> f;
+<span class="co">(* x @ dynamic ∗ f @ fifo a *)</span></code></pre>
+<p>After we've given up our knowledge of <code>x</code>, we no longer know that it is a cell. The only thing that remains for us to know about <code>x</code> is that it has type <code>dynamic</code>: it means that <code>x</code> may be currently adopted by someone.</p>
+<p>What is the point, then, of giving up our knowledge of <code>x</code>? The key difference is that, unlike <code>cell a</code>, <code>dynamic</code> is a duplicable type, which means we can alias <code>x</code>.</p>
+<h5 id="abandon">Abandon</h5>
+<p>The converse operation, abandon, works as follows; it allows one to regain the whole knowledge about a variable; in our case, regain the permission <code>x @ cell a</code>.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* x @ dynamic ∗ f @ fifo a *)</span>
+take x from f;
+<span class="co">(* x @ cell a ∗ f @ fifo a *)</span></code></pre>
+<p>How do we know that the type that <code>x</code> should regain is <code>x @ cell a</code>? This is achieved by doing a lookup on the definition of <code>f</code>, and seeing that fifos adopt elements of type <code>cell a</code>.</p>
+<p>An element, in order to be an adopter, must be mutable. Moreover, adopters can only adopt one type of elements.</p>
+<p>The safety of the whole thing depends on the fact that the <em>take</em> operation must never succeed twice, otherwise we could have <code>x @ cell a ∗ x @ cell a</code>: this would be a definite breach of soundness.</p>
+<p>The general idea is that when you <code>give</code> an element, you become free to alias it, but it is your responsibility to make sure you never <code>take</code> it twice, that is, to make sure you never call <code>take x from f; take y from f</code> with <code>x</code> and <code>y</code> being aliases. In the case of the fifo, it is easy to make mistakes: if the fifo only has one element, the following code will fail:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">take fifo.head from fifo;
+take fifo.tail from fifo;</code></pre>
+<h5 id="making-sure-the-code-fails">Making sure the code fails</h5>
+<p>The last point that we need to address is how to make sure that the <em>take</em> operation cannot succeed twice for the same element. This is achieved using a hidden field and dynamic tests.</p>
+<p>Each mutable object has a hidden field; the hidden field contains the address of the adopter if the object is currently adopted, <code>null</code> otherwise.</p>
+<ul>
+<li>When <code>give</code>'ing <code>x</code> to <code>f</code>, we set the hidden field of <code>x</code> to be the address of <code>f</code>.</li>
+<li>When taking <code>x</code> from <code>f</code>, we check that the hidden field of <code>x</code> and the address of <code>f</code> match; if this is the case, we can safely assume that <code>x</code> has the type to be found in the <code>adopts</code> clause in the definition of the type of <code>f</code>; then, we null out the field.</li>
+</ul>
+<p>In the example of the one-element fifo, after taking <code>head</code>, the hidden field would be nulled out, and the second attempt to take <code>tail</code> would fail, since the value in the hidden field (<code>null</code>) and the address of the adopter would fail to match.</p>
+<h4 id="illustrating-all-these-concepts">Illustrating all these concepts</h4>
+<p>In order to better understand how we use all these mechanisms to type-check a program, we have a step-by-step animation explaining how a given piece of code is type-checked. We chose the <code>insert</code> function that inserts an element into the fifo.</p>
+<p><a href="http://gallium.inria.fr/blog/insert-full.raw.html" class="fancybox fancybox.iframe">See the <code>insert</code> example</a> (use the "step forward" and "step back" links).</p>
+<p>Some notes about this example:</p>
+<ul>
+<li>the <code>dynamic</code> permission is always available on-demand for <code>x</code>, as long as we know that there is an exclusive permission for <code>x</code>;</li>
+<li>we use the <code>tag of &lt;-</code> instruction; it allows one to <em>change the tag</em> of a value; the definition for the new tag must have the same number of fields;</li>
+<li>structural types feature an <code>adopts</code> clause – without it, the system would be unsound;</li>
+<li>when we enter the function, the permissions we gain are those brought to us through the arguments;</li>
+<li>when we exit the function, we must make sure <code>f @ fifo a</code> is still available; however, because <code>x</code> is consumed, we don't have anything to ensure about <code>x</code>.</li>
+</ul>
+<h4 id="the-power-of-adoptionabandon">The power of adoption/abandon</h4>
+<p>Adoption and abandon provide an easy escape hatch to make sure you can write your program, even if the aliasing pattern is too complex to be expressed in the pure permission mechanism. The <code>give</code> and <code>take</code> operations are thread-safe; they incur no race conditions, that is, <code>give</code> cannot succeed in two separate threads simultaneously.</p>
+<p>Of course, there is a penalty, both in terms of memory space (hidden field) and runtime tests (<code>give</code> and <code>take</code> operations). Time will tell whether this is something that we can live with, or if it is too expensive. A short-term goal is to allow one to declare a data type is being “slim” (no hidden field) or “fat” (with a hidden field). A long-term goal is to allow one to plug in a proof that the extra dynamic tests are not needed, so that the compiler can skip the tests altogether.</p>
+<h3 id="what-is-the-state-of-mezzo">What is the state of <em><strong>Mezzo</strong></em>?</h3>
+<p>If you've reached that stage of the blog post, you have my entire gratitude, as this was quite a technical topic and I'm afraid it has been fairly long.</p>
+<h4 id="the-prototype">The prototype</h4>
+<p>We currently have a prototype type-checker that is available on our <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/">web page</a>, along with several examples of programs that the type-checker currently accepts. There is a fairly long to-do list, and the type-checker is currently unsound in many corners, but this is something that we're aware of and that we know how to fix.</p>
+<h4 id="concurrency">Concurrency</h4>
+<p>Of course, if we are to go such great lengths, we might as well have concurrency built into the language. <a href="http://gallium.inria.fr/~balabons/">Thibaut Balabonski</a> is currently tackling the problem. Here is an example of how we could leverage the permission mechanism:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">abstract lock (p: perm)
+fact duplicable (lock p)
+<span class="kw">val</span> create @ [p :: <span class="dt">PERM]</span> () -&gt; lock p
+<span class="kw">val</span> acquire @ [p :: <span class="dt">PERM]</span> lock p -&gt; (| p)
+<span class="kw">val</span> release @ [p :: <span class="dt">PERM]</span> (lock p | consumes p) -&gt; ()</code></pre>
+<p>A lock simply protects access to a permission (think of <code>p</code> as <code>x @ ref int</code> where <code>x</code> is a variable in scope). You can copy the lock around, pass it to other threads, and try to <code>acquire</code> it: when you succeed, you obtain the permission. When you want to <code>release</code> the lock, you must give up the permission from your context.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">data outcome (p :: <span class="dt">PERM</span>) =
+  | <span class="dt">Success</span> { | p }
+  | <span class="dt">Failure</span> { }
+
+<span class="kw">val</span> try_acquire @ [p :: <span class="dt">PERM]</span> lock p -&gt; outcome p</code></pre>
+<p>If we were to implement <code>try_acquire</code>, we could write a data type that expresses the fact that in case the operation succeeds, you obtain <code>p</code> in the corresponding <code>match</code> branch.</p>
+<p>The signature for a <code>spawn</code> function could be as follows:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">val</span> spawn (f: (|p) -&gt; () | p) -&gt; ()</code></pre>
+<p>...where <code>f</code> requires a set of permissions <code>p</code> to execute, and <code>spawn</code> takes <code>p</code> from its caller, and uses it to launch <code>p</code>.</p>
+<h4 id="compilation">Compilation</h4>
+<p>We had an intern, Henri Chataing, work on a very prototype-ish implementation of a compilation scheme emitting OCaml code with calls to <code>Obj.magic</code> sprinkled in the right places. We're unsure as to whether that's the right direction; we're also considering emitting CIL code, or C# code directly to take advantage of the real multithreaded capabilities of the CLR...</p>
+<h4 id="i-want-to-participate">I want to participate!</h4>
+<p>We have many opportunities for internships, do contact us if you feel like you want to work on designing an exciting new language!</p><a onclick="switchContent('post2','post1')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Hide</a></div></span>
+<a name="f81fa2e6263500a46851e7258409c210"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=869"> ocurl 0.5.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description"><pre class="rss-text">ocurl is the set of bindings to libcurl - URL transfer library, supporting HTTP and many other protocols.
 
 This project is the fork of http://ocurl.sourceforge.net/ and accumulates many bugfixes and enhancements which didn't make it to the original version, including the multi API wrappers and pluggable asynchronous interface (which makes it possible to inject curl transfers in your event loop of choice). This is the first release for the fork, that incorporates all the bugfixes and new features from 3 years of its history, except the asynchronous api. Next release will merge branch event.
 
@@ -160,9 +273,9 @@ I would like to thank Lars Nilsson, the original author of ocurl, who brought th
 <a name="f8948c49e20787054d82ce6dd7144808"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.elehack.net/tagged/ocaml?format=rss/9d1ead73e678fa2f51a70a933b0bf017"> Not Found</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Michael Ekstrand</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description"><p>The URL you requested could not be found.</p></span>
 <a name="4c4775ee631d70b703ad0f029d59c21b"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.01.29.html"> Caml Weekly News, 29 Jan 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description">beta-release of OPAM / Portable timeout function / omonad-0.0.1 / OCaml 4.00.1 for Android: OPAM packages / Working Group: the future of syntax extensions in OCaml, after camlp4 / If I wanted to write SWIG in OCaml, what library would I need? / Datalog-0.1 / CWN archive links / Other Caml News</span>
 <a name="c8cb9f4fd1ec2a3d96ba66274368ae69"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocurl/"> ocurl</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">28 Jan 2013</span></span><span class="rss-description">bindings to libcurl &lt;http://curl.haxx.se/libcurl/&gt;. This is a fork of &lt;http://ocurl.sourceforge.net/&gt;, with multi API wrappers and pluggable asynchronous interface.</span>
-<a name="4500c6dfee297759b237d6b0101e99f5"></a><span class="rss-header"><span class="rss-title"><a href="http://bentobako.org/david/blog/index.php?post/2013/01/28/The-failures-of-Debian-%28and-its-derivatives%29"> The failures of Debian (and its derivatives)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">David Mentré</span>, <span class="rss-date">27 Jan 2013</span></span><span class="rss-description"><div id="post1"><p>I am a long term Debian user. I have used Debian since probably the mid 90' up to now. I use latest Debian stable on my personal server or at work, and Ubuntu on my desktop and laptop machines at home. Using it does not mean I am entirely satisfied with it to say the least. I think the distribution is not making enough efforts for its users and I'll try to explain why. Of course, YYMV. ;-)</p>
+<a name="4500c6dfee297759b237d6b0101e99f5"></a><span class="rss-header"><span class="rss-title"><a href="http://bentobako.org/david/blog/index.php?post/2013/01/28/The-failures-of-Debian-%28and-its-derivatives%29"> The failures of Debian (and its derivatives)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">David Mentré</span>, <span class="rss-date">27 Jan 2013</span></span><span class="rss-description"><div id="post3"><p>I am a long term Debian user. I have used Debian since probably the mid 90' up to now. I use latest Debian stable on my personal server or at work, and Ubuntu on my desktop and laptop machines at home. Using it does not mean I am entirely satisfied with it to say the least. I think the distribution is not making enough efforts for its users and I'll try to explain why. Of course, YYMV. ;-)</p>
 
-<a onclick="switchContent('post1','post2')" class="btn" href="#4500c6dfee297759b237d6b0101e99f5">Read more...</a></div><div id="post2" style="display: none"><p>I am a long term Debian user. I have used Debian since probably the mid 90' up to now. I use latest Debian stable on my personal server or at work, and Ubuntu on my desktop and laptop machines at home. Using it does not mean I am entirely satisfied with it to say the least. I think the distribution is not making enough efforts for its users and I'll try to explain why. Of course, YYMV. ;-)</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#4500c6dfee297759b237d6b0101e99f5">Read more...</a></div><div id="post4" style="display: none"><p>I am a long term Debian user. I have used Debian since probably the mid 90' up to now. I use latest Debian stable on my personal server or at work, and Ubuntu on my desktop and laptop machines at home. Using it does not mean I am entirely satisfied with it to say the least. I think the distribution is not making enough efforts for its users and I'll try to explain why. Of course, YYMV. ;-)</p>
 
 <ul>
 <li><strong>Debian packaging is made for developers, not users</strong>. Debian has too many packages. To take just one example, the OCaml compiler is packaged into the main compiler, its libraries, the native compiler and the byte code one, etc. Why so many packages? If I am an OCaml developer, I want all of them so why do I need to manually find (the naming is far from being obvious, at least for beginners) and install so many packages? I have heard of several reasons: it allows to factorise common parts between the different binary architectures, it allows to install the command line only parts without the graphics parts, it allows to install only what the user wants, etc. For me, those reasons are just plain wrong. We have more and more disk capacity on our machines so disk usage is no longer a limitation. The package should be able to dynamically activate the graphic parts automatically if the X server is available. And the factorisation of shared parts between Debian architectures should be done on the servers storing the packages, not trough the packaging system.</li>
@@ -189,7 +302,7 @@ I would like to thank Lars Nilsson, the original author of ocurl, who brought th
 <p>So, why I am complaining? Why I do not become a Debian Developer, so I can fix it? Because a single developer is not going to change the root causes of those issues. They need a massive development effort, or at least a massive acknowledgement by the Debian Developers. And I don't have ready-made answers to those issues (even if I have some ideas to solve them).</p>
 
 
-<p>Is the grass greener in the other fields? I don't think so, or at least I am not aware of it. I like Debian for is community approach, its focus on Free Software (even if it is sometimes imperfect) and the wide range of software packaged in it (the OCaml packages are numerous for example). I just hope that the whole Debian community will focus on more user related issues in the future.</p><a onclick="switchContent('post2','post1')" class="btn" href="#4500c6dfee297759b237d6b0101e99f5">Hide</a></div></span>
+<p>Is the grass greener in the other fields? I don't think so, or at least I am not aware of it. I like Debian for is community approach, its focus on Free Software (even if it is sometimes imperfect) and the wide range of software packaged in it (the OCaml packages are numerous for example). I just hope that the whole Debian community will focus on more user related issues in the future.</p><a onclick="switchContent('post4','post3')" class="btn" href="#4500c6dfee297759b237d6b0101e99f5">Hide</a></div></span>
 <a name="424619e247ac889e3831cad027ca6cea"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=868"> Batteries 2.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">25 Jan 2013</span></span><span class="rss-description"><pre class="rss-text">Get it here: https://forge.ocamlcore.org/frs/download.php/1096/batteries-2.0.tar.gz
 
 Detailed interface changes: https://forge.ocamlcore.org/frs/download.php/1096/batteries-2.0.tar.gz
@@ -201,7 +314,7 @@ API Docs: http://ocaml-batteries-team.github.com/batteries-included/hdoc2/index.
 local = "leo";
 h = "lpw25.net (Leo White)";
 document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
-//--></script></span>, <span class="rss-date">23 Jan 2013</span></span><span class="rss-description"><div id="post3"><p>Since its creation camlp4 has proven to be a very useful tool. People have used
+//--></script></span>, <span class="rss-date">23 Jan 2013</span></span><span class="rss-description"><div id="post5"><p>Since its creation camlp4 has proven to be a very useful tool. People have used
 it to experiment with new features for OCaml and to provide interesting
 meta-programming facilities. However, there is general agreement that camlp4 is
 too powerful and complex for the applications that it is most commonly used for,
@@ -212,7 +325,7 @@ mailing list has been created to discuss implementing this simpler
 alternative. This blog post is a way of kick-starting the discussion on this
 list, by explaining my thoughts on what needs to be done.</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#b25c698da96c0469a4d77c4a5a113fce">Read more...</a></div><div id="post4" style="display: none"><p>Since its creation camlp4 has proven to be a very useful tool. People have used
+<a onclick="switchContent('post5','post6')" class="btn" href="#b25c698da96c0469a4d77c4a5a113fce">Read more...</a></div><div id="post6" style="display: none"><p>Since its creation camlp4 has proven to be a very useful tool. People have used
 it to experiment with new features for OCaml and to provide interesting
 meta-programming facilities. However, there is general agreement that camlp4 is
 too powerful and complex for the applications that it is most commonly used for,
@@ -369,8 +482,7 @@ written camlp4 extensions about what kind of extensions they have written, and
 what they think would be necessary to support their extensions without
 camlp4. So please join the
 <a href="http://lists.ocaml.org/listinfo/wg-camlp4">wg-camlp4@lists.ocaml.org</a> list and post
-your thoughts.</p><a onclick="switchContent('post4','post3')" class="btn" href="#b25c698da96c0469a4d77c4a5a113fce">Hide</a></div></span>
-<a name="423079778ca22bf57a1d0ef2bdafca38"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.01.22.html"> Caml Weekly News, 22 Jan 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">22 Jan 2013</span></span><span class="rss-description">beta-release of OPAM / Stog 0.6 is out / Hash function: complexity and circular structures / sedlex = ulex without camlp4 / Fan, a promising replacement of camlp4 / Job offer on formal methods (fixed term contract)</span>
+your thoughts.</p><a onclick="switchContent('post6','post5')" class="btn" href="#b25c698da96c0469a4d77c4a5a113fce">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
