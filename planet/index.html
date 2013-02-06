@@ -80,7 +80,7 @@
   <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
     <b class="caret"></b></a>
   <ul class="dropdown-menu">
-    <li><a href="../releases/latest.html">Releases</a></li>
+    <li><a href="../releases/">Releases</a></li>
     <li><a href="../libraries.html">Libraries</a></li>
     <li><a href="../dev_tools.html">Development Tools</a></li>
     <li><a href="../books.html#manual">User Manual</a></li>
@@ -152,7 +152,543 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
+    <div class="planet"><a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>In this post, we continue discussing syntactic meta-programming<br/>
+following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
+</p>
+<p>
+My years of experience in different meta-program system(Common Lisp,<br/>
+Template Haskell, Camlp4) tell me that quosi-quotation is the most<br/>
+essential part in syntactic meta programming. Though all three claims<br/>
+they have quosi-quotation support. But Template Haskell’s<br/>
+quosi-quotation falls far behind either Camlp4 or Common Lisp. For a<br/>
+decent quosi-quotation system, first, nested quotation and<br/>
+anti-quotation is necessary, second, like Lisp, every part should be<br/>
+able to be quoted and antiquoted except keywords position, that’s to<br/>
+say, each part of the code fragment can be parametrized.
+</p>
+<p>
+For the notation, we denote <code>Ast^0</code> as the normal Ast, <code>Ast^1</code> as Ast<br/>
+encoding <code>Ast^0</code>, the same as <code>Ast^n</code>.
+</p>
+<p>
+So in this post, we discuss the quosi-quotation first.
+</p>
+<a onclick="switchContent('post1','post2')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post2" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
+following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
+</p>
+<p>
+My years of experience in different meta-program system(Common Lisp,<br/>
+Template Haskell, Camlp4) tell me that quosi-quotation is the most<br/>
+essential part in syntactic meta programming. Though all three claims<br/>
+they have quosi-quotation support. But Template Haskell’s<br/>
+quosi-quotation falls far behind either Camlp4 or Common Lisp. For a<br/>
+decent quosi-quotation system, first, nested quotation and<br/>
+anti-quotation is necessary, second, like Lisp, every part should be<br/>
+able to be quoted and antiquoted except keywords position, that’s to<br/>
+say, each part of the code fragment can be parametrized.
+</p>
+<p>
+For the notation, we denote <code>Ast^0</code> as the normal Ast, <code>Ast^1</code> as Ast<br/>
+encoding <code>Ast^0</code>, the same as <code>Ast^n</code>.
+</p>
+<p>
+So in this post, we discuss the quosi-quotation first.
+</p>
+<p>
+The implementation of quosi-quotation heavily relies on the<br/>
+implementation of the compiler, so let’s limit the scope of how to get<br/>
+quosi-quotation done to OCaml.
+</p>
+<p>
+Let’s ignore the antiquote part, and focus the quote part first, the<br/>
+essential of quosi-quotation is to encode the Ast using Ast itself in<br/>
+the meta level: there are different technologies to implement<br/>
+quosi-quotations, to my knowledge, I summarized three here:
+</p>
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1">Raw String manipulation</h3>
+<div id="text-1" class="outline-text-3">
+<p>   This is the most intuitive way, given a string input, the normal<br/>
+   way of parsing is transform it into a parsetree,
+</p>
+<pre class="src src-ocaml"><span style="color: #ffa500; font-weight: bold;">val</span> <span style="color: #dfaf8f;">parse</span><span style="color: #f0e68c;">:</span> <span style="color: #8cd0d3;">string </span><span style="color: #f0e68c;">-&gt;</span><span style="color: #8cd0d3;"> ast</span>
+</pre>
+<p>
+   To encode the meta-level ast, we can do the unparsing again,<br/>
+   assume we have an unparsing function which unparse the ast
+</p>
+<pre class="src src-ocaml"><span style="color: #ffa500; font-weight: bold;">val</span> <span style="color: #dfaf8f;">unparse</span><span style="color: #f0e68c;">:</span> <span style="color: #8cd0d3;">ast </span><span style="color: #f0e68c;">-&gt;</span><span style="color: #8cd0d3;"> string</span>
+</pre>
+<p>
+   so after the composition of parse and unparse, you transformed a<br/>
+   string into the meta-level
+</p>
+<pre class="src src-ocaml"><span style="color: #f0e68c;">(</span>parse <span style="color: #cc9393;">"3"</span><span style="color: #f0e68c;">)</span>
+<span style="color: #f0e68c;">-</span> `Int <span style="color: #cc9393;">"3"</span>
+unparse<span style="color: #f0e68c;">(</span>parse <span style="color: #cc9393;">"3"</span><span style="color: #f0e68c;">)</span>
+<span style="color: #f0e68c;">-</span> <span style="color: #cc9393;">"`Int \"3\""</span>
+
+</pre>
+<p>
+   Then you can do <code>parse</code> again, after <code>parse(unparse (parse "3"))</code>,<br/>
+   we managed to lift the Ast in the meta level. There are serious<br/>
+   defects with this way, First, it’s very brittle, since we are doing<br/>
+   string manipulation in different levels, second, after <b>unparsing</b>,<br/>
+   the location is totally lost, location is one of the most tedious<br/>
+   but necessary part for a practical meta programming system, third,<br/>
+   there is no easy way to integrate with antiquot. This technique is<br/>
+   quite intuitive and easy to understand, but I don’t know any<br/>
+   meta-system do it this way, so feel free to tell me if you know<br/>
+   anyone does similar work <img src="http://s1.wp.com/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley"/>
+</p>
+</div>
+</div>
+<div id="outline-container-2" class="outline-3">
+<h3 id="sec-2">Maintaining different parsers</h3>
+<div id="text-2" class="outline-text-3">
+<p>
+   Unlike the string manipulation, it write different parsers for<br/>
+   different actions. Suppose we are in OCaml, if we want to support<br/>
+   quosi-quotations in such syntax categories
+</p>
+<pre class="example">sig_item, str_item, patt, expr, module_type, module_expr, class_type
+class_expr, class_sig_item, class_str_item, with_constr, binding, rec_binding,
+match_case,
+</pre>
+<p>
+   And you want the quosi-quotaion appears in both <code>expr</code> and <code>patt</code><br/>
+   positions, then you have to write <code>14 x (2+1)</code> parsers, the parser can<br/>
+   not be re-usable, if you want to support <code>overloaded quotations</code> (I<br/>
+   will talk about it later), then you have to roll your own parser<br/>
+   again. Writing parser is not hard, but it’s not fun either, and<br/>
+   keeping sync up different parsers is a nightmare.
+</p>
+<p>
+   To make things worse, once anti-quotation is considered, for each<br/>
+   category, there are three parsers to write, but anti-quot makes<br/>
+   them slightly different. To be honest, this way is impractical.
+</p>
+</div>
+</div>
+<div id="outline-container-3" class="outline-3">
+<h3 id="sec-3">Ast Lifting</h3>
+<div id="text-3" class="outline-text-3">
+<p>   Another mechanism to do quosi-quotation is that imaging we have a<br/>
+   powerful function:
+</p>
+<pre class="src src-ocaml"><span style="color: #ffa500; font-weight: bold;">val</span> <span style="color: #dfaf8f;">meta</span><span style="color: #f0e68c;">:</span> <span style="color: #8cd0d3;">ast</span><span style="color: #f0e68c;">^</span>0 <span style="color: #f0e68c;">-&gt;</span> ast<span style="color: #f0e68c;">^</span>1
+</pre>
+<p>
+   This seems magic, but it’s possible even though in OCaml we don’t<br/>
+   have generic programming support, since we have the definition<br/>
+   of ast.
+</p>
+<p>
+   The problem with this technique is that it requires an explicit<br/>
+   <code>Ant</code> tag in the ast representation, since at <code>ast^0</code> level, you<br/>
+   have to store <code>Ant</code> as intermediate node which will be removed when<br/>
+   applied <code>meta</code> function.
+</p>
+<p>
+   Let’s walk through each phase in Fan
+</p>
+<p>
+   Think about how such piece of code would be parsed in Fan:
+</p>
+<pre class="src src-ocaml"><span style="color: #f0e68c;">{:</span><span style="color: #8cd0d3;">expr</span><span style="color: #f0e68c;">|</span> <span style="color: #f0e68c;">$</span>x <span style="color: #f0e68c;">+</span> y<span style="color: #f0e68c;">|}</span>
+</pre>
+<p>
+   For the first phase (I removed the location for simplicity)
+</p>
+<pre class="src src-ocaml">`App<span style="color: #f0e68c;">(</span>`App
+      <span style="color: #f0e68c;">(</span> `Id <span style="color: #f0e68c;">(</span> `Lid <span style="color: #f0e68c;">(</span> <span style="color: #cc9393;">"+"</span><span style="color: #f0e68c;">)),</span>
+        `Ant <span style="color: #f0e68c;">(</span> <span style="color: #f0e68c;">{</span>cxt <span style="color: #f0e68c;">=</span> <span style="color: #cc9393;">"expr"</span><span style="color: #f0e68c;">;</span> sep <span style="color: #f0e68c;">=</span> None<span style="color: #f0e68c;">;</span> decorations <span style="color: #f0e68c;">=</span> <span style="color: #cc9393;">""</span><span style="color: #f0e68c;">;</span> content <span style="color: #f0e68c;">=</span> <span style="color: #cc9393;">"x"</span><span style="color: #f0e68c;">})),</span>
+     `Id <span style="color: #f0e68c;">(</span> `Lid <span style="color: #f0e68c;">(</span> <span style="color: #cc9393;">"y"</span><span style="color: #f0e68c;">)))</span>
+</pre>
+<p>
+   Here <code>Ant</code> exists only as intermediate node, it will be eliminated<br/>
+   in the meta-step
+</p>
+<p>
+   after applied with <code>meta</code> function
+</p>
+<pre class="src src-ocaml"><span style="color: #f0e68c;">(</span><span style="color: #8cd0d3;">Filters</span>.<span style="color: #8cd0d3;">ME</span>.meta_expr _loc <span style="color: #f0e68c;">(</span>t expr <span style="color: #cc9393;">"$x + y"</span><span style="color: #f0e68c;">));</span>
+<span style="color: #f0e68c;">-</span> <span style="color: #f0e68c;">:</span> <span style="color: #8cd0d3;">FanAst.expr </span><span style="color: #f0e68c;">=</span>
+`App
+  <span style="color: #f0e68c;">(,</span>
+   `App
+     <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"App"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+      `App
+        <span style="color: #f0e68c;">(,</span>
+         `App
+           <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"App"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+            `App
+              <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Id"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+               `App
+                 <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Lid"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+                  `Str <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"+"</span><span style="color: #f0e68c;">)))),</span>
+         `Ant <span style="color: #f0e68c;">(,</span> <span style="color: #f0e68c;">{</span>cxt <span style="color: #f0e68c;">=</span> <span style="color: #cc9393;">"expr"</span><span style="color: #f0e68c;">;</span> sep <span style="color: #f0e68c;">=</span> None<span style="color: #f0e68c;">;</span> decorations <span style="color: #f0e68c;">=</span> <span style="color: #cc9393;">""</span><span style="color: #f0e68c;">;</span> content <span style="color: #f0e68c;">=</span> <span style="color: #cc9393;">"x"</span><span style="color: #f0e68c;">}))),</span>
+   `App
+     <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Id"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+      `App <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Lid"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span> `Str <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"y"</span><span style="color: #f0e68c;">))))</span>   
+</pre>
+<p>
+   (t is a parsing function)<br/>
+   Here we see that <code>Ant</code> node is still kept and it will be<br/>
+   filtering, now we can filter the <code>Ant</code> node into a normal Ast,
+</p>
+<pre class="src src-ocaml"><span style="color: #f0e68c;">(</span><span style="color: #8cd0d3;">Ant</span>.antiquot_expander <span style="color: #f0e68c;">~</span>parse_patt <span style="color: #f0e68c;">~</span>parse_expr<span style="color: #f0e68c;">)#</span>expr <span style="color: #f0e68c;">(</span><span style="color: #8cd0d3;">Filters</span>.<span style="color: #8cd0d3;">ME</span>.meta_expr _loc <span style="color: #f0e68c;">(</span>t expr <span style="color: #cc9393;">" $x + y"</span><span style="color: #f0e68c;">));</span>
+<span style="color: #f0e68c;">-</span> <span style="color: #f0e68c;">:</span> <span style="color: #8cd0d3;">FanAst.expr </span><span style="color: #f0e68c;">=</span>
+`App
+  <span style="color: #f0e68c;">(,</span>
+   `App
+     <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"App"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+      `App
+        <span style="color: #f0e68c;">(,</span>
+         `App
+           <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"App"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+            `App
+              <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Id"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+               `App
+                 <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Lid"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+                  `Str <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"+"</span><span style="color: #f0e68c;">)))),</span>
+         `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"x"</span><span style="color: #f0e68c;">)))),</span>
+   `App
+     <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Id"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span>
+      `App <span style="color: #f0e68c;">(,</span> `App <span style="color: #f0e68c;">(,</span> `Vrn <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"Lid"</span><span style="color: #f0e68c;">),</span> `Id <span style="color: #f0e68c;">(,</span> `Lid <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"_loc"</span><span style="color: #f0e68c;">))),</span> `Str <span style="color: #f0e68c;">(,</span> <span style="color: #cc9393;">"y"</span><span style="color: #f0e68c;">))))</span>   
+</pre>
+<p>
+   (location in the meta-level is ignored)<br/>
+   If we want to share the same grammar between the <code>Ast^n(n=0,1,2,...)</code>,<br/>
+   Ast lifting (a function of type <code>Ast^0 -&gt; Ast^1</code>) is necessary.
+</p>
+</div>
+</div>
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Summary</h2>
+<div id="text-1" class="outline-text-2">
+<p>
+  We see the three techniques introduced here to do the<br/>
+  quosi-quotation, Fan adopts the third one, suppose we pick the<br/>
+  third one, let’s discuss what kind of Ast representation we need to<br/>
+  make life easier.
+</p>
+<p>
+  As we discussed previously, introducing records in the Abstract Syntax<br/>
+  brings in un-necessary complexity when you want to encode the Ast<br/>
+  using the Ast itself since you have to express the record in the<br/>
+  meta-level as well.
+</p>
+<p>
+  Another defect with current Parsetree is that it was designed without<br/>
+  meta-programming in mind, so it does not provide an <code>Ant</code> tag in all<br/>
+  syntax categories, so in the zero stage <code>Ast^0</code>, you can not have an<br/>
+  Ast node <code>$x</code> in the outermost, since it’s semantically incorrect in<br/>
+  <code>Ast^0</code>, but syntactically correct in <code>Ast^n(n=0,1,2,...)</code>
+</p>
+<p>
+  The third defect with the <code>Parsetree</code> is that it’s quite irregular,<br/>
+  so you can not do any meta-programming with the parsetree itself, for<br/>
+  example, stripping all the location from the Ast node to derive a new<br/>
+  type without locations, deriving a new type without anti-quot tags (we<br/>
+  will see that such ability is quite important in <a href="https://github.com/bobzhang/Fan">Fan</a>)
+</p>
+<p>
+  The fourth defect is more serious from the point of view of<br/>
+  semantics, since in OCaml, there is no way to express absolute path,<br/>
+  when you do the Ast lifting, the time you define Ast lifting is<br/>
+  different from the time you use the quotations
+</p>
+<p>
+  Camlp4′s Ast is slightly better than Parsetree, since it does not<br/>
+  introduce records to increase the complexity.
+</p>
+<p>
+  However, Camlp4′s Ast can not express the absolute path which<br/>
+  results in a semantics imprecise, another serious implementation<br/>
+  defect is that it tries to encode the anti-quote using both two<br/>
+  techniques: either explicit <code>Ant</code> tag or via string mangling, prefix<br/>
+  the string with <code>\\$:</code>, and Camlp4′s tag name is totally not<br/>
+  meaningful.
+</p>
+<p>
+  Think a bit further , about syntactic meta-programming, what we<br/>
+  really care about is purely syntax, <code>Int "3"= should not be   different whether it is of type =expr</code> or <code>patt</code>, if we take a<br/>
+  location of ast node, we should not care about whether its type is<br/>
+  <code>expr</code> or <code>patt</code> or <code>str_item</code>, right?
+</p>
+<p>
+  If we compose two ast node using semi syntax <code>;</code>, we really don’t<br/>
+  care about whether it’s expr node or patt node
+</p>
+<pre class="src src-ocaml"><span style="color: #ffa500; font-weight: bold;">let</span> <span style="color: #8cd0d3;">sem</span><span style="color: #dfaf8f;"> a b </span><span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{|</span> <span style="color: #f0e68c;">$</span>a<span style="color: #f0e68c;">;</span> <span style="color: #f0e68c;">$</span>b <span style="color: #f0e68c;">|}</span>
+</pre>
+<p>
+  The code above should work well under already syntax categories as<br/>
+  long as it support <code>`Sem</code> tag.
+</p>
+<p>
+  Changing the underlying representation of Ast means all existing<br/>
+  code in Camlp4 engine can not be reused, since the quotation-kit no<br/>
+  longer apply in Fan, but the tough old days are already gone, Fan<br/>
+  already managed to provide the whole quotation kit from scratch.  In<br/>
+  the next post we will talk about the underly Ast using polymorphic<br/>
+  variants in Fan, and argue why it’s the right direction.
+</p>
+<p>
+  Thanks for your reading!(btw, there’s a bug in Emacs org/blog, sorry for posting several times)
+</p>
+</div>
+</div>
+
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post2','post1')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
+<a name="0eed7dbfb15f8c7e7c88f25ac195e914"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocaml-efl/"> OCaml EFL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">An OCaml interface to the Enlightenment Foundation Libraries (EFL)</span>
+<a name="6c98a8cb7ee4b38f005b55fec3ab3c11"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.02.05.html"> Caml Weekly News, 05 Feb 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">OCaml-Java: new preview / Core Suite 109.07.00 released / ocurl forked and 0.5.4 released / multiplexing several threads / Brand-new BER MetaOCaml for OCaml 4.00.1 / Update on docs.camlcity.org / Other Caml News</span>
+<a name="e7b08d975890d914e90589b0aa53cb6d"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/02/05/camlp4-alternative-part-2.html"> An alternative to camlp4 - Part 2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
+local = "leo";
+h = "lpw25.net (Leo White)";
+document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
+//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+discussed how we might use AST transformers, attributes and quotations as a
+simpler alternative to camlp4. While AST transformers are much simpler to use
+than camlp4 they still require knowledge of the OCaml syntax tree, and they are
+still implemented outside of the language as preprocessors.</p>
+
+<p>In this post I'll explore how to implement extensions:</p>
+
+<ul>
+<li>within the language itself without external preprocessors</li>
+<li>without the need for detailed knowledge of the OCaml syntax tree</li>
+</ul>
+
+
+<p>By including these extensions in the language itself the increasing number of
+tools being built to support OCaml (e.g. typerex) can handle them directly. For
+instance, IDEs could show the expansions of quotations by using the information
+in ".cmt" files.</p>
+
+<p>I will start with quotations, which can be implemented without any knowledge of
+the OCaml syntax tree, and then expand my proposal to include other kinds of
+extension.</p>
+
+<a onclick="switchContent('post3','post4')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post4" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+discussed how we might use AST transformers, attributes and quotations as a
+simpler alternative to camlp4. While AST transformers are much simpler to use
+than camlp4 they still require knowledge of the OCaml syntax tree, and they are
+still implemented outside of the language as preprocessors.</p>
+
+<p>In this post I'll explore how to implement extensions:</p>
+
+<ul>
+<li>within the language itself without external preprocessors</li>
+<li>without the need for detailed knowledge of the OCaml syntax tree</li>
+</ul>
+
+
+<p>By including these extensions in the language itself the increasing number of
+tools being built to support OCaml (e.g. typerex) can handle them directly. For
+instance, IDEs could show the expansions of quotations by using the information
+in ".cmt" files.</p>
+
+<p>I will start with quotations, which can be implemented without any knowledge of
+the OCaml syntax tree, and then expand my proposal to include other kinds of
+extension.</p>
+
+<p>Since my previous post, there has been a lot of discussion on
+<a href="http://lists.ocaml.org/listinfo/wg-camlp4">wg-camlp4@lists.ocaml.org</a> about
+possible syntaxes for quotations and attributes and other kinds of extension. In
+keeping with those ongoing discussions, I will use <code>{:id { string }}</code> as the
+syntax for quotations (which transform a string into an AST node) and <code>(:id
+expr)</code> as the syntax for extensions that transform an OCaml expression into an
+AST node.</p>
+
+<p>Note that the proposals in this post are more long-term than the "ppx" solution
+discussed in the previous post. Moving an extension from ppx to the mechanism
+described in this post would require only minimal work. So in the short/medium
+term extension authors should implement their extensions using ppx.</p>
+
+<h4>Quotations</h4>
+
+<p>A quotation is simply a function which takes a string and returns an AST
+node. To provide built-in support we need to, for every quotation <code>{:foo { bar
+}}</code>:</p>
+
+<ol>
+<li>find a function that corresponds to <code>foo</code></li>
+<li>apply it to the string " bar "</li>
+<li>copy the resulting AST node in place of the original quotation</li>
+</ol>
+
+
+<h5>Quotations in modules</h5>
+
+<p>We might want to find the function corresponding to quotation <code>foo</code> by simply
+looking in the current module, or one of the other modules in our environment,
+for a function called <code>foo</code>. However there are a few problems with this simple
+scheme:</p>
+
+<ol>
+<li>The function we call must exist and be compiled before we can use it.</li>
+<li>There is no clear separation between what is being executed at compile-time
+and what is being executed and run-time.</li>
+</ol>
+
+
+<p>The first problem basically means that we can only use functions defined in
+other files. The other problem is more subtle.</p>
+
+<p>OCaml modules do not really exist at compile time. They are created at run-time,
+and their creation encompasses the entire execution of the program. For example,
+consider this simple module:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="c">(* main.ml *)</span>
+<span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"Hello, world!</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre></div>
+
+
+<p>To create the <code>Main</code> module, we must create its member <code>x</code>. Once the creation of
+<code>Main</code> is finished the <code>printf</code> has been executed and the whole program has
+completed. Now if we add a quotation function <code>foo</code> to this module:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="c">(* main.ml *)</span>
+<span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">"Hello, world!</span><span class="se">\n</span><span class="s2">"</span>
+
+<span class="k">let</span> <span class="n">keywords</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">create</span> <span class="mi">13</span>
+<span class="k">let</span> <span class="n">foo</span> <span class="n">str</span> <span class="o">=</span> <span class="c">(* Some expression using keywords *)</span>
+</code></pre></div>
+
+
+<p>How do we distinguish between data such as <code>keywords</code> which are needed at
+compile-time when the quotation is run, and data like <code>x</code> whose creation is
+meant to drive the program at run-time? There is nothing explicit in the
+definitions of <code>foo</code> or <code>keywords</code> that indicates that they are intended for
+compile-time execution.</p>
+
+<p>These problems are related to the fact that OCaml is an impure language. Any
+expression (including module definitions) can have side-effects, and the
+run-time behaviour of the program is simply the combination of all these
+side-effects. This makes it difficult to separate the side-effects that are
+related to a quotation from the side-effects that are part of the program's
+execution.</p>
+
+<p>Despite appearing alongside other functions in the program, <code>foo</code> must be
+executed in a completely separate environment. Any side-effects (e.g. mutable
+state, I/O) that are produced while creating and executing <code>foo</code> will be
+completely separate from the side-effects of the other functions in its module.</p>
+
+<h5>Where can we put them?</h5>
+
+<p>If we don't want to put quotation functions in our modules, where should we put
+them? The module system provides the only mechanism for referring to functions in
+other files, how can we refer to functions which are not included in a module?</p>
+
+<p>The answer to these questions comes from the idea of <em>namespaces</em>. Namespaces
+are a way to give longer names to top-level modules without changing the
+module's filename. They also allow these top-level modules to be grouped
+together.</p>
+
+<p>The details of proposals for namespaces vary on their details, but they
+basically allow you to take the module defined by a file "baz.ml" and refer to
+it as "Bar.Baz". Here "Bar" is not a module (it cannot be used as the argument
+to a functor) but a namespace.</p>
+
+<p>Namespaces seem likely to be included in OCaml in the near future,
+and they provide a convenient way to refer to quotations without putting
+quotations within modules.</p>
+
+<p>The idea is to write quotations in a "bar.mlq" file (compiled to
+"bar.cmq"). These quotations would then be placed in the namespace "Bar".</p>
+
+<p>Quotations would be defined with a syntax like:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="c">(* bar.mlq *)</span>
+<span class="n">quotation</span> <span class="n">foo</span> <span class="n">str</span> <span class="o">=</span> <span class="o">...</span>
+</code></pre></div>
+
+
+<p>This could then be used with the syntax:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="o">{:</span><span class="nn">Bar</span><span class="p">.</span><span class="n">foo</span><span class="o">{</span> <span class="n">some</span> <span class="n">text</span> <span class="o">}}</span>
+</code></pre></div>
+
+
+<p>This will make it easy for quotations to be provided by libraries. So that the
+following code would perfectly possible:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="o">{:</span><span class="nn">Core</span><span class="p">.</span><span class="nn">Web</span><span class="p">.</span><span class="n">html</span><span class="o">{&lt;</span><span class="n">body</span><span class="o">&gt;</span> <span class="nc">Hello</span><span class="o">,</span> <span class="n">world</span><span class="o">!</span> <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;}}</span>
+</code></pre></div>
+
+
+<h5>Quotations in different contexts</h5>
+
+<p>So far, we have ignored the question of what type is used to represent an AST
+node. The standard library would need to provide such a type so that quotations
+could be written without linking to compiler-libs. There would also need to be
+different types for different kinds of AST nodes. We do not want a quotation
+used as an expression returning an AST node that represents a pattern</p>
+
+<p>However, we also might want to create quotations that can be used as both
+expressions and patterns. This means that the quotation must return a different
+type depending on where it is used.</p>
+
+<p>The solution to this issue is to give quotations the type <code>'a ctx -&gt; string -&gt;
+'a</code>.  The <code>ctx</code> type would be a GADT that described what context a quotation was
+being used from. It could also contain other information about the context, such
+as its location in the source file.</p>
+
+<h5>Building Quotations</h5>
+
+<p>Creating the quotation functions requires some facility for creating AST
+nodes. For this purpose, the standard library would include special quotations,
+for example: <code>{:Ast.expr{ x + 3 }}</code>. These quotations would be implemented
+directly using the compiler's lexer and parser.</p>
+
+<p>It would also be useful (especially for handling anti-quotations) to allow
+quotations to be built from other quotations. For this we could provide another
+syntax: <code>{:foo}</code> that would refer directly to the quotation function
+<code>foo</code>. Obviously, this syntax would only be allowed within ".mlq" files.</p>
+
+<h4>Other extensions</h4>
+
+<p>This system could easily be extended to other kinds of extension. Rather than
+declaring "quotations" with type <code>'a ctx -&gt; string -&gt; 'a</code>, we could declare
+<em>templates</em> with type <code>'a ctx -&gt; 'a</code>. The context would contain the arguments to
+the template (a string for quotations, an AST node for other templates).</p>
+
+<p>So a template declared as:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="c">(* bar.mlq *)</span>
+<span class="n">template</span> <span class="n">foo</span> <span class="n">str</span> <span class="o">=</span> <span class="o">...</span>
+</code></pre></div>
+
+
+<p>could be used with the syntax:</p>
+
+<div class="highlight"><pre><code class="ocaml"><span class="o">(:</span><span class="nn">Bar</span><span class="p">.</span><span class="n">foo</span> <span class="n">expr</span><span class="o">)</span>
+</code></pre></div>
+
+
+<p>Unlike quotations, more general templates must be able to interpret AST nodes
+themselves. This means we must provide mechanisms for handling AST nodes. For
+this purpose, the standard library would include a simpler version of the
+<code>AstMapper</code> module that is in compiler-libs.</p>
+
+<p>We could also allow the AST quotations (e.g. `Ast.expr) to be used as
+patterns. This approach can be a bit fragile because syntactic sugar can cause a
+pattern to match ASTs that it was not expected to match. However, for matching
+simple AST nodes it is probably fairly robust.</p>
+
+<h4>Summary</h4>
+
+<ol>
+<li>Allow extensions to be written as OCaml functions within ".mlq" files.</li>
+<li>Refer to these functions by attaching them directly to namespaces.</li>
+<li>Require these functions to have type <code>'a ctx -&gt; 'a</code>, where <code>ctx</code> includes a
+GADT describing the context that the extension has been used in.</li>
+<li>Provide AST quotations in the standard library (e.g. <code>{:Ast.expr{ x + 3 }}</code>)
+which use the compiler's own lexer and parser.</li>
+</ol><a onclick="switchContent('post4','post3')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
+<a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
 internship</a> this
 summer, I worked on a test implementation for a new data structure in
 OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
@@ -169,7 +705,7 @@ implementation in OCaml.</p>
 
 <h3 id="hamt-why-where-how">HAMT: Why, where, how ?</h3>
 <p>When you want to play with associative tables over non-integer keys, if you can use imperative constructions, you do not usually hesitate a long time : you use Hash Tables. This structure guarantees <code>O(1)</code> complexity for all elementary operations, provided you can hash your values. However, it is by essence a mutable structure: if you want to use a functional style, you need persistent ones (and copying a Hash Table at every single insertion is obviously right out).</p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post2" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
+<a onclick="switchContent('post5','post6')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post6" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
 internship</a> this
 summer, I worked on a test implementation for a new data structure in
 OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
@@ -285,12 +821,12 @@ $ time ./param.native map 300000 add
 <li id="fn1"><p><a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Ideal Hash Trees</a>, 2001, Phil Bagwell, Institute of Core Computing Science, Swiss Institute of Technology Lausanne<a href="http://gallium.inria.fr/blog/index.rss#fnref1">↩</a></p></li>
 <li id="fn2"><p>I must confess that I think I did not totally understand this part, because I do not exactly come to the same conclusions.<a href="http://gallium.inria.fr/blog/index.rss#fnref2">↩</a></p></li>
 </ol>
-</div><a onclick="switchContent('post2','post1')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
+</div><a onclick="switchContent('post6','post5')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
 <a name="610045c7d8000afbc439e261716c2bb5"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.incubaid.com/2013/02/01/user-functions-in-arakoon/"> User functions in Arakoon</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Incubaid Research</span>, <span class="rss-date">01 Feb 2013</span></span><span class="rss-description">Mahomet cald the Hill to come to him. And when the Hill stood still, he was neuer a whit abashed, but said; If the Hill will not come to Mahomet, Mahomet wil go to the hill. Francis Bacon Introduction Arakoon tries to be a simple distributed key value store that favours consistency over availability. From [...]<img src="http://stats.wordpress.com/b.gif?host=blog.incubaid.com&amp;blog=27780527&amp;post=990&amp;subd=incubaid&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/></span>
 <a name="a659aff02da99b91b3ba73c089b356a6"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=844"> BER MetaOCaml 100</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">BER MetaOCaml is a streamlined version of MetaOCaml -- a conservative extension of OCaml with the primitive type of code values, and three basic multi-stage expression forms: Brackets, Escape, and Run.</span>
 <a name="a3e64a86c3d2ae3b4f9ccb8dcba2ee6d"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=416"> Ocurl 0.5.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">An OCaml binding for the
 libcurl multi-protocol file transfer library.</span>
-<a name="1a026b7f6cf6c617e92908a40e7123d9"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/01/31/discussions-on-the-syntactic-meta-programmingwg-camlp4-list/"> Discussions on the Syntactic Meta Programming(wg-camlp4 list)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description"><div id="post3"><p>There are some interesting discussions in the wg-camlp4 mailing list, I wrote a long mail yesterday, I cleaned it a bit, pasted it here </p>
+<a name="1a026b7f6cf6c617e92908a40e7123d9"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/01/31/discussions-on-the-syntactic-meta-programmingwg-camlp4-list/"> Discussions on the Syntactic Meta Programming(wg-camlp4 list)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description"><div id="post7"><p>There are some interesting discussions in the wg-camlp4 mailing list, I wrote a long mail yesterday, I cleaned it a bit, pasted it here </p>
 <p>———</p>
 <div> I rewrite the whole camlP4(named Fan) from scratch, building the quotation kit and throw away the crappy grammar parser, so plz believe me <b>that I do understand the whole technology stack of camlP4</b>, if we could reach some consensus, I would be happy to handle over the maintaining of  Fan, Fan does not loose any feature compared with camlP4, in fact it has more interesting featrues.</div>
 <div> </div>
@@ -298,7 +834,7 @@ libcurl multi-protocol file transfer library.</span>
 <div>   1. Performance</div>
 <div>          Performance does matter, it’s a shame that  the most time spent in compiling the ocaml compiler is dedicated to camlP4, but it is an engineering problem, currently compiling Fan only takes less than 20s, and it can be improved further</div>
 <div>   2. Building issues</div>
-<a onclick="switchContent('post3','post4')" class="btn" href="#1a026b7f6cf6c617e92908a40e7123d9">Read more...</a></div><div id="post4" style="display: none"><p>There are some interesting discussions in the wg-camlp4 mailing list, I wrote a long mail yesterday, I cleaned it a bit, pasted it here </p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#1a026b7f6cf6c617e92908a40e7123d9">Read more...</a></div><div id="post8" style="display: none"><p>There are some interesting discussions in the wg-camlp4 mailing list, I wrote a long mail yesterday, I cleaned it a bit, pasted it here </p>
 <p>———</p>
 <div> I rewrite the whole camlP4(named Fan) from scratch, building the quotation kit and throw away the crappy grammar parser, so plz believe me <b>that I do understand the whole technology stack of camlP4</b>, if we could reach some consensus, I would be happy to handle over the maintaining of  Fan, Fan does not loose any feature compared with camlP4, in fact it has more interesting featrues.</div>
 <div> </div>
@@ -363,14 +899,14 @@ libcurl multi-protocol file transfer library.</span>
 <div>   So,<b> my proposal is that the community design an Intermediate Ast together, and write a built-in parser to such Intermediate Ast then dump to Parsetree, but I am for that Parsetree still needs to be cleaned a bit but not too much change .  </b>I do appreciate you can take something away from Fan, I think the Parsetree is<b> not the ideal part</b> to do SMP, HTH</div>
 </div>
 <p> </p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/69/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/69/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=69&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#1a026b7f6cf6c617e92908a40e7123d9">Hide</a></div></span>
-<a name="14157a6ff510a7115b1195580c0b23fd"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/introduction-to-mezzo-2"> Introduction to Mezzo, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">30 Jan 2013</span></span><span class="rss-description"><div id="post5"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/69/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/69/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=69&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#1a026b7f6cf6c617e92908a40e7123d9">Hide</a></div></span>
+<a name="14157a6ff510a7115b1195580c0b23fd"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/introduction-to-mezzo-2"> Introduction to Mezzo, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">30 Jan 2013</span></span><span class="rss-description"><div id="post9"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
 <p>The first question that comes fairly naturally is: why are we going such great lengths trying to design such a complex reasoning framework? Here are some answers:</p>
 <ul>
 <li>since mutable portions of the heap have a unique owner, programs written in <em><strong>Mezzo</strong></em> enjoy the property that they are data-race free, that is, we may never have two people trying to access a writable location at the same time;</li>
 <li>thus, we are allowed to perform strong updates, that is, updates that change the type of a variable.</li>
 </ul>
-<a onclick="switchContent('post5','post6')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Read more...</a></div><div id="post6" style="display: none"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
+<a onclick="switchContent('post9','post10')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Read more...</a></div><div id="post10" style="display: none"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
 <p>The first question that comes fairly naturally is: why are we going such great lengths trying to design such a complex reasoning framework? Here are some answers:</p>
 <ul>
 <li>since mutable portions of the heap have a unique owner, programs written in <em><strong>Mezzo</strong></em> enjoy the property that they are data-race free, that is, we may never have two people trying to access a writable location at the same time;</li>
@@ -476,15 +1012,7 @@ fact duplicable (lock p)
 <h4 id="compilation">Compilation</h4>
 <p>We had an intern, Henri Chataing, work on a very prototype-ish implementation of a compilation scheme emitting OCaml code with calls to <code>Obj.magic</code> sprinkled in the right places. We're unsure as to whether that's the right direction; we're also considering emitting CIL code, or C# code directly to take advantage of the real multithreaded capabilities of the CLR...</p>
 <h4 id="i-want-to-participate">I want to participate!</h4>
-<p>We have many opportunities for internships, do contact us if you feel like you want to work on designing an exciting new language!</p><a onclick="switchContent('post6','post5')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Hide</a></div></span>
-<a name="f81fa2e6263500a46851e7258409c210"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=869"> ocurl 0.5.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description"><pre class="rss-text">ocurl is the set of bindings to libcurl - URL transfer library, supporting HTTP and many other protocols.
-
-This project is the fork of http://ocurl.sourceforge.net/ and accumulates many bugfixes and enhancements which didn't make it to the original version, including the multi API wrappers and pluggable asynchronous interface (which makes it possible to inject curl transfers in your event loop of choice). This is the first release for the fork, that incorporates all the bugfixes and new features from 3 years of its history, except the asynchronous api. Next release will merge branch event.
-
-I would like to thank Lars Nilsson, the original author of ocurl, who brought this project to existence.</pre></span>
-<a name="f8948c49e20787054d82ce6dd7144808"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.elehack.net/tagged/ocaml?format=rss/9d1ead73e678fa2f51a70a933b0bf017"> Not Found</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Michael Ekstrand</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description"><p>The URL you requested could not be found.</p></span>
-<a name="4c4775ee631d70b703ad0f029d59c21b"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.01.29.html"> Caml Weekly News, 29 Jan 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">29 Jan 2013</span></span><span class="rss-description">beta-release of OPAM / Portable timeout function / omonad-0.0.1 / OCaml 4.00.1 for Android: OPAM packages / Working Group: the future of syntax extensions in OCaml, after camlp4 / If I wanted to write SWIG in OCaml, what library would I need? / Datalog-0.1 / CWN archive links / Other Caml News</span>
-<a name="c8cb9f4fd1ec2a3d96ba66274368ae69"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocurl/"> ocurl</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">28 Jan 2013</span></span><span class="rss-description">bindings to libcurl &lt;http://curl.haxx.se/libcurl/&gt;. This is a fork of &lt;http://ocurl.sourceforge.net/&gt;, with multi API wrappers and pluggable asynchronous interface.</span>
+<p>We have many opportunities for internships, do contact us if you feel like you want to work on designing an exciting new language!</p><a onclick="switchContent('post10','post9')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
