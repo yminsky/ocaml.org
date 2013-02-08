@@ -152,7 +152,398 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>In this post, we continue discussing syntactic meta-programming<br/>
+    <div class="planet"><a name="6cdb7a70631b8b103948bf9782f47600"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/02/ann-ocaml-vclock-000.html"> [ANN] ocaml-vclock - 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
+local = "noreply";
+h = "blogger.com (orbitz)";
+document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Orbitz<\/a>";
+//--></script></span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><p>I ported some Erlang vector clock code to Ocaml for fun and learning.  It's not well tested and it hasn't any performance optimizations.  I'm not ready yet but I have some projects in mind to use it so it will likely get fleshed out more. </p> <p>Vector clocks are a system for determining the partial ordering of events in a distributed environment.  You can determine if one value is the ancestor of another, equal, or was concurrently updated.  It is one mechanism that distributed databases, such as Riak, use to automatically resolve some conflicts in data while maintaining availability. </p> <p>The vector clock implementation allows for user defined site id type.  It also allows metadata to be encoded in the site id, which is useful if you want your vector clock to be prunable by encoding timestamps in it. </p> <p>The repo can be found <a href="https://github.com/orbitz/ocaml-vclock/tree/0.0.0">here</a>.  If you'd like to learn more about vector clocks read the wikipedia page <a href="http://en.wikipedia.org/wiki/Vector_clock">here</a>.  The Riak website also has some content on vector clocks <a href="http://docs.basho.com/riak/latest/references/appendices/concepts/Vector-Clocks/">here</a>. </p></span>
+<a name="e019222843fac682c9f57ee0f6d1fe6a"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/02/07/more-static-analysis-with-cil/"> More static analysis with CIL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
+<p>We didn’t get so far either time, but I’ve been taking a deeper look at CIL in an attempt to verify error handling in <a href="http://libguestfs.org/">libguestfs</a>.</p>
+<p>Here is my partly working code so far.</p>
+<pre><tt><i></i></tt></pre><font color="#9A1900">(*</font>
+<i><font color="#9A1900"> * Analyse libguestfs APIs to find error overwriting.</font></i>
+<i><font color="#9A1900"> * Copyright (C) 2008-2013 Red Hat, Inc.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * This library is free software; you can redistribute it and/or</font></i>
+<i><font color="#9A1900"> * modify it under the terms of the GNU Lesser General Public</font></i>
+<i><font color="#9A1900"> * License as published by the Free Software Foundation; either</font></i>
+<i><font color="#9A1900"> * version 2.1 of the License, or (at your option) any later version.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * This library is distributed in the hope that it will be useful,</font></i>
+<i><font color="#9A1900"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</font></i>
+<i><font color="#9A1900"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</font></i>
+<i><font color="#9A1900"> * Lesser General Public License for more details.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * You should have received a copy of the GNU Lesser General Public</font></i>
+<a onclick="switchContent('post1','post2')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Read more...</a></div><div id="post2" style="display: none"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
+<p>We didn’t get so far either time, but I’ve been taking a deeper look at CIL in an attempt to verify error handling in <a href="http://libguestfs.org/">libguestfs</a>.</p>
+<p>Here is my partly working code so far.</p>
+<pre><tt><i></i></tt></pre><font color="#9A1900">(*</font>
+<i><font color="#9A1900"> * Analyse libguestfs APIs to find error overwriting.</font></i>
+<i><font color="#9A1900"> * Copyright (C) 2008-2013 Red Hat, Inc.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * This library is free software; you can redistribute it and/or</font></i>
+<i><font color="#9A1900"> * modify it under the terms of the GNU Lesser General Public</font></i>
+<i><font color="#9A1900"> * License as published by the Free Software Foundation; either</font></i>
+<i><font color="#9A1900"> * version 2.1 of the License, or (at your option) any later version.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * This library is distributed in the hope that it will be useful,</font></i>
+<i><font color="#9A1900"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</font></i>
+<i><font color="#9A1900"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</font></i>
+<i><font color="#9A1900"> * Lesser General Public License for more details.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * You should have received a copy of the GNU Lesser General Public</font></i>
+<i><font color="#9A1900"> * License along with this library.  If not, see</font></i>
+<i><font color="#9A1900"> * &lt;http://www.gnu.org/licenses/&gt;.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * Author: Daniel P. Berrange &lt;berrange@redhat.com&gt;</font></i>
+<i><font color="#9A1900"> * Author: Richard W.M. Jones &lt;rjones@redhat.com&gt;</font></i>
+<i><font color="#9A1900"> *)</font></i>
+
+<b><font color="#000080">open</font></b> <font color="#009900">Unix</font>
+<b><font color="#000080">open</font></b> <font color="#009900">Printf</font>
+
+<b><font color="#000080">open</font></b> <font color="#009900">Cil</font>
+
+<b><font color="#0000FF">let</font></b> debug <font color="#990000">=</font> <font color="#009900">ref</font> <b><font color="#0000FF">false</font></b>
+
+<i><font color="#9A1900">(* Set of ints. *)</font></i>
+<b><font color="#0000FF">module</font></b> <font color="#009900">IntSet</font> <font color="#990000">=</font> <b><font color="#000080">Set</font></b><font color="#990000">.</font><font color="#009900">Make</font> <font color="#990000">(</font><b><font color="#0000FF">struct</font></b> <b><font color="#0000FF">type</font></b> t <font color="#990000">=</font> <font color="#009900">int</font> <b><font color="#0000FF">let</font></b> compare <font color="#990000">=</font> compare <b><font color="#0000FF">end</font></b><font color="#990000">)</font>
+
+<i><font color="#9A1900">(* A module for storing any set (unordered list) of functions. *)</font></i>
+<b><font color="#0000FF">module</font></b> <font color="#009900">FunctionSet</font> <font color="#990000">=</font> <b><font color="#000080">Set</font></b><font color="#990000">.</font><font color="#009900">Make</font> <font color="#990000">(</font>
+  <b><font color="#0000FF">struct</font></b>
+    <b><font color="#0000FF">type</font></b> t <font color="#990000">=</font> varinfo
+    <b><font color="#0000FF">let</font></b> compare v1 v2 <font color="#990000">=</font> compare v1<font color="#990000">.</font>vid v2<font color="#990000">.</font>vid
+  <b><font color="#0000FF">end</font></b>
+<font color="#990000">)</font>
+
+<i><font color="#9A1900">(* Directed graph of functions.</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * Function = a node in the graph</font></i>
+<i><font color="#9A1900"> * FunctionDigraph = the directed graph</font></i>
+<i><font color="#9A1900"> * FunctionPathChecker = path checker module using Dijkstra's algorithm</font></i>
+<i><font color="#9A1900"> *)</font></i>
+<b><font color="#0000FF">module</font></b> <font color="#009900">Function</font> <font color="#990000">=</font>
+<b><font color="#0000FF">struct</font></b>
+  <b><font color="#0000FF">type</font></b> t <font color="#990000">=</font> varinfo
+  <b><font color="#0000FF">let</font></b> compare f1 f2 <font color="#990000">=</font> compare f1<font color="#990000">.</font>vid f2<font color="#990000">.</font>vid
+  <b><font color="#0000FF">let</font></b> hash f <font color="#990000">=</font> <b><font color="#000080">Hashtbl</font></b><font color="#990000">.</font>hash f<font color="#990000">.</font>vid
+  <b><font color="#0000FF">let</font></b> equal f1 f2 <font color="#990000">=</font> f1<font color="#990000">.</font>vid <font color="#990000">=</font> f2<font color="#990000">.</font>vid
+<b><font color="#0000FF">end</font></b>
+<b><font color="#0000FF">module</font></b> <font color="#009900">FunctionDigraph</font> <font color="#990000">=</font> <b><font color="#000080">Graph</font></b><font color="#990000">.</font><b><font color="#000080">Imperative</font></b><font color="#990000">.</font><b><font color="#000080">Digraph</font></b><font color="#990000">.</font><font color="#009900">Concrete</font> <font color="#990000">(</font><font color="#009900">Function</font><font color="#990000">)</font>
+<b><font color="#0000FF">module</font></b> <font color="#009900">FunctionPathChecker</font> <font color="#990000">=</font> <b><font color="#000080">Graph</font></b><font color="#990000">.</font><b><font color="#000080">Path</font></b><font color="#990000">.</font><font color="#009900">Check</font> <font color="#990000">(</font><font color="#009900">FunctionDigraph</font><font color="#990000">)</font>
+
+<i><font color="#9A1900">(* Module used to analyze the paths through each function. *)</font></i>
+<b><font color="#0000FF">module</font></b> <font color="#009900">ErrorCounter</font> <font color="#990000">=</font>
+<b><font color="#0000FF">struct</font></b>
+  <b><font color="#0000FF">let</font></b> name <font color="#990000">=</font> <font color="#FF0000">"ErrorCounter"</font>
+  <b><font color="#0000FF">let</font></b> debug <font color="#990000">=</font> debug
+
+  <i><font color="#9A1900">(* Our current state is very simple, just the number of error</font></i>
+<i><font color="#9A1900">   * function calls did encountered up to this statement.</font></i>
+<i><font color="#9A1900">   *)</font></i>
+  <b><font color="#0000FF">type</font></b> t <font color="#990000">=</font> <font color="#009900">int</font>
+
+  <b><font color="#0000FF">let</font></b> copy errcalls <font color="#990000">=</font> errcalls
+
+  <i><font color="#9A1900">(* Start data for each statement. *)</font></i>
+  <b><font color="#0000FF">let</font></b> stmtStartData <font color="#990000">=</font> <b><font color="#000080">Inthash</font></b><font color="#990000">.</font>create <font color="#993399">97</font>
+
+  <b><font color="#0000FF">let</font></b> printable errcalls <font color="#990000">=</font> sprintf <font color="#FF0000">"(errcalls=%d)"</font> errcalls
+
+  <b><font color="#0000FF">let</font></b> pretty <font color="#990000">()</font> t <font color="#990000">=</font> <b><font color="#000080">Pretty</font></b><font color="#990000">.</font>text <font color="#990000">(</font>printable t<font color="#990000">)</font>
+
+  <b><font color="#0000FF">let</font></b> computeFirstPredecessor stmt x <font color="#990000">=</font> x <i><font color="#9A1900">(* XXX??? *)</font></i>
+
+  <b><font color="#0000FF">let</font></b> combinePredecessors stmt <font color="#990000">~</font>old<font color="#990000">:</font>old_t new_t <font color="#990000">=</font>
+    <b><font color="#0000FF">if</font></b> old_t <font color="#990000">=</font> new_t <b><font color="#0000FF">then</font></b> <font color="#009900">None</font>
+    <b><font color="#0000FF">else</font></b> <font color="#009900">Some</font> new_t
+
+  <i><font color="#9A1900">(* This will be initialized after we have calculated the set of all</font></i>
+<i><font color="#9A1900">   * functions which can call an error function, in main() below.</font></i>
+<i><font color="#9A1900">   *)</font></i>
+  <b><font color="#0000FF">let</font></b> error_functions_set <font color="#990000">=</font> <font color="#009900">ref</font> <b><font color="#000080">FunctionSet</font></b><font color="#990000">.</font>empty
+
+  <i><font color="#9A1900">(* Handle a Cil.Instr. *)</font></i>
+  <b><font color="#0000FF">let</font></b> doInstr instr _ <font color="#990000">=</font>
+    <b><font color="#0000FF">match</font></b> instr <b><font color="#0000FF">with</font></b>
+    <i><font color="#9A1900">(* A call to an error function. *)</font></i>
+    <font color="#990000">|</font> <font color="#009900">Call</font> <font color="#990000">(</font>_<font color="#990000">,</font> <font color="#009900">Lval</font> <font color="#990000">(</font><font color="#009900">Var</font> callee<font color="#990000">,</font> _<font color="#990000">),</font> _<font color="#990000">,</font> _<font color="#990000">)</font>
+        <b><font color="#0000FF">when</font></b> <b><font color="#000080">FunctionSet</font></b><font color="#990000">.</font>mem callee <font color="#990000">!</font>error_functions_set <font color="#990000">-&gt;</font>
+      <b><font color="#000080">Dataflow</font></b><font color="#990000">.</font><font color="#009900">Post</font> <font color="#990000">(</font><b><font color="#0000FF">fun</font></b> errcalls <font color="#990000">-&gt;</font> errcalls<font color="#990000">+</font><font color="#993399">1</font><font color="#990000">)</font>
+
+    <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <b><font color="#000080">Dataflow</font></b><font color="#990000">.</font><font color="#009900">Default</font>
+
+  <i><font color="#9A1900">(* Handle a Cil.Stmt. *)</font></i>
+  <b><font color="#0000FF">let</font></b> doStmt _ _ <font color="#990000">=</font> <b><font color="#000080">Dataflow</font></b><font color="#990000">.</font><font color="#009900">SDefault</font>
+
+  <i><font color="#9A1900">(* Handle a Cil.Guard. *)</font></i>
+  <b><font color="#0000FF">let</font></b> doGuard _ _ <font color="#990000">=</font> <b><font color="#000080">Dataflow</font></b><font color="#990000">.</font><font color="#009900">GDefault</font>
+
+  <i><font color="#9A1900">(* Filter statements we've seen already to prevent loops. *)</font></i>
+  <b><font color="#0000FF">let</font></b> filter_set <font color="#990000">=</font> <font color="#009900">ref</font> <b><font color="#000080">IntSet</font></b><font color="#990000">.</font>empty
+  <b><font color="#0000FF">let</font></b> filterStmt <font color="#FF0000">{</font> sid <font color="#990000">=</font> sid <font color="#FF0000">}</font> <font color="#990000">=</font>
+    <b><font color="#0000FF">if</font></b> <b><font color="#000080">IntSet</font></b><font color="#990000">.</font>mem sid <font color="#990000">!</font>filter_set <b><font color="#0000FF">then</font></b> <b><font color="#0000FF">false</font></b>
+    <b><font color="#0000FF">else</font></b> <font color="#990000">(</font>
+      filter_set <font color="#990000">:=</font> <b><font color="#000080">IntSet</font></b><font color="#990000">.</font>add sid <font color="#990000">!</font>filter_set<font color="#990000">;</font>
+      <b><font color="#0000FF">true</font></b>
+    <font color="#990000">)</font>
+
+  <i><font color="#9A1900">(* Initialize the module before each function that we examine. *)</font></i>
+  <b><font color="#0000FF">let</font></b> init stmts <font color="#990000">=</font>
+    filter_set <font color="#990000">:=</font> <b><font color="#000080">IntSet</font></b><font color="#990000">.</font>empty<font color="#990000">;</font>
+    <b><font color="#000080">Inthash</font></b><font color="#990000">.</font>clear stmtStartData<font color="#990000">;</font>
+    <i><font color="#9A1900">(* Add the initial statement(s) to the hash. *)</font></i>
+    <b><font color="#000080">List</font></b><font color="#990000">.</font>iter <font color="#990000">(</font><b><font color="#0000FF">fun</font></b> stmt <font color="#990000">-&gt;</font> <b><font color="#000080">Inthash</font></b><font color="#990000">.</font>add stmtStartData stmt<font color="#990000">.</font>sid <font color="#993399">0</font><font color="#990000">)</font> stmts
+<b><font color="#0000FF">end</font></b>
+
+<b><font color="#0000FF">module</font></b> <font color="#009900">ForwardsErrorCounter</font> <font color="#990000">=</font> <b><font color="#000080">Dataflow</font></b><font color="#990000">.</font><font color="#009900">ForwardsDataFlow</font> <font color="#990000">(</font><font color="#009900">ErrorCounter</font><font color="#990000">)</font>
+
+<i><font color="#9A1900">(* The always useful filter + map function. *)</font></i>
+<b><font color="#0000FF">let</font></b> <b><font color="#0000FF">rec</font></b> filter_map f <font color="#990000">=</font> <b><font color="#0000FF">function</font></b>
+  <font color="#990000">|</font> <font color="#990000">[]</font> <font color="#990000">-&gt;</font> <font color="#990000">[]</font>
+  <font color="#990000">|</font> x <font color="#990000">::</font> xs <font color="#990000">-&gt;</font>
+      <b><font color="#0000FF">match</font></b> f x <b><font color="#0000FF">with</font></b>
+      <font color="#990000">|</font> <font color="#009900">Some</font> y <font color="#990000">-&gt;</font> y <font color="#990000">::</font> filter_map f xs
+      <font color="#990000">|</font> <font color="#009900">None</font> <font color="#990000">-&gt;</font> filter_map f xs
+
+<b><font color="#0000FF">let</font></b> <b><font color="#0000FF">rec</font></b> main <font color="#990000">()</font> <font color="#990000">=</font>
+  <i><font color="#9A1900">(* Read the list of input C files. *)</font></i>
+  <b><font color="#0000FF">let</font></b> files <font color="#990000">=</font>
+    <b><font color="#0000FF">let</font></b> chan <font color="#990000">=</font> open_process_in <font color="#FF0000">"find src -name '*.i' | sort"</font> <b><font color="#0000FF">in</font></b>
+    <b><font color="#0000FF">let</font></b> files <font color="#990000">=</font> input_chan chan <b><font color="#0000FF">in</font></b>
+    <b><font color="#0000FF">if</font></b> close_process_in chan <font color="#990000">&lt;&gt;</font> <font color="#009900">WEXITED</font> <font color="#993399">0</font> <b><font color="#0000FF">then</font></b>
+      failwith <font color="#FF0000">"failed to read input list of files"</font><font color="#990000">;</font>
+    <b><font color="#0000FF">if</font></b> files <font color="#990000">=</font> <font color="#990000">[]</font> <b><font color="#0000FF">then</font></b>
+      failwith <font color="#FF0000">"no input files; is the program running from the top directory? did you compile with make -C src CFLAGS=\"-save-temps\"?"</font><font color="#990000">;</font>
+    files <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(* Load and parse each input file. *)</font></i>
+  <b><font color="#0000FF">let</font></b> files <font color="#990000">=</font>
+    <b><font color="#000080">List</font></b><font color="#990000">.</font>map <font color="#990000">(</font>
+      <b><font color="#0000FF">fun</font></b> filename <font color="#990000">-&gt;</font>
+        printf <font color="#FF0000">"loading %s\n%!"</font> filename<font color="#990000">;</font>
+        <b><font color="#000080">Frontc</font></b><font color="#990000">.</font>parse filename <font color="#990000">()</font>
+    <font color="#990000">)</font> files <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(* Merge the files. *)</font></i>
+  printf <font color="#FF0000">"merging files\n%!"</font><font color="#990000">;</font>
+  <b><font color="#0000FF">let</font></b> sourcecode <font color="#990000">=</font> <b><font color="#000080">Mergecil</font></b><font color="#990000">.</font>merge files <font color="#FF0000">"libguestfs"</font> <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(* CFG analysis. *)</font></i>
+  printf <font color="#FF0000">"computing control flow\n%!"</font><font color="#990000">;</font>
+  <b><font color="#000080">Cfg</font></b><font color="#990000">.</font>computeFileCFG sourcecode<font color="#990000">;</font>
+
+  <b><font color="#0000FF">let</font></b> functions <font color="#990000">=</font>
+    filter_map <font color="#990000">(</font><b><font color="#0000FF">function</font></b> <font color="#009900">GFun</font> <font color="#990000">(</font>f<font color="#990000">,</font> loc<font color="#990000">)</font> <font color="#990000">-&gt;</font> <font color="#009900">Some</font> <font color="#990000">(</font>f<font color="#990000">,</font> loc<font color="#990000">)</font> <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <font color="#009900">None</font><font color="#990000">)</font>
+      sourcecode<font color="#990000">.</font>globals <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(* Examine which functions directly call which other functions. *)</font></i>
+  printf <font color="#FF0000">"computing call graph\n%!"</font><font color="#990000">;</font>
+  <b><font color="#0000FF">let</font></b> call_graph <font color="#990000">=</font> make_call_graph functions <b><font color="#0000FF">in</font></b>
+  <i><font color="#9A1900">(*</font></i>
+<i><font color="#9A1900">  FunctionDigraph.iter_edges (</font></i>
+<i><font color="#9A1900">    fun caller callee -&gt;</font></i>
+<i><font color="#9A1900">      printf "%s calls %s\n" caller.vname callee.vname</font></i>
+<i><font color="#9A1900">  ) call_graph;</font></i>
+<i><font color="#9A1900">  *)</font></i>
+
+  <i><font color="#9A1900">(* The libguestfs error functions.  These are global function names,</font></i>
+<i><font color="#9A1900">   * but to be any use to us we have to look these up in the list of</font></i>
+<i><font color="#9A1900">   * all global functions (ie. 'functions') and turn them into the</font></i>
+<i><font color="#9A1900">   * corresponding varinfo structures.</font></i>
+<i><font color="#9A1900">   *)</font></i>
+  <b><font color="#0000FF">let</font></b> error_function_names <font color="#990000">=</font> <font color="#990000">[</font> <font color="#FF0000">"guestfs_error_errno"</font><font color="#990000">;</font>
+                               <font color="#FF0000">"guestfs_perrorf"</font> <font color="#990000">]</font> <b><font color="#0000FF">in</font></b>
+
+  <b><font color="#0000FF">let</font></b> find_function name <font color="#990000">=</font>
+    <b><font color="#0000FF">try</font></b> <b><font color="#000080">List</font></b><font color="#990000">.</font>find <font color="#990000">(</font><b><font color="#0000FF">fun</font></b> <font color="#990000">(</font><font color="#FF0000">{</font> svar <font color="#990000">=</font> <font color="#FF0000">{</font> vname <font color="#990000">=</font> n <font color="#FF0000">}}</font><font color="#990000">,</font> _<font color="#990000">)</font> <font color="#990000">-&gt;</font> n <font color="#990000">=</font> name<font color="#990000">)</font> functions
+    <b><font color="#0000FF">with</font></b> <font color="#009900">Not_found</font> <font color="#990000">-&gt;</font> failwith <font color="#990000">(</font><font color="#FF0000">"function '"</font> <font color="#990000">^</font> name <font color="#990000">^</font> <font color="#FF0000">"' does not exist"</font><font color="#990000">)</font>
+  <b><font color="#0000FF">in</font></b>
+  <b><font color="#0000FF">let</font></b> error_function_names <font color="#990000">=</font> <b><font color="#000080">List</font></b><font color="#990000">.</font>map <font color="#990000">(</font>
+    <b><font color="#0000FF">fun</font></b> f <font color="#990000">-&gt;</font> <font color="#990000">(</font>fst <font color="#990000">(</font>find_function f<font color="#990000">)).</font>svar
+  <font color="#990000">)</font> error_function_names <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(* Get a list of functions that might (directly or indirectly) call</font></i>
+<i><font color="#9A1900">   * one of the error functions.</font></i>
+<i><font color="#9A1900">   *)</font></i>
+  <b><font color="#0000FF">let</font></b> error_functions<font color="#990000">,</font> non_error_functions <font color="#990000">=</font>
+    functions_which_call call_graph error_function_names functions <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(*</font></i>
+<i><font color="#9A1900">  List.iter (</font></i>
+<i><font color="#9A1900">    fun f -&gt; printf "%s can call an error function\n" f.vname</font></i>
+<i><font color="#9A1900">  ) error_functions;</font></i>
+
+<i><font color="#9A1900">  List.iter (</font></i>
+<i><font color="#9A1900">    fun f -&gt; printf "%s can NOT call an error function\n" f.vname</font></i>
+<i><font color="#9A1900">  ) non_error_functions;</font></i>
+<i><font color="#9A1900">  *)</font></i>
+
+  <i><font color="#9A1900">(* Save the list of error functions in a global set for fast lookups. *)</font></i>
+  <b><font color="#0000FF">let</font></b> set <font color="#990000">=</font>
+    <b><font color="#000080">List</font></b><font color="#990000">.</font>fold_left <font color="#990000">(</font>
+      <b><font color="#0000FF">fun</font></b> set elt <font color="#990000">-&gt;</font> <b><font color="#000080">FunctionSet</font></b><font color="#990000">.</font>add elt set
+    <font color="#990000">)</font> <b><font color="#000080">FunctionSet</font></b><font color="#990000">.</font>empty error_functions <b><font color="#0000FF">in</font></b>
+  <b><font color="#000080">ErrorCounter</font></b><font color="#990000">.</font>error_functions_set <font color="#990000">:=</font> set<font color="#990000">;</font>
+
+  <i><font color="#9A1900">(* Analyze each top-level function to ensure it calls an error</font></i>
+<i><font color="#9A1900">   * function exactly once on error paths, and never on normal return</font></i>
+<i><font color="#9A1900">   * paths.</font></i>
+<i><font color="#9A1900">   *)</font></i>
+  printf <font color="#FF0000">"analyzing correctness of error paths\n%!"</font><font color="#990000">;</font>
+  <b><font color="#000080">List</font></b><font color="#990000">.</font>iter compute_error_paths functions<font color="#990000">;</font>
+
+  <font color="#990000">()</font>
+
+<i><font color="#9A1900">(* Make a directed graph of which functions directly call which other</font></i>
+<i><font color="#9A1900"> * functions.</font></i>
+<i><font color="#9A1900"> *)</font></i>
+<b><font color="#0000FF">and</font></b> make_call_graph functions <font color="#990000">=</font>
+  <b><font color="#0000FF">let</font></b> graph <font color="#990000">=</font> <b><font color="#000080">FunctionDigraph</font></b><font color="#990000">.</font>create <font color="#990000">()</font> <b><font color="#0000FF">in</font></b>
+
+  <b><font color="#000080">List</font></b><font color="#990000">.</font>iter <font color="#990000">(</font>
+    <b><font color="#0000FF">fun</font></b> <font color="#990000">(</font><font color="#FF0000">{</font> svar <font color="#990000">=</font> caller<font color="#990000">;</font> sallstmts <font color="#990000">=</font> sallstmts <font color="#FF0000">}</font><font color="#990000">,</font> _<font color="#990000">)</font> <font color="#990000">-&gt;</font>
+      <i><font color="#9A1900">(* Evaluate which other functions 'caller' calls.  First pull</font></i>
+<i><font color="#9A1900">       * out every 'Call' instruction anywhere in the function.</font></i>
+<i><font color="#9A1900">       *)</font></i>
+      <b><font color="#0000FF">let</font></b> insns <font color="#990000">=</font>  <b><font color="#000080">List</font></b><font color="#990000">.</font>concat <font color="#990000">(</font>
+        filter_map <font color="#990000">(</font>
+          <b><font color="#0000FF">function</font></b>
+          <font color="#990000">|</font> <font color="#FF0000">{</font> skind <font color="#990000">=</font> <font color="#009900">Instr</font> insns <font color="#FF0000">}</font> <font color="#990000">-&gt;</font> <font color="#009900">Some</font> insns
+          <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <font color="#009900">None</font>
+        <font color="#990000">)</font> sallstmts
+      <font color="#990000">)</font> <b><font color="#0000FF">in</font></b>
+      <b><font color="#0000FF">let</font></b> calls <font color="#990000">=</font> <b><font color="#000080">List</font></b><font color="#990000">.</font>filter <font color="#990000">(</font><b><font color="#0000FF">function</font></b> <font color="#009900">Call</font> _ <font color="#990000">-&gt;</font> <b><font color="#0000FF">true</font></b> <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <b><font color="#0000FF">false</font></b><font color="#990000">)</font> insns <b><font color="#0000FF">in</font></b>
+      <i><font color="#9A1900">(* Then examine what function is being called at each place. *)</font></i>
+      <b><font color="#0000FF">let</font></b> callees <font color="#990000">=</font> filter_map <font color="#990000">(</font>
+        <b><font color="#0000FF">function</font></b>
+        <font color="#990000">|</font> <font color="#009900">Call</font> <font color="#990000">(</font>_<font color="#990000">,</font> <font color="#009900">Lval</font> <font color="#990000">(</font><font color="#009900">Var</font> callee<font color="#990000">,</font> _<font color="#990000">),</font> _<font color="#990000">,</font> _<font color="#990000">)</font> <font color="#990000">-&gt;</font> <font color="#009900">Some</font> callee
+        <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <font color="#009900">None</font>
+      <font color="#990000">)</font> calls <b><font color="#0000FF">in</font></b>
+
+      <b><font color="#000080">List</font></b><font color="#990000">.</font>iter <font color="#990000">(</font>
+        <b><font color="#0000FF">fun</font></b> callee <font color="#990000">-&gt;</font>
+          <b><font color="#000080">FunctionDigraph</font></b><font color="#990000">.</font>add_edge graph caller callee
+      <font color="#990000">)</font> callees
+  <font color="#990000">)</font> functions<font color="#990000">;</font>
+
+  graph
+
+<i><font color="#9A1900">(* [functions_which_call g endpoints functions] partitions the</font></i>
+<i><font color="#9A1900"> * [functions] list, returning those functions that call directly or</font></i>
+<i><font color="#9A1900"> * indirectly one of the functions in [endpoints], and a separate list</font></i>
+<i><font color="#9A1900"> * of functions which do not.  [g] is the direct call graph.</font></i>
+<i><font color="#9A1900"> *)</font></i>
+<b><font color="#0000FF">and</font></b> functions_which_call g endpoints functions <font color="#990000">=</font>
+  <b><font color="#0000FF">let</font></b> functions <font color="#990000">=</font> <b><font color="#000080">List</font></b><font color="#990000">.</font>map <font color="#990000">(</font><b><font color="#0000FF">fun</font></b> <font color="#990000">(</font><font color="#FF0000">{</font> svar <font color="#990000">=</font> svar <font color="#FF0000">}</font><font color="#990000">,</font> _<font color="#990000">)</font> <font color="#990000">-&gt;</font> svar<font color="#990000">)</font> functions <b><font color="#0000FF">in</font></b>
+
+  <b><font color="#0000FF">let</font></b> checker <font color="#990000">=</font> <b><font color="#000080">FunctionPathChecker</font></b><font color="#990000">.</font>create g <b><font color="#0000FF">in</font></b>
+  <b><font color="#000080">List</font></b><font color="#990000">.</font>partition <font color="#990000">(</font>
+    <b><font color="#0000FF">fun</font></b> f <font color="#990000">-&gt;</font>
+      <i><font color="#9A1900">(* Does a path exist from f to any of the endpoints? *)</font></i>
+      <b><font color="#000080">List</font></b><font color="#990000">.</font>exists <font color="#990000">(</font>
+        <b><font color="#0000FF">fun</font></b> endpoint <font color="#990000">-&gt;</font>
+          <b><font color="#0000FF">try</font></b> <b><font color="#000080">FunctionPathChecker</font></b><font color="#990000">.</font>check_path checker f endpoint
+          <b><font color="#0000FF">with</font></b>
+          <i><font color="#9A1900">(* It appears safe to ignore this exception.  It seems to</font></i>
+<i><font color="#9A1900">           * mean that this function is in a part of the graph which</font></i>
+<i><font color="#9A1900">           * is completely disconnected from the other part of the graph</font></i>
+<i><font color="#9A1900">           * that contains the endpoint.</font></i>
+<i><font color="#9A1900">           *)</font></i>
+          <font color="#990000">|</font> <font color="#009900">Invalid_argument</font> <font color="#FF0000">"[ocamlgraph] iter_succ"</font> <font color="#990000">-&gt;</font> <b><font color="#0000FF">false</font></b>
+      <font color="#990000">)</font> endpoints
+  <font color="#990000">)</font> functions
+
+<b><font color="#0000FF">and</font></b> compute_error_paths <font color="#990000">(</font><font color="#FF0000">{</font> svar <font color="#990000">=</font> svar <font color="#FF0000">}</font> <b><font color="#0000FF">as</font></b> f<font color="#990000">,</font> loc<font color="#990000">)</font> <font color="#990000">=</font>
+  <i><font color="#9A1900">(*ErrorCounter.debug := true;*)</font></i>
+
+  <i><font color="#9A1900">(* Find the initial statement in this function (assumes that the</font></i>
+<i><font color="#9A1900">   * function can only be entered in one place, which is normal for C</font></i>
+<i><font color="#9A1900">   * functions).</font></i>
+<i><font color="#9A1900">   *)</font></i>
+  <b><font color="#0000FF">let</font></b> initial_stmts <font color="#990000">=</font>
+    <b><font color="#0000FF">match</font></b> f<font color="#990000">.</font>sbody<font color="#990000">.</font>bstmts <b><font color="#0000FF">with</font></b>
+    <font color="#990000">|</font> <font color="#990000">[]</font> <font color="#990000">-&gt;</font> <font color="#990000">[]</font>
+    <font color="#990000">|</font> first<font color="#990000">::</font>_ <font color="#990000">-&gt;</font> <font color="#990000">[</font>first<font color="#990000">]</font> <b><font color="#0000FF">in</font></b>
+
+  <i><font color="#9A1900">(* Initialize ErrorCounter. *)</font></i>
+  <b><font color="#000080">ErrorCounter</font></b><font color="#990000">.</font>init initial_stmts<font color="#990000">;</font>
+
+  <i><font color="#9A1900">(* Compute the error counters along paths through the function. *)</font></i>
+  <b><font color="#000080">ForwardsErrorCounter</font></b><font color="#990000">.</font>compute initial_stmts<font color="#990000">;</font>
+
+  <i><font color="#9A1900">(* Process all Return statements in this function. *)</font></i>
+  <b><font color="#000080">List</font></b><font color="#990000">.</font>iter <font color="#990000">(</font>
+    <b><font color="#0000FF">fun</font></b> stmt <font color="#990000">-&gt;</font>
+      <b><font color="#0000FF">try</font></b>
+        <b><font color="#0000FF">let</font></b> errcalls <font color="#990000">=</font> <b><font color="#000080">Inthash</font></b><font color="#990000">.</font>find <b><font color="#000080">ErrorCounter</font></b><font color="#990000">.</font>stmtStartData stmt<font color="#990000">.</font>sid <b><font color="#0000FF">in</font></b>
+
+        <b><font color="#0000FF">match</font></b> stmt <b><font color="#0000FF">with</font></b>
+        <i><font color="#9A1900">(* return -1; *)</font></i>
+        <font color="#990000">|</font> <font color="#FF0000">{</font> skind <font color="#990000">=</font> <font color="#009900">Return</font> <font color="#990000">(</font><font color="#009900">Some</font> i<font color="#990000">,</font> loc<font color="#990000">)</font> <font color="#FF0000">}</font> <b><font color="#0000FF">when</font></b> is_literal_minus_one i <font color="#990000">-&gt;</font>
+          <b><font color="#0000FF">if</font></b> errcalls <font color="#990000">=</font> <font color="#993399">0</font> <b><font color="#0000FF">then</font></b>
+            printf <font color="#FF0000">"%s:%d: %s: may return an error code without calling error/perrorf\n"</font>
+              loc<font color="#990000">.</font>file loc<font color="#990000">.</font>line svar<font color="#990000">.</font>vname
+          <b><font color="#0000FF">else</font></b> <b><font color="#0000FF">if</font></b> errcalls <font color="#990000">&gt;</font> <font color="#993399">1</font> <b><font color="#0000FF">then</font></b>
+            printf <font color="#FF0000">"%s:%d: %s: may call error/perrorf %d times (more than once) along an error path\n"</font>
+          loc<font color="#990000">.</font>file loc<font color="#990000">.</font>line svar<font color="#990000">.</font>vname errcalls
+
+        <i><font color="#9A1900">(* return 0; *)</font></i>
+        <font color="#990000">|</font> <font color="#FF0000">{</font> skind <font color="#990000">=</font> <font color="#009900">Return</font> <font color="#990000">(</font><font color="#009900">Some</font> i<font color="#990000">,</font> loc<font color="#990000">)</font> <font color="#FF0000">}</font> <b><font color="#0000FF">when</font></b> is_literal_zero i <font color="#990000">-&gt;</font>
+          <b><font color="#0000FF">if</font></b> errcalls <font color="#990000">&gt;=</font> <font color="#993399">1</font> <b><font color="#0000FF">then</font></b>
+            printf <font color="#FF0000">"%s:%d: %s: may call error/perrorf along a non-error return path\n"</font>
+              loc<font color="#990000">.</font>file loc<font color="#990000">.</font>line svar<font color="#990000">.</font>vname
+
+        <i><font color="#9A1900">(* return; (void return) *)</font></i>
+        <font color="#990000">|</font> <font color="#FF0000">{</font> skind <font color="#990000">=</font> <font color="#009900">Return</font> <font color="#990000">(</font><font color="#009900">None</font><font color="#990000">,</font> loc<font color="#990000">)</font> <font color="#FF0000">}</font> <font color="#990000">-&gt;</font>
+          <b><font color="#0000FF">if</font></b> errcalls <font color="#990000">&gt;=</font> <font color="#993399">1</font> <b><font color="#0000FF">then</font></b>
+            printf <font color="#FF0000">"%s:%d: %s: may call error/perrorf and return void\n"</font>
+              loc<font color="#990000">.</font>file loc<font color="#990000">.</font>line svar<font color="#990000">.</font>vname
+
+        <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <font color="#990000">()</font>
+
+      <b><font color="#0000FF">with</font></b>
+        <font color="#009900">Not_found</font> <font color="#990000">-&gt;</font>
+          printf <font color="#FF0000">"%s:%d: %s: may contain unreachable code\n"</font>
+            loc<font color="#990000">.</font>file loc<font color="#990000">.</font>line svar<font color="#990000">.</font>vname
+  <font color="#990000">)</font> f<font color="#990000">.</font>sallstmts
+
+<i><font color="#9A1900">(* Some convenience CIL matching functions. *)</font></i>
+<b><font color="#0000FF">and</font></b> is_literal_minus_one <font color="#990000">=</font> <b><font color="#0000FF">function</font></b>
+  <font color="#990000">|</font> <font color="#009900">Const</font> <font color="#990000">(</font><font color="#009900">CInt64</font> <font color="#990000">(-</font><font color="#993399">1L</font><font color="#990000">,</font> _<font color="#990000">,</font> _<font color="#990000">))</font> <font color="#990000">-&gt;</font> <b><font color="#0000FF">true</font></b>
+  <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <b><font color="#0000FF">false</font></b>
+
+<b><font color="#0000FF">and</font></b> is_literal_zero <font color="#990000">=</font> <b><font color="#0000FF">function</font></b>
+  <font color="#990000">|</font> <font color="#009900">Const</font> <font color="#990000">(</font><font color="#009900">CInt64</font> <font color="#990000">(</font><font color="#993399">0L</font><font color="#990000">,</font> _<font color="#990000">,</font> _<font color="#990000">))</font> <font color="#990000">-&gt;</font> <b><font color="#0000FF">true</font></b>
+  <font color="#990000">|</font> _ <font color="#990000">-&gt;</font> <b><font color="#0000FF">false</font></b>
+
+<i><font color="#9A1900">(* Convenient routine to load the contents of a channel into a list of</font></i>
+<i><font color="#9A1900"> * strings.</font></i>
+<i><font color="#9A1900"> *)</font></i>
+<b><font color="#0000FF">and</font></b> input_chan chan <font color="#990000">=</font>
+  <b><font color="#0000FF">let</font></b> lines <font color="#990000">=</font> <font color="#009900">ref</font> <font color="#990000">[]</font> <b><font color="#0000FF">in</font></b>
+  <b><font color="#0000FF">try</font></b> <b><font color="#0000FF">while</font></b> <b><font color="#0000FF">true</font></b><font color="#990000">;</font> <b><font color="#0000FF">do</font></b> lines <font color="#990000">:=</font> input_line chan <font color="#990000">::</font> <font color="#990000">!</font>lines <b><font color="#0000FF">done</font></b><font color="#990000">;</font> <font color="#990000">[]</font>
+  <b><font color="#0000FF">with</font></b> <font color="#009900">End_of_file</font> <font color="#990000">-&gt;</font> <b><font color="#000080">List</font></b><font color="#990000">.</font>rev <font color="#990000">!</font>lines
+
+<b><font color="#0000FF">and</font></b> input_file filename <font color="#990000">=</font>
+  <b><font color="#0000FF">let</font></b> chan <font color="#990000">=</font> open_in filename <b><font color="#0000FF">in</font></b>
+  <b><font color="#0000FF">let</font></b> r <font color="#990000">=</font> input_chan chan <b><font color="#0000FF">in</font></b>
+  close_in chan<font color="#990000">;</font>
+  r
+
+<b><font color="#0000FF">let</font></b> <font color="#990000">()</font> <font color="#990000">=</font>
+  <b><font color="#0000FF">try</font></b> main <font color="#990000">()</font>
+  <b><font color="#0000FF">with</font></b> 
+    <font color="#009900">exn</font> <font color="#990000">-&gt;</font>
+      prerr_endline <font color="#990000">(</font><b><font color="#000080">Printexc</font></b><font color="#990000">.</font>to_string <font color="#009900">exn</font><font color="#990000">);</font>
+      <b><font color="#000080">Printexc</font></b><font color="#990000">.</font>print_backtrace <b><font color="#000080">Pervasives</font></b><font color="#990000">.</font>stderr<font color="#990000">;</font>
+      exit <font color="#993399">1</font>
+
+
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4163/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4163/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4163&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post2','post1')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Hide</a></div></span>
+<a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>In this post, we continue discussing syntactic meta-programming<br/>
 following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
 </p>
 <p>
@@ -173,7 +564,7 @@ encoding <code>Ast^0</code>, the same as <code>Ast^n</code>.
 <p>
 So in this post, we discuss the quosi-quotation first.
 </p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post2" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
+<a onclick="switchContent('post3','post4')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post4" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
 following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
 </p>
 <p>
@@ -441,14 +832,14 @@ match_case,
 </div>
 </div>
 
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post2','post1')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
 <a name="0eed7dbfb15f8c7e7c88f25ac195e914"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocaml-efl/"> OCaml EFL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">An OCaml interface to the Enlightenment Foundation Libraries (EFL)</span>
 <a name="6c98a8cb7ee4b38f005b55fec3ab3c11"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.02.05.html"> Caml Weekly News, 05 Feb 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">OCaml-Java: new preview / Core Suite 109.07.00 released / ocurl forked and 0.5.4 released / multiplexing several threads / Brand-new BER MetaOCaml for OCaml 4.00.1 / Update on docs.camlcity.org / Other Caml News</span>
-<a name="e7b08d975890d914e90589b0aa53cb6d"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/02/05/camlp4-alternative-part-2.html"> An alternative to camlp4 - Part 2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
+<a name="e7b08d975890d914e90589b0aa53cb6d"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/02/05/camlp4-alternative-part-2.html"> An alternative to camlp4 - Part 2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
 local = "leo";
 h = "lpw25.net (Leo White)";
-document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
-//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
+//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
 discussed how we might use AST transformers, attributes and quotations as a
 simpler alternative to camlp4. While AST transformers are much simpler to use
 than camlp4 they still require knowledge of the OCaml syntax tree, and they are
@@ -471,7 +862,7 @@ in ".cmt" files.</p>
 the OCaml syntax tree, and then expand my proposal to include other kinds of
 extension.</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post4" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+<a onclick="switchContent('post5','post6')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post6" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
 discussed how we might use AST transformers, attributes and quotations as a
 simpler alternative to camlp4. While AST transformers are much simpler to use
 than camlp4 they still require knowledge of the OCaml syntax tree, and they are
@@ -687,8 +1078,8 @@ simple AST nodes it is probably fairly robust.</p>
 GADT describing the context that the extension has been used in.</li>
 <li>Provide AST quotations in the standard library (e.g. <code>{:Ast.expr{ x + 3 }}</code>)
 which use the compiler's own lexer and parser.</li>
-</ol><a onclick="switchContent('post4','post3')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
-<a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
+</ol><a onclick="switchContent('post6','post5')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
+<a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
 internship</a> this
 summer, I worked on a test implementation for a new data structure in
 OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
@@ -705,7 +1096,7 @@ implementation in OCaml.</p>
 
 <h3 id="hamt-why-where-how">HAMT: Why, where, how ?</h3>
 <p>When you want to play with associative tables over non-integer keys, if you can use imperative constructions, you do not usually hesitate a long time : you use Hash Tables. This structure guarantees <code>O(1)</code> complexity for all elementary operations, provided you can hash your values. However, it is by essence a mutable structure: if you want to use a functional style, you need persistent ones (and copying a Hash Table at every single insertion is obviously right out).</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post6" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
+<a onclick="switchContent('post7','post8')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post8" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
 internship</a> this
 summer, I worked on a test implementation for a new data structure in
 OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
@@ -821,198 +1212,11 @@ $ time ./param.native map 300000 add
 <li id="fn1"><p><a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Ideal Hash Trees</a>, 2001, Phil Bagwell, Institute of Core Computing Science, Swiss Institute of Technology Lausanne<a href="http://gallium.inria.fr/blog/index.rss#fnref1">↩</a></p></li>
 <li id="fn2"><p>I must confess that I think I did not totally understand this part, because I do not exactly come to the same conclusions.<a href="http://gallium.inria.fr/blog/index.rss#fnref2">↩</a></p></li>
 </ol>
-</div><a onclick="switchContent('post6','post5')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
+</div><a onclick="switchContent('post8','post7')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
 <a name="610045c7d8000afbc439e261716c2bb5"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.incubaid.com/2013/02/01/user-functions-in-arakoon/"> User functions in Arakoon</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Incubaid Research</span>, <span class="rss-date">01 Feb 2013</span></span><span class="rss-description">Mahomet cald the Hill to come to him. And when the Hill stood still, he was neuer a whit abashed, but said; If the Hill will not come to Mahomet, Mahomet wil go to the hill. Francis Bacon Introduction Arakoon tries to be a simple distributed key value store that favours consistency over availability. From [...]<img src="http://stats.wordpress.com/b.gif?host=blog.incubaid.com&amp;blog=27780527&amp;post=990&amp;subd=incubaid&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/></span>
 <a name="a659aff02da99b91b3ba73c089b356a6"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=844"> BER MetaOCaml 100</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">BER MetaOCaml is a streamlined version of MetaOCaml -- a conservative extension of OCaml with the primitive type of code values, and three basic multi-stage expression forms: Brackets, Escape, and Run.</span>
 <a name="a3e64a86c3d2ae3b4f9ccb8dcba2ee6d"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=416"> Ocurl 0.5.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">An OCaml binding for the
 libcurl multi-protocol file transfer library.</span>
-<a name="1a026b7f6cf6c617e92908a40e7123d9"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/01/31/discussions-on-the-syntactic-meta-programmingwg-camlp4-list/"> Discussions on the Syntactic Meta Programming(wg-camlp4 list)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description"><div id="post7"><p>There are some interesting discussions in the wg-camlp4 mailing list, I wrote a long mail yesterday, I cleaned it a bit, pasted it here </p>
-<p>———</p>
-<div> I rewrite the whole camlP4(named Fan) from scratch, building the quotation kit and throw away the crappy grammar parser, so plz believe me <b>that I do understand the whole technology stack of camlP4</b>, if we could reach some consensus, I would be happy to handle over the maintaining of  Fan, Fan does not loose any feature compared with camlP4, in fact it has more interesting featrues.</div>
-<div> </div>
-<div>   Let’s begin with some easy, not too technical parts which has a significant effect on user experience though:</div>
-<div>   1. Performance</div>
-<div>          Performance does matter, it’s a shame that  the most time spent in compiling the ocaml compiler is dedicated to camlP4, but it is an engineering problem, currently compiling Fan only takes less than 20s, and it can be improved further</div>
-<div>   2. Building issues</div>
-<a onclick="switchContent('post7','post8')" class="btn" href="#1a026b7f6cf6c617e92908a40e7123d9">Read more...</a></div><div id="post8" style="display: none"><p>There are some interesting discussions in the wg-camlp4 mailing list, I wrote a long mail yesterday, I cleaned it a bit, pasted it here </p>
-<p>———</p>
-<div> I rewrite the whole camlP4(named Fan) from scratch, building the quotation kit and throw away the crappy grammar parser, so plz believe me <b>that I do understand the whole technology stack of camlP4</b>, if we could reach some consensus, I would be happy to handle over the maintaining of  Fan, Fan does not loose any feature compared with camlP4, in fact it has more interesting featrues.</div>
-<div> </div>
-<div>   Let’s begin with some easy, not too technical parts which has a significant effect on user experience though:</div>
-<div>   1. Performance</div>
-<div>          Performance does matter, it’s a shame that  the most time spent in compiling the ocaml compiler is dedicated to camlP4, but it is an engineering problem, currently compiling Fan only takes less than 20s, and it can be improved further</div>
-<div>   2. Building issues</div>
-<div>        The design of having side effects by dynamic loading is generically a bad idea, in Fan<b> the dynamic loading only register some functionality the Fan support,</b> it <b>does not have any other side effec</b>t, each file stands alone says which (ppx , or filters, or syntax) it want to use with a good default option. so the building is always something like ‘-pp fan pluging1 plugin2 plugin3′, <b>the order of pulgings does not matter</b>, also, l<b>oading all the plugins you have does not have any side effect, even better, you can do the static linking all the plugins you collected, the building process is simplified.  </b></div>
-<div><b> </b> 3. Grammar Extension (<b>Language namespace</b>)</div>
-<div><b>       </b>I concur that grammar extension arbitrarily is a bad idea, and I agree with Gabrier that so far only the quotation(Here  quotation means delimited DSL, quosi-quotation means Lisp style macros) is modular, composable, and  I also agree with Gabrier -ppx<b> should not be used to do syntax overriding (this should not be called syntax extension actually), </b>that’s a terrible idea to do syntax overriding, since the user never understand what’s going on underly without reading the Makefile. So here some my suggestion is that some really conevenient syntax extesion, i.e, (let try.. in) should be merged to the built in parser. quotations does not bring too much heavy syntax (imho). In Fan, we proposed the concept of a hierarchical language name space, since once quotation is heavily used, it’s really easy to introduce conflict, <b>the language namespace querying is exactly like java package namespace,</b> you can import, close import to save some typing.</div>
-<div>    Here is a taste</div>
-<div>   ———————————————————————————————–</div>
-<div>     {:.Fan.Lang.Meta.expr| a + b |} ——&gt; </div>
-<div>      `App (`App ((`Id (`Lid “+”)), (`Id (`Lid “a”)))), (`Id (`Lid “b”)))</div>
-<div>     {:.Fan.Lang.Meta.N.expr| a + b |}  —–&gt;</div>
-<div>      `App</div>
-<div>    (_loc,</div>
-<div>      (`App</div>
-<div>         (_loc, (`Id (_loc, (`Lid (_loc, “+”)))),</div>
-<div>           (`Id (_loc, (`Lid (_loc, “a”)))))),</div>
-<div>      (`Id (_loc, (`Lid (_loc, “b”))))) </div>
-<div>
-<div> ———————————————————————————————–</div>
-<div> the .Fan.Lang.Meta.expr the first ‘.’ means it’s from the absolute namespace,  the <b>N.expr shares exactly the same syntax without location</b>, though</div>
-</div>
-<div> </div>
-<div>   4. Portable to diffierrent compiler extensions(like LexiFi’s fork of ocaml)</div>
-<div>       I am pretty sure it’s pretty easy to do in Fan, only Ast2pt (dumping the intemediate Ast into Parsetree) part need to be changed to diffierent compilers.
-<div> </div>
-<div>—————————————————————————————————————-</div>
-<div>Now let’s talk about some internal parts of SMP.</div>
-<div>Quasi-Quotation is the essential part of SMP,  I am surprised so far that the discussion <b>silently ignores the quasi-quotation,</b> Leo’s answer of writing   three parsers is neither satisfying nor practical(imho). </div>
-<div> </div>
-<div>Camlp4 is mainly composed of two parts, one is the extensible parser and <b>the other significant part is Ast Lifting</b>. Since we all agree that extensible parser increases the complexity too much, let’s simply ignore that part.</div>
-<div> </div>
-<div>The Ast Lifting are tightly coupled <b>with the design of the Abstract Syntax Tree.</b>  People complain about that Camlp4 Ast is hard to learn and using quasi-quotation to do the pattern match is a bad idea.</div>
-<div> </div>
-<div>Let me explain the topic a bit:</div>
-<div>    Camlp4Ast is hard to learn, I agree, it has some alien names that nobody understand what it  means, quosi-quotation <b>is definitely a great idea</b> to boom the meta-programming, but my experience here is <b>for very very small Ast fragment, using the Abstract Syntax Tree directly,</b> otherwise Quasi-quotation is a life saver to do the meta programming.</div>
-<div>   Luckily the quotation kit has nothing to do with the parser part, it’s simply several functions(I did some simplify a bit) which turns a normal runtime  </div>
-<div>value into an Ast node generically, <b>such kind functions are neither easy to write nor easy to read</b>,<b>the idea case is that it should be generated once for all, and all the data types in normal ocaml</b><b>should be derived automatically</b>(some ADT with functions can not be derived). <b>I bet it’s mostly likely a nightmare if we maintain 3 parsers for the ocaml grammar while two other parsers dumping to a meta-level</b></div>
-<div>  </div>
-<div>   So, how to make Ast Lifting easier, </div>
-<div>        The first guideline is <b>“Don’t mixing with records”, </b></div>
-<div><b>         </b>Once you encoding AST with records, you have to encode the records in the meta level which increases the complexity without bringing any new features, <b>it’s simply not worthwhile.</b></div>
-<div><b> </b></div>
-<div><b>       </b> The second guideline is “Don’t do <b>any </b>syntax desugaring” , syntax desguaring makes the semantics of syntax meta programming a bit weird. Syntax desguaring happens everywhere in Parsetree, think about the list literals, it uses the syntax desuaring, if you don’t use any syntax desugaring, for example, you want to match the bigarray access, you simply needed to match `Bigarray(..)’ instead of </div>
-<div>
-<div> </div>
-<div>Pexp_apply</div>
-<div>        ({pexp_desc=Pexp_ident</div>
-<div>                     {txt= Ldot (Ldot (Lident “Bigarray”, array), (“get”|”set” as gs)) ;_};_},</div>
-<div>         label_exprs)</div>
-</div>
-<div>—————————-</div>
-<div>       The third guideline is to<b> </b>make it <b>as uniform as possible</b></div>
-<div><b>       </b>This not only helps the user, but <b>it helps the meta-programming over types to derive some utility types. </b>Take a look at my Ast encoding in Fan <a href="https://github.com/bobzhang/Fan/blob/master/src/Ast.ml" target="_blank">https://github.com/bobzhang/Fan/blob/master/src/Ast.ml</a> (it needs to be polished, plz don’t panic when you see variants I use here)</div>
-<div><b>      </b>The initial Ast has locations and ant support, but<b> here we derive 3 other Asts thanks to my very regular design</b>.<b> AstN is the Ast without locations</b>, the locations are important, but it is simply not too much helpful when you only do the code generation, but it complicates the expanded code a lot), <b>AstA is the Ast without antiquotations(simply remove the ant branch), </b>it is a subtype of Ast(thanks to the choice we use variants here), <b>AstNA is the Ast without neither locations nor antiquotations</b>), it is a subtype of AstN.  <b>In practice, I found the Ast without locations is particular helpful when you only do the code generation, it simplifies this part significantly.<i><span style="text-decoration: underline;"> The beautif</span></i></b><span style="text-decoration: underline;"><b><i>u</i></b><i>l part is that  all the four Ast share the same grammar with the same quosiquotatoin mechanism, as I showed .Fan.Lang.N.expr and .Fan.Lang.expr</i></span></div>
-<div>    I don’t know how many parsers you have to maintain to reach such a goal or it’s never going to happen.</div>
-<div>    Using variants to encode the intermediate ast has a lots of other benefits, but I don’t want to cover it in such a short mail.</div>
-<div> </div>
-<div>   So,<b> my proposal is that the community design an Intermediate Ast together, and write a built-in parser to such Intermediate Ast then dump to Parsetree, but I am for that Parsetree still needs to be cleaned a bit but not too much change .  </b>I do appreciate you can take something away from Fan, I think the Parsetree is<b> not the ideal part</b> to do SMP, HTH</div>
-</div>
-<p> </p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/69/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/69/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=69&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#1a026b7f6cf6c617e92908a40e7123d9">Hide</a></div></span>
-<a name="14157a6ff510a7115b1195580c0b23fd"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/introduction-to-mezzo-2"> Introduction to Mezzo, continued</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">30 Jan 2013</span></span><span class="rss-description"><div id="post9"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
-<p>The first question that comes fairly naturally is: why are we going such great lengths trying to design such a complex reasoning framework? Here are some answers:</p>
-<ul>
-<li>since mutable portions of the heap have a unique owner, programs written in <em><strong>Mezzo</strong></em> enjoy the property that they are data-race free, that is, we may never have two people trying to access a writable location at the same time;</li>
-<li>thus, we are allowed to perform strong updates, that is, updates that change the type of a variable.</li>
-</ul>
-<a onclick="switchContent('post9','post10')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Read more...</a></div><div id="post10" style="display: none"><p>In the previous blog post, I introduced a new framework for reasoning about programs: permissions, a sort of hybrid between a type system and a program logic. The main selling point is that it allows one to reason in a finer-grained manner about programs. The current incarnation of the permission mechanism is <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/"><em><strong>Mezzo</strong></em></a>, a language in the tradition of ML.</p>
-<p>The first question that comes fairly naturally is: why are we going such great lengths trying to design such a complex reasoning framework? Here are some answers:</p>
-<ul>
-<li>since mutable portions of the heap have a unique owner, programs written in <em><strong>Mezzo</strong></em> enjoy the property that they are data-race free, that is, we may never have two people trying to access a writable location at the same time;</li>
-<li>thus, we are allowed to perform strong updates, that is, updates that change the type of a variable.</li>
-</ul>
-<p>The latter item may seem of dubious usefulness; indeed, the <code>mswap</code> example that I used seems artificial, and I have never needed it in practice. However, the example of <code>concat</code> at the end of the <a href="http://gallium.inria.fr/blog/introduction-to-mezzo/">previous post</a> is much more useful: it is emblematic of a more general concept of “destination-passing-style” algorithms that allow one to write functions in a safe, tail-recursive way, without resorting to unsafe hacks.</p>
-<p>However, as I hinted in the conclusion of the previous blog post, with the elements I have presented so far, there are some serious limitations.</p>
-<p>In this blog post, I will introduce a novel mechanism called <em>adoption</em> and <em>abandon</em>, which allows one to safely alias mutable data, while remaining inside the permission framework; in particular, this means we'll continue to guarantee the unique-owner property for mutable blocks. Of course, there's no free lunch: this <em>adoption</em> and <em>abandon</em> mechanism incurs a dynamic cost at runtime.</p>
-
-
-
-
-<h3 id="a-story-of-adoption-and-abandon">A story of adoption and abandon</h3>
-<h4 id="meet-the-fifo-our-favorite-example">Meet the fifo, our favorite example</h4>
-<p>The running example in this section will be a first-in first-out structure, that is, a fifo. Cells are appended at the end, and popped from the front of the fifo. The loop at the end of the fifo is just a trick to avoid making the <code>next</code> field an <code>option</code> type.</p>
-<div class="figure">
-<img src="http://gallium.inria.fr/blog/fifo.svg" alt="The pointer structure of the fifo"/><p class="caption">The pointer structure of the fifo</p>
-</div>
-<ul>
-<li>The type <code>cell</code> is mutable: we need to rewire the pointers when we we call either <code>retrieve</code> or <code>insert</code> on the fifo.</li>
-<li>The type <code>fifo</code> is also mutable, since its <code>head</code> and <code>tail</code> fields change over time.</li>
-</ul>
-<h4 id="an-aliasing-problem">An aliasing problem</h4>
-<p>One can see already that there is a problem with this aliasing pattern. If there's only one element in the fifo, and the user does:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> x = fifo.head <span class="kw">in</span>
-<span class="kw">let</span> y = fifo.tail <span class="kw">in</span>
-<span class="co">(* x @ cell ∗ y @ cell *)</span></code></pre>
-<p>...then the user has aliased the same cell, and has two exclusive permissions for it. This is a violation of our rules, and the permission system definitely won't allow that! So we can't declare the <code>head</code> and <code>tail</code> field to be <code>cell</code>s...</p>
-<h4 id="getting-back-an-ownership-tree">Getting back an ownership tree</h4>
-<p>In essence, the problem is that the ownership graph is not a forest, and the permission system can only express forest-like ownership patterns. We need to move back to a forest-like ownership pattern. We achieve this through the <em>adoption</em> mechanism.</p>
-<p>We say that the fifo can now <em>adopt the cells</em>. That is, the permission for the cells is “hidden” under the permission for the fifo; in other words, if you own the fifo, you own the cells. Once adopted, the type of a cell changes to reflect the fact that it may be owned by someone else.</p>
-<h5 id="some-data-types">Some data types</h5>
-<p>Let us first take a look at the definition of type <code>fifo a</code> and <code>cell a</code>, respectively fifo and cells holding elements of type <code>a</code>.</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">mutable</span> data fifo a =
-  | <span class="dt">Empty</span> { head: (); tail: () }
-  | <span class="dt">NonEmpty</span> { head: dynamic; tail: dynamic }
-adopts cell a
-
-<span class="kw">mutable</span> data cell a =
-  | <span class="dt">Cell</span> { contents: a; next: dynamic }</code></pre>
-<p>The important point here is the <code>adopts</code> clause that's attached to the definition of <code>fifo</code>; this clause refers to the whole type. We will see in a minute the meaning of type <code>dynamic</code>.</p>
-<h5 id="adoption">Adoption</h5>
-<p>The first operation consists in giving up our ownership of a cell, and transferring it to the fifo object.</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* x @ cell a ∗ f @ fifo a *)</span>
-give x <span class="kw">to</span> f;
-<span class="co">(* x @ dynamic ∗ f @ fifo a *)</span></code></pre>
-<p>After we've given up our knowledge of <code>x</code>, we no longer know that it is a cell. The only thing that remains for us to know about <code>x</code> is that it has type <code>dynamic</code>: it means that <code>x</code> may be currently adopted by someone.</p>
-<p>What is the point, then, of giving up our knowledge of <code>x</code>? The key difference is that, unlike <code>cell a</code>, <code>dynamic</code> is a duplicable type, which means we can alias <code>x</code>.</p>
-<h5 id="abandon">Abandon</h5>
-<p>The converse operation, abandon, works as follows; it allows one to regain the whole knowledge about a variable; in our case, regain the permission <code>x @ cell a</code>.</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* x @ dynamic ∗ f @ fifo a *)</span>
-take x from f;
-<span class="co">(* x @ cell a ∗ f @ fifo a *)</span></code></pre>
-<p>How do we know that the type that <code>x</code> should regain is <code>x @ cell a</code>? This is achieved by doing a lookup on the definition of <code>f</code>, and seeing that fifos adopt elements of type <code>cell a</code>.</p>
-<p>An element, in order to be an adopter, must be mutable. Moreover, adopters can only adopt one type of elements.</p>
-<p>The safety of the whole thing depends on the fact that the <em>take</em> operation must never succeed twice, otherwise we could have <code>x @ cell a ∗ x @ cell a</code>: this would be a definite breach of soundness.</p>
-<p>The general idea is that when you <code>give</code> an element, you become free to alias it, but it is your responsibility to make sure you never <code>take</code> it twice, that is, to make sure you never call <code>take x from f; take y from f</code> with <code>x</code> and <code>y</code> being aliases. In the case of the fifo, it is easy to make mistakes: if the fifo only has one element, the following code will fail:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml">take fifo.head from fifo;
-take fifo.tail from fifo;</code></pre>
-<h5 id="making-sure-the-code-fails">Making sure the code fails</h5>
-<p>The last point that we need to address is how to make sure that the <em>take</em> operation cannot succeed twice for the same element. This is achieved using a hidden field and dynamic tests.</p>
-<p>Each mutable object has a hidden field; the hidden field contains the address of the adopter if the object is currently adopted, <code>null</code> otherwise.</p>
-<ul>
-<li>When <code>give</code>'ing <code>x</code> to <code>f</code>, we set the hidden field of <code>x</code> to be the address of <code>f</code>.</li>
-<li>When taking <code>x</code> from <code>f</code>, we check that the hidden field of <code>x</code> and the address of <code>f</code> match; if this is the case, we can safely assume that <code>x</code> has the type to be found in the <code>adopts</code> clause in the definition of the type of <code>f</code>; then, we null out the field.</li>
-</ul>
-<p>In the example of the one-element fifo, after taking <code>head</code>, the hidden field would be nulled out, and the second attempt to take <code>tail</code> would fail, since the value in the hidden field (<code>null</code>) and the address of the adopter would fail to match.</p>
-<h4 id="illustrating-all-these-concepts">Illustrating all these concepts</h4>
-<p>In order to better understand how we use all these mechanisms to type-check a program, we have a step-by-step animation explaining how a given piece of code is type-checked. We chose the <code>insert</code> function that inserts an element into the fifo.</p>
-<p><a href="http://gallium.inria.fr/blog/insert-full.raw.html" class="fancybox fancybox.iframe">See the <code>insert</code> example</a> (use the "step forward" and "step back" links).</p>
-<p>Some notes about this example:</p>
-<ul>
-<li>the <code>dynamic</code> permission is always available on-demand for <code>x</code>, as long as we know that there is an exclusive permission for <code>x</code>;</li>
-<li>we use the <code>tag of &lt;-</code> instruction; it allows one to <em>change the tag</em> of a value; the definition for the new tag must have the same number of fields;</li>
-<li>structural types feature an <code>adopts</code> clause – without it, the system would be unsound;</li>
-<li>when we enter the function, the permissions we gain are those brought to us through the arguments;</li>
-<li>when we exit the function, we must make sure <code>f @ fifo a</code> is still available; however, because <code>x</code> is consumed, we don't have anything to ensure about <code>x</code>.</li>
-</ul>
-<h4 id="the-power-of-adoptionabandon">The power of adoption/abandon</h4>
-<p>Adoption and abandon provide an easy escape hatch to make sure you can write your program, even if the aliasing pattern is too complex to be expressed in the pure permission mechanism. The <code>give</code> and <code>take</code> operations are thread-safe; they incur no race conditions, that is, <code>give</code> cannot succeed in two separate threads simultaneously.</p>
-<p>Of course, there is a penalty, both in terms of memory space (hidden field) and runtime tests (<code>give</code> and <code>take</code> operations). Time will tell whether this is something that we can live with, or if it is too expensive. A short-term goal is to allow one to declare a data type is being “slim” (no hidden field) or “fat” (with a hidden field). A long-term goal is to allow one to plug in a proof that the extra dynamic tests are not needed, so that the compiler can skip the tests altogether.</p>
-<h3 id="what-is-the-state-of-mezzo">What is the state of <em><strong>Mezzo</strong></em>?</h3>
-<p>If you've reached that stage of the blog post, you have my entire gratitude, as this was quite a technical topic and I'm afraid it has been fairly long.</p>
-<h4 id="the-prototype">The prototype</h4>
-<p>We currently have a prototype type-checker that is available on our <a href="http://gallium.inria.fr/~protzenk/mezzo-lang/">web page</a>, along with several examples of programs that the type-checker currently accepts. There is a fairly long to-do list, and the type-checker is currently unsound in many corners, but this is something that we're aware of and that we know how to fix.</p>
-<h4 id="concurrency">Concurrency</h4>
-<p>Of course, if we are to go such great lengths, we might as well have concurrency built into the language. <a href="http://gallium.inria.fr/~balabons/">Thibaut Balabonski</a> is currently tackling the problem. Here is an example of how we could leverage the permission mechanism:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml">abstract lock (p: perm)
-fact duplicable (lock p)
-<span class="kw">val</span> create @ [p :: <span class="dt">PERM]</span> () -&gt; lock p
-<span class="kw">val</span> acquire @ [p :: <span class="dt">PERM]</span> lock p -&gt; (| p)
-<span class="kw">val</span> release @ [p :: <span class="dt">PERM]</span> (lock p | consumes p) -&gt; ()</code></pre>
-<p>A lock simply protects access to a permission (think of <code>p</code> as <code>x @ ref int</code> where <code>x</code> is a variable in scope). You can copy the lock around, pass it to other threads, and try to <code>acquire</code> it: when you succeed, you obtain the permission. When you want to <code>release</code> the lock, you must give up the permission from your context.</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml">data outcome (p :: <span class="dt">PERM</span>) =
-  | <span class="dt">Success</span> { | p }
-  | <span class="dt">Failure</span> { }
-
-<span class="kw">val</span> try_acquire @ [p :: <span class="dt">PERM]</span> lock p -&gt; outcome p</code></pre>
-<p>If we were to implement <code>try_acquire</code>, we could write a data type that expresses the fact that in case the operation succeeds, you obtain <code>p</code> in the corresponding <code>match</code> branch.</p>
-<p>The signature for a <code>spawn</code> function could be as follows:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">val</span> spawn (f: (|p) -&gt; () | p) -&gt; ()</code></pre>
-<p>...where <code>f</code> requires a set of permissions <code>p</code> to execute, and <code>spawn</code> takes <code>p</code> from its caller, and uses it to launch <code>p</code>.</p>
-<h4 id="compilation">Compilation</h4>
-<p>We had an intern, Henri Chataing, work on a very prototype-ish implementation of a compilation scheme emitting OCaml code with calls to <code>Obj.magic</code> sprinkled in the right places. We're unsure as to whether that's the right direction; we're also considering emitting CIL code, or C# code directly to take advantage of the real multithreaded capabilities of the CLR...</p>
-<h4 id="i-want-to-participate">I want to participate!</h4>
-<p>We have many opportunities for internships, do contact us if you feel like you want to work on designing an exciting new language!</p><a onclick="switchContent('post10','post9')" class="btn" href="#14157a6ff510a7115b1195580c0b23fd">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
