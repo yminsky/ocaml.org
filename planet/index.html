@@ -152,12 +152,139 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="6cdb7a70631b8b103948bf9782f47600"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/02/ann-ocaml-vclock-000.html"> [ANN] ocaml-vclock - 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
+    <div class="planet"><a name="f7bed3401cb8fa5fe0de4eaa50b3c8fb"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/first-release-of-pprint"> First release of PPrint</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">08 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>I am pleased to announce the first official release of <em><strong>PPrint</strong></em>, an OCaml library for pretty-printing textual documents.</p>
+
+
+
+
+<h4 id="a-taste-of-the-layout-language">A taste of the layout language</h4>
+<p>At the heart of <em><strong>PPrint</strong></em> is a little domain-specific language of documents. This language has a well-defined semantics, which the printing engine implements. This language rests upon a small number of fundamental concepts.</p>
+<p>There are combinators for creating atomic documents. For instance,</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">string</span> <span class="st">"hello"</span></code></pre>
+<p>is a simple, unbreakable document.</p>
+<p>There is also a concatenation operator, which joins two documents. For instance,</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">string</span> <span class="st">"hello"</span> ^^ <span class="dt">string</span> <span class="st">"world"</span></code></pre>
+<p>is a composite document. It is in fact equivalent to <code>string "helloworld"</code>.</p>
+<p>So far, nothing very exciting. The next two combinators are more original and interesting.</p>
+<p>The first of these combinators, <code>break 1</code>, is a breakable space. If printed in flat mode, it produces an ordinary space character; if printed in normal mode, it produces a newline character.</p>
+<a onclick="switchContent('post1','post2')" class="btn" href="#f7bed3401cb8fa5fe0de4eaa50b3c8fb">Read more...</a></div><div id="post2" style="display: none"><p>I am pleased to announce the first official release of <em><strong>PPrint</strong></em>, an OCaml library for pretty-printing textual documents.</p>
+
+
+
+
+<h4 id="a-taste-of-the-layout-language">A taste of the layout language</h4>
+<p>At the heart of <em><strong>PPrint</strong></em> is a little domain-specific language of documents. This language has a well-defined semantics, which the printing engine implements. This language rests upon a small number of fundamental concepts.</p>
+<p>There are combinators for creating atomic documents. For instance,</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">string</span> <span class="st">"hello"</span></code></pre>
+<p>is a simple, unbreakable document.</p>
+<p>There is also a concatenation operator, which joins two documents. For instance,</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">string</span> <span class="st">"hello"</span> ^^ <span class="dt">string</span> <span class="st">"world"</span></code></pre>
+<p>is a composite document. It is in fact equivalent to <code>string "helloworld"</code>.</p>
+<p>So far, nothing very exciting. The next two combinators are more original and interesting.</p>
+<p>The first of these combinators, <code>break 1</code>, is a breakable space. If printed in flat mode, it produces an ordinary space character; if printed in normal mode, it produces a newline character.</p>
+<p>Yes, there are two printing modes, namely flat mode and normal mode. The printing engine goes back and forth between these two modes. Exactly where and how the engine switches from one mode to the other is controlled by the next combinator.</p>
+<p>The second of these combinators, <code>group</code>, introduces a choice between flat mode and normal mode. It is a document transformer: if <code>d</code> is a document, then <code>group d</code> is a document. When the printing engine encounters <code>group d</code>, two possibilities arise. The first possibility is to print all of <code>d</code> on a single line. This is known as flat mode. The engine tries this first (ignoring any <code>group</code> combinators inside <code>d</code>). If it succeeds, great. If it fails, by lack of space on the current line, then the engine backtracks and reverts to the second possibility, which is to simply ignore the <code>group</code> combinator, and just print <code>d</code>. This has subtle consequences: there might be further groups inside <code>d</code>, and each of these groups will give rise to further choices.</p>
+<p>This gives rise to an interesting language, where <code>group</code> is used to indicate a choice point, and the appearance of <code>break</code> is dependent upon the choice point(s) that appear higher up in the hierarchical structure of the document. For instance, the document:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">group (<span class="dt">string</span> <span class="st">"This"</span> ^^ break 1 ^^ <span class="dt">string</span> <span class="st">"is"</span> ^^ break 1 ^^ <span class="dt">string</span> <span class="st">"pretty."</span>)</code></pre>
+<p>will be printed either on a single line, if it fits, or on three lines. It will not be printed on two lines: there is just one choice point, so either the two breakable spaces will be broken, or none of them will. By the way, this document can be abbreviated as follows:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">group (<span class="dt">string</span> <span class="st">"This"</span> ^/^ <span class="dt">string</span> <span class="st">"is"</span> ^/^ <span class="dt">string</span> <span class="st">"pretty."</span>)</code></pre>
+<p>On the other hand, the document:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="dt">string</span> <span class="st">"This"</span> ^^
+group (break 1 ^^ <span class="dt">string</span> <span class="st">"is"</span>) ^^
+group (break 1 ^^ <span class="dt">string</span> <span class="st">"pretty."</span>)</code></pre>
+<p>could be printed on one, two, or three lines. There are two choice points, each of which influences one of the two breakable spaces. The two choices are independent of one another. Each of the words in the sentence <code>This is pretty.</code> will be printed on the current line if it fits, and on a new line otherwise. By the way, this document can be abbreviated as follows:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml">flow 1 [
+  <span class="dt">string</span> <span class="st">"This"</span> ;
+  <span class="dt">string</span> <span class="st">"is"</span> ;
+  <span class="dt">string</span> <span class="st">"pretty."</span>
+]</code></pre>
+<p>There are more combinators, such as <code>nest</code>, which controls indentation, and it is relatively easy to roll your own combinators on top of those that are provided.</p>
+<p>One limitation of the library is that the document must be entirely built in memory before it is printed. So far, we have used the library in small- to medium-scale applications, and this has not been a problem. In principle, one could work around this limitation by adding a new document constructor whose argument is a suspended document computation.</p>
+<h4 id="acknowledgements">Acknowledgements</h4>
+<p>The document language and the printing engine are inspired by Daan Leijen's <a href="http://www.cs.uu.nl/~daan/pprint.html">PPrint</a> library, which itself is based on the ideas developed by Philip Wadler in the paper <a href="http://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf">A Prettier Printer</a>.</p>
+<p><em><strong>PPrint</strong></em> was written by François Pottier and Nicolas Pouillard, with contributions by Yann Régis-Gianas, Gabriel Scherer, and Jonathan Protzenko.</p>
+<h4 id="installation">Installation</h4>
+<p>The library is available online (<a href="http://gallium.inria.fr/~fpottier/pprint/pprint.tar.gz">source code</a>, <a href="http://gallium.inria.fr/~fpottier/pprint/doc/">documentation</a>), and can also be installed via OPAM: just type <code>opam install pprint</code> if you already have a working OPAM installation.</p>
+<p>Have fun! Feel free to make comments, suggestions, and to let me know if and how you are using this library.</p>
+<h4 id="a-final-example">A Final Example</h4>
+<p>For a larger example, here is the code of the file <code>PPrintTest.ml</code> included in the distribution (with the maximum line width adapted for this blog post):</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="ot">open</span> PPrint
+
+<span class="kw">let</span> document =
+  prefix 2 1
+    (<span class="dt">string</span> <span class="st">"TITLE:"</span>)
+    (<span class="dt">string</span> <span class="st">"PPrint"</span>)
+  ^^
+  hardline
+  ^^
+  prefix 2 1
+    (<span class="dt">string</span> <span class="st">"AUTHORS:"</span>)
+    (utf8string <span class="st">"François Pottier and Nicolas Pouillard"</span>)
+  ^^
+  hardline
+  ^^
+  prefix 2 1
+    (<span class="dt">string</span> <span class="st">"ABSTRACT:"</span>)
+    (
+      flow 1 (words
+        <span class="st">"This is an adaptation of Daan Leijen's </span><span class="ch">\"</span><span class="st">PPrint</span><span class="ch">\"</span>
+<span class="st">        library, which itself is based on the ideas developed</span>
+<span class="st">        by Philip Wadler in </span><span class="ch">\"</span><span class="st">A Prettier Printer</span><span class="ch">\"</span><span class="st">. For more</span>
+<span class="st">        information about Wadler's and Leijen's work,</span>
+<span class="st">        please consult the following references:"</span>)
+      ^^
+      nest 2 (
+        twice (break 1)
+        ^^
+        separate_map (break 1) (<span class="kw">fun</span> s -&gt; nest 2 (url s)) [
+          <span class="st">"http://www.cs.uu.nl/~daan/pprint.html"</span>;
+          <span class="st">"http://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf"</span>;
+        ]
+      )
+      ^^
+      twice (break 1)
+      ^^
+      flow 1 (words
+        <span class="st">"To install PPrint, type </span><span class="ch">\"</span><span class="st">make -C src install</span><span class="ch">\"</span><span class="st">.</span>
+<span class="st">         ocamlfind is required."</span>)
+      ^^
+      twice (break 1)
+      ^^
+      flow 1 (words
+        <span class="st">"The documentation for PPrint is built by </span><span class="ch">\"</span><span class="st">make doc</span><span class="ch">\"</span>
+<span class="st">         and is found in the file doc/index.html."</span>)
+    )
+  ^^
+  hardline
+
+<span class="kw">let</span> () =
+  ToChannel<span class="kw">.</span>pretty 1. 60 stdout document;
+  flush stdout</code></pre>
+<p>It produces the following output:</p>
+<pre><code>TITLE: PPrint
+AUTHORS: François Pottier and Nicolas Pouillard
+ABSTRACT:
+  This is an adaptation of Daan Leijen's "PPrint" library,
+  which itself is based on the ideas developed by Philip
+  Wadler in "A Prettier Printer". For more information about
+  Wadler's and Leijen's work, please consult the following
+  references:
+    
+    http://www.cs.uu.nl/~daan/pprint.html
+    http://homepages.inf.ed.ac.uk/wadler/papers/prettier/
+      prettier.pdf
+  
+  To install PPrint, type "make -C src install". ocamlfind
+  is required.
+  
+  The documentation for PPrint is built by "make doc" and is
+  found in the file doc/index.html.</code></pre><a onclick="switchContent('post2','post1')" class="btn" href="#f7bed3401cb8fa5fe0de4eaa50b3c8fb">Hide</a></div></span>
+<a name="6cdb7a70631b8b103948bf9782f47600"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/02/ann-ocaml-vclock-000.html"> [ANN] ocaml-vclock - 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
 local = "noreply";
 h = "blogger.com (orbitz)";
 document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Orbitz<\/a>";
 //--></script></span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><p>I ported some Erlang vector clock code to Ocaml for fun and learning.  It's not well tested and it hasn't any performance optimizations.  I'm not ready yet but I have some projects in mind to use it so it will likely get fleshed out more. </p> <p>Vector clocks are a system for determining the partial ordering of events in a distributed environment.  You can determine if one value is the ancestor of another, equal, or was concurrently updated.  It is one mechanism that distributed databases, such as Riak, use to automatically resolve some conflicts in data while maintaining availability. </p> <p>The vector clock implementation allows for user defined site id type.  It also allows metadata to be encoded in the site id, which is useful if you want your vector clock to be prunable by encoding timestamps in it. </p> <p>The repo can be found <a href="https://github.com/orbitz/ocaml-vclock/tree/0.0.0">here</a>.  If you'd like to learn more about vector clocks read the wikipedia page <a href="http://en.wikipedia.org/wiki/Vector_clock">here</a>.  The Riak website also has some content on vector clocks <a href="http://docs.basho.com/riak/latest/references/appendices/concepts/Vector-Clocks/">here</a>. </p></span>
-<a name="e019222843fac682c9f57ee0f6d1fe6a"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/02/07/more-static-analysis-with-cil/"> More static analysis with CIL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
+<a name="e019222843fac682c9f57ee0f6d1fe6a"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/02/07/more-static-analysis-with-cil/"> More static analysis with CIL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
 <p>We didn’t get so far either time, but I’ve been taking a deeper look at CIL in an attempt to verify error handling in <a href="http://libguestfs.org/">libguestfs</a>.</p>
 <p>Here is my partly working code so far.</p>
 <pre><tt><i></i></tt></pre><font color="#9A1900">(*</font>
@@ -175,7 +302,7 @@ document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' 
 <i><font color="#9A1900"> * Lesser General Public License for more details.</font></i>
 <i><font color="#9A1900"> *</font></i>
 <i><font color="#9A1900"> * You should have received a copy of the GNU Lesser General Public</font></i>
-<a onclick="switchContent('post1','post2')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Read more...</a></div><div id="post2" style="display: none"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Read more...</a></div><div id="post4" style="display: none"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
 <p>We didn’t get so far either time, but I’ve been taking a deeper look at CIL in an attempt to verify error handling in <a href="http://libguestfs.org/">libguestfs</a>.</p>
 <p>Here is my partly working code so far.</p>
 <pre><tt><i></i></tt></pre><font color="#9A1900">(*</font>
@@ -542,8 +669,8 @@ document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' 
       exit <font color="#993399">1</font>
 
 
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4163/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4163/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4163&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post2','post1')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Hide</a></div></span>
-<a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>In this post, we continue discussing syntactic meta-programming<br/>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4163/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4163/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4163&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Hide</a></div></span>
+<a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>In this post, we continue discussing syntactic meta-programming<br/>
 following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
 </p>
 <p>
@@ -564,7 +691,7 @@ encoding <code>Ast^0</code>, the same as <code>Ast^n</code>.
 <p>
 So in this post, we discuss the quosi-quotation first.
 </p>
-<a onclick="switchContent('post3','post4')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post4" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
+<a onclick="switchContent('post5','post6')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post6" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
 following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
 </p>
 <p>
@@ -832,14 +959,14 @@ match_case,
 </div>
 </div>
 
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post6','post5')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
 <a name="0eed7dbfb15f8c7e7c88f25ac195e914"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocaml-efl/"> OCaml EFL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">An OCaml interface to the Enlightenment Foundation Libraries (EFL)</span>
 <a name="6c98a8cb7ee4b38f005b55fec3ab3c11"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.02.05.html"> Caml Weekly News, 05 Feb 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">OCaml-Java: new preview / Core Suite 109.07.00 released / ocurl forked and 0.5.4 released / multiplexing several threads / Brand-new BER MetaOCaml for OCaml 4.00.1 / Update on docs.camlcity.org / Other Caml News</span>
 <a name="e7b08d975890d914e90589b0aa53cb6d"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/02/05/camlp4-alternative-part-2.html"> An alternative to camlp4 - Part 2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
 local = "leo";
 h = "lpw25.net (Leo White)";
 document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
-//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
 discussed how we might use AST transformers, attributes and quotations as a
 simpler alternative to camlp4. While AST transformers are much simpler to use
 than camlp4 they still require knowledge of the OCaml syntax tree, and they are
@@ -862,7 +989,7 @@ in ".cmt" files.</p>
 the OCaml syntax tree, and then expand my proposal to include other kinds of
 extension.</p>
 
-<a onclick="switchContent('post5','post6')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post6" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+<a onclick="switchContent('post7','post8')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post8" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
 discussed how we might use AST transformers, attributes and quotations as a
 simpler alternative to camlp4. While AST transformers are much simpler to use
 than camlp4 they still require knowledge of the OCaml syntax tree, and they are
@@ -1078,8 +1205,8 @@ simple AST nodes it is probably fairly robust.</p>
 GADT describing the context that the extension has been used in.</li>
 <li>Provide AST quotations in the standard library (e.g. <code>{:Ast.expr{ x + 3 }}</code>)
 which use the compiler's own lexer and parser.</li>
-</ol><a onclick="switchContent('post6','post5')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
-<a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
+</ol><a onclick="switchContent('post8','post7')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
+<a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post9"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
 internship</a> this
 summer, I worked on a test implementation for a new data structure in
 OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
@@ -1096,7 +1223,7 @@ implementation in OCaml.</p>
 
 <h3 id="hamt-why-where-how">HAMT: Why, where, how ?</h3>
 <p>When you want to play with associative tables over non-integer keys, if you can use imperative constructions, you do not usually hesitate a long time : you use Hash Tables. This structure guarantees <code>O(1)</code> complexity for all elementary operations, provided you can hash your values. However, it is by essence a mutable structure: if you want to use a functional style, you need persistent ones (and copying a Hash Table at every single insertion is obviously right out).</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post8" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
+<a onclick="switchContent('post9','post10')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post10" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
 internship</a> this
 summer, I worked on a test implementation for a new data structure in
 OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
@@ -1212,11 +1339,9 @@ $ time ./param.native map 300000 add
 <li id="fn1"><p><a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Ideal Hash Trees</a>, 2001, Phil Bagwell, Institute of Core Computing Science, Swiss Institute of Technology Lausanne<a href="http://gallium.inria.fr/blog/index.rss#fnref1">↩</a></p></li>
 <li id="fn2"><p>I must confess that I think I did not totally understand this part, because I do not exactly come to the same conclusions.<a href="http://gallium.inria.fr/blog/index.rss#fnref2">↩</a></p></li>
 </ol>
-</div><a onclick="switchContent('post8','post7')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
+</div><a onclick="switchContent('post10','post9')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
 <a name="610045c7d8000afbc439e261716c2bb5"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.incubaid.com/2013/02/01/user-functions-in-arakoon/"> User functions in Arakoon</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Incubaid Research</span>, <span class="rss-date">01 Feb 2013</span></span><span class="rss-description">Mahomet cald the Hill to come to him. And when the Hill stood still, he was neuer a whit abashed, but said; If the Hill will not come to Mahomet, Mahomet wil go to the hill. Francis Bacon Introduction Arakoon tries to be a simple distributed key value store that favours consistency over availability. From [...]<img src="http://stats.wordpress.com/b.gif?host=blog.incubaid.com&amp;blog=27780527&amp;post=990&amp;subd=incubaid&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/></span>
 <a name="a659aff02da99b91b3ba73c089b356a6"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=844"> BER MetaOCaml 100</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">BER MetaOCaml is a streamlined version of MetaOCaml -- a conservative extension of OCaml with the primitive type of code values, and three basic multi-stage expression forms: Brackets, Escape, and Run.</span>
-<a name="a3e64a86c3d2ae3b4f9ccb8dcba2ee6d"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=416"> Ocurl 0.5.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">An OCaml binding for the
-libcurl multi-protocol file transfer library.</span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
