@@ -947,8 +947,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = <span class="ocaml-mod">Unix</span>.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00313782691955566406
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 3.3855438232421875e-05
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00311994552612304688
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 3.1948089599609375e-05
 </span></pre>
 </div>
 
