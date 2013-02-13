@@ -152,7 +152,16 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="f7bed3401cb8fa5fe0de4eaa50b3c8fb"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/first-release-of-pprint"> First release of PPrint</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">08 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>I am pleased to announce the first official release of <em><strong>PPrint</strong></em>, an OCaml library for pretty-printing textual documents.</p>
+    <div class="planet"><a name="e56033b085d70d0747d47e6fe495078d"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.opalang.org/2013/02/some-great-news-on-opa.html"> Some great news on Opa</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Opa &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (HB)&#9002;</span><script type="text/javascript"><!--;
+local = "noreply";
+h = "blogger.com (HB)";
+document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Opa<\/a>";
+//--></script></span>, <span class="rss-date">12 Feb 2013</span></span><span class="rss-description"><div id="post1"><p>It's been a while since our last post. Like many others, we mainly rely on Twitter to spread the news on Opa.</p><p>This very short post is just an exciting summary on new things that happened in the last couple of months.</p><h1 id="release-of-opa-1.1.0">Release of Opa 1.1.0</h1><p>We released Opa 1.1.0 which as always brings bugfixes, performance enhancement and new feature.</p><p>With Opa 1.1.0, you now can include JavaScript code and Node.js packages easier than ever! We will write about it soon.</p><p>Sadly, we were hit by GitHub decision to halt its download feature. We relied on this and even built a service (in Opa!) that automatically pushed packages. We are still looking at nice hosting alternatives, as the GitHub files should disappear soon.</p><p>From this release, we also support a 32-bit Windows package.</p><h1 id="ongoing-support-of-postgres">Ongoing support of Postgres</h1><p>For a important project that is being built with Opa, we are adding Postgres support.</p><p>Switching your Opa code from MongoDB to Postgres requires almost no code change, and again we will write about it soon.</p><a onclick="switchContent('post1','post2')" class="btn" href="#e56033b085d70d0747d47e6fe495078d">Read more...</a></div><div id="post2" style="display: none"><p>It's been a while since our last post. Like many others, we mainly rely on Twitter to spread the news on Opa.</p><p>This very short post is just an exciting summary on new things that happened in the last couple of months.</p><h1 id="release-of-opa-1.1.0">Release of Opa 1.1.0</h1><p>We released Opa 1.1.0 which as always brings bugfixes, performance enhancement and new feature.</p><p>With Opa 1.1.0, you now can include JavaScript code and Node.js packages easier than ever! We will write about it soon.</p><p>Sadly, we were hit by GitHub decision to halt its download feature. We relied on this and even built a service (in Opa!) that automatically pushed packages. We are still looking at nice hosting alternatives, as the GitHub files should disappear soon.</p><p>From this release, we also support a 32-bit Windows package.</p><h1 id="ongoing-support-of-postgres">Ongoing support of Postgres</h1><p>For a important project that is being built with Opa, we are adding Postgres support.</p><p>Switching your Opa code from MongoDB to Postgres requires almost no code change, and again we will write about it soon.</p><h1 id="big-project-in-opa">Big project in Opa</h1><p>As mentioned earlier, we are working on a pretty big project implemented with Opa. Stay tuned!</p><a onclick="switchContent('post2','post1')" class="btn" href="#e56033b085d70d0747d47e6fe495078d">Hide</a></div></span>
+<a name="da82f0e63b34e3440f7373de319ca75f"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.02.12.html"> Caml Weekly News, 12 Feb 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">12 Feb 2013</span></span><span class="rss-description">OCaml Platform - Mailing List / Memoize GADT / ocp-indent beta release / Core Suite 109.08.00 released / OCaml Labs Monthly Update / OMonad 0.2 / OCaml tests on Travis CI / geany as an ocaml ide / ReactiveML 1.08.04 / Other Caml News</span>
+<a name="9bfd41186a5d09dbb247bf59b25a3541"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=845"> Pprint</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">11 Feb 2013</span></span><span class="rss-description">This is an adaptation of Daan Leijen's "PPrint" library,
+  which itself is based on the ideas developed by Philip
+  Wadler in "A Prettier Printer".</span>
+<a name="f7bed3401cb8fa5fe0de4eaa50b3c8fb"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/first-release-of-pprint"> First release of PPrint</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">08 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>I am pleased to announce the first official release of <em><strong>PPrint</strong></em>, an OCaml library for pretty-printing textual documents.</p>
 
 
 
@@ -167,7 +176,7 @@
 <p>is a composite document. It is in fact equivalent to <code>string "helloworld"</code>.</p>
 <p>So far, nothing very exciting. The next two combinators are more original and interesting.</p>
 <p>The first of these combinators, <code>break 1</code>, is a breakable space. If printed in flat mode, it produces an ordinary space character; if printed in normal mode, it produces a newline character.</p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#f7bed3401cb8fa5fe0de4eaa50b3c8fb">Read more...</a></div><div id="post2" style="display: none"><p>I am pleased to announce the first official release of <em><strong>PPrint</strong></em>, an OCaml library for pretty-printing textual documents.</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#f7bed3401cb8fa5fe0de4eaa50b3c8fb">Read more...</a></div><div id="post4" style="display: none"><p>I am pleased to announce the first official release of <em><strong>PPrint</strong></em>, an OCaml library for pretty-printing textual documents.</p>
 
 
 
@@ -278,13 +287,13 @@ ABSTRACT:
   is required.
   
   The documentation for PPrint is built by "make doc" and is
-  found in the file doc/index.html.</code></pre><a onclick="switchContent('post2','post1')" class="btn" href="#f7bed3401cb8fa5fe0de4eaa50b3c8fb">Hide</a></div></span>
-<a name="6cdb7a70631b8b103948bf9782f47600"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/02/ann-ocaml-vclock-000.html"> [ANN] ocaml-vclock - 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
+  found in the file doc/index.html.</code></pre><a onclick="switchContent('post4','post3')" class="btn" href="#f7bed3401cb8fa5fe0de4eaa50b3c8fb">Hide</a></div></span>
+<a name="6cdb7a70631b8b103948bf9782f47600"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/02/ann-ocaml-vclock-000.html"> [ANN] ocaml-vclock - 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
 local = "noreply";
 h = "blogger.com (orbitz)";
-document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Orbitz<\/a>";
+document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Orbitz<\/a>";
 //--></script></span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><p>I ported some Erlang vector clock code to Ocaml for fun and learning.  It's not well tested and it hasn't any performance optimizations.  I'm not ready yet but I have some projects in mind to use it so it will likely get fleshed out more. </p> <p>Vector clocks are a system for determining the partial ordering of events in a distributed environment.  You can determine if one value is the ancestor of another, equal, or was concurrently updated.  It is one mechanism that distributed databases, such as Riak, use to automatically resolve some conflicts in data while maintaining availability. </p> <p>The vector clock implementation allows for user defined site id type.  It also allows metadata to be encoded in the site id, which is useful if you want your vector clock to be prunable by encoding timestamps in it. </p> <p>The repo can be found <a href="https://github.com/orbitz/ocaml-vclock/tree/0.0.0">here</a>.  If you'd like to learn more about vector clocks read the wikipedia page <a href="http://en.wikipedia.org/wiki/Vector_clock">here</a>.  The Riak website also has some content on vector clocks <a href="http://docs.basho.com/riak/latest/references/appendices/concepts/Vector-Clocks/">here</a>. </p></span>
-<a name="e019222843fac682c9f57ee0f6d1fe6a"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/02/07/more-static-analysis-with-cil/"> More static analysis with CIL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><div id="post3"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
+<a name="e019222843fac682c9f57ee0f6d1fe6a"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/02/07/more-static-analysis-with-cil/"> More static analysis with CIL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">07 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
 <p>We didn’t get so far either time, but I’ve been taking a deeper look at CIL in an attempt to verify error handling in <a href="http://libguestfs.org/">libguestfs</a>.</p>
 <p>Here is my partly working code so far.</p>
 <pre><tt><i></i></tt></pre><font color="#9A1900">(*</font>
@@ -302,7 +311,7 @@ document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' 
 <i><font color="#9A1900"> * Lesser General Public License for more details.</font></i>
 <i><font color="#9A1900"> *</font></i>
 <i><font color="#9A1900"> * You should have received a copy of the GNU Lesser General Public</font></i>
-<a onclick="switchContent('post3','post4')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Read more...</a></div><div id="post4" style="display: none"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Read more...</a></div><div id="post6" style="display: none"><p>Years ago I <a href="http://people.redhat.com/~rjones/cil-analysis-of-libvirt/">played around</a> with <a href="http://www.cs.berkeley.edu/~necula/cil/">CIL</a> to analyze <a href="http://libvirt.org">libvirt</a>.  More recently <a href="https://rwmj.wordpress.com/2009/05/15/dan-uses-ocaml-cil-to-analyze-libvirts-locking-patterns/">Dan used CIL to analyze libvirt’s locking code</a>.</p>
 <p>We didn’t get so far either time, but I’ve been taking a deeper look at CIL in an attempt to verify error handling in <a href="http://libguestfs.org/">libguestfs</a>.</p>
 <p>Here is my partly working code so far.</p>
 <pre><tt><i></i></tt></pre><font color="#9A1900">(*</font>
@@ -669,8 +678,8 @@ document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' 
       exit <font color="#993399">1</font>
 
 
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4163/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4163/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4163&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Hide</a></div></span>
-<a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>In this post, we continue discussing syntactic meta-programming<br/>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4163/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4163/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4163&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post6','post5')" class="btn" href="#e019222843fac682c9f57ee0f6d1fe6a">Hide</a></div></span>
+<a name="00ec978ade6c4d3f5b6ce89570ef0ff1"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/02/05/syntactic-meta-programming-in-ocaml-ii-5/"> Syntactic Meta-Programming in OCaml (II)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>In this post, we continue discussing syntactic meta-programming<br/>
 following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
 </p>
 <p>
@@ -691,7 +700,7 @@ encoding <code>Ast^0</code>, the same as <code>Ast^n</code>.
 <p>
 So in this post, we discuss the quosi-quotation first.
 </p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post6" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
+<a onclick="switchContent('post7','post8')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Read more...</a></div><div id="post8" style="display: none"><p>In this post, we continue discussing syntactic meta-programming<br/>
 following <a href="http://hongboz.wordpress.com/2013/01/28/random-thoughts-about-syntactic-meta-programming-i/">last post</a>.
 </p>
 <p>
@@ -959,14 +968,14 @@ match_case,
 </div>
 </div>
 
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post6','post5')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/155/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/155/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=155&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#00ec978ade6c4d3f5b6ce89570ef0ff1">Hide</a></div></span>
 <a name="0eed7dbfb15f8c7e7c88f25ac195e914"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocaml-efl/"> OCaml EFL</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">An OCaml interface to the Enlightenment Foundation Libraries (EFL)</span>
 <a name="6c98a8cb7ee4b38f005b55fec3ab3c11"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.02.05.html"> Caml Weekly News, 05 Feb 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description">OCaml-Java: new preview / Core Suite 109.07.00 released / ocurl forked and 0.5.4 released / multiplexing several threads / Brand-new BER MetaOCaml for OCaml 4.00.1 / Update on docs.camlcity.org / Other Caml News</span>
-<a name="e7b08d975890d914e90589b0aa53cb6d"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/02/05/camlp4-alternative-part-2.html"> An alternative to camlp4 - Part 2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
+<a name="e7b08d975890d914e90589b0aa53cb6d"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/02/05/camlp4-alternative-part-2.html"> An alternative to camlp4 - Part 2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_3">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
 local = "leo";
 h = "lpw25.net (Leo White)";
-document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
-//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+document.getElementById("ocaml_3").innerHTML = '<a href="mailto:' + local + '@' + h + "\" >Leo White<\/a>";
+//--></script></span>, <span class="rss-date">05 Feb 2013</span></span><span class="rss-description"><div id="post9"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
 discussed how we might use AST transformers, attributes and quotations as a
 simpler alternative to camlp4. While AST transformers are much simpler to use
 than camlp4 they still require knowledge of the OCaml syntax tree, and they are
@@ -989,7 +998,7 @@ in ".cmt" files.</p>
 the OCaml syntax tree, and then expand my proposal to include other kinds of
 extension.</p>
 
-<a onclick="switchContent('post7','post8')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post8" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
+<a onclick="switchContent('post9','post10')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Read more...</a></div><div id="post10" style="display: none"><p>In my <a href="http://www.lpw25.net/2013/01/23/camlp4-alternative-part-1.html">previous blog post</a> I
 discussed how we might use AST transformers, attributes and quotations as a
 simpler alternative to camlp4. While AST transformers are much simpler to use
 than camlp4 they still require knowledge of the OCaml syntax tree, and they are
@@ -1205,143 +1214,7 @@ simple AST nodes it is probably fairly robust.</p>
 GADT describing the context that the extension has been used in.</li>
 <li>Provide AST quotations in the standard library (e.g. <code>{:Ast.expr{ x + 3 }}</code>)
 which use the compiler's own lexer and parser.</li>
-</ol><a onclick="switchContent('post8','post7')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
-<a name="83e740a394d1c2d5ca61795a79a53c3e"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/implementing-hamt-for-ocaml"> Implementing HAMT for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">02 Feb 2013</span></span><span class="rss-description"><div id="post9"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
-internship</a> this
-summer, I worked on a test implementation for a new data structure in
-OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
-finish it, but I now have a usable and quite complete version, still
-to be more documented but already available at
-<a href="http://gitorious.org/ocaml-hamt">http://gitorious.org/ocaml-hamt</a>.</p>
-
-<p>On this article, I will quickly explain the principles and the use
-cases of this structure, and I will expose a few details of my
-implementation in OCaml.</p>
-
-
-
-
-<h3 id="hamt-why-where-how">HAMT: Why, where, how ?</h3>
-<p>When you want to play with associative tables over non-integer keys, if you can use imperative constructions, you do not usually hesitate a long time : you use Hash Tables. This structure guarantees <code>O(1)</code> complexity for all elementary operations, provided you can hash your values. However, it is by essence a mutable structure: if you want to use a functional style, you need persistent ones (and copying a Hash Table at every single insertion is obviously right out).</p>
-<a onclick="switchContent('post9','post10')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Read more...</a></div><div id="post10" style="display: none"><p>During the second part of <a href="http://gallium.inria.fr/blog/hevea-a-new-rope/">my
-internship</a> this
-summer, I worked on a test implementation for a new data structure in
-OCaml : Hash Array Mapped Tries (HAMT). I did not have the time to
-finish it, but I now have a usable and quite complete version, still
-to be more documented but already available at
-<a href="http://gitorious.org/ocaml-hamt">http://gitorious.org/ocaml-hamt</a>.</p>
-
-<p>On this article, I will quickly explain the principles and the use
-cases of this structure, and I will expose a few details of my
-implementation in OCaml.</p>
-
-
-
-
-<h3 id="hamt-why-where-how">HAMT: Why, where, how ?</h3>
-<p>When you want to play with associative tables over non-integer keys, if you can use imperative constructions, you do not usually hesitate a long time : you use Hash Tables. This structure guarantees <code>O(1)</code> complexity for all elementary operations, provided you can hash your values. However, it is by essence a mutable structure: if you want to use a functional style, you need persistent ones (and copying a Hash Table at every single insertion is obviously right out).</p>
-<p>The usual choice is then to use balanced binary trees (like Maps in OCaml): if you can provide an order relation on your keys, elementary operations become <code>O(log(n))</code>. In 2001, a new data structure is introduced by Phil Bagwell: Hash Array Mapped Tries<sup><a href="http://gallium.inria.fr/blog/index.rss#fn1" id="fnref1" class="footnoteRef">1</a></sup>. Where balanced binary trees have a branching factor of 2, thus having approximately a <code>log2(n)</code> depth (<code>n</code> is the number of elements), HAMT are prefix trees which have a much greater factor, namely 32 in the original article (in fact, the best value is the size of a word of your machine, we will see why).</p>
-<p>But how to build <em>prefix</em> trees with your own type of key ? That's where hashing enters the scene. If you can hash your key, then you can consider that the keys of your table are not your key type, but the hashed values of your own keys. Thus you can build a prefix tree, with an obvious notion of prefix that I will not explain. There is also a second advantage: if your hash function is correctly distributed, your tree is automagically balanced: you do not it to set up by rebalancing sometimes nor by keeping extra information. Being a "prefix tree over the hashes of the keys" is therefore the basis of the structure.</p>
-<p>HAMT have been getting publicity since they where picked as a central persistent datastructure in the Clojure programming language. We have also had encouraging feedback from use in Scala, and more recently implementations in Haskell. It seems that persistent HAMT are an interesting datastructure; yet we should not jump to conclusions, as the details of one's runtime system may have important impacts on the viability of subtle data layout choices. The purpose of the current prototype was to test the waters to see whether the "HAMT success story" could be reproduced in the OCaml world.</p>
-<p>Its use case is rather obvious: when you need a persistent associative table over a key that you can hash, you can use HAMT. However, there is no notion of comparison in standard HAMT: if you need to be able to get quickly the value associated with the minimal key, they are not a good choice. So where is the advantage over Maps ?</p>
-<p>Here is a small, early comparison between the two structures: we test iterations of adding elements to an already big structure, finding present elements in the structure, and a mix of adding and finding (this test is executed by timing the execution of <code>tests/param.ml</code>, self-documented, by Gabriel Scherer, praise him) :</p>
-<pre><code>|            | Map   | HAMT  |
-| add        | 7.4s  | 8.6s  |
-| find       | 7.9s  | 3.9s  |
-| find + add | 14.9s | 11.8s |</code></pre>
-<p>We see that the HAMT are a little (although the difference seems to increase with the dimension of the test) slower on insertions, but really quicker on searches. They use Arrays and do a quite big number of copies when modifying a key, so the GC is heavily sollicitated: if we byte-compile the file and we use <code>OCAMLRUNPARAM="s=5M"</code> to boost-up it, HAMT.add becomes a little faster than Map.add, and find is a little sped-up. However, the precise conditions leading to this results are not really understood: the size of the test has apparently a non-negligeable influence, and I cannot really make reliable performance comparisons. For an example, without modifying the GC, I just executed the following commands:</p>
-<pre><code>$ time ./param.byte hamt 300000 add
-./param.byte hamt 300000 add  15,98s user 0,07s system 99% cpu 16,083 total
-$ time ./param.byte map 300000 add
-./param.byte map 300000 add  19,59s user 0,03s system 99% cpu 19,665 total
-$ time ./param.native hamt 300000 add
-./param.native hamt 300000 add  8,95s user 0,09s system 99% cpu 9,061 total
-$ time ./param.native map 300000 add
-./param.native map 300000 add  7,41s user 0,05s system 99% cpu 7,475 total</code></pre>
-<p>The bottom line is: the structure seems to be a good alternative to Maps. It is always (and often much) faster on finds, and has equivalent performances on add (sometimes faster, sometimes slower, under conditions that I do not really know). Furthermore, missed findings are faster than successful ones in HAMT, and this accentuates the difference in favour of this structure (even if it is not <em>that</em> accentuated).</p>
-<p>Now that we got promising results about the structure, let's dissect it to understand how it works.</p>
-<h3 id="hamt-what-is-it">HAMT: what is it ?</h3>
-<p>So we already know the basis of the structure: it's a prefix tree over the hashes of the key. More precisely, every node is (for now) a leaf (<code>key, value</code> pair) or a 32 elements array (containing his sons), and to traverse the structure, we hash our key, and we take the bits from this hash 5 by 5. Thus at each level we have a 5 bits chunk, being a number between 0 and 31 which will indicate which son to choose. If it is <code>Empty</code>, then the considered key is not present in the structure. Insertion is then trivial: just replace it by your <code>Leaf (k, v)</code>. If we encounter a leaf, either its key is the one we are looking for, either... it isn't. If it is, insertion is made by changing the value. If it is not, insert an internal node (an array) at this place, take the chunks of hash corresponding to this depth of both keys, and put each one at its place (you may have to do it several times if the chunks appear to be the same). If we encounter an internal node, just take the following 5 bits and continue the descent. At the end of the hash, if we still are on an internal node, either we use open hashes (then there is no "end of the hash", but we cannot usually guarantee to terminate), or we place buckets in the last arrays instead of leaves.</p>
-<p>If we use a correctly distributed hash, our structure will therefore have a depth of (at most) <code>log32(n)</code>. Let's estimate what it means: if we want to build a structure associating to each single word of <em>War and Peace</em> its number of occurrences, we only need a depth of 4. If our keys are representing every people on Earth, we need a depth of 7. If they are every single atom on the universe, it's less than 60. Of course, our hash function will not be perfect, but we can see with these numbers that with very few chunks extraction and comparison, we can index a very important key set. We also need few array copies when we modify something on our table (because, to be persistent, we need to copy the arrays leading to our tip node from the root: that's the cost of fast indexing. <em>Boire ou conduire, il faut choisir.</em>)</p>
-<p>However, we have a problem with this representation: each array uses a constant space, even if it is almost empty. If our structure is not very dense, we can use up to 32 times more space than needed. On big datasets, it can be problematic. There is an (elegant) astuce to fix this: rather than arrays of size 32 at each level, we only use arrays that have exactly as many cases as sons. To get the index on our array given our "virtual" index (which is the value of our chunk), we use a <em>bitmap</em>: a 32-bits integer, where each bit indicates the presence at this position of a son of our node. The order of the elements on the array follows the order of the chunks, then to get the real indice of a chunk, we just have to count the 1-bits at a indice lower than it in the bitmap. Using this method, every case of an array is useful, and if we adapted the size of our structure as I mentioned before (remember, the branching factor), the bitmap fills exactly one machine word: we have a quite optimal space use.</p>
-<p>In his <a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">article</a>, Phil Bagwell also uses a root table which is treated differently. I did not use this method in my implementation, so I will not talk much about it: just know basically that the first table is resized when the number of elements in the structure increases, to guarantee a constant-time access to every key (at the cost of resizing sometimes, which seems to be amortized over insertions<sup><a href="http://gallium.inria.fr/blog/index.rss#fn2" id="fnref2" class="footnoteRef">2</a></sup>).</p>
-<p>Finally, let's talk about "theoretical performances": our complexity is the same as balanced binary trees, namely <code>O(log(n))</code> for elementary operations (insertion, deletion, searching), except that our <code>log</code> is not the same and grows very slowly (but, well, maths are strict and <code>O(.)</code> does not want to know about that). Misses are faster than successful researches: if a key is not present in the tree, and if the hash function has good properties, we should quickly find a difference between the hash of our keys and the ones of those who are in our table. But in this kind of problem, the real determining factor is the multiplicative one behind our asymptotic complexity: we saw in the first part that, in OCaml, this factor seems to be nice enough to give us good hopes about the structure. Let's now examine the practical implementation.</p>
-<h3 id="in-ocaml-a-few-lines-of-code.">In OCaml: a few lines of code.</h3>
-<p>In this part, I will not comment about every detail of my implementation, but simply show a few lines and give short explanations about how the stuff works. My implementation is strongly inspired by <a href="https://github.com/exclipy/pdata">exclipy's one</a> in Haskell.</p>
-<p>Let's start by the counting of the 1-bits in a bitmap: the modern processors offer a <code>POPCOUNT</code> instruction which does the job. However, OCaml does not propose this instruction: we have to recode it by ourselves.</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> sk5 = 0x55555555
-<span class="kw">let</span> sk3 = 0x33333333
-<span class="kw">let</span> skf0 = 0xf0f0f0f
-<span class="kw">let</span> skff = 0xff00ff
-
-<span class="kw">let</span> ctpop map =
-  <span class="kw">let</span> map = map - (map <span class="kw">lsr</span> 1) <span class="kw">land</span> sk5 <span class="kw">in</span>
-  <span class="kw">let</span> map = map <span class="kw">land</span> sk3 + (map <span class="kw">lsr</span> 2) <span class="kw">land</span> sk3 <span class="kw">in</span>
-  <span class="kw">let</span> map = map <span class="kw">land</span> skf0 + (map <span class="kw">lsr</span> 4) <span class="kw">land</span> skf0
-  <span class="kw">in</span> <span class="kw">let</span> map = map + map <span class="kw">lsr</span> 8
-     <span class="kw">in</span> (map + map <span class="kw">lsr</span> 16) <span class="kw">land</span> 0x3f</code></pre>
-<p>This code is adapted from the one Phil Bagwell proposes in C in his paper. I have no clue why it works (and I do not want to), but well, it does. It counts the number of 1-bits in a bitmap, and when you want them before a given position <code>n</code>, just use <code>land</code> to set the other bits to <code>0</code>. The interesting point is that this is a portion of code which could be fastened: in an ideal world where everybody would love HAMT, we could imagine an OCaml implementing default support for <code>CTPOP</code>. Anyway, thinking about the performances of this function would not be a loss of time when the era of micro-optimisation has come.</p>
-<p>Here is the definition of the HAMT type:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">type</span> 'a t =
-  | <span class="dt">Empty</span>
-  | <span class="dt">Leaf</span> <span class="kw">of</span> <span class="dt">int</span> * key * 'a
-  | <span class="dt">HashCollision</span> <span class="kw">of</span> <span class="dt">int</span> * (key * 'a) <span class="dt">list</span>
-  | <span class="dt">BitmapIndexedNode</span> <span class="kw">of</span> <span class="dt">int</span> * 'a t <span class="dt">array</span>
-  | <span class="dt">ArrayNode</span> <span class="kw">of</span> <span class="dt">int</span> * 'a t <span class="dt">array</span></code></pre>
-<p>Buckets are managed by association lists: it is probably weak to hash collision attacks. Using Maps would probably fix this problem, at the cost of having to use comparable keys. We could also use open hashes: not to decide, I simply used lists and kept the <code>Leaf</code> constructor (instead of a <code>HashCollision</code> with a one element list), so that it could be easily modified in the functions if another way was preferable. As for <code>BitmapIndexedNode</code> and <code>ArrayNode</code>, they correspond to the root table of Phil Bagwell: rather than making it grow when inserting many data, I transform bitmap arrays into full length arrays when they are dense enough: therefore, there is no need to compute a <code>CTPOP</code>, and there is no big space loss because the constructor is only used when arrays already contain almost 32 elements. The performance fact is to be analysed: we could think that using only <code>ArrayNode</code> would lead to better performances (at the cost of a lot of space used), but in fact, it sensibly lowers them. Then, if even dense arrays are fast, why bother with <code>ArrayNode</code> ? Because using only <code>BitmapIndexedNode</code> also lowers the performances. The exact frontier (in terms of proportional filling of the array) between the two constructors is not yet determined, but these values seems to make it behave well:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="ot">module</span> StdConfig : <span class="dt">CONFIG</span> = <span class="kw">struct</span>
-  <span class="kw">let</span> shift_step = 5
-  <span class="kw">let</span> bmnode_max = 16
-  <span class="kw">let</span> arrnode_min = 8
-<span class="kw">end</span></code></pre>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="ot">module</span> StdConfig32 : <span class="dt">CONFIG</span> = <span class="kw">struct</span>
-  <span class="kw">let</span> shift_step = 4
-  <span class="kw">let</span> bmnode_max = 8
-  <span class="kw">let</span> arrnode_min = 4
-<span class="kw">end</span></code></pre>
-<p>There is also a point to be noticed: as OCaml uses one bit of the integers for garbage collecting purposes, on 64 bits architectures, we can only use 32 bits bitmaps. This also leads to a performance issue: shiftings, intensely used in HAMT (as in every bit manipulating code), are not straight processor shiftings, because this supplementary bit has to be conserved. It cannot simply be solved in OCaml, so we must take it into account when reasoning about the performances we can expect (and the tests showed the structure was still interesting).</p>
-<p>The general purpose modification function is this one:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">val</span> alter : key -&gt; ('a <span class="dt">option</span> -&gt; 'a <span class="dt">option</span>) -&gt; 'a t -&gt; 'a t</code></pre>
-<p>It uses <code>option</code> type to be generic over the modification you want to implement: this allows to write only a big function (73 lines) to manage all possible cases, but could degrade the performances. When the module is stable, it could be specialised. The same sort of interface is used for the <code>alter_all</code> function, specialised in <code>map</code>, <code>filter</code> and all these things.</p>
-<p>As we just saw, HAMT use many arrays. Therefore, at the insertion of an element, you need to recopy all the arrays from him to the root of the structure to keep it persistent. When you need to insert at one time many values, copying the ancestors for every element would uselessly long: we can just copy the destination HAMT first, and then use mutability to modify it in place before returning it. Internally, the mutability allows better performances, and using correct module interfaces we can prevent the user from unwillingly break his code by muting his structures. The <em>real</em> alter function (not exported) thus has this type:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">val</span> alter_node : 
-  ?mute:bool -&gt; <span class="dt">int</span> -&gt; <span class="dt">int</span> -&gt; Key<span class="kw">.</span>t -&gt; 
-  ('a <span class="dt">option</span> -&gt; 'a <span class="dt">option</span>) -&gt; 'a t -&gt; 'a t</code></pre>
-<p>The first <code>int</code> parameter is the hash shift value at the given depth (it is given <code>0</code> at the beginning and is recursively incremented), the second one is the hashed value of the key (which is computed once and recursively given as a parameter rather than calculate it for every chunk). Therefore we can define another function, useful for imports:</p>
-<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> add_mute k v hamt =
-    alter_node ~mute:true 0 (hash key) k (<span class="kw">fun</span> _ -&gt; <span class="dt">Some</span> v) hamt
-
-<span class="ot">module</span> Import =
-
-  <span class="kw">struct</span>
-
-    <span class="ot">module</span> <span class="kw">type</span> <span class="dt">FOLDABLE</span> = <span class="kw">sig</span>
-      <span class="kw">type</span> key
-      <span class="kw">type</span> 'v t
-      <span class="kw">val</span> fold : (key -&gt; 'v -&gt; 'a -&gt; 'a) -&gt; 'v t -&gt; 'a -&gt; 'a
-    <span class="kw">end</span>
-
-    <span class="ot">module</span> Make (<span class="dt">M</span> : <span class="dt">FOLDABLE</span> <span class="kw">with</span> <span class="kw">type</span> key = key) =
-    <span class="kw">struct</span>
-      <span class="kw">let</span> add_from x hamt = M<span class="kw">.</span>fold add_mute x (copy hamt)
-      <span class="kw">let</span> from x = add_from x <span class="dt">Empty</span>
-    <span class="kw">end</span>
-
-<span class="kw">end</span></code></pre>
-<p>The module <code>Import</code> provides a function usable to import many values in a HAMT, empty or not, from a structure that you can fold. It uses mutability to speed-up the process. Obviously, if your destination HAMT is already big and your structure quite small, copying the big full HAMT before muting him a few times can be slower than copying a few times the line from the root to an inserted value. When the limit is reached is to be established by the user (because a theoretical formula with logarithms would probably not be that pertinent in real code).</p>
-<p>The rest of the code is quite straightforward once you understood the principles of the structure.</p>
-<h3 id="conclusion">Conclusion</h3>
-<p>The HAMT data structure appears to be quite promising for the language OCaml. Both its theoretical complexity and practical performances make it a good competitor to the great old Map, as long as your program does not already rely on comparisons.</p>
-<p>However, this implementation should be considered more as a proof of concept rather than the final and optimal way to implement them. There are still many behaviours to be tested and understood, and quickly coded functions which could take advantage of a more thorough reflection.</p>
-<div class="footnotes">
-<hr/>
-<ol>
-<li id="fn1"><p><a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Ideal Hash Trees</a>, 2001, Phil Bagwell, Institute of Core Computing Science, Swiss Institute of Technology Lausanne<a href="http://gallium.inria.fr/blog/index.rss#fnref1">↩</a></p></li>
-<li id="fn2"><p>I must confess that I think I did not totally understand this part, because I do not exactly come to the same conclusions.<a href="http://gallium.inria.fr/blog/index.rss#fnref2">↩</a></p></li>
-</ol>
-</div><a onclick="switchContent('post10','post9')" class="btn" href="#83e740a394d1c2d5ca61795a79a53c3e">Hide</a></div></span>
-<a name="610045c7d8000afbc439e261716c2bb5"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.incubaid.com/2013/02/01/user-functions-in-arakoon/"> User functions in Arakoon</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Incubaid Research</span>, <span class="rss-date">01 Feb 2013</span></span><span class="rss-description">Mahomet cald the Hill to come to him. And when the Hill stood still, he was neuer a whit abashed, but said; If the Hill will not come to Mahomet, Mahomet wil go to the hill. Francis Bacon Introduction Arakoon tries to be a simple distributed key value store that favours consistency over availability. From [...]<img src="http://stats.wordpress.com/b.gif?host=blog.incubaid.com&amp;blog=27780527&amp;post=990&amp;subd=incubaid&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/></span>
-<a name="a659aff02da99b91b3ba73c089b356a6"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=844"> BER MetaOCaml 100</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">31 Jan 2013</span></span><span class="rss-description">BER MetaOCaml is a streamlined version of MetaOCaml -- a conservative extension of OCaml with the primitive type of code values, and three basic multi-stage expression forms: Brackets, Escape, and Run.</span>
+</ol><a onclick="switchContent('post10','post9')" class="btn" href="#e7b08d975890d914e90589b0aa53cb6d">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
