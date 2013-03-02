@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    
+    <meta content="IE=8" http-equiv="X-UA-Compatible"/>
+    <title>OCaml :: Compiling with OMake</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
+    <meta content="" name="description"/>
+    <meta content="" name="keywords"/>
+    <meta content="OCaml (Weberizer)" name="generator"/>
+
+    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link rel="stylesheet" href=".././css/bootstrap.css"/>
+    <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
+
+    
+    
+
+    <meta content="Compiling with OMake" property="og:title"/>
+    <meta content="non_profit" property="og:type"/>
+
+    <meta content="all" name="robots"/>
+  </head>
+  <body>
+    <div id="header">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+	  
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href=".././" class="brand">OCaml</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+	      <li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Discover
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="../description.html">What is OCaml?</a></li>
+    <li><a href="http://try.ocamlpro.com/">Try it Online</a></li>
+    <li><a href="../taste.html">100 Lines of OCaml</a></li>
+    <li><a href="../success.html">Success Stories</a></li>
+    <li><a href="../companies.html">Who Is Using It?</a></li>
+    <li><a href="http://pleac.sourceforge.net/pleac_ocaml/">Pleac</a></li>
+    <li><a href="http://rosettacode.org/wiki/Category:OCaml">Rosetta</a>
+        <a href="http://langref.org/ocaml">langref.org</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">
+    Learn
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../install.html">Install</a></li>
+    <li><a href="../tutorials/">Tutorials</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../books.html">Books</a></li>
+    <li><a href="../videos.html">Videos</a></li>
+    <li><a href="../papers.html">Papers</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Use
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../releases/">Releases</a></li>
+    <li><a href="../libraries.html">Libraries</a></li>
+    <li><a href="../dev_tools.html">Development Tools</a></li>
+    <li><a href="../books.html#manual">User Manual</a></li>
+    <li><a href="../cheat_sheets.html">Cheat Sheets</a></li>
+    <li><a href="http://search.ocaml.jp/">OCaml API Search</a></li>
+    <li><a href="http://forge.ocamlcore.org/">Forge</a></li>
+    <li><a href="https://github.com/languages/OCaml">GitHub</a></li>
+    <li><a href="https://bitbucket.org/repo/all?name=ocaml">Bitbucket</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">Community
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="../mailing_lists.html">Mailing Lists</a></li>
+    <li><a href="../planet/">Blogs</a></li>
+    <li><a href="../meetings.html">Meetings</a></li>
+    <li><a href="irc://irc.freenode.net/ocaml">IRC</a></li>
+    <li><a href="http://stackoverflow.com/questions/tagged?tagnames=ocaml">Stack Overflow</a></li>
+    <li><a href="http://www.reddit.com/r/ocaml/">Reddit</a></li>
+    <li><a href="../support.html">Commercial Support</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="../#" class="dropdown-toggle" data-toggle="dropdown">More
+    <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="http://caml.inria.fr/mantis/">Mantis Bug Tracker</a></li>
+    <li><a href="../caml-light/">Caml Light</a></li>
+    <li><a href="../logos.html">Logos</a></li>
+  </ul>
+</li>
+
+            </ul>
+	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
+	      <input placeholder="Search" class="search-query" name="q" type="text"/>
+	      <input value="site:http://www.ocaml.org/" name="q" type="hidden"/>
+	    </form>
+            
+	    
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <span class="navigation-bar">
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Compiling with OMake
+	<span id="language">
+	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
+	</span>
+      </span>
+
+      
+<h1><span>Compiling with OMake</span></h1>
+
+<p class="first_para">Here is the summary on how to compile an OCaml program with <a title="OMake" class="external" href="http://omake.metaprl.org/">OMake</a>. It produces a native code executable or a bytecode executable if ocamlopt is not available, using ocamllex, ocamlyacc and regular ocaml files that use camlp4 syntax libraries as well as regular libraries, all managed by findlib/ocamlfind:</p>
+
+<ol>
+	<li>Do <code>omake --install</code>: it creates a template OMakefile and OMakeroot in the current directory. The OMakeroot file is left unchanged. The OMakefile template doesn't show options for using ocamlfind, so we will basically rewrite it, and grab some of the additional options that are shown in the file.</li>
+	<li>Our source files are <code>parser.mly</code>, <code>lexer.mll</code> and <code>main.ml</code>. Delete or comment out the content of the automatically generated OMakefile, and put the following:</li>
+</ol>
+
+
+
+<pre>
+# Program name (without extension)
+PROGRAM = myprog
+
+# Source files without extension. One item per line, no trailing spaces.
+FILES[] =
+   parser
+   lexer
+   main
+# Another syntax for the same thing:
+# FILES = parser lexer \
+#         main
+
+# We use ocamlfind
+USE_OCAMLFIND = true
+# All ocamlfind packages that we use
+OCAMLPACKS[] =
+   unix
+   micmatch_pcre
+   labltk
+# We need to tell omake that we want camlp4 preprocessing
+OCAMLFINDFLAGS = -syntax camlp4o
+
+# We need to tell OMake that these files need to be created
+# before it attempts to run <code>ocamldep</code>.
+# (OMake knows that ocamllex and ocamlyacc should be used)
+OCamlGeneratedFiles(lexer.ml parser.mli parser.ml)
+
+# Compile into an executable
+OCamlProgram($(PROGRAM), $(FILES))
+
+# Default target: compile into bytecode or native code, or both
+.DEFAULT: $(if $(BYTE_ENABLED), $(PROGRAM).run) \
+          $(if $(NATIVE_ENABLED), $(PROGRAM).opt)
+
+# Cleanup
+.PHONY: clean
+clean:
+  rm -f \
+     $(filter-proper-targets $(glob $(addsuffix .*, $(FILES)))) \
+     $(PROGRAM).run $(PROGRAM).opt
+</pre>
+
+<p>Adapt your OMakefile to suit your needs in terms of source files, result files, libraries and options. Now you can run omake, it should compile an executable named either myprog.run (bytecode) or myprog.opt (native code), or whatever you chose to call it. The omake clean command removes files that were produced by the compilation.</p>
+
+<p>Go to <a title="OMake's official site" class="external" href="http://omake.metaprl.org/">OMake's official site</a> for more information.</p>
+
+    </div>
+
+    
+    <br/>
+    <hr/>
+    <div id="footer">
+      Contribute to this project!
+      Find us on <a href="https://github.com/ocaml/ocaml.org">Github</a>.
+    </div>
+    <span title=".././img/ = image directory from the base of the site"></span>
+
+
+    
+    
+    
+
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <script src=".././js/jquery-1.8.0.min.js"></script>
+    
+    <script src=".././js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-22552764-2']); _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-37808023-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+</body></html>

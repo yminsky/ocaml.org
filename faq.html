@@ -598,8 +598,8 @@ written the same. Consider for instance:
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">t</span> = T <span class="kwb">of</span> int</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type t = T of int
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">incr</span> = <span class="kwb">function</span> T x -&gt; T (x+1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val incr : t -&gt; t = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr x</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 5-6:
-Error: This expression has type t/3206 but an expression was expected of type
-         t/3209
+Error: This expression has type t/3207 but an expression was expected of type
+         t/3210
 </span></pre>
 
 This phenomenon appears when you load many times the same file into
@@ -705,7 +705,7 @@ no more buffering than usual I/O buffering.
   <span class="ocaml-mod">Format</span>.print_string &quot;MIDDLE&quot;;
   print_endline &quot;after&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">before
 after
-</span><span class="ocamltop-stderr"></span>- : unit = ()
+MIDDLE</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 To avoid this kind of problems you should not mix printing orders from
