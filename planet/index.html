@@ -152,7 +152,282 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="e024e9deb17e38571238cfbb700ef298"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=870"> Release of OCaml-bitcoin 1.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">This release brings the OCaml-bitcoin API up-to-date with the recently released Bitcoin 0.8.</pre></span>
+    <div class="planet"><a name="38faea8ab2754bc8157a129078b7bb44"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/generators-iterators-control-and-continuations"> Generators, iterators, control and continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Mar 2013</span></span><span class="rss-description"><div id="post1"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
+<p>There are two obvious choices in an effectful setting: a <em>generator</em>, that is a "next-element" function of type <code>('a -&gt; unit)</code> that generates the next element each time it is called, or an exception to signal end of input; or an <em>iterator</em>, a fold-function of type <code>('a -&gt; unit) -&gt; unit</code>, that iterates a consumer function through all elements of the list.</p>
+<a onclick="switchContent('post1','post2')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Read more...</a></div><div id="post2" style="display: none"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
+<p>There are two obvious choices in an effectful setting: a <em>generator</em>, that is a "next-element" function of type <code>('a -&gt; unit)</code> that generates the next element each time it is called, or an exception to signal end of input; or an <em>iterator</em>, a fold-function of type <code>('a -&gt; unit) -&gt; unit</code>, that iterates a consumer function through all elements of the list.</p>
+<p>Both are suitable as an abstract representation of any sequence (the second is precisely the basis for Simon Cruanes' <a href="https://github.com/c-cube/sequence">Sequence</a> library), and their are at opposite ends of the <em>control</em> spectrum: generators give control to the <em>consumer</em> of the sequence (she decides when to call the generator function), while iterators give control to the <em>producer</em> of the sequence (she decides when to call the iterated function). It's easy to transform a structure into a iter (<code>to_iter</code>), or to build a structure from a next (<code>of_next</code>), because you have the control. But as a library writer, you should also write the without-control conversions (<code>of_iter</code> and <code>to_next</code>), despite them being slower and harder to implement, so that your users can live the easy in-control life!</p>
+<p>Finally, continuation capture is a well-known technique to <em>invert</em> control, letting you write code in "direct style", as if you were in control, when you're not. In this post, I will demonstrate how you can start from a conversion function that has control and, by systematic source-to-source transformations of conversion to continuation-passing-style (CPS) and defunctionalization, obtain a conversion function that works without the control.</p>
+
+
+
+
+<p>We are interested in datatypes that support the following interface:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">type</span> 'a iter = ('a -&gt; <span class="dt">unit</span>) -&gt; <span class="dt">unit</span>
+<span class="kw">type</span> 'a gen = <span class="dt">unit</span> -&gt; 'a
+
+<span class="ot">module</span> <span class="kw">type</span> <span class="dt">Data</span> = <span class="kw">sig</span>
+  <span class="kw">type</span> 'a t
+  <span class="kw">val</span> of_iter : 'a iter -&gt; 'a t
+  <span class="kw">val</span> to_iter : 'a t -&gt; 'a iter
+  <span class="kw">val</span> of_gen : 'a gen -&gt; 'a t
+  <span class="kw">val</span> to_gen : 'a t -&gt; 'a gen
+<span class="kw">end</span></code></pre>
+<p>Note that there is no support for predicting the size of the data structure: those will not be good interfaces for fixed-size structures such as <code>array</code>. We will use lists as a warm-ups, and then concentrate on binary trees as a structure with more complicated traversal and construction patterns.</p>
+<h4 id="lists-as-a-warm-up">Lists as a warm-up</h4>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="ot">module</span> List : <span class="dt">Data</span> <span class="kw">with</span> <span class="kw">type</span> 'a t = 'a <span class="dt">list</span>
+= <span class="kw">struct</span>
+  <span class="kw">type</span> 'a t = 'a <span class="dt">list</span>
+
+  <span class="co">(* producer, with control *)</span>
+  <span class="kw">let</span> to_iter li = <span class="kw">fun</span> f -&gt;
+    <span class="kw">let</span> <span class="kw">rec</span> loop = <span class="kw">function</span>
+      | [] -&gt; ()
+      | x :: xs -&gt; f x; loop xs
+    <span class="kw">in</span> loop li
+
+  <span class="co">(* producer, without control *)</span>
+  <span class="kw">let</span> to_gen li =
+    <span class="kw">let</span> st = <span class="dt">ref</span> li <span class="kw">in</span>
+    <span class="kw">fun</span> () -&gt; <span class="kw">match</span> !st <span class="kw">with</span>
+      | [] -&gt; raise <span class="dt">Exit</span>
+      | x::xs -&gt; st := xs; x
+
+  <span class="co">(* consumer, with control *)</span>
+  <span class="kw">let</span> of_gen gen =
+    <span class="kw">let</span> st = <span class="dt">ref</span> [] <span class="kw">in</span>
+    <span class="kw">try</span> <span class="kw">while</span> <span class="kw">true</span> <span class="kw">do</span> st := gen () :: !st <span class="kw">done</span>; raise <span class="dt">Exit</span>
+    <span class="kw">with</span> <span class="dt">Exit</span> -&gt; List<span class="kw">.</span>rev !st
+
+  <span class="co">(* consumer, without control *)</span>
+  <span class="kw">let</span> of_iter iter =
+    <span class="kw">let</span> st = <span class="dt">ref</span> [] <span class="kw">in</span>
+    iter (<span class="kw">fun</span> x -&gt; st := x :: !st);
+    List<span class="kw">.</span>rev !st
+<span class="kw">end</span></code></pre>
+<p>Lists are no surprise. Both consumers, with or without control, are extremely simple to write. For producers, we would argue that <code>to_iter</code> is more convenient to express, and more elegant, than <code>to_gen</code>, but the difference is again small.</p>
+<p>I did a bit of shallow performance testing, and without surprise the version with control was always faster than the version without control. I also tested the compositions <code>of_gen (to_gen li)</code> and <code>of_seq (to_seq li)</code> and the <code>gen</code> versions, with the simpler types, seems slightly faster -- but it's hard to get anything meaningful with code so simple.</p>
+<h4 id="a-generator-for-binary-trees">A generator for binary trees</h4>
+<p>The real meat of this post is the work on binary trees. Iterating on binary trees is easy, and will serve a good example of continuation-passing-style (CPS) transform. Building trees from sequences is more subtle, and will make for a more sophisticated application of the same principles.</p>
+<p>We use binary trees with data on the nodes, and empty leaves.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">type</span> 'a tree = <span class="dt">Leaf</span> | <span class="dt">Node</span> <span class="kw">of</span> 'a tree * 'a * 'a tree</code></pre>
+<p>Do you know the trick to create a tree of <code>O(2^n)</code> nodes in <code>O(n)</code> time? It's useless for this post, but I've been using it for performance evaluation, so I'll leave it here.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> <span class="kw">rec</span> deep = <span class="kw">function</span>
+  | 0 -&gt; <span class="dt">Leaf</span>
+  | n -&gt; <span class="kw">let</span> t = deep (n - 1) <span class="kw">in</span> <span class="dt">Node</span> (t, n, t)
+
+<span class="kw">let</span> long_tree = deep 18</code></pre>
+<p>We will start with the simple and well-known <code>iter</code> function:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> <span class="kw">rec</span> iter f = <span class="kw">function</span>
+  | <span class="dt">Leaf</span> -&gt; ()
+  | <span class="dt">Node</span> (left, x, right) -&gt; iter f left; f x; iter f right
+
+<span class="kw">let</span> to_iter t f = iter f t</code></pre>
+<p>We wish to get a <em>generator</em> from a tree (<code>to_gen</code>), starting from the code of the <code>to_iter</code> function. <code>iter</code> has the control, it decides when to call the function <code>f</code>. A single (sub-)call to the iter function may call <code>f</code> one time, several times (recursively), or not at all. On the contrary, the difficulty in writing a generator is to understand how to advance precisely to the next element of the data-structure, one step at the time, when the user calls the generator.</p>
+<p>Our first transformation will be to turn <code>iter</code> into continuation-passing-style. We have already covered this transformation <a href="http://gallium.inria.fr/blog/stack-overflow-continuations/">in a previous blog series</a>, as a tool to get tail-recursive implementations of any recursive functions, trading stack space for heap-allocated closures. The idea is to capture the "context" (what will be done to its return value) of each recursive call as an additional parameter of the recursive function.</p>
+<pre><code>let rec iter_cps f t k = match t with
+  | Leaf -&gt; k ()
+  | Node (left, x, right) -&gt;
+    iter_cps f left (fun () -&gt;
+      f x; iter_cps f right k)
+
+let to_iter t f = iter_cps f t (fun result -&gt; result)</code></pre>
+<p>Another way to see this transformation is to consider that we abstract on the "return address" of the function; we may call the continuation parameter <code>return</code>, and the function then reads <code>| Leaf -&gt; return ()</code>, etc.</p>
+<p>The next transformation step is to remove the higher-order aspect associated to our representation of continuation as functions. We could in fact stop here, and derive a generator from this iterator in CPS, but using a first-order data-centric representation will give us an algorithm that is closer to the algorithm that people tend to write naturally -- and will also be a bit more efficient, but I won't insist on performance considerations.</p>
+<p>The idea of <em>defunctionalization</em> is to collect all the different lambda-terms that are used in the function, and give each of them a name (a symbol, a piece of data). Instead of the lambda-term, we will only pass the name as the <code>k</code> parameter, and have an additional <code>run</code> function that, from the name, execute the relevant code (that was in the lambda-term).</p>
+<p>In our code examples there are two lambda-terms: <code>(fun () -&gt; f x; iter_cps f right k)</code> and <code>(fun result -&gt; result)</code>. We will call the first <code>Left</code>, as it marks the fact that we have already iterated on the left of the current tree, and the second one <code>Stop</code> as it marks the end of the computation, the last continuation ever passed, to get the final result. But the <code>Left</code> lambda-term does not only takes a parameter, it also captures the variable <code>x</code>, <code>right</code> and <code>k</code> that are in its scope, and need to be saved for when the continuation will be executed. So <code>Left</code> will be a constructor with three parameters, one for each of those variables:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">type</span> 'a kiter =
+  | <span class="dt">Stop</span>
+  | <span class="dt">Left</span> <span class="kw">of</span> 'a kiter * 'a * 'a tree
+
+<span class="kw">let</span> <span class="kw">rec</span> iter_cps_defun f t k = <span class="kw">match</span> t <span class="kw">with</span>
+  | <span class="dt">Leaf</span> -&gt; run f k
+  | <span class="dt">Node</span> (left, x, right) -&gt;
+    iter_cps_defun f left (<span class="dt">Left</span> (k, x, right))
+<span class="kw">and</span> run f = <span class="kw">function</span>
+  | <span class="dt">Stop</span> -&gt; ()
+  | <span class="dt">Left</span> (k, x, right) -&gt; f x; iter_cps_defun f right k</code></pre>
+<p>The new function <code>run</code> takes a data representation of continuation, and runs the corresponding code. I want to emphasize that this transformation again requires no deep thinking, it is only a systematic source-to-source transformation.</p>
+<p>You may have noticed that the type of our reified continuations, <code>'a kiter</code>, looks very much like our <code>'a tree</code> datatype. In fact, it is isomorphic to it (if we assume <code>'a kiter ≃ 'a tree</code>, then <code>Left</code> looks very much like <code>Node</code>), so we can rewrite <code>iter_cps_defun</code> with no specific continuation type, using <code>tree</code> to store both data and continuations:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> <span class="kw">rec</span> iter_cps_defun f t k = <span class="kw">match</span> t <span class="kw">with</span>
+  | <span class="dt">Leaf</span> -&gt; run f k
+  | <span class="dt">Node</span> (left, x, right) -&gt; iter_cps_defun f left (<span class="dt">Node</span> (k, x, right))
+<span class="kw">and</span> run f = <span class="kw">function</span>
+  | <span class="dt">Leaf</span> -&gt; ()
+  | <span class="dt">Node</span> (k, x, right) -&gt; f x; iter_cps_defun f right k
+
+<span class="kw">let</span> to_iter t f = iter_cps_defun f t <span class="dt">Leaf</span></code></pre>
+<p>If you squint your eyes a bit, what you have in front of you is a purely functional realization of a well-known traversal technique called <em>pointer reversal</em>. We call <code>iter</code> with a pointer <code>k</code> to "the rest of the work to be done", and when we descend in the <code>left</code> subtree, we replace <code>k</code> with a version of the parent tree <code>t</code> where the left child points not to <code>left</code> anymore, but to <code>k</code> (the parent of <code>t</code>). Of course, pointer reversal are useful for in-place traversals, so this realization is of little practical interest for an persistent immutable tree type where the nodes are copied anyway. But it's still nice to see how, by systematic application of general applications, we reach a place that is already well-known.</p>
+<p>Finally, this implementation of the traversal function is low-level enough to be turned into a generator function. The idea is that instead of passing the <code>k</code> argument recursively in an iterator, we can store it in a reference cell between calls to a generator.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> to_gen t =
+  <span class="kw">let</span> next = <span class="dt">ref</span> t <span class="kw">in</span>
+  <span class="kw">let</span> cont = <span class="dt">ref</span> <span class="dt">Leaf</span> <span class="kw">in</span>
+  <span class="kw">let</span> <span class="kw">rec</span> iter t k = <span class="kw">match</span> t <span class="kw">with</span>
+    | <span class="dt">Leaf</span> -&gt; run k
+    | <span class="dt">Node</span> (left, x, right) -&gt; iter left (<span class="dt">Node</span> (k, x, right))
+  <span class="kw">and</span> run = <span class="kw">function</span>
+    | <span class="dt">Leaf</span> -&gt; raise <span class="dt">Exit</span>
+    | <span class="dt">Node</span> (k, x, right) -&gt;
+      next := right;
+      cont := k;
+      x
+  <span class="kw">in</span> <span class="kw">fun</span> () -&gt; iter !next !cont</code></pre>
+<p>This is the same code as before, except that instead of calling <code>f x</code> (that's what you do when you have the control), we store the current state of the traversal, and return <code>x</code>. The CPS transform is precisely what exposed this notion of "state of the traversal" in a way that is convenient to capture through calls.</p>
+<p>Let me bore you with some performance details:</p>
+<pre><code>Tree.iter (1.59 ms) is 13.6% faster than
+Tree.iter_cps_defun (1.84 ms) which is 14.7% faster than
+Tree.iter_cps (2.16 ms)</code></pre>
+<p>So there is a cost to pay when inverting control, but in this case it is quite low. Remember than in general your running time will be dominated by what you want to do on each element of a structure, not its traversal itself, so measuring traversals only distort performance results. A 15% difference in a micro-benchmark means that users would most probably not notice the change.</p>
+<p>Finally, I will remark that it is possible to revert control by using an off-the-shelf delimited continuation library. This is more general and modular, but may also be noticeably slower. I have tried doing that with Oleg's delightful <a href="http://okmij.org/ftp/continuations/implementations.html#caml-shift">Delimcc</a> library, that is really not invasive (not requiring any change to the OCaml compiler or runtime); the code is funny (and possibly wrong, I'm not a Delimcc expert), but not competitive performance-wise because the continuation-capture operations are heavier, and not meant to be used at this granularity level.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(* this must be compiled with -rectypes *)</span>
+<span class="kw">let</span> to_gen_delim t =
+  <span class="kw">let</span> p = Delimcc<span class="kw">.</span>new_prompt () <span class="kw">in</span>
+  <span class="kw">let</span> next = <span class="dt">ref</span> <span class="kw">begin</span>
+    Delimcc<span class="kw">.</span>push_prompt p (<span class="kw">fun</span> () -&gt;
+      to_seq t (<span class="kw">fun</span> x -&gt;
+        Delimcc<span class="kw">.</span>take_subcont p (<span class="kw">fun</span> k () -&gt; <span class="dt">Some</span> (x, k)));
+      <span class="dt">None</span>)
+  <span class="kw">end</span> <span class="kw">in</span>
+  <span class="kw">fun</span> () -&gt;
+    <span class="kw">match</span> !next <span class="kw">with</span>
+      | <span class="dt">None</span> -&gt; raise <span class="dt">Exit</span>
+      | <span class="dt">Some</span> (x, k) -&gt;
+        next := Delimcc<span class="kw">.</span>push_delim_subcont k (<span class="kw">fun</span> () -&gt; ());
+        x</code></pre>
+<p>This implements <code>to_gen</code> (that doesn't have control) in terms of <code>to_seq</code> (that requires control). The idea is that the iteration function that we feed to <code>to_seq</code>, when called, captures the current continuation, that is the "rest of the traversal", and returns it along with the element that was passed. Each time our generator is called, it reinstates the continuation to keep computing until the next element, where it gets suspended again.</p>
+<p>Note that this definition is not at all specific to trees, it could be defined generically. Furthermore, we can use the exact same technique to implement <code>of_seq</code> in terms of <code>of_gen</code>.</p>
+<p>This code snippet must be compiled with <code>-rectypes</code> because the type of the captured continuation <code>next</code> is equi-recursive: it represents the rest of a computation that, when called, returns a reified value representing the rest of a computation that... It would be possible to look at this recursive type in the eye and define an explicit recursive algebraic datatype for it, to get rid of <code>-rectypes</code>, but I was too lazy to do that.</p>
+<h4 id="filling-a-tree">Filling a tree</h4>
+<p>That was the two conversion functions <em>from</em> a tree, <code>to_iter</code> and <code>to_gen</code>. What about building a tree from iterator or generators?</p>
+<p>First, there is a non-trivial question: how do you build a tree from a sequence? If you had a balanced search tree, you would have an <code>add</code> function and would most probably build the tree by folding over the sequence elements, <code>add</code>-ing one element at a time. But I want something that looks simpler (than maintaining search invariant), but that I actually found harder: fill the tree from left to right.</p>
+<p>More precisely, I expect that giving a number of elements that is a power of two would return me a complete tree, with all leaves at the same heights, and that giving less elements would return me a tree with a complete left sub-tree, and a partially-filled right subtree.</p>
+<p>Here is the implementation I got after a bit of tinkering. There may be other ways to implement this, and I'm open to suggestions of simpler approaches.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="co">(** returns a tree of height [n], along with a boolean [finished]</span>
+<span class="co">    indicating whether the generator was exhausted during the</span>
+<span class="co">    construction. If [finished] is false, the tree is a complete tree</span>
+<span class="co">    of height [n], otherwise it may be partial. *)</span>
+<span class="kw">let</span> <span class="kw">rec</span> fill f n =
+  <span class="kw">match</span> n <span class="kw">with</span>
+  | 0 -&gt; <span class="kw">false</span>, <span class="dt">Leaf</span>
+  | _ -&gt;
+    <span class="kw">let</span> finished, left = fill f (n - 1) <span class="kw">in</span>
+    <span class="kw">if</span> finished <span class="kw">then</span> finished, left
+    <span class="kw">else</span> fill_right f n left
+
+<span class="co">(** taking a complete left subtree as input, it builds a node by</span>
+<span class="co">    creating a possibly-partial right subtree *)</span>
+<span class="kw">and</span> fill_right f n left =
+  <span class="kw">match</span> (<span class="kw">try</span> <span class="dt">Some</span> (f ()) <span class="kw">with</span> <span class="dt">Exit</span> -&gt; <span class="dt">None</span>) <span class="kw">with</span>
+    | <span class="dt">None</span> -&gt; <span class="kw">true</span>, left
+    | <span class="dt">Some</span> x -&gt;
+      <span class="kw">let</span> finished, right = fill f (n - 1) <span class="kw">in</span>
+      finished, <span class="dt">Node</span> (left, x, right)
+
+<span class="co">(** iterate the filling functions above with ever-increasing values of</span>
+<span class="co">    `n`, until the generator is exhausted. *)</span>
+<span class="kw">let</span> <span class="kw">rec</span> loop f n left =
+  <span class="kw">match</span> fill_right f n left <span class="kw">with</span>
+    | <span class="kw">true</span>, t -&gt; t
+    | <span class="kw">false</span>, left -&gt; loop f (n + 1) left</code></pre>
+<p>It is easy to define <code>of_gen</code> from such a filling function:</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> of_gen f = loop f 1 <span class="dt">Leaf</span></code></pre>
+<p>To get a version without control (<code>of_iter</code>), we should again turn these function into CPS form, and then defunctionalize the result. The CPS version is unsurprising; you don't need to read all the code, only look at the continuations following recursive calls.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">let</span> <span class="kw">rec</span> fill_cps f n k = <span class="kw">match</span> n <span class="kw">with</span>
+  | 0 -&gt; k <span class="kw">false</span> <span class="dt">Leaf</span>
+  | _ -&gt;
+    fill_cps f (n - 1) (<span class="kw">fun</span> finished left -&gt;
+      <span class="kw">if</span> finished <span class="kw">then</span> k finished left
+      <span class="kw">else</span> fill_right_cps f n left k)
+<span class="kw">and</span> fill_right_cps f n left k =
+  <span class="kw">match</span> (<span class="kw">try</span> <span class="dt">Some</span> (f ()) <span class="kw">with</span> <span class="dt">Exit</span> -&gt; <span class="dt">None</span>) <span class="kw">with</span>
+    | <span class="dt">None</span> -&gt; k <span class="kw">true</span> left
+    | <span class="dt">Some</span> x -&gt;
+      fill_cps f (n - 1) (<span class="kw">fun</span> finished right -&gt;
+        k finished (<span class="dt">Node</span> (left, x, right)))
+
+<span class="kw">let</span> <span class="kw">rec</span> loop_cps f n left k =
+  fill_right_cps f n left (<span class="kw">fun</span> finished t -&gt;
+    <span class="kw">if</span> finished <span class="kw">then</span> k t
+    <span class="kw">else</span> loop_cps f (n + 1) t k)
+
+<span class="kw">let</span> of_gen gen = loop_cps gen 1 <span class="dt">Leaf</span> (<span class="kw">fun</span> x -&gt; x)</code></pre>
+<p>Something interesting happens when doing defunctionalization. Currently, <code>fill</code> and <code>fill_right</code> are mutually recursive, and <code>loop</code> is defined separately afterwards. But when doing defunctionalization, I will represent all the lambda-abstractions of the module with a single type, and interpret them through a single function <code>run</code> which will be called whenever a continuation is invoked (you can think of <code>run</code> as an explicit marker for the application of a function, represented as first-order data, to its argument(s)).</p>
+<p>This means that <code>loop</code>, where a continuation is applied in the <code>if finished then ...</code> branch, will need to call <code>run</code>, which will also be called from <code>still</code> and <code>still_right</code>. All four functions have to be defined as a single mutually recursive set of definitions. In other words, defunctionalization is <em>not</em> a modular transform, it must be defined at once as a "whole-program" transformation, operating on all functions sharing a common calling protocol.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">type</span> 'a kfill =
+  | <span class="dt">Stop</span>
+  | <span class="dt">Left</span> <span class="kw">of</span> 'a kfill * <span class="dt">int</span>
+  | <span class="dt">Right</span> <span class="kw">of</span> 'a tree * 'a * 'a kfill
+  | <span class="dt">Loop</span> <span class="kw">of</span> <span class="dt">int</span> * 'a kfill
+
+<span class="kw">let</span> <span class="kw">rec</span> fill_cps_defun f n k = <span class="kw">match</span> n <span class="kw">with</span>
+  | 0 -&gt; run f <span class="kw">false</span> <span class="dt">Leaf</span> k
+  | _ -&gt; fill_cps_defun f (n - 1) (<span class="dt">Left</span> (k, n))
+<span class="kw">and</span> fill_right_cps_defun f n left k =
+  <span class="kw">match</span> (<span class="kw">try</span> <span class="dt">Some</span> (f ()) <span class="kw">with</span> <span class="dt">Exit</span> -&gt; <span class="dt">None</span>) <span class="kw">with</span>
+    | <span class="dt">None</span> -&gt; run f <span class="kw">true</span> left k
+    | <span class="dt">Some</span> x -&gt;
+      fill_cps_defun f (n - 1) (<span class="dt">Right</span> (left, x, k))
+<span class="kw">and</span> loop_cps_defun f n left k = fill_right_cps_defun f n left (<span class="dt">Loop</span> (n, k))
+<span class="kw">and</span> run f finished t = <span class="kw">function</span>
+  | <span class="dt">Stop</span> -&gt; t
+  | <span class="dt">Left</span> (k, n) -&gt;
+    <span class="kw">if</span> finished <span class="kw">then</span> run f finished t k
+    <span class="kw">else</span> fill_right_cps_defun f n t k
+  | <span class="dt">Right</span> (left, x, k) -&gt;
+    run f finished (<span class="dt">Node</span> (left, x, t)) k
+  | <span class="dt">Loop</span> (n, k) -&gt;
+    <span class="kw">if</span> finished <span class="kw">then</span> run f finished t k
+    <span class="kw">else</span> loop_cps_defun f (n + 1) t k
+
+<span class="kw">let</span> of_gen gen = loop_cps_defun gen 1 <span class="dt">Leaf</span> <span class="dt">Stop</span></code></pre>
+<p>From there, we will be able to derive our control-less conversion <code>of_iter</code>. There is a last sophistication: in the <code>to_gen</code> case, we only needed to call one function to get the next element, namely <code>iter</code>. Here, we must start by calling <code>loop</code> (to begin the construction of the tree), but the computation will need to be suspended after the next element is accessed (<code>try Some (f ()) ...</code>), and restart from there, where <code>fill</code> is called. So our mutable state will store not only the continuation argument to be passed to the next call, but also which function needs to be called next, <code>loop</code> or <code>fill</code>.</p>
+<pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span class="kw">type</span> 'a call1 =
+  | <span class="dt">Call_loop</span> <span class="kw">of</span> <span class="dt">int</span> * 'a tree * 'a kfill
+  | <span class="dt">Call_fill</span> <span class="kw">of</span> <span class="dt">int</span> * 'a kfill
+
+<span class="kw">let</span> of_iter iter =
+  <span class="kw">let</span> st = <span class="dt">ref</span> (<span class="dt">Call_loop</span> (1, <span class="dt">Leaf</span>, <span class="dt">Stop</span>)) <span class="kw">in</span>
+  <span class="kw">let</span> result = <span class="dt">ref</span> <span class="dt">None</span> <span class="kw">in</span>
+  <span class="kw">let</span> <span class="kw">rec</span> fill f n k = <span class="kw">match</span> n <span class="kw">with</span>
+    | 0 -&gt; run f <span class="kw">false</span> <span class="dt">Leaf</span> k
+    | _ -&gt; fill f (n - 1) (<span class="dt">Left</span> (k, n))
+  <span class="kw">and</span> fill_right f n left k =
+    <span class="kw">match</span> f <span class="kw">with</span>
+      | <span class="dt">None</span> -&gt; run f <span class="kw">true</span> left k
+      | <span class="dt">Some</span> x -&gt; st := <span class="dt">Call_fill</span> (n - 1, <span class="dt">Right</span> (left, x, k))
+  <span class="kw">and</span> loop f n left k = fill_right f n left (<span class="dt">Loop</span> (n, k))
+  <span class="kw">and</span> run f finished t = <span class="kw">function</span>
+    | <span class="dt">Stop</span> -&gt; result := <span class="dt">Some</span> t
+    | <span class="dt">Left</span> (k, n) -&gt;
+      <span class="kw">if</span> finished <span class="kw">then</span> run f finished t k
+      <span class="kw">else</span> fill_right f n t k
+    | <span class="dt">Right</span> (left, x, k) -&gt;
+      run f finished (<span class="dt">Node</span> (left, x, t)) k
+    | <span class="dt">Loop</span> (n, k) -&gt;
+      <span class="kw">if</span> finished <span class="kw">then</span> run f finished t k
+      <span class="kw">else</span> loop f (n + 1) t k
+  <span class="kw">in</span>
+  <span class="kw">let</span> call x = <span class="kw">function</span>
+    | <span class="dt">Call_loop</span> (n, t, k) -&gt; loop x n t k
+    | <span class="dt">Call_fill</span> (n, k) -&gt; fill x n k
+  <span class="kw">in</span>
+  <span class="kw">let</span> add x = call (<span class="dt">Some</span> x) !st <span class="kw">in</span>
+  iter add;
+  call <span class="dt">None</span> !st;
+  <span class="kw">match</span> !result <span class="kw">with</span>
+    | <span class="dt">None</span> -&gt; <span class="kw">assert</span> <span class="kw">false</span>
+    | <span class="dt">Some</span> res -&gt; res</code></pre>
+<p>The amount of code may be a bit intimidating, but it is really only the previous version of the code, transformed to be called with a single element at a time (we still call it <code>f</code> to avoid naming conflict with already-used <code>x</code>), or <code>None</code> when the input ends. By careful transformations we have successfully turned a generator-taking function, that has control, into an iterator-taking function that doesn't have control.</p>
+<p>There is a rather important amount of book-keeping involved in this turned-around definition, so it is no surprise that <code>of_iter</code> is substantially slower than <code>of_gen</code>. It seems clear to me, however, that both should be included in a library. Only providing the controlling <code>of_gen</code> means that the library user will have to code without control herself, leading to complicated code on her side (which is what your job, as a library writer, is meant to avoid), and less efficient code.</p>
+<p>One way to improve performances for the without-control version would be to introduce buffering: instead of suspending computation after each element is obtained, we could run <code>fill</code> to consume the next <code>N</code> elements before the costly suspension happens.</p>
+<p>This blog post is getting rather long so I'll keep this as a possible idea for the next, more advanced one. I'm not sure I will implement buffering, because I already have two more advanced remarks to make on the <code>fill</code> code and its CPS versions. One is how the intermediate CPS version suggests a different representation with multiple return points, and the other is how we can use GADTs to avoid the rather inelegant <code>None -&gt; assert false</code> at the end of <code>of_iter</code>. Stay tuned!</p>
+<p>All the code I've written so far is available <a href="https://gitorious.org/gasche-snippets/iterators-and-generators/blobs/master/iter_or_gen.ml">on gitorious</a>. It uses DelimCC, <code>-rectypes</code> and OCaml 4.00 (for the GADTs I just mentioned), but all these can be commented out, and the main body of the code is rather straightforward OCaml that I expect to compile and run anywhere.</p>
+<p>Finally, if you are looking for research literature relevant to the techniques mentioned here, <a href="http://www.cs.au.dk/~danvy/index-previous.html">Olivier Danvy</a> is the established master of systematic source-to-source transformations. He famously remarked, for example, how CPS-transforming then defunctionalizing a natural interpreter for a functional language gets you a corresponding <em>abstract machine</em> implementation of the language.</p>
+<p>On defunctionalization in particular, I really like a 2006 article by François Pottier and Nadji Gauthier <a href="http://gallium.inria.fr/~fpottier/publis/fpottier-gauthier-hosc.pdf">Polymorphic typed defunctionalization and concretization</a>. I'll just quote the abstract below:</p>
+<blockquote>
+<p>Defunctionalization is a program transformation that eliminates functions as first-class values. We show that defunctionalization can be viewed as a type-preserving transformation of an extension of with guarded algebraic data types into itself. We also suggest that defunctionalization is an instance of concretization, a more general technique that allows eliminating constructs other than functions. We illustrate this point by presenting two new type-preserving transformations that can be viewed as instances of concretization. One eliminates Rémy-style polymorphic records; the other eliminates the dictionary records introduced by the standard compilation scheme for Haskell's type classes.</p>
+</blockquote><a onclick="switchContent('post2','post1')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Hide</a></div></span>
+<a name="e024e9deb17e38571238cfbb700ef298"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=870"> Release of OCaml-bitcoin 1.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">This release brings the OCaml-bitcoin API up-to-date with the recently released Bitcoin 0.8.</pre></span>
 <a name="1baa6448b2dd1e3f032ae60ada757540"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Try Besport! The new Ocsigen based social network about sport</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">28 Feb 2013</span></span><span class="rss-description"><p>A beta version of Besport is available for testing. Besport is a social network developed using Ocsigen Eliom in California. Besport helps you connect and share sport with the world.
 </p>
 <h2>Links:</h2>
@@ -167,7 +442,7 @@ NoReverseMatch errors with no particular pattern. Basically, any url
 on the site could be found in the error emails. These emails were
 flowing in at a very worrysome rate, and user complaints started to
 arrive as well.</p></span>
-<a name="f80c1f9af11678e3e7c087237e73f2ce"></a><span class="rss-header"><span class="rss-title"><a href="http://y-node.com/blog/2008/oct/23/objectdetection"> Computer Vision: the evolution of one object detection approach</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">y-node</span>, <span class="rss-date">27 Feb 2013</span></span><span class="rss-description"><div id="post1"><p style="margin-bottom: 0in;">In
+<a name="f80c1f9af11678e3e7c087237e73f2ce"></a><span class="rss-header"><span class="rss-title"><a href="http://y-node.com/blog/2008/oct/23/objectdetection"> Computer Vision: the evolution of one object detection approach</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">y-node</span>, <span class="rss-date">27 Feb 2013</span></span><span class="rss-description"><div id="post3"><p style="margin-bottom: 0in;">In
 the course of my recent work I've been investigating Computer Vision
 field, and more specifically, object detection and tracking problem.
 Object detection is a classic problem in computer vision, with
@@ -183,7 +458,7 @@ processor. Also, their learning algorithm
 <a href="http://en.wikipedia.org/wiki/Machine_learning">http://en.wikipedia.org/wiki/Machine_learning</a>
 may be running days or even weeks. Our goal is to try to reduce this
 time.</p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#f80c1f9af11678e3e7c087237e73f2ce">Read more...</a></div><div id="post2" style="display: none"><p style="margin-bottom: 0in;">In
+<a onclick="switchContent('post3','post4')" class="btn" href="#f80c1f9af11678e3e7c087237e73f2ce">Read more...</a></div><div id="post4" style="display: none"><p style="margin-bottom: 0in;">In
 the course of my recent work I've been investigating Computer Vision
 field, and more specifically, object detection and tracking problem.
 Object detection is a classic problem in computer vision, with
@@ -341,9 +616,9 @@ To be continued...</p>
 	</li><li><p style="margin-bottom: 0in; font-style: normal;">H.
 	Grabner, P. M. Roth, and H. Bischof. Is Pedestrian Detection Really
 	a Hard Task. 2007</p>
-</li></ol><a onclick="switchContent('post2','post1')" class="btn" href="#f80c1f9af11678e3e7c087237e73f2ce">Hide</a></div></span>
+</li></ol><a onclick="switchContent('post4','post3')" class="btn" href="#f80c1f9af11678e3e7c087237e73f2ce">Hide</a></div></span>
 <a name="a21986b497e300802f880aeb17491d60"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.02.26.html"> Caml Weekly News, 26 Feb 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">26 Feb 2013</span></span><span class="rss-description">llpp v13 / Beta-release of Merlin / Extracting information from HTML documents / strange typechecking result / What is triggering a lot of GC work? / Other Caml News</span>
-<a name="a494eb80efb947027c13c6bae4637ff9"></a><span class="rss-header"><span class="rss-title"><a href="http://newblog.0branch.com/posts/2013-02-24-batteries-v2-composition.html"> Batteries 2.0: Composition and application</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Marc Simpson</span>, <span class="rss-date">24 Feb 2013</span></span><span class="rss-description"><div id="post3"><a onclick="switchContent('post3','post4')" class="btn" href="#a494eb80efb947027c13c6bae4637ff9">Read more...</a></div><div id="post4" style="display: none"><div id="blog_post">
+<a name="a494eb80efb947027c13c6bae4637ff9"></a><span class="rss-header"><span class="rss-title"><a href="http://newblog.0branch.com/posts/2013-02-24-batteries-v2-composition.html"> Batteries 2.0: Composition and application</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Marc Simpson</span>, <span class="rss-date">24 Feb 2013</span></span><span class="rss-description"><div id="post5"><a onclick="switchContent('post5','post6')" class="btn" href="#a494eb80efb947027c13c6bae4637ff9">Read more...</a></div><div id="post6" style="display: none"><div id="blog_post">
   <div class="span-20">
     <div id="post_title" class="span-10"><h1>Batteries 2.0: Composition and application</h1></div>
     <div style="text-align: right; font-style: italic;" id="post_date" class="span-10 last"><a href="http://newblog.0branch.com/index.html">Posted</a> on February 24, 2013</div>
@@ -457,8 +732,8 @@ Error: This expression has type string but an expression was expected of type 'a
   })();
 &lt;/script&gt;
 &lt;noscript&gt;Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>&lt;/noscript&gt;
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><a onclick="switchContent('post4','post3')" class="btn" href="#a494eb80efb947027c13c6bae4637ff9">Hide</a></div></span>
-<a name="eb5f3e93ab87a2e7e16b88def1b1fdfb"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/on-the-nary-cartesian-product"> On the n-ary cartesian product</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">23 Feb 2013</span></span><span class="rss-description"><div id="post5"><p>The n-ary cartesian product (on lists) returns the cartesian product of a list of list, rather than just two lists: <code>product [[1]; [2;3]; [4;5]]</code> is <code>[[1;2;4]; [1;2;5]; [1;3;4]; [1;3;5]]</code>. The result is the empty list as soon of one of the input lists is empty. But what is the product of the empty list of lists?</p>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><a onclick="switchContent('post6','post5')" class="btn" href="#a494eb80efb947027c13c6bae4637ff9">Hide</a></div></span>
+<a name="eb5f3e93ab87a2e7e16b88def1b1fdfb"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/on-the-nary-cartesian-product"> On the n-ary cartesian product</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">23 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>The n-ary cartesian product (on lists) returns the cartesian product of a list of list, rather than just two lists: <code>product [[1]; [2;3]; [4;5]]</code> is <code>[[1;2;4]; [1;2;5]; [1;3;4]; [1;3;5]]</code>. The result is the empty list as soon of one of the input lists is empty. But what is the product of the empty list of lists?</p>
 <p>I first answered this question with mathematical considerations that, while working on set theory, will fell familiar to anyone having worked with dependent types. But there is a direct, much simpler answer <em>in the code</em>.</p>
 
 
@@ -466,7 +741,7 @@ Error: This expression has type string but an expression was expected of type 'a
 
 <p>The motivation for this post was a <a href="https://github.com/ocaml-batteries-team/batteries-included/issues/359">bug report</a> on the bugtracker of the Batteries library project, in which user wistery-k noticed the <code>BatList.n_cartesian_product</code> function incorrectly failed on empty lists.</p>
 <h3 id="a-view-from-the-theory">A view from the theory</h3>
-<a onclick="switchContent('post5','post6')" class="btn" href="#eb5f3e93ab87a2e7e16b88def1b1fdfb">Read more...</a></div><div id="post6" style="display: none"><p>The n-ary cartesian product (on lists) returns the cartesian product of a list of list, rather than just two lists: <code>product [[1]; [2;3]; [4;5]]</code> is <code>[[1;2;4]; [1;2;5]; [1;3;4]; [1;3;5]]</code>. The result is the empty list as soon of one of the input lists is empty. But what is the product of the empty list of lists?</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#eb5f3e93ab87a2e7e16b88def1b1fdfb">Read more...</a></div><div id="post8" style="display: none"><p>The n-ary cartesian product (on lists) returns the cartesian product of a list of list, rather than just two lists: <code>product [[1]; [2;3]; [4;5]]</code> is <code>[[1;2;4]; [1;2;5]; [1;3;4]; [1;3;5]]</code>. The result is the empty list as soon of one of the input lists is empty. But what is the product of the empty list of lists?</p>
 <p>I first answered this question with mathematical considerations that, while working on set theory, will fell familiar to anyone having worked with dependent types. But there is a direct, much simpler answer <em>in the code</em>.</p>
 
 
@@ -508,88 +783,11 @@ product elem = (fun choice -&gt; (fun i -&gt; elem i (choice i))</code></pre>
     List<span class="kw">.</span>concat
       (List<span class="kw">.</span>map (<span class="kw">fun</span> i -&gt; List<span class="kw">.</span>map (<span class="kw">fun</span> r -&gt; i :: r) rest) h)</code></pre>
 <p>The key point is that the value returned for <code>[]</code> should allow to express the former base case <code>[l]</code> as an instance of the general case <code>h :: t</code>. There is only one choice with this property, and it is <code>[[]]</code>.</p>
-<p>No theoretical considerations make as strong an argument as this one: the <em>right</em> answer is the one that makes the code <em>elegant</em>.</p><a onclick="switchContent('post6','post5')" class="btn" href="#eb5f3e93ab87a2e7e16b88def1b1fdfb">Hide</a></div></span>
+<p>No theoretical considerations make as strong an argument as this one: the <em>right</em> answer is the one that makes the code <em>elegant</em>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#eb5f3e93ab87a2e7e16b88def1b1fdfb">Hide</a></div></span>
 <a name="5faed7c033c8c4479a9024de0dc1bbbd"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=785"> Piqi 0.6.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">21 Feb 2013</span></span><span class="rss-description">Protocol Buffers, JSON and XML serialization".</span>
 <a name="8bbd270a14fe70e04c0fc3ce452093ba"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=848"> Merlin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">21 Feb 2013</span></span><span class="rss-description">Merlin is a tool
 which providessmart completion, among other things, in your favorite editor.
 As of today, Vim and Emacs are supported.</span>
-<a name="6419d96eea6ef544d4299561d836c7cd"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/quick-tip-the-ocamlbuild-documentation-option"> Quick tip: the ocamlbuild -documentation option</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">20 Feb 2013</span></span><span class="rss-description"><div id="post7"><p>A quick and dirty blog post about the <code>-documentation</code> option of <code>ocamlbuild</code>, how to use and understand its output.</p>
-
-
-
-
-<p>I've been overloaded since returning from POPL, and all the nice and interesting blog posts I planned to polish and publish are still in the drawers. In the meantime, I'm recycling emails that may be of interest to some of our beloved readers.</p>
-<p>This post comes from a conversation with Cedric Cellier, which was wondering how to tell ocamlbuild to use the <code>-custom</code> option to (bytecode) compile his OCaml program.</p>
-<h4 id="the-ocamlbuild--documentation-option">The ocamlbuild <code>-documentation</code> option</h4>
-<a onclick="switchContent('post7','post8')" class="btn" href="#6419d96eea6ef544d4299561d836c7cd">Read more...</a></div><div id="post8" style="display: none"><p>A quick and dirty blog post about the <code>-documentation</code> option of <code>ocamlbuild</code>, how to use and understand its output.</p>
-
-
-
-
-<p>I've been overloaded since returning from POPL, and all the nice and interesting blog posts I planned to polish and publish are still in the drawers. In the meantime, I'm recycling emails that may be of interest to some of our beloved readers.</p>
-<p>This post comes from a conversation with Cedric Cellier, which was wondering how to tell ocamlbuild to use the <code>-custom</code> option to (bytecode) compile his OCaml program.</p>
-<h4 id="the-ocamlbuild--documentation-option">The ocamlbuild <code>-documentation</code> option</h4>
-<p>The command <code>ocamlbuild ... -documentation</code> explains the set of rules and tags understood by this particular ocamlbuild invocation (which can depend on the plugin, other options passed to <code>ocamlbuild</code>, etc..). It returns a very long output, that contains information about both all <em>rules</em> known by ocamlbuild (which tells him how to dynamically look for the dependencies of a given target) and all <em>tags</em> (which add flags to the compilation command for a given target). Some representative examples on my system:</p>
-<pre><code>...
-
-rule
-  "ocaml: cmx* &amp; o* -&gt; native"
-  ~deps:[ %.cmx; %.o ]
-  ~prods:[ %.native ]
-  &lt;fun&gt;
-
-rule
-  "ocaml: mllib &amp; d.cmo* -&gt; d.cma"
-  ~deps:[ %.mllib ]
-  ~prods:[ %.d.cma ]
-  &lt;fun&gt;
-
-...
-
-flag {. byte, debug, link, ocaml, program .} "-g"
-
-flag {. byte, compile, debug, ocaml .} "-g"
-
-flag {. link, native, ocaml, use_camlp4_bin .} "+camlp4/Camlp4Bin.cmx"
-
-flag {. byte, link, ocaml, use_camlp4_bin .} "+camlp4/Camlp4Bin.cmo"
-
-flag {. compile, ocaml, use_camlp4_full .}
-  "-I +camlp4/Camlp4Parsers -I +camlp4/Camlp4Printers -I +camlp4/Camlp4Filters"</code></pre>
-<p>While it won't tell you everything (you don't know which <code>&lt;fun&gt;</code> is hiding under the <code>.d.cma</code> rule above, so you'll need to look at the manual or try it to what this extension means), grepping this output is a good way to find about ocamlbuild tags you didn't know about, and look for specific features. So for our <code>-custom</code> question:</p>
-<pre><code>$ ocamlbuild -documentation | grep custom
-flag {. byte, custom, library, link, ocaml .} "-custom"
-flag {. byte, custom, link, ocaml, program .} "-custom"</code></pre>
-<p>This tells us that <code>-custom</code> will be added to the compilation command when either one of this list of flags is present for the target being compiled -- this is similar to the predicate system of <code>ocamlfind</code>.</p>
-<h4 id="knowing-which-flags-are-present-thats-what-_build_log-is-for">Knowing which flags are present: that's what <code>_build/_log</code> is for</h4>
-<p>In this simple case it's enough to just try to add the <code>custom</code> tag to your ocamlbuild invocation (either in the <code>_tags</code> or on the command line directly) and check that it works. But in general you may want to know about precisely which of those flags are already present under your current compilation settings, and which should be added. For that, the log is your friend.</p>
-<pre><code>$ cd /tmp
-$ mkdir ocamlbuild-test; cd ocamlbuild-test
-$ touch test.ml
-$ ocamlbuild test.byte
-Finished, 3 targets (0 cached) in 00:00:00.
-$ cat _build/_log 
-### Starting build.
-# Target: test.ml.depends, tags: { extension:ml, file:test.ml, ocaml, ocamldep, quiet }
-.../bin/ocamldep.opt -modules test.ml &gt; test.ml.depends
-# Target: test.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:test.cmo, file:test.ml, implem, ocaml, quiet }
-.../bin/ocamlc.opt -c -o test.cmo test.ml
-# Target: test.byte, tags: { byte, dont_link_with, extension:byte, file:test.byte, link, ocaml, program, quiet }
-.../bin/ocamlc.opt test.cmo -o test.byte
-# Compilation successful.</code></pre>
-<p>There you are: ocamlbuild called <code>ocamldep</code> to look for dependencies, then compiled the module, then linked it. And you have the list of all flag presents at each step in the process. You can check that besides <code>custom</code>, the necessary <code>byte, link, ocaml, program</code> are all present during the linking phase.</p>
-<pre><code>$ ocamlbuild -tag custom test.byte
-Finished, 3 targets (2 cached) in 00:00:00.
-scherer@jurancon:/tmp/ocamlbuild-test $ cat _build/_log 
-### Starting build.
-# Target: test.ml.depends, tags: { custom, extension:ml, file:test.ml, ocaml, ocamldep, quiet }
-.../bin/ocamldep.opt -modules test.ml &gt; test.ml.depends # cached
-# Target: test.cmo, tags: { byte, compile, custom, extension:cmo, extension:ml, file:test.cmo, file:test.ml, implem, ocaml, quiet }
-.../bin/ocamlc.opt -c -o test.cmo test.ml # cached
-# Target: test.byte, tags: { byte, custom, dont_link_with, extension:byte, file:test.byte, link, ocaml, program, quiet }
-.../bin/ocamlc.opt -custom test.cmo -o test.byte
-# Compilation successful.</code></pre>
-<p>The <code>custom</code> tag was added to all compilation phases (we may have been more precise by adding it in <code>_tags</code> as a tag on <code>test.byte</code> only, so that it gets added only during the linking step), and resulted to the addition of the <code>-custom</code> flag. Job done. Notice that ocamlbuild only runs the linking command again, as the output of the others are already cached.</p><a onclick="switchContent('post8','post7')" class="btn" href="#6419d96eea6ef544d4299561d836c7cd">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
