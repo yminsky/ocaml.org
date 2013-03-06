@@ -731,8 +731,8 @@ val print_lambda : lambda -&gt; unit = &lt;fun&gt;
 </p>
 
 <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s
-  <span class="kwa">let</span> <span class="ocaml-function">kwd</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ident : formatter -&gt; string -&gt; unit = &lt;fun&gt;
-val kwd : formatter -&gt; string -&gt; unit = &lt;fun&gt;
+  <span class="kwa">let</span> <span class="ocaml-function">kwd</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ident : Format.formatter -&gt; string -&gt; unit = &lt;fun&gt;
+val kwd : Format.formatter -&gt; string -&gt; unit = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">pr_exp0</span> <span class="ocaml-variable">ppf </span>= <span class="kwb">function</span>
     | Var s -&gt; fprintf ppf &quot;%a&quot; ident s
     | lam -&gt; fprintf ppf &quot;@[&lt;1&gt;(%a)@]&quot; pr_lambda lam
@@ -746,10 +746,10 @@ val kwd : formatter -&gt; string -&gt; unit = &lt;fun&gt;
     | Lambda (s, lam) -&gt;
        fprintf ppf &quot;@[&lt;1&gt;%a%a%a@ %a@]&quot;
                kwd &quot;\\&quot; ident s kwd &quot;.&quot; pr_lambda lam
-    | e -&gt; pr_app ppf e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val pr_exp0 : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
-val pr_app : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
-val pr_other_applications : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
-val pr_lambda : formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
+    | e -&gt; pr_app ppf e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val pr_exp0 : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
+val pr_app : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
+val pr_other_applications : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
+val pr_lambda : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 </span></pre>
 
 <p> Armés de ces fonctions d'impression générales, les procédures
