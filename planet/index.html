@@ -152,7 +152,645 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="0802910a1b39035bde5255ca97da05df"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=871"> Barista: 2.0-beta</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">08 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">Changes:
+    <div class="planet"><a name="c3f4de345dacff845f985e402cced3c6"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/03/10/ocaml-namespaces.html"> Adding namespaces to OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
+local = "leo";
+h = "lpw25.net (Leo White)";
+hq = "lpw25.net%20(Leo%20White)";
+document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Leo White<\/a>";
+//--></script></span>, <span class="rss-date">10 Mar 2013</span></span><span class="rss-description"><div id="post1"><a onclick="switchContent('post1','post2')" class="btn" href="#c3f4de345dacff845f985e402cced3c6">Read more...</a></div><div id="post2" style="display: none"><div class="well well-small">
+<h4>Contents</h4>
+<div class="toc">
+   <ul>
+
+   </ul><ul>
+
+   </ul><ul>
+   <li><a href="http://www.lpw25.net/rss.xml#Problems+with+pack">Problems with pack</a>   </li>
+   <li><a href="http://www.lpw25.net/rss.xml#Formal+semantics">Formal semantics</a>   </li>
+   <li><a href="http://www.lpw25.net/rss.xml#Design+goals">Design goals</a>   </li>
+   <li><a href="http://www.lpw25.net/rss.xml#Design+choices">Design choices</a>
+    <ul>
+    <li><a href="http://www.lpw25.net/rss.xml#Flat+or+hierarchical?">Flat or hierarchical?</a>    </li>
+    <li><a href="http://www.lpw25.net/rss.xml#Should+namespaces+be+opened+explicitly+in+source+code?">Should namespaces be opened explicitly in source code?</a>    </li>
+    <li><a href="http://www.lpw25.net/rss.xml#How+should+the+compiler+find+modules+in+the+presence+of+namespaces?">How should the compiler find modules in the presence of namespaces?</a>
+     <ul>
+     <li><a href="http://www.lpw25.net/rss.xml#Using+filenames">Using filenames</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Checking+multiple++.cmi++files">Checking multiple “.cmi” files</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Using+namespace+description+files">Using namespace description files</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Using+environment+description+files">Using environment description files</a>     </li>
+    </ul>
+    </li><li><a href="http://www.lpw25.net/rss.xml#How+should+namespaces+specified?">How should namespaces specified?</a>
+     <ul>
+     <li><a href="http://www.lpw25.net/rss.xml#Explicitly+in+the+source+files">Explicitly in the source files</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Through+command-line+arguments">Through command-line arguments</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Through+filenames">Through filenames</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Through+namespace+description+files">Through namespace description files</a>     </li>
+     <li><a href="http://www.lpw25.net/rss.xml#Through+environment+description+files">Through environment description files</a>     </li>
+    </ul>
+    </li><li><a href="http://www.lpw25.net/rss.xml#How+rich+should+a+description+language+be?">How rich should a description language be?</a>    </li>
+    <li><a href="http://www.lpw25.net/rss.xml#Should+namespaces+support+automatically+opened+members?">Should namespaces support automatically opened members?</a>    </li>
+   </ul>
+   </li><li><a href="http://www.lpw25.net/rss.xml#Proposal">Proposal</a>
+    <ul>
+    <li><a href="http://www.lpw25.net/rss.xml#Simple+namespaces+through+filenames">Simple namespaces through filenames</a>    </li>
+    <li><a href="http://www.lpw25.net/rss.xml#An+alternative+to+search+paths">An alternative to search paths</a>    </li>
+    <li><a href="http://www.lpw25.net/rss.xml#The++-name++argument">The “-name” argument</a>    </li>
+    <li><a href="http://www.lpw25.net/rss.xml#The++-open++argument">The “-open” argument</a>    </li>
+    </ul>
+   </li>
+   </ul>
+  
+  
+ 
+ 
+
+</div>
+</div>
+
+
+<p>Recently there has been a lot of discussion on
+<a href="http://lists.ocaml.org/listinfo/platform">platform@lists.ocaml.org</a> about
+proposals for adding namespaces to OCaml. I’ve written this post to summarise
+the design decisions for such a proposal and to make my own proposal.</p>
+
+<p>Before discussing what namespaces are and the issues surrounding their
+implementation, it is important to explain why they are needed in the first
+place.</p>
+
+<p>The most important reason for adding namespaces is to provide some means for
+grouping the components of a library together. Up to now this has been
+achieved using the OCaml module system. Since the components of an OCaml
+library are modules, a module can be created that contains all the components
+of the library as sub-modules. The “-pack” option for the compiler was created
+to allow this module to be created while still keeping each component of the
+library in its own file.</p>
+
+<h3 id="Problems+with+pack">Problems with pack</h3>
+
+<p>There are some critical problems with using “-pack” to create a single module
+containing the whole library:</p>
+
+<ul>
+<li><p>The packed module is a single unit that has to be linked or not as a
+unit. This means that any program using part of the library must include the
+entire library.</p></li>
+<li><p>The packed module is a choke-point in the dependency graph.  If a file
+depends on one thing in the packed module then it needs to be recompiled if
+anything in the packed module changes.</p></li>
+<li><p>Opening a large packed module is very slow and can seriously affect build
+performance.</p></li>
+</ul>
+
+
+<p>These problems are all caused by the fact that pack creates an OCaml
+module. To understand this consider the run-time semantics of the module
+system.</p>
+
+<p>At run-time a module is a record. Initialising a module involves initialising
+every component of the module and placing them in this record.  Initialising
+these components can involve executing arbitrary code; in fact the execution
+of an OCaml program is simply the initialisation of all its modules.</p>
+
+<p>The problems with pack are related to these dynamic semantics. In order to
+be a module pack must create a record to represent this module. This means
+that it must initialise all of its components. It is this (rather than any
+detail of pack’s implementation) that causes the problems identified above.</p>
+
+<p>Access to the components of a top-level module could proceed without the
+existence of this record. However, the record is required in order to “alias”
+the module, use the module as a first-class value or use it as the argument to
+a functor.</p>
+
+<p>Any attempt to overcome the problems with pack, whilst still maintaining
+the illusion that the “pack” is a normal module, would result (at the very
+least) in one of the following unhealthy situations:</p>
+
+<ul>
+<li><p>The module type of the “packed module” would depend on which of its
+components were accessed by the program.</p></li>
+<li><p>Any use of the “packed module” other than as a simple container
+(e.g.
+<span class="highlight"><code><span class="k">module</span>
+<span class="nc">CS</span>
+<span class="o">=</span>
+<span class="nn">Core</span><span class="p">.</span><span class="nc">Std</span></code></span>
+) could have a dramatic effect on what was
+linked into the program and potentially on the semantics of the program.</p></li>
+</ul>
+
+
+<p>Namespaces are basically modules that can only be used as a simple
+container. This means that they do not need a corresponding record at
+run-time (or any other run-time representation). This avoids the problems
+with pack as well as enabling other useful features.</p>
+
+<h3 id="Formal+semantics">Formal semantics</h3>
+
+<p>Following the semantics and description language for namespaces described by
+<a href="http://gallium.inria.fr/~scherer/namespaces/spec.pdf">Gabriel Scherer et al</a>,
+I will consider namespaces to be name-labelled trees whose leaves are
+compilation units. I will use
+<span class="highlight"><code><span class="o">#</span></code></span>
+to represent projection on namespaces, so the
+<span class="highlight"><code><span class="nc">Bar</span></code></span>
+member of the
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+namespace will be referred to as
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>.</p>
+
+<h3 id="Design+goals">Design goals</h3>
+
+<p>Some design goals that we might want from a proposal for adding namespaces to
+OCaml include:</p>
+
+<ul>
+<li><p><strong>Allow library components to be grouped together without creating a module
+containing them.</strong></p></li>
+<li><p><strong>Allow users to group together modules from different libraries as they see
+fit.</strong> This means letting people change which namespace a library module is
+in.</p></li>
+<li><p><strong>Allow library components to be given multiple names.</strong> For example
+<span class="highlight"><code><span class="nc">Lib</span><span class="o">#</span><span class="nc">Foo</span></code></span>
+and
+<span class="highlight"><code><span class="nc">Lib</span><span class="o">#</span><span class="nc">Stable</span><span class="o">#</span><span class="nc">Foo</span></code></span>
+, where
+<span class="highlight"><code><span class="nc">Lib</span><span class="o">#</span><span class="nc">Stable</span></code></span>
+is a namespace containing only those components whose interfaces are stable.</p></li>
+<li><p><strong>Be simple and easy to explain to beginners.</strong></p></li>
+<li><p><strong>Allow multiple source files to share the same filename.</strong> Each module that
+is linked into an OCaml program must have a unique name. Currently, a
+module’s name is completely determined by its filename. This forces library
+developers to either use pack (which gives its components new long names) or
+give their source files long names like “libName_Foo.ml”. A namespaces
+proposal may be able to alleviate this problem.</p></li>
+<li><p><strong>Allow libraries to control which modules are open by default.</strong> By default
+OCaml opens the standard library’s
+<span class="highlight"><code><span class="nc">Pervasives</span></code></span>
+module. Libraries that wish to replace the standard library may also wish to
+provide their own
+<span class="highlight"><code><span class="nc">Pervasives</span></code></span>
+module and have it opened by default.</p></li>
+<li><p><strong>Support libraries that wish to remain compatible with versions of OCaml
+without namespaces.</strong></p></li>
+<li><p><strong>Require minimal changes to existing build systems.</strong> Since a namespace
+proposal changes how a library’s components are named, it may require
+changes to some build systems. If these changes are too invasive then users
+of some build systems will probably be unable to use namespaces in the near
+future.</p></li>
+</ul>
+
+
+<h3 id="Design+choices">Design choices</h3>
+
+<h4 id="Flat+or+hierarchical?">Flat or hierarchical?</h4>
+
+<p>In order to replace pack, namespaces must be able to contain modules. It is
+not clear, however, whether they need to be able to contain other
+namespaces. We call namespaces that can contain other namespaces
+<em>hierarchical</em>, as opposed to <em>flat</em>.</p>
+
+<p>In favour of flat namespaces:</p>
+
+<ul>
+<li><p>Hierarchical namespaces might lead to arbitrary categorising of components
+(e.g.<br/>
+<span class="highlight"><code><span class="nc">Data</span><span class="o">#</span><span class="nc">Array</span></code></span>
+). These add syntactic clutter and do not bring any real benefit.</p></li>
+<li><p>Hierarchical namespaces might lead to deep java-style hierarchies
+(e.g.<br/>
+<span class="highlight"><code><span class="nc">Com</span><span class="o">#</span><span class="nc">Janestreet</span><span class="o">#</span><span class="nc">Core</span><span class="o">#</span><span class="nc">Std</span></code></span>
+). These add syntactic clutter without adding any actual information.</p></li>
+</ul>
+
+
+<p>In favour of hierarchical namespaces:</p>
+
+<ul>
+<li>
+A library may wish to provide multiple versions of some of its components. For
+example:
+
+<ul>
+<li>    
+<span class="highlight"><code><span class="nc">Http</span><span class="o">#</span><span class="nc">Async</span><span class="o">#</span><span class="nc">IO</span></code></span>
+ and 
+<span class="highlight"><code><span class="nc">Http</span><span class="o">#</span><span class="nc">Lwt</span><span class="o">#</span><span class="nc">IO</span></code></span>
+</li>
+<li>
+<span class="highlight"><code><span class="nc">File</span><span class="o">#</span><span class="nc">Windows</span><span class="o">#</span><span class="nc">Directories</span></code></span>
+and 
+<span class="highlight"><code><span class="nc">File</span><span class="o">#</span><span class="nc">Unix</span><span class="o">#</span><span class="nc">Directories</span></code></span>
+</li>
+<li>
+<span class="highlight"><code><span class="nc">Core</span><span class="o">#</span><span class="nc">Mutex</span></code></span>
+and 
+<span class="highlight"><code><span class="nc">Core</span><span class="o">#</span><span class="nc">Testing</span><span class="o">#</span><span class="nc">Mutex</span></code></span>
+</li>
+</ul>
+
+In such situations it is useful to be able to write both
+
+
+<div class="highlight"><pre><code class="ocaml"><span class="k">open</span> <span class="nc">Core</span>
+<span class="o">[...]</span>
+<span class="nc">Testing</span><span class="o">#</span><span class="nn">Mutex</span><span class="p">.</span><span class="n">lock</span> <span class="n">x</span>
+</code></pre></div>
+
+
+and
+
+
+<div class="highlight"><pre><code class="ocaml"><span class="k">open</span> <span class="nc">Core</span><span class="o">#</span><span class="nc">Testing</span>
+<span class="o">[...]</span>
+<span class="nn">Mutex</span><span class="p">.</span><span class="n">lock</span> <span class="n">x</span>
+</code></pre></div>
+
+</li>
+<li>
+None of the systems of namespaces that have been proposed have any
+additional cost for supporting hierarchical namespaces.
+</li>
+</ul>
+
+
+<h4 id="Should+namespaces+be+opened+explicitly+in+source+code?">Should namespaces be opened explicitly in source code?</h4>
+
+<p>There was some debate on the platform mailing list about whether to support
+opening namespaces explicitly in source code. This means allowing a syntax
+like:</p>
+
+<div class="highlight">
+<pre><code class="ocaml"><span class="k">open</span> <span class="k">namespace</span> <span class="nc">Foo</span></code></pre>
+</div>
+
+
+<p>that allows the members of namespace
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+to be referenced directly (i.e.
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+can be referred to as
+<span class="highlight"><code><span class="nc">Bar</span></code></span>).</p>
+
+<p>The alternative would be to only support opening namespaces through a
+command-line argument.</p>
+
+<p>In favour of supporting explicit opens:</p>
+
+<ul>
+<li><p>If you open two namespaces with commonly named sub-components then the order
+of those opens matters. If the opens are command-line arguments then the
+order of those command-line arguments (often determined by build systems and
+other tools) matters. This is potentially very fragile.</p></li>
+<li><p>Explicit opens in a source file give valuable information about which
+libraries are being used by that source file. If a file contains “open
+namespace Core” then you know it uses the Core library.</p></li>
+<li><p>Local namespace opens provide users more precise control over their naming
+environment.</p></li>
+</ul>
+
+
+<p>Against supporting explicit opens:</p>
+
+<ul>
+<li>They require a new syntactic construct.</li>
+</ul>
+
+
+<h4 id="How+should+the+compiler+find+modules+in+the+presence+of+namespaces?">How should the compiler find modules in the presence of namespaces?</h4>
+
+<p>Currently, when looking for a module
+<span class="highlight"><code><span class="nc">Bar</span></code></span>
+that is not in the current environment, the OCaml compiler will search the
+directories in its search path for a file called “bar.cmi”.</p>
+
+<p>In the presence of namespaces this becomes more complicated: how does the
+compiler find the module
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+?</p>
+
+<p>The suggested possible methods for finding modules in the presence of
+namespaces fall into four categories.</p>
+
+<h5 id="Using+filenames">Using filenames</h5>
+
+<p>By storing the interface for
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+in a file named “foo-bar.cmi” the compiler can continue to simply look-up
+modules in its search path.</p>
+
+<p>Note that “–” is an illegal character in module names so there is no risk of
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+being confused with a module called
+<span class="highlight"><code><span class="nc">Foo-bar</span></code></span>.</p>
+
+<p>This simple scheme does not support placing a module within multiple
+namespaces or allowing users to put existing modules in a new namespace.</p>
+
+<h5 id="Checking+multiple++.cmi++files">Checking multiple “.cmi” files</h5>
+
+<p>The name of the namespace containing a compilation unit could be included in
+the “.cmi” file of that unit. Then, when looking for a module
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+, the compiler would try every “bar.cmi” file in its search path until it
+found one that was part of the “Foo” namespace. This may require the compiler
+to open all the “bar.cmi” files on its search path, which could be expensive
+on certain operating systems.</p>
+
+<p>This scheme does not support allowing users to put existing modules in a new
+namespace, but can support placing a module in multiple namespaces.</p>
+
+<p>It is difficult to detect typos in namespace open statements using this
+scheme. For example, detecting that
+<span class="highlight"><code><span class="k">open</span>
+<span class="k">namespace</span>
+<span class="nc">Core</span><span class="o">#</span><span class="nc">Sdt</span></code></span>
+should have been
+<span class="highlight"><code><span class="k">open</span>
+<span class="k">namespace</span>
+<span class="nc">Core</span><span class="o">#</span><span class="nc">Std</span></code></span>
+would require the compiler to check every file in its search path for one that
+was part of namespace
+<span class="highlight"><code><span class="nc">Core</span><span class="o">#</span><span class="nc">Sdt</span></code></span>.</p>
+
+<h5 id="Using+namespace+description+files">Using namespace description files</h5>
+
+<p>The compiler could find a member of a namespace by consulting a file that
+describes the members of that namespace.</p>
+
+<p>For example, if namespace
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+was described by a file “foo.ns” that was on the compiler’s search path then
+the compiler could find
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+by locating “foo.ns” and using it to look-up the location of the “.cmi” file
+for
+<span class="highlight"><code><span class="nc">Bar</span></code></span>.</p>
+
+<p>These namespace description files could be created automatically by some
+tool. However, they must be produced before detecting dependencies with
+OCamlDep, which could complicate the build process.</p>
+
+<h5 id="Using+environment+description+files">Using environment description files</h5>
+
+<p>The compiler could find a member of a namespace by consulting a file that
+describes a mapping between module names and “.cmi” files.</p>
+
+<p>For example, if a file “foo.mlpath” included the mapping “Foo#Bar:
+foo/bar.cmi” then that file could be passed as a command-line argument to the
+compiler and used to look up the “bar.cmi” file directly.</p>
+
+<p>Looking up modules using this scheme may speed up compilation by avoiding the
+need to scan directories for files.</p>
+
+<h4 id="How+should+namespaces+specified?">How should namespaces specified?</h4>
+
+<p>Perhaps the most important question for any namespaces proposal is how
+namespaces are specified. It is closely related to the above question of how
+the compiler finds modules in the presence of namespaces.</p>
+
+<p>The suggested possible methods for specifying namespaces fall into five
+categories.</p>
+
+<h5 id="Explicitly+in+the+source+files">Explicitly in the source files</h5>
+
+<p>Namespaces could be specified by adding a line like:</p>
+
+<div class="highlight">
+<pre><code class="ocaml"><span class="k">namespace</span> <span class="nc">Foo</span></code></pre>
+</div>
+
+
+<p>to the beginning of each compilation unit that is part of the
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+namespace.</p>
+
+<p>This has the benefit of making namespaces explicitly part of the language
+itself, however it does mean that the full name of a module is specified in
+two locations: partly in the filename and partly within the file itself.</p>
+
+<h5 id="Through+command-line+arguments">Through command-line arguments</h5>
+
+<p>Namespaces could be specified by passing a command-line argument to the
+compiler. For example,
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+could be compiled with the command-line:</p>
+
+<div class="highlight"><pre><code class="sh">ocamlc -c -namespace Foo bar.ml 
+</code></pre></div>
+
+
+<p>This scheme also means that the full name of a module is specified in two
+locations: partly in the build system and partly in the filename.</p>
+
+<h5 id="Through+filenames">Through filenames</h5>
+
+<p>Namespaces could be specified using the filenames of source files. For
+example,
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+would be created by compiling a file “foo-bar.ml”</p>
+
+<p>This scheme is simple and very similar to how modules are currently named, but
+it would require all source files to have long unique names.</p>
+
+<h5 id="Through+namespace+description+files">Through namespace description files</h5>
+
+<p>Namespaces could be specified using namespace description files. The
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+namespace would be specified by a file “foo.ns” that described the members of
+<span class="highlight"><code><span class="nc">Foo</span></code></span>:</p>
+
+<pre><code>module Bar = "foo_bar.cmi"
+namespace Testing = "testing.ns"
+</code></pre>
+
+<h5 id="Through+environment+description+files">Through environment description files</h5>
+
+<p>Namespaces could be specified using environment description files. A namespace
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+would be defined by passing an environment description file to the compiler
+that included mappings for each of the members of
+<span class="highlight"><code><span class="nc">Foo</span></code></span>. For example:</p>
+
+<pre><code>Foo#Bar: "foo_bar.cmi"
+Foo#Testing#Bar: "foo_testing_bar.cmi"
+Baz: "baz.cmi"
+</code></pre>
+
+<p>In addition to specifying namespaces, this system allows users (or a tool like
+OCamlFind) to have complete control the naming environment of a program.</p>
+
+<h4 id="How+rich+should+a+description+language+be?">How rich should a description language be?</h4>
+
+<p>For namespace proposals that use namespace or environment description files,
+they must decide how rich their description language should be.</p>
+
+<p>For example, <a href="http://gallium.inria.fr/~scherer/namespaces/spec.pdf">Gabriel Scherer et
+al</a> describe a very rich
+environment description language including many different operations that can
+be performed on namespaces.</p>
+
+<p>A rich description language can produce shorter descriptions. However, the
+more operations a language supports the more syntax that users must understand
+in order to read description files. The majority of description files are
+unlikely to require complex operations.</p>
+
+<h4 id="Should+namespaces+support+automatically+opened+members?">Should namespaces support automatically opened members?</h4>
+
+<p>A feature of namespaces that has been proposed on the mailing list is to allow
+some modules within a namespace to be automatically opened when the namespace
+is also opened. This makes it seem that the namespace has values and types as
+members.</p>
+
+<p>This feature is based on the current design of Jane Street’s Core
+library. Users of the Core library are expected to open the
+<span class="highlight"><code><span class="nc">Core<span class="p">.</span>Std</span></code></span>
+ module before using the library. Opening this module provides access to all
+the other modules of the library (much like opening a namespace), but it also
+provides types and values similar to those provided by the standard library’s
+<span class="highlight"><code><span class="nc">Pervasives</span></code></span> module.</p>
+
+<p>Supporting auto-opened modules would allow
+<span class="highlight"><code><span class="nc">Core<span class="p">.</span>Std</span></code></span>
+to be directly replaced by a namespace. However, the semantics of this feature
+could be awkward due to potential conflicts between members of the namespace
+and sub-modules of the auto-opened modules. It also increases the overlap
+between namespaces and modules.</p>
+
+<h3 id="Proposal">Proposal</h3>
+
+<p>In the last section of this post I will outline a namespaces proposal that I
+think satisfies the design goals set out earlier.</p>
+
+<p>I think that satisfying these design goals requires a combination of
+extensions to OCaml. My proposal is made up of four such extensions. To keep
+things simple for users to understand, I have tried to keep each of these
+extensions completely independent of the others and with a clearly defined
+goal.</p>
+
+<h4 id="Simple+namespaces+through+filenames">Simple namespaces through filenames</h4>
+
+<p>Currently, the name of a module is completely defined by its filename, and
+modules are looked up using a simple search path. While it has some problems,
+this simple paradigm has served OCaml well and I think that it is important to
+provide some support for namespaces within this paradigm.</p>
+
+<p>This means allowing simple namespaces to be specified using source file
+names. For example, to create a module
+<span class="highlight"><code><span class="nc">Bar</span></code></span>
+within the namespace
+<span class="highlight"><code><span class="nc">Foo</span></code></span>
+developers can simply create an implementation file “foo-bar.ml” and an
+interface file “foo-bar.mli”. This interface file would be compiled to a
+“foo-bar.cmi” file. Hierarchical namespaces would be created by files with
+names like “foo-bar-baz.ml”.</p>
+
+<p>These namespaced modules can be referred to using the syntax
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>.
+This syntax simply causes the compiler to look in its search path for a
+“foo-bar.cmi” file.</p>
+
+<p>I also propose supporting a namespace opening syntax like:</p>
+
+<div class="highlight">
+<pre><code class="ocaml"><span class="k">open</span> <span class="k">namespace</span> <span class="nc">Foo</span>
+[...]
+<span class="nc">Bar</span></code></pre>
+</div>
+
+
+<h4 id="An+alternative+to+search+paths">An alternative to search paths</h4>
+
+<p>Forcing the name of a module to be completely defined by its (compiled)
+filename makes it easy to look-up modules in a search path. However, it
+prevents modules from being given multiple names or being renamed by users. So
+I propose supporting an alternative look-up mechanism.</p>
+
+<p>I propose supporting environment description files called <em>search path
+files</em>. These files would have a syntax like:</p>
+
+<pre><code>Foo#Bar : "other_bar.cmi"
+Foo#Baz : Foo#Bar
+</code></pre>
+
+<p>This file can be given to the “-I” command-line argument instead of a
+directory and used to look-up the locations of “.cmi” files for given module
+names.</p>
+
+<p>These search path files can be used to alias modules and to create new
+namespaces. They also allow a module to be available under multiple namespaces.</p>
+
+<p>I envisage two particular modes of use:</p>
+
+<ul>
+<li><p>Library authors can write “.mlpath” files and tell OCamlFind to use that
+file as its search path instead of a list of directories.</p></li>
+<li><p>A user (or potentially OCamlFind) can create search path files to define
+their entire naming environment as they see fit.</p></li>
+</ul>
+
+
+<h4 id="The++-name++argument">The “-name” argument</h4>
+
+<p>While the hard link between a module’s name and the name of its source file
+makes life easier for build systems (“list.cmi” can only be produced by
+compiling “list.ml”), it forces library authors to give their source files long
+unique names.</p>
+
+<p>I propose adding a “-name” command-line argument to the OCaml compiler. This
+would be used as follows:</p>
+
+<div class="highlight"><pre><code class="sh">ocamlc -c -name Foo#Bar other.ml
+</code></pre></div>
+
+
+<p>This command would produce a “foo-bar.cmi” file defining a module named
+<span class="highlight"><code><span class="nc">Foo</span><span class="o">#</span><span class="nc">Bar</span></code></span>
+. This means that “.cmi” files would still be expected to be unique, but
+source files could be named however the developer wants.</p>
+
+<p>Obviously, any tools that assume that a module
+<span class="highlight"><code><span class="nc">Bar</span></code></span>
+must be compiled from a file called “bar.ml” will not work in this
+situation. However, the only OCaml tool that absolutely relies on this
+assumption is “OCamlDep” when it is producing makefile formatted output.</p>
+
+<p>Build systems would not be required to support the “-name” argument, however
+it would make it easy for them to provide features such as:</p>
+
+<ul>
+<li><p>Creating namespaces to reflect a directory structure (e.g. “foo/bar.mli” becomes “foo-bar.cmi”).</p></li>
+<li><p>Placing all the modules of a library under a common namespace (e.g. “bar.mli” becomes “foo-bar.cmi”)</p></li>
+</ul>
+
+
+<p>This would mean that the names of source files could be kept conveniently
+short.</p>
+
+<h4 id="The++-open++argument">The “-open” argument</h4>
+
+<p>My proposals do not include support for automatically opened modules within
+namespaces. I feel that this feature conflates two separate issues and it
+would be better to solve the problem of automatically opened modules elsewhere.</p>
+
+<p>Auto-opened modules are meant to allow libraries to provide their own
+equivalent of the standard library’s
+<span class="highlight"><code><span class="nc">Pervasives</span></code></span>
+module. I think that it would be more appropriate to have these “pervasive”
+modules opened by default in any program compiled using one of these
+libraries.</p>
+
+<p>I propose adding a command-line argument “-open” that could be used to open a
+module by default:</p>
+
+<div class="highlight"><pre><code class="sh">ocamlc -c -open core-pervasives.cmi foo.ml
+</code></pre></div>
+
+
+<p>By adding support for this feature to OCamlFind, libraries could add this
+argument to every program compiled using them. This amounts to having
+automatically opened modules as part of the package system rather than part of
+the namespace system.</p><a onclick="switchContent('post2','post1')" class="btn" href="#c3f4de345dacff845f985e402cced3c6">Hide</a></div></span>
+<a name="0802910a1b39035bde5255ca97da05df"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=871"> Barista: 2.0-beta</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">08 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">Changes:
   - update for Objective Caml 4.00.1
   - update for Camlzip 1.05
   - new 'graph' command, allowing to generate the graph of classes references
@@ -187,19 +825,19 @@
 Also a command-line [dis]assembler for Java.</span>
 <a name="86dbf4d4225c32b951bbd5d7b4ccdf18"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=641"> Jane Street's core library 109.11.00</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">08 Mar 2013</span></span><span class="rss-description">Jane Street's alternative to the standard library.</span>
 <a name="3e720f21429ee19a49cf32078b39dac8"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/sekred/"> Sekred</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">07 Mar 2013</span></span><span class="rss-description">This program helps to manage passwords set automatically and stored in a semi-secure way.  It is not a secure storage for password because only the Unix ACL system protects the secret.  The system is designed to be a companion tool for puppet.</span>
-<a name="e9fc41115a64834508d842591702fb5e"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.opalang.org/2013/03/opa-111-is-coming-soon-book-is-here.html"> Opa 1.1.1 is coming soon. The book is here.</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Opa &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (HB)&#9002;</span><script type="text/javascript"><!--;
+<a name="e9fc41115a64834508d842591702fb5e"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.opalang.org/2013/03/opa-111-is-coming-soon-book-is-here.html"> Opa 1.1.1 is coming soon. The book is here.</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Opa &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (HB)&#9002;</span><script type="text/javascript"><!--;
 local = "noreply";
 h = "blogger.com (HB)";
 hq = "blogger.com%20(HB)";
-document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Opa<\/a>";
+document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Opa<\/a>";
 //--></script></span>, <span class="rss-date">06 Mar 2013</span></span><span class="rss-description">Two short news:<br/>
 <br/>
 <ul><li>The latest Node.js release breaks the code generated by Opa 1.1.0. The fix is already in <a href="https://github.com/MLstate/opalang">master</a> -- packages will be available shortly.</li>
 <li>The O'Reilly book <a href="http://bit.ly/Wvfbmd">Opa: Up and Running</a> is now available. This is the best source to learn Opa or improve your Opa skills.</li>
 </ul><br/></span>
-<a name="79d41aa7e4e1d14e47ff443db87f2ac6"></a><span class="rss-header"><span class="rss-title"><a href="https://mancoosi.org/~abate/ocaml-hash-function-and-complex-data-structures-0"> ocaml hash function and complex data structures</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Pietro Abate</span>, <span class="rss-date">06 Mar 2013</span></span><span class="rss-description"><div id="post1"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
+<a name="79d41aa7e4e1d14e47ff443db87f2ac6"></a><span class="rss-header"><span class="rss-title"><a href="https://mancoosi.org/~abate/ocaml-hash-function-and-complex-data-structures-0"> ocaml hash function and complex data structures</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Pietro Abate</span>, <span class="rss-date">06 Mar 2013</span></span><span class="rss-description"><div id="post3"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
 
-<p>For example consider a simple list. If the list has less then 10 elements, then the hash function will return a unique id and equal lists will be associated to the same id. But if the list contains more then 10 elements, you have the following behavior :  </p><a onclick="switchContent('post1','post2')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Read more...</a></div><div id="post2" style="display: none"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
+<p>For example consider a simple list. If the list has less then 10 elements, then the hash function will return a unique id and equal lists will be associated to the same id. But if the list contains more then 10 elements, you have the following behavior :  </p><a onclick="switchContent('post3','post4')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Read more...</a></div><div id="post4" style="display: none"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
 
 <p>For example consider a simple list. If the list has less then 10 elements, then the hash function will return a unique id and equal lists will be associated to the same id. But if the list contains more then 10 elements, you have the following behavior :  </p><div class="geshifilter"><div style="font-family: monospace;" class="ocaml geshifilter-ocaml"><span style="color: #a52a2a;">#</span> <span style="color: #06c; font-weight: bold;">let</span> l2 <span style="color: #a52a2a;">=</span> <span style="color: #a52a2a;">[</span><span style="color: #c6c;">1</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">2</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">3</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">4</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">5</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">6</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">7</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">8</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">9</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">10</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">11</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">12</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">13</span><span style="color: #a52a2a;">]</span> <span style="color: #a52a2a;">;;</span><br/>
 <span style="color: #06c; font-weight: bold;">val</span> l2 <span style="color: #a52a2a;">:</span> <span style="color: #06c; font-weight: bold;">int</span> <span style="color: #06c; font-weight: bold;">list</span> <span style="color: #a52a2a;">=</span> <span style="color: #a52a2a;">[</span><span style="color: #c6c;">1</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">2</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">3</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">4</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">5</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">6</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">7</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">8</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">9</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">10</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">11</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">12</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">13</span><span style="color: #a52a2a;">]</span><br/>
@@ -311,11 +949,11 @@ document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' 
  <br/>
 <span style="color: #06c; font-weight: bold;">end</span></div></div><p></p>
 
-<p>This is a very simple way of getting a unique ID for any custom data structure. Another way would be wrap my data structures in an object and then use <strong>Oo.id</strong> . I haven't tried this approach yet.</p><a onclick="switchContent('post2','post1')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Hide</a></div></span>
+<p>This is a very simple way of getting a unique ID for any custom data structure. Another way would be wrap my data structures in an object and then use <strong>Oo.id</strong> . I haven't tried this approach yet.</p><a onclick="switchContent('post4','post3')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Hide</a></div></span>
 <a name="f3ec9647f88b272fcb4f95537b008aeb"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.03.05.html"> Caml Weekly News, 05 Mar 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">05 Mar 2013</span></span><span class="rss-description">Brand-new BER MetaOCaml for OCaml 4.00.1 / Core Suite 109.11.00 released + ocaml_plugin / Research Assistantship at Oxford on Bidirectional Transformations / Other Caml News</span>
-<a name="38faea8ab2754bc8157a129078b7bb44"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/generators-iterators-control-and-continuations"> Generators, iterators, control and continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Mar 2013</span></span><span class="rss-description"><div id="post3"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
+<a name="38faea8ab2754bc8157a129078b7bb44"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/generators-iterators-control-and-continuations"> Generators, iterators, control and continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Mar 2013</span></span><span class="rss-description"><div id="post5"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
 <p>There are two obvious choices in an effectful setting: a <em>generator</em>, that is a "next-element" function of type <code>('a -&gt; unit)</code> that generates the next element each time it is called, or an exception to signal end of input; or an <em>iterator</em>, a fold-function of type <code>('a -&gt; unit) -&gt; unit</code>, that iterates a consumer function through all elements of the list.</p>
-<a onclick="switchContent('post3','post4')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Read more...</a></div><div id="post4" style="display: none"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Read more...</a></div><div id="post6" style="display: none"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
 <p>There are two obvious choices in an effectful setting: a <em>generator</em>, that is a "next-element" function of type <code>('a -&gt; unit)</code> that generates the next element each time it is called, or an exception to signal end of input; or an <em>iterator</em>, a fold-function of type <code>('a -&gt; unit) -&gt; unit</code>, that iterates a consumer function through all elements of the list.</p>
 <p>Both are suitable as an abstract representation of any sequence (the second is precisely the basis for Simon Cruanes' <a href="https://github.com/c-cube/sequence">Sequence</a> library), and their are at opposite ends of the <em>control</em> spectrum: generators give control to the <em>consumer</em> of the sequence (she decides when to call the generator function), while iterators give control to the <em>producer</em> of the sequence (she decides when to call the iterated function). It's easy to transform a structure into a iter (<code>to_iter</code>), or to build a structure from a next (<code>of_next</code>), because you have the control. But as a library writer, you should also write the without-control conversions (<code>of_iter</code> and <code>to_next</code>), despite them being slower and harder to implement, so that your users can live the easy in-control life!</p>
 <p>Finally, continuation capture is a well-known technique to <em>invert</em> control, letting you write code in "direct style", as if you were in control, when you're not. In this post, I will demonstrate how you can start from a conversion function that has control and, by systematic source-to-source transformations of conversion to continuation-passing-style (CPS) and defunctionalization, obtain a conversion function that works without the control.</p>
@@ -587,15 +1225,8 @@ Tree.iter_cps (2.16 ms)</code></pre>
 <p>On defunctionalization in particular, I really like a 2006 article by François Pottier and Nadji Gauthier <a href="http://gallium.inria.fr/~fpottier/publis/fpottier-gauthier-hosc.pdf">Polymorphic typed defunctionalization and concretization</a>. I'll just quote the abstract below:</p>
 <blockquote>
 <p>Defunctionalization is a program transformation that eliminates functions as first-class values. We show that defunctionalization can be viewed as a type-preserving transformation of an extension of with guarded algebraic data types into itself. We also suggest that defunctionalization is an instance of concretization, a more general technique that allows eliminating constructs other than functions. We illustrate this point by presenting two new type-preserving transformations that can be viewed as instances of concretization. One eliminates Rémy-style polymorphic records; the other eliminates the dictionary records introduced by the standard compilation scheme for Haskell's type classes.</p>
-</blockquote><a onclick="switchContent('post4','post3')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Hide</a></div></span>
+</blockquote><a onclick="switchContent('post6','post5')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Hide</a></div></span>
 <a name="e024e9deb17e38571238cfbb700ef298"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=870"> Release of OCaml-bitcoin 1.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">This release brings the OCaml-bitcoin API up-to-date with the recently released Bitcoin 0.8.</pre></span>
-<a name="1baa6448b2dd1e3f032ae60ada757540"></a><span class="rss-header"><span class="rss-title"><a href="http://ocsigen.org/"> Try Besport! The new Ocsigen based social network about sport</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Ocsigen project</span>, <span class="rss-date">28 Feb 2013</span></span><span class="rss-description"><p>A beta version of Besport is available for testing. Besport is a social network developed using Ocsigen Eliom in California. Besport helps you connect and share sport with the world.
-</p>
-<h2>Links:</h2>
-<ul>
-<li><a href="http://www.besport.com">Besport</a></li>
-<li><a href="http://vimeo.com/60686363">A video presenting Besport</a></li>
-</ul></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
