@@ -825,6 +825,265 @@ the namespace system.</p><a onclick="switchContent('post2','post1')" class="btn"
 Also a command-line [dis]assembler for Java.</span>
 <a name="86dbf4d4225c32b951bbd5d7b4ccdf18"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=641"> Jane Street's core library 109.11.00</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">08 Mar 2013</span></span><span class="rss-description">Jane Street's alternative to the standard library.</span>
 <a name="3e720f21429ee19a49cf32078b39dac8"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/sekred/"> Sekred</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">07 Mar 2013</span></span><span class="rss-description">This program helps to manage passwords set automatically and stored in a semi-secure way.  It is not a secure storage for password because only the Unix ACL system protects the secret.  The system is designed to be a companion tool for puppet.</span>
+<a name="06cbe253950211843d19cd91ac1b647c"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/a-library-to-record-ocaml-backtraces"> A library to record OCaml backtraces</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Mar 2013</span></span><span class="rss-description"><div id="post3"><p>
+      Sometimes using
+      <code>OCAMLRUNPARAM="b"</code> returns a disappointingly
+      unhelpful backtrace, because the program you're trying to debug
+      has a non-trivial usage of exceptions that destroys the
+      backtrace information you were expecting. Here is a new library
+      that should solve this problem, by allowing you to reliably
+      register backtraces. Read more for the source, and the juicy
+      internal details: weak tables, semi-manual garbage collection
+      logic, and an <em>optional</em> change to the OCaml runtime to
+      improve the library performances.
+    </p>
+
+    
+
+    <h3>The problem</h3>
+    <a onclick="switchContent('post3','post4')" class="btn" href="#06cbe253950211843d19cd91ac1b647c">Read more...</a></div><div id="post4" style="display: none"><p>
+      Sometimes using
+      <code>OCAMLRUNPARAM="b"</code> returns a disappointingly
+      unhelpful backtrace, because the program you're trying to debug
+      has a non-trivial usage of exceptions that destroys the
+      backtrace information you were expecting. Here is a new library
+      that should solve this problem, by allowing you to reliably
+      register backtraces. Read more for the source, and the juicy
+      internal details: weak tables, semi-manual garbage collection
+      logic, and an <em>optional</em> change to the OCaml runtime to
+      improve the library performances.
+    </p>
+
+    
+
+    <h3>The problem</h3>
+    <p>
+      When debugging OCaml programs, it is sometimes hard to get
+      useful backtraces for exceptions. Let's take an example: you are
+      hacking the Coq implementation, and your patch launches an
+      exception (any resemblance to real persons, living or dead, is
+      purely coincidental). Of course, you have no idea why this
+      exception has been raised, so a little bit of context would be
+      appreciated: getting a backtrace would be very useful, because
+      it tells you where the exception has been raised, and what were
+      the state of the call stack at that time.
+    </p>
+
+    <p>
+      There is already some support for getting backtraces in
+      OCaml. If you compile in debug mode (eg. with
+      the <code>-g</code> option), and then run your code
+      with <code>OCAMLRUNPARAM="b"</code> in the environment, then you
+      can get exception backtraces. They will be automatically printed
+      for uncaught exceptions (those that stop the program execution),
+      and inside your programs you can use
+      the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Printexc.html">Printexc</a>
+      module of the OCaml standard library, to print the backtrace
+      from the "raise" of the last exception that was raised up to the
+      "try..with" that caught it (or the end of the program).
+    </p>
+
+    <p>
+      However, this system is not always satisfactory: in OCaml,
+      exceptions are very efficient, and it is a common idiom to use
+      them for control flow (rather than only to handle errors). As
+      a consequence, the exception handling mechanism in big OCaml
+      programs can be complicated, because it has to filter
+      exceptional exceptions (which are a sign of an error), and
+      exceptions used for control. It can also be the case that the
+      error handlers themselves uses exceptions internally, for
+      example some error messages formatter do this. This is
+      problematic, because it erases the original, relevant
+      backtrace. Asking for a backtrace after the fact will show you
+      traces for exceptions that were raised and caught internally in
+      the message formatter, and then you're lost, which (in the
+      good case) makes you write frustrated blog posts such
+      as <a href="http://www.acunu.com/2/post/2012/05/dude-wheres-my-stacktrace.html">this
+      one</a>.
+    </p>
+
+    <h3>The solution of other languages</h3>
+    <p>
+      In some other languages, like Java, every exception stores its
+      own backtrace. So, even if you do strange things with exceptions
+      internally, as long as you have access to the exception that has
+      been raised, you can print its backtrace. However, this has
+      a non-negligible memory and performance cost, because the
+      runtime has to copy the exception backtrace into the heap.
+    </p>
+      
+    <p>
+      In OCaml, it would be unpleasant to do that in the general case,
+      because exception can be heavily used. We could imagine to do
+      that only in debug mode and when backtraces are active, but this
+      poses non-trivial questions, because we have to choose at
+      compile time whether to allocate a backtrace-compliant exception
+      object or not, for example. Besides, it would require quite
+      invasive changes to the compiler and runtime, probably add bugs,
+      etc. Not something you want to try over a week-end.
+    </p>
+
+    <h3>A less invasive approach: a user library</h3>
+    <p>
+      If we cannot add a pointer from the exception to the backtrace,
+      we can consider building an global map from exceptions to
+      backtraces. Each time we catch an exception, we can store its
+      backtrace in the map. Then, when needed, we can lookup the
+      backtrace from the exception in this map.
+    </p>
+
+    <p>
+      This has the advantage of not requiring any change to the
+      compiler. You can implement this big table as a library, and let
+      users call a library function, in their exception handler, to
+      add their current exception to the table.
+    </p>
+
+    <p>
+      But this requires user intervention to work well: the user must
+      explicitly call the registration function in each error
+      handler. This is good, as it allows to decide whether to store
+      traces in a fine-grained way, making performance/traceability
+      compromises or simply not tracing exceptions that you know do
+      not correspond to bugs. But this can be painful for legacy or
+      third-party code for which you just want a backtrace quick: you
+      don't really want to go over all the `try..with` handlers in
+      Coq's implementation to add a call to our registration function,
+      by hand. Gabriel Scherer implemented a small preprocessor
+      (as a Camlp4 extension and a `-ppx` rewriter) to add them
+      automatically at each handler if desired.
+    </p>
+
+    <p>
+      Implementing the map itself is more challenging: inserting in it
+      should be efficient (while lookup operations can be slow); it
+      should operate with physical equality, because two occurrences
+      of <code>Not_found</code> should see their backtraces
+      distinguished; it should not leak memory, that is, it should
+      throw away the backtrace when the exception is no longer
+      accessible -- and it should not be considered as accessible by
+      the Garbage Collector (GC) trough this map. Finally, we need to
+      be able to store multiple backtrace for the same exception,
+      because an exception can be re-raised: in that case, we want to
+      be able to get all the backtraces.
+    </p>
+
+    <p>
+      Our solution is to use two arrays: one for exceptions, the other for
+      backtraces. At the same indices, we store corresponding
+      elements. Inserting is very cheap in amortized time, even if it
+      involves resizing the arrays if necessary. The lookup is in linear
+      time, but we almost never need it. The array of exceptions is a
+      <a href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Weak.html">weak
+      array</a>: this data structures makes the GC able to collect
+      exceptions even if they are still referenced in the map. At the
+      end of each major GC cycle, we compact those arrays, manually
+      removing traces corresponding to collected exceptions.
+    </p>
+
+    <h3>Performances considerations</h3>
+    <p>
+      Storing &lt;emph&gt;all&lt;/emph&gt; traces in this way is very slow
+      for <code>raise</code>-happy programs (which are the one for
+      which you need better traces in the first place). The
+      performances of Coq are divided by 3 to 4 by this
+      modification. The main reason for this cost is that the only way
+      in the OCaml standard library to get the backtrace information
+      is to convert it to a string, with English sentences, file
+      names, line numbers, and so on. It takes a long time to generate
+      such strings for each caught exception, and uses a lot of
+      memory, stressing the GC. But still, it works, and if you really
+      need good backtraces you are ready to pay the performance
+      price... which only exists when you turn on backtrace recording.
+    </p>
+
+    <p>
+      The next idea was to modify the OCaml runtime and standard
+      library, in order to expose a more low-level representation of
+      backtraces without the processing costs. Actually, this already
+      exists: when using the existing mechanism for recording
+      backtraces in OCaml, the runtime generate a compact
+      representation of the backtrace in a global variable for each
+      raised exception. The only thing we have to do is to split the
+      collecting-and-formatting function in two, and expose an API for
+      copying on demand this information in the ocaml heap, for
+      a possible future conversion to the string representation.
+    </p>
+
+    <p>
+      We implemented this as a small change to the OCaml runtime system
+      and <a href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Printexc.html">Printexc</a>
+      module -- much less invasive than the compiler-wide change we
+      are avoiding with our user-side solution. Using this new
+      feature, Coq only get 10% slower (tested on the compilation
+      of CompCert). It still uses more memory (about 30%). We think
+      this is very reasonable, given that Coq uses quite a lot of
+      exceptions for backtracking, and that there is no cost when
+      backtrace recording is not activated.
+    </p>
+
+    <p>
+      Of course, performances could be improved even further by
+      letting users decide which exception handlers really correspond
+      to <em>errors</em> that needs to store traces, and which are
+      purely control-flow logic (loop exit, backtracking...) that does
+      not need to record anything. But getting good traces out the box
+      with reasonable performance impact is already satisfying enough
+      for now.
+    </p>
+
+    <h3>The actual code</h3>
+    <p>
+      Our library for recording backtraces can be found
+      in <a href="http://gallium.inria.fr/blog/exceptionHandling.ml">exceptionHandling.ml</a>
+      (slow version using strings),
+      or <a href="http://gallium.inria.fr/blog/exceptionHandling.ml.new">exceptionHandling.ml.new</a>
+      (fast version using the new runtime functions). Both share
+      a single
+      interface <a href="http://gallium.inria.fr/blog/exceptionHandling.mli">exceptionHandling.mli</a>.
+    </p>
+
+    <p>
+      The rewriter that adds exception handling logic to all <code>try
+      .. with ..</code> in your code (to use with care) is available
+      for Camlp4, <a href="http://gallium.inria.fr/blog/add_smartcatch.ml">add_smartcatch.ml</a>,
+      or for the new <code>-ppx</code> AST rewriting mechanism
+      available in OCaml
+      trunk, <a href="http://gallium.inria.fr/blog/smartcatch_ppx.ml">smartcatch_ppx.ml</a>.
+    </p>
+
+    <p>
+      The patch to the available runtime is available
+      as <a href="http://gallium.inria.fr/blog/abstract-backtraces.patch.txt">abstract-backtraces.patch.txt</a>. It
+      is mostly of historical curiosity, as the maintainers found the
+      change non-invasive enough to accept it into the OCaml trunk, so
+      you should be able to get fast backtrace recording in the next
+      OCaml version.
+    </p>
+    
+    <p>
+      Our quick-and-dirty patch for Coq 8.4pl1
+      is <a href="http://gallium.inria.fr/blog/coq-8.4pl1.patch">coq-8.4pl1.patch</a> (it mostly
+      hacks around the Coq build system to add an additional camlp4
+      preprocessing step to all files). In order to use it, you must
+      add either version¹ of the exception handling library in
+      the <code>lib</code> subdirectory, under the
+      name <code>exceptionHandling.ml</code>. Then, simply type:
+    </p>
+
+<pre><code>./configure -debug
+make</code></pre>
+
+    <p>And voilà, pixel-perfect backtraces!</p>
+
+    <p>
+      ¹: Note that for obscure camlp5 reasons, Coq will not build
+      easily against the OCaml trunk, so you should apply the runtime
+      patch to the 4.00 branch instead; as the patch adds a new
+      primitive, you will need to throw a <code>make coreboot</code>
+      somewhere in the OCaml compilation process. Even then, building
+      Coq won't be for the faint of heart.
+    </p><a onclick="switchContent('post4','post3')" class="btn" href="#06cbe253950211843d19cd91ac1b647c">Hide</a></div></span>
 <a name="e9fc41115a64834508d842591702fb5e"></a><span class="rss-header"><span class="rss-title"><a href="http://blog.opalang.org/2013/03/opa-111-is-coming-soon-book-is-here.html"> Opa 1.1.1 is coming soon. The book is here.</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Opa &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (HB)&#9002;</span><script type="text/javascript"><!--;
 local = "noreply";
 h = "blogger.com (HB)";
@@ -835,9 +1094,9 @@ document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' 
 <ul><li>The latest Node.js release breaks the code generated by Opa 1.1.0. The fix is already in <a href="https://github.com/MLstate/opalang">master</a> -- packages will be available shortly.</li>
 <li>The O'Reilly book <a href="http://bit.ly/Wvfbmd">Opa: Up and Running</a> is now available. This is the best source to learn Opa or improve your Opa skills.</li>
 </ul><br/></span>
-<a name="79d41aa7e4e1d14e47ff443db87f2ac6"></a><span class="rss-header"><span class="rss-title"><a href="https://mancoosi.org/~abate/ocaml-hash-function-and-complex-data-structures-0"> ocaml hash function and complex data structures</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Pietro Abate</span>, <span class="rss-date">06 Mar 2013</span></span><span class="rss-description"><div id="post3"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
+<a name="79d41aa7e4e1d14e47ff443db87f2ac6"></a><span class="rss-header"><span class="rss-title"><a href="https://mancoosi.org/~abate/ocaml-hash-function-and-complex-data-structures-0"> ocaml hash function and complex data structures</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Pietro Abate</span>, <span class="rss-date">06 Mar 2013</span></span><span class="rss-description"><div id="post5"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
 
-<p>For example consider a simple list. If the list has less then 10 elements, then the hash function will return a unique id and equal lists will be associated to the same id. But if the list contains more then 10 elements, you have the following behavior :  </p><a onclick="switchContent('post3','post4')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Read more...</a></div><div id="post4" style="display: none"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
+<p>For example consider a simple list. If the list has less then 10 elements, then the hash function will return a unique id and equal lists will be associated to the same id. But if the list contains more then 10 elements, you have the following behavior :  </p><a onclick="switchContent('post5','post6')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Read more...</a></div><div id="post6" style="display: none"><p>While writing the <a href="http://mancoosi.org/~abate/generic-graphml-printer-ocamlgraph">graphml printer for ocamlgraph</a> (that btw has just been committed in the ocamlgraph svn and it going to be part of the next release of ocamlgraph...), I stumbled in the following pitfall (this is really ocaml for dummies :D).  Imagine you want to associate a unique id to each data type. But you also want that equal values have equal ids. The first (wrong !) idea that might come to mind is to use the <em>Hashtbl.hash</em> function compute this integer uid. Even if this approach might work for simple data structure, it is doomed to fail for more complex data structure whose depth is greater then 10. The natural explanation for this lies in the documentation for the function <em>Hashtbl.hash</em> .</p>
 
 <p>For example consider a simple list. If the list has less then 10 elements, then the hash function will return a unique id and equal lists will be associated to the same id. But if the list contains more then 10 elements, you have the following behavior :  </p><div class="geshifilter"><div style="font-family: monospace;" class="ocaml geshifilter-ocaml"><span style="color: #a52a2a;">#</span> <span style="color: #06c; font-weight: bold;">let</span> l2 <span style="color: #a52a2a;">=</span> <span style="color: #a52a2a;">[</span><span style="color: #c6c;">1</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">2</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">3</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">4</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">5</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">6</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">7</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">8</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">9</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">10</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">11</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">12</span><span style="color: #a52a2a;">;</span><span style="color: #c6c;">13</span><span style="color: #a52a2a;">]</span> <span style="color: #a52a2a;">;;</span><br/>
 <span style="color: #06c; font-weight: bold;">val</span> l2 <span style="color: #a52a2a;">:</span> <span style="color: #06c; font-weight: bold;">int</span> <span style="color: #06c; font-weight: bold;">list</span> <span style="color: #a52a2a;">=</span> <span style="color: #a52a2a;">[</span><span style="color: #c6c;">1</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">2</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">3</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">4</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">5</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">6</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">7</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">8</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">9</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">10</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">11</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">12</span><span style="color: #a52a2a;">;</span> <span style="color: #c6c;">13</span><span style="color: #a52a2a;">]</span><br/>
@@ -949,11 +1208,11 @@ document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' 
  <br/>
 <span style="color: #06c; font-weight: bold;">end</span></div></div><p></p>
 
-<p>This is a very simple way of getting a unique ID for any custom data structure. Another way would be wrap my data structures in an object and then use <strong>Oo.id</strong> . I haven't tried this approach yet.</p><a onclick="switchContent('post4','post3')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Hide</a></div></span>
+<p>This is a very simple way of getting a unique ID for any custom data structure. Another way would be wrap my data structures in an object and then use <strong>Oo.id</strong> . I haven't tried this approach yet.</p><a onclick="switchContent('post6','post5')" class="btn" href="#79d41aa7e4e1d14e47ff443db87f2ac6">Hide</a></div></span>
 <a name="f3ec9647f88b272fcb4f95537b008aeb"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.03.05.html"> Caml Weekly News, 05 Mar 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">05 Mar 2013</span></span><span class="rss-description">Brand-new BER MetaOCaml for OCaml 4.00.1 / Core Suite 109.11.00 released + ocaml_plugin / Research Assistantship at Oxford on Bidirectional Transformations / Other Caml News</span>
-<a name="38faea8ab2754bc8157a129078b7bb44"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/generators-iterators-control-and-continuations"> Generators, iterators, control and continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Mar 2013</span></span><span class="rss-description"><div id="post5"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
+<a name="38faea8ab2754bc8157a129078b7bb44"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/generators-iterators-control-and-continuations"> Generators, iterators, control and continuations</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">03 Mar 2013</span></span><span class="rss-description"><div id="post7"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
 <p>There are two obvious choices in an effectful setting: a <em>generator</em>, that is a "next-element" function of type <code>('a -&gt; unit)</code> that generates the next element each time it is called, or an exception to signal end of input; or an <em>iterator</em>, a fold-function of type <code>('a -&gt; unit) -&gt; unit</code>, that iterates a consumer function through all elements of the list.</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Read more...</a></div><div id="post6" style="display: none"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Read more...</a></div><div id="post8" style="display: none"><p>Batteries contributors recently started a new discussion on the Enum module, whose purpose is to provide an good intermediate representation for conversion between data-structures, but whose implementation is perceived as too complicated and not well-understood enough. Going back to fundamentals (forgetting about half the features of Enum), what is the ultimate intermediate traversal interface?</p>
 <p>There are two obvious choices in an effectful setting: a <em>generator</em>, that is a "next-element" function of type <code>('a -&gt; unit)</code> that generates the next element each time it is called, or an exception to signal end of input; or an <em>iterator</em>, a fold-function of type <code>('a -&gt; unit) -&gt; unit</code>, that iterates a consumer function through all elements of the list.</p>
 <p>Both are suitable as an abstract representation of any sequence (the second is precisely the basis for Simon Cruanes' <a href="https://github.com/c-cube/sequence">Sequence</a> library), and their are at opposite ends of the <em>control</em> spectrum: generators give control to the <em>consumer</em> of the sequence (she decides when to call the generator function), while iterators give control to the <em>producer</em> of the sequence (she decides when to call the iterated function). It's easy to transform a structure into a iter (<code>to_iter</code>), or to build a structure from a next (<code>of_next</code>), because you have the control. But as a library writer, you should also write the without-control conversions (<code>of_iter</code> and <code>to_next</code>), despite them being slower and harder to implement, so that your users can live the easy in-control life!</p>
 <p>Finally, continuation capture is a well-known technique to <em>invert</em> control, letting you write code in "direct style", as if you were in control, when you're not. In this post, I will demonstrate how you can start from a conversion function that has control and, by systematic source-to-source transformations of conversion to continuation-passing-style (CPS) and defunctionalization, obtain a conversion function that works without the control.</p>
@@ -1225,8 +1484,7 @@ Tree.iter_cps (2.16 ms)</code></pre>
 <p>On defunctionalization in particular, I really like a 2006 article by François Pottier and Nadji Gauthier <a href="http://gallium.inria.fr/~fpottier/publis/fpottier-gauthier-hosc.pdf">Polymorphic typed defunctionalization and concretization</a>. I'll just quote the abstract below:</p>
 <blockquote>
 <p>Defunctionalization is a program transformation that eliminates functions as first-class values. We show that defunctionalization can be viewed as a type-preserving transformation of an extension of with guarded algebraic data types into itself. We also suggest that defunctionalization is an instance of concretization, a more general technique that allows eliminating constructs other than functions. We illustrate this point by presenting two new type-preserving transformations that can be viewed as instances of concretization. One eliminates Rémy-style polymorphic records; the other eliminates the dictionary records introduced by the standard compilation scheme for Haskell's type classes.</p>
-</blockquote><a onclick="switchContent('post6','post5')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Hide</a></div></span>
-<a name="e024e9deb17e38571238cfbb700ef298"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=870"> Release of OCaml-bitcoin 1.1</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">This release brings the OCaml-bitcoin API up-to-date with the recently released Bitcoin 0.8.</pre></span>
+</blockquote><a onclick="switchContent('post8','post7')" class="btn" href="#38faea8ab2754bc8157a129078b7bb44">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
