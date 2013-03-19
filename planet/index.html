@@ -152,39 +152,65 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="4dc81c1e1a3ae1c0cc9d8c57fae067dc"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/03/ann-riakc-000.html"> [ANN] Riakc 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
-local = "noreply";
-h = "blogger.com (orbitz)";
-hq = "blogger.com%20(orbitz)";
-document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Orbitz<\/a>";
-//--></script></span>, <span class="rss-date">17 Mar 2013</span></span><span class="rss-description"><div id="post1"><p>Riakc is a Riak Protobuf client for Ocaml.  Riakc uses Jane St Core/Async for concurrency.  Riakc is in early development and so far supports a subset of the Riak API.  The supported methods are: </p> <p></p><ul><li>ping</li><li>client_id</li><li>server_info</li><li>list_buckets</li><li>list_keys</li><li>bucket_props</li><li>get</li><li>put</li><li>delete</li></ul><p></p> <h2>A note on GET</h2><p>Links are currently dropped all together in the implementation, so if you read a value with links and write it back, you will have lost them.  This will be fixed in the very near future. </p> <p>As with anything, please feel free to submit issues and pull requests. </p> <p>The source code can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/0.0.0">here</a>.  Riakc is in opam and you can install it by doing <code>opam install riakc</code>. </p> <h1>Usage</h1><p>There are two API modules in Riakc.  Examples of all existing API functions can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/0.0.0/examples">here</a>. </p> <h2>Riakc.Conn</h2><p><code>Riakc.Conn</code> provides the API for performing actions on the database.  The module interface can be read <a href="https://github.com/orbitz/ocaml-riakc/blob/0.0.0/lib/riakc/conn.mli">here</a>.   </p> <h2>Riakc.Robj</h2><a onclick="switchContent('post1','post2')" class="btn" href="#4dc81c1e1a3ae1c0cc9d8c57fae067dc">Read more...</a></div><div id="post2" style="display: none"><p>Riakc is a Riak Protobuf client for Ocaml.  Riakc uses Jane St Core/Async for concurrency.  Riakc is in early development and so far supports a subset of the Riak API.  The supported methods are: </p> <p></p><ul><li>ping</li><li>client_id</li><li>server_info</li><li>list_buckets</li><li>list_keys</li><li>bucket_props</li><li>get</li><li>put</li><li>delete</li></ul><p></p> <h2>A note on GET</h2><p>Links are currently dropped all together in the implementation, so if you read a value with links and write it back, you will have lost them.  This will be fixed in the very near future. </p> <p>As with anything, please feel free to submit issues and pull requests. </p> <p>The source code can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/0.0.0">here</a>.  Riakc is in opam and you can install it by doing <code>opam install riakc</code>. </p> <h1>Usage</h1><p>There are two API modules in Riakc.  Examples of all existing API functions can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/0.0.0/examples">here</a>. </p> <h2>Riakc.Conn</h2><p><code>Riakc.Conn</code> provides the API for performing actions on the database.  The module interface can be read <a href="https://github.com/orbitz/ocaml-riakc/blob/0.0.0/lib/riakc/conn.mli">here</a>.   </p> <h2>Riakc.Robj</h2><p><code>Riakc.Robj</code> provides the API for objects stored in Riak.  The module interface can be read <a href="https://github.com/orbitz/ocaml-riakc/blob/0.0.0/lib/riakc/robj.mli">here</a>.  <code>Riakc.Conn.get</code> returns a <code>Riakc.Robj.t</code> and <code>Riakc.Conn.put</code> takes one.  <code>Robj.t</code> supports representing siblings, however <code>Riakc.Conn.put</code> cannot PUT objects with siblings, this is enforced using phantom types.  A value of <code>Riakc.Robj.t</code> that might have siblings is converted to one that doesn't using <code>Riakc.Robj.set_content</code>. </p><a onclick="switchContent('post2','post1')" class="btn" href="#4dc81c1e1a3ae1c0cc9d8c57fae067dc">Hide</a></div></span>
-<a name="10d12e77b837ececa6666cfdb0c9aa91"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/03/ann-protobuf-002.html"> [ANN] Protobuf 0.0.2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
+    <div class="planet"><a name="5d1decd418b678381c3b4cbe1970cabb"></a><span class="rss-header"><span class="rss-title"><a href="http://www.ocamlpro.com/blog/2013/03/18/monthly-03.html"> An Indentation Engine for OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">OCamlPro &#9001;louis.gesbert<abbr title="(at) &rarr; @">(at)</abbr>ocamlpro.com (Louis Gesbert)&#9002;</span><script type="text/javascript"><!--;
+local = "louis.gesbert";
+h = "ocamlpro.com (Louis Gesbert)";
+hq = "ocamlpro.com%20(Louis%20Gesbert)";
+document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >OCamlPro<\/a>";
+//--></script></span>, <span class="rss-date">18 Mar 2013</span></span><span class="rss-description"><div id="post1"><p>Since our last <a href="http://www.ocamlpro.com/blog/2013/02/18/monthly-01-02.html">activity report</a> we have released the first stable versions of two projects: <a href="http://opam.ocamlpro.com">OPAM</a>, an installation manager for OCaml source packages, and <a href="https://github.com/OCamlPro/ocp-indent">ocp-indent</a>, an indentation tool.</p><p>We have already described the basics of OPAM in two precedent <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-beta.html">blog</a> <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-1.0.0.html">posts</a>, so today we will focus on the release of <code>ocp-indent</code>.</p><h2>Indentation should be consistent across editors</h2><a onclick="switchContent('post1','post2')" class="btn" href="#5d1decd418b678381c3b4cbe1970cabb">Read more...</a></div><div id="post2" style="display: none"><p>Since our last <a href="http://www.ocamlpro.com/blog/2013/02/18/monthly-01-02.html">activity report</a> we have released the first stable versions of two projects: <a href="http://opam.ocamlpro.com">OPAM</a>, an installation manager for OCaml source packages, and <a href="https://github.com/OCamlPro/ocp-indent">ocp-indent</a>, an indentation tool.</p><p>We have already described the basics of OPAM in two precedent <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-beta.html">blog</a> <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-1.0.0.html">posts</a>, so today we will focus on the release of <code>ocp-indent</code>.</p><h2>Indentation should be consistent across editors</h2><p>When you work on a very large code-base, it is crucial to keep a consistent indentation scheme. This is not only good for code review purposes (when the indentation carries semantic properties) but also when your code is starting to evolve and when the one who makes the change is not the one who wrote the initial piece of code. In the latter case, the variety of editors and local configurations usually leads to lot of small changes carrying no semantic value at all (such as changing tabs to spaces, adding few spaces at the beginning or end of lines, and so on). This semantic noise considerably decreases the efficiency of any code-review and change process and is usually very good at hiding hard-to-track bugs in your code-base.</p><p>A few months ago, the solutions for OCaml to this indentation problem were limited. For instance, you could write coding guidelines and hope that all the developers in your project would follow them. If you wanted to be more systematic, you could create and share a common configuration file for some popular editors (most OCaml developers use the emacs' <code>tuareg-mode</code> or vim) but it is very hard to get consistent indentation result across multiple tools. Moreover, having to rely on a specific editor mode means that it is harder to fully automatize the indentation process, for instance when setting-up a VCS hook.</p><p>In order to overcome these pitfalls, <a href="http://www.janestreet.com/">Jane Street</a> asked us to design a new external tool with the following high-level specification:</p><ul> <li> <p>it should be easy to use inside and outside any editor;</p> </li><li> <p>it should understand the OCaml semantics and reflect it in the indentation;</p> </li><li> <p>it should be easy to maintain and to extend;</p> </li> </ul><p>So we started to look at the OCaml tools' ecosystem and we found an early prototype of Jun Furuse's <a href="https://bitbucket.org/camlspotter">ocaml-indent</a>. The foundation looked great but the result on real-world code sources was not as nice as it could be, so we decided to start from this base to build our new tool, that we called <code>ocp-indent</code>. Today, <code>ocp-indent</code> and <code>ocaml-indent</code> do not have much code in common anymore, but the global architecture of the system remains the same.</p><h2>Writing an indentation engine for OCaml</h2><p>An indentation engine may seem like a rather simple problem: given any line in the program, we want to compute its indentation level, based on the code structure.</p><p>It turns out to be much more difficult than that, mainly because indentation is only marginally semantic, and, worse, is a matter of taste and "proper layout". In short, it's not a problem that can be expressed concisely, because one really does want lots of specific cases handled "nicely", depending on the on-screen layout -- position of line breaks -- rather than the semantic structure. <code>Ocp-indent</code> does contain lots of ad-hoc logic for such cases. To make things harder, the OCaml syntax is known to be difficult to handle, with a few ambiguities.</p><h3>Indent process</h3><p><code>Ocp-indent</code> processes code in a simple and efficient way:</p><ul> <li> <p>We lex the input with a <a href="https://github.com/OCamlPro/ocp-indent/blob/master/src/approx_lexer.mll">modified version of the OCaml lexer</a>, to guarantee complete consistency with OCaml itself. The parser had to be modified to be more robust (ocaml fails on errors, the indentation tool should not) and to keep tokens like comments, quotations, and, in the latest version, some ocamldoc block delimiters.</p> </li><li> <p>Taking the token stream as input, we maintain a <a href="https://github.com/OCamlPro/ocp-indent/blob/master/src/indentBlock.ml">"block" stack</a> that keeps informations like the kinds of blocks we have been through to get to the cursor position, the column and the indentation parameters. For instance, the "block" stack  <code>[KBody KFfun; KLet; KBody KModule]</code> corresponds to the position of <code>X</code> in the following piece of (pseudo-) code:</p> </li> </ul><pre><code>...
+module Foo = struct
+  ...
+  let f = fun a -&gt; X
+</code></pre><ul> <li> <p>Each token may look up the stack to find its starting counterpart (<code>in</code> will look for <code>KLet</code>, etc.), or disambiguate (<code>=</code> will look for <code>KLet</code>, stopping on opening tokens like <code>KBracket</code>, and will be inserted as an operator if none is found). This is flexible enough to allow for "breaking" the stack when incorrect grammar is found. For example, the unclosed paren in <code>module let x = ( end</code> should not break indent after the <code>end</code>. Great care was taken in deciding what tokens should be able to remove from the stack in which conditions.</p> </li><li> <p>The stack can also be used to find a token that we want to align on, typically bars <code>|</code> in a pattern-matching.</p> </li><li> <p>On every line break, the stack can be used to compute the indentation of the next line.</p> </li><li> <p>In the case of partial file indentation (typically, reindenting one line or a single block), on lines that shouldn't be reindented the stack is reversely updated to adapt to the current indentation.</p> </li> </ul><h3>Priorities</h3><p>The part where some abstraction can be put into the engine is the knowledge of the semantics, and more precisely of the scope of the operations. It's also in that case that the indenter can help you write, and not only read, your code. On that matter, <code>ocp-indent</code> has a knowledge of the precedence of operators and constructs that is used to know how far to unwind the stack, and what to align on. For example, a <code>;</code> will flush function applications and most operators.</p><p>It is that part that gives it the most edge over <code>tuareg</code>, and avoids semantically incorrect indents. All infix operators are defined with a priority, a kind of indentation (indentation increment or alignment over the above concerned expression), and an indentation value (number of spaces to add). So for example most operators have a priority lower than function application, but not <code>.</code>, which yields correct results for:</p><pre><code>let f =
+  somefun
+    record.
+      field
+    y
+  + z
+</code></pre><p>Boolean operators like <code>&amp;&amp;</code> and <code>||</code> are setup for alignment instead of indentation:</p><pre><code>let r = a
+        || b
+           &amp;&amp; c
+        || d
+</code></pre><p>Additionally, some special operators are wanted with a <i>negative</i> alignment in some cases. This is also handled in a generic way by the engine. In particular, this is the case for <code>;</code> or <code>|</code>:</p><pre><code>type t = A
+       | B
+
+let r = { f1 = x
+        ; f2 = y
+        }
+</code></pre><h3>A note on the integration in editors</h3><p><code>ocp-indent</code> can be used on the command-line to reindent whole files (or part of them with <code>--lines</code>), but the most common use of an indenter is from an editor. If you are lucky enough to be able to call OCaml code from your editor, you can use it directly as a library, but otherwise, the preferred way is to use the option <code>--numeric</code>: instead of reprinting the file reindented, it will only output indentation levels, which you can then process from your editor (for instance, using <code>indent-line-to</code> with emacs). That should be cheaper and will help preserve cursor position, etc.</p><p>Currently, a simple emacs binding working on either the ocaml or the tuareg mode is provided, together with a vim mode contributed by Raphaël Proust and David Powers.</p><h2>Results</h2><p>We've built <code>ocp-indent</code> based on a growing collection of <a href="https://github.com/OCamlPro/ocp-indent/tree/master/tests/passing">unit-tests</a>. If you find an indentation bug, feel free to <a href="https://github.com/OCamlPro/ocp-indent/issues">send us</a> a code snippet that we will incorporate into our test suite.</p><p>Our tests clearly show that the deep understanding that <code>ocp-indent</code> has of the OCaml syntax makes it shines on specific cases. We are still discussing and evaluating the implementation of few corner-cases related, see for instance the <a href="http://htmlpreview.github.com/?https://github.com/OCamlPro/ocp-indent/blob/master/tests/failing.html">currently failing tests</a>.</p><p>We have also run some <a href="http://htmlpreview.github.com/?https://github.com/AltGr/ocp-indent-tests/blob/master/status.html">benchmarks</a> on real code-bases and the result is quite conclusive: <code>ocp-indent</code> is always better than tuareg! This is a very nice result as most of the existing source files are either indented manually or are following tuareg standards. But <code>ocp-indent</code> is also orders of magnitude faster, which means you can integrate it seamlessly into any automatic process.</p><a onclick="switchContent('post2','post1')" class="btn" href="#5d1decd418b678381c3b4cbe1970cabb">Hide</a></div></span>
+<a name="4dc81c1e1a3ae1c0cc9d8c57fae067dc"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/03/ann-riakc-000.html"> [ANN] Riakc 0.0.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_2">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
 local = "noreply";
 h = "blogger.com (orbitz)";
 hq = "blogger.com%20(orbitz)";
 document.getElementById("ocaml_2").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Orbitz<\/a>";
-//--></script></span>, <span class="rss-date">17 Mar 2013</span></span><span class="rss-description"><div id="post3"><p>Protobuf is an Ocaml library for communicating with Google's protobuf format.  It provides a method for writing parsers and builders.  There is no protoc support, yet and writing it is not a top goal right now.  Protobuf is meant to be fairly lightweight and straight forward to use.  The only other Protobuf support for Ocaml I am aware of is through <a href="http://piqi.org/">piqi</a>, however that was too heavy for my needs. </p> <p>Protobuf is meant to be very low level, mostly dealing with representation of values and not semantics.  For example, the <code>fixed32</code> and <code>sfixed32</code> values are both parsed as <code>Int32.t</code>'s.  Dealing with being signed or not is left up to the user. </p> <p>The source code can be viewed <a href="https://github.com/orbitz/ocaml-protobuf/tree/0.0.2">here</a>.  Protobuf is in opam, to install it <code>opam install protobuf</code>. </p> <a onclick="switchContent('post3','post4')" class="btn" href="#10d12e77b837ececa6666cfdb0c9aa91">Read more...</a></div><div id="post4" style="display: none"><p>Protobuf is an Ocaml library for communicating with Google's protobuf format.  It provides a method for writing parsers and builders.  There is no protoc support, yet and writing it is not a top goal right now.  Protobuf is meant to be fairly lightweight and straight forward to use.  The only other Protobuf support for Ocaml I am aware of is through <a href="http://piqi.org/">piqi</a>, however that was too heavy for my needs. </p> <p>Protobuf is meant to be very low level, mostly dealing with representation of values and not semantics.  For example, the <code>fixed32</code> and <code>sfixed32</code> values are both parsed as <code>Int32.t</code>'s.  Dealing with being signed or not is left up to the user. </p> <p>The source code can be viewed <a href="https://github.com/orbitz/ocaml-protobuf/tree/0.0.2">here</a>.  Protobuf is in opam, to install it <code>opam install protobuf</code>. </p> <p>The hope is that parsers and builders look reasonably close to the <code>.proto</code> files such that translation is straight forward, at least until protoc support is added.  This is an early release and, without a doubt, has bugs in it please submit pull requests and issues. </p> <p><a href="https://github.com/orbitz/ocaml-protobuf/tree/0.0.2/">https://github.com/orbitz/ocaml-protobuf/tree/0.0.2/</a></p> <h1>Examples</h1><p>The best collection of examples right now is the <a href="https://github.com/orbitz/ocaml-protobuf/blob/0.0.2/lib/protobuf/protobuf_test.ml">tests</a>.  An example from the file: </p> <p></p><pre><code><b></b></code></pre><font color="#0000FF">let</font> simple <font color="#990000">=</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><font color="#009900">int32</font> <font color="#993399">1</font> <font color="#990000">&gt;&gt;=</font> <b><font color="#000080">P</font></b><font color="#990000">.</font>return<br/><br/><b><font color="#0000FF">let</font></b> complex <font color="#990000">=</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><font color="#009900">int32</font> <font color="#993399">1</font>           <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> num <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><font color="#009900">string</font> <font color="#993399">2</font>          <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> s <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font>embd_msg <font color="#993399">3</font> simple <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> emsg <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font>return <font color="#990000">(</font>num<font color="#990000">,</font> s<font color="#990000">,</font> emsg<font color="#990000">)</font><br/><br/><b><font color="#0000FF">let</font></b> run_complex str <font color="#990000">=</font><br/>  <b><font color="#0000FF">let</font></b> <b><font color="#000080">open</font></b> <b><font color="#000080">Result</font></b><font color="#990000">.</font><font color="#009900">Monad_infix</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><b><font color="#000080">State</font></b><font color="#990000">.</font>create <font color="#990000">(</font><b><font color="#000080">Bitstring</font></b><font color="#990000">.</font>bitstring_of_string str<font color="#990000">)</font><br/>  <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> s <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font>run complex s<br/><p></p> <p>The builder for this message looks like: </p> <p></p><pre><code><b></b></code></pre><font color="#0000FF">let</font> build_simple i <font color="#990000">=</font><br/>  <b><font color="#0000FF">let</font></b> <b><font color="#000080">open</font></b> <b><font color="#000080">Result</font></b><font color="#990000">.</font><font color="#009900">Monad_infix</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#0000FF">let</font></b> b <font color="#990000">=</font> <b><font color="#000080">B</font></b><font color="#990000">.</font>create <font color="#990000">()</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font><font color="#009900">int32</font> b <font color="#993399">1</font> i <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <font color="#009900">Ok</font> <font color="#990000">(</font><b><font color="#000080">B</font></b><font color="#990000">.</font>to_string b<font color="#990000">)</font><br/><br/><b><font color="#0000FF">let</font></b> build_complex <font color="#990000">(</font>i1<font color="#990000">,</font> s<font color="#990000">,</font> i2<font color="#990000">)</font> <font color="#990000">=</font><br/>  <b><font color="#0000FF">let</font></b> <b><font color="#000080">open</font></b> <b><font color="#000080">Result</font></b><font color="#990000">.</font><font color="#009900">Monad_infix</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#0000FF">let</font></b> b <font color="#990000">=</font> <b><font color="#000080">B</font></b><font color="#990000">.</font>create <font color="#990000">()</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font><font color="#009900">int32</font> b <font color="#993399">1</font> i1                 <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font><font color="#009900">string</font> b <font color="#993399">2</font> s                 <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font>embd_msg b <font color="#993399">3</font> i2 build_simple <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <font color="#009900">Ok</font> <font color="#990000">(</font><b><font color="#000080">B</font></b><font color="#990000">.</font>to_string b<font color="#990000">)</font><br/><p></p><a onclick="switchContent('post4','post3')" class="btn" href="#10d12e77b837ececa6666cfdb0c9aa91">Hide</a></div></span>
-<a name="175d5661f0dbe68962e4cbd84fded38c"></a><span class="rss-header"><span class="rss-title"><a href="http://www.ocamlpro.com/blog/2013/03/14/opam-1.0.0.html"> OPAM 1.0.0 Released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_3">OCamlPro &#9001;thomas<abbr title="(at) &rarr; @">(at)</abbr>ocamlpro.com (Thomas Gazagnaire)&#9002;</span><script type="text/javascript"><!--;
+//--></script></span>, <span class="rss-date">17 Mar 2013</span></span><span class="rss-description"><div id="post3"><p><i>Note, since writing this post, Riakc 1.0.0 has already been released and merged into opam.  It fixes the below issue of Links (there is a typo in the release notes, 'not' should be 'now'.  The source code can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/1.0.0">here</a>.  The 1.0.0 version number does not imply any stability or completeness of the library, just that it is not backwards compatible with 0.0.0. </i></p> <p>Riakc is a Riak Protobuf client for Ocaml.  Riakc uses Jane St Core/Async for concurrency.  Riakc is in early development and so far supports a subset of the Riak API.  The supported methods are: </p> <p></p><ul><li>ping</li><li>client_id</li><li>server_info</li><li>list_buckets</li><li>list_keys</li><li>bucket_props</li><li>get</li><li>put</li><li>delete</li></ul><p></p> <h2>A note on GET</h2><p>Links are currently dropped all together in the implementation, so if you read a value with links and write it back, you will have lost them.  This will be fixed in the very near future. </p> <p>As with anything, please feel free to submit issues and pull requests. </p> <a onclick="switchContent('post3','post4')" class="btn" href="#4dc81c1e1a3ae1c0cc9d8c57fae067dc">Read more...</a></div><div id="post4" style="display: none"><p><i>Note, since writing this post, Riakc 1.0.0 has already been released and merged into opam.  It fixes the below issue of Links (there is a typo in the release notes, 'not' should be 'now'.  The source code can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/1.0.0">here</a>.  The 1.0.0 version number does not imply any stability or completeness of the library, just that it is not backwards compatible with 0.0.0. </i></p> <p>Riakc is a Riak Protobuf client for Ocaml.  Riakc uses Jane St Core/Async for concurrency.  Riakc is in early development and so far supports a subset of the Riak API.  The supported methods are: </p> <p></p><ul><li>ping</li><li>client_id</li><li>server_info</li><li>list_buckets</li><li>list_keys</li><li>bucket_props</li><li>get</li><li>put</li><li>delete</li></ul><p></p> <h2>A note on GET</h2><p>Links are currently dropped all together in the implementation, so if you read a value with links and write it back, you will have lost them.  This will be fixed in the very near future. </p> <p>As with anything, please feel free to submit issues and pull requests. </p> <p>The source code can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/0.0.0">here</a>.  Riakc is in opam and you can install it by doing <code>opam install riakc</code>. </p> <h1>Usage</h1><p>There are two API modules in Riakc.  Examples of all existing API functions can be found <a href="https://github.com/orbitz/ocaml-riakc/tree/0.0.0/examples">here</a>. </p> <h2>Riakc.Conn</h2><p><code>Riakc.Conn</code> provides the API for performing actions on the database.  The module interface can be read <a href="https://github.com/orbitz/ocaml-riakc/blob/0.0.0/lib/riakc/conn.mli">here</a>.   </p> <h2>Riakc.Robj</h2><p><code>Riakc.Robj</code> provides the API for objects stored in Riak.  The module interface can be read <a href="https://github.com/orbitz/ocaml-riakc/blob/0.0.0/lib/riakc/robj.mli">here</a>.  <code>Riakc.Conn.get</code> returns a <code>Riakc.Robj.t</code> and <code>Riakc.Conn.put</code> takes one.  <code>Robj.t</code> supports representing siblings, however <code>Riakc.Conn.put</code> cannot PUT objects with siblings, this is enforced using phantom types.  A value of <code>Riakc.Robj.t</code> that might have siblings is converted to one that doesn't using <code>Riakc.Robj.set_content</code>. </p><a onclick="switchContent('post4','post3')" class="btn" href="#4dc81c1e1a3ae1c0cc9d8c57fae067dc">Hide</a></div></span>
+<a name="10d12e77b837ececa6666cfdb0c9aa91"></a><span class="rss-header"><span class="rss-title"><a href="http://functional-orbitz.blogspot.com/2013/03/ann-protobuf-002.html"> [ANN] Protobuf 0.0.2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_3">Orbitz &#9001;noreply<abbr title="(at) &rarr; @">(at)</abbr>blogger.com (orbitz)&#9002;</span><script type="text/javascript"><!--;
+local = "noreply";
+h = "blogger.com (orbitz)";
+hq = "blogger.com%20(orbitz)";
+document.getElementById("ocaml_3").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Orbitz<\/a>";
+//--></script></span>, <span class="rss-date">17 Mar 2013</span></span><span class="rss-description"><div id="post5"><p>Protobuf is an Ocaml library for communicating with Google's protobuf format.  It provides a method for writing parsers and builders.  There is no protoc support, yet and writing it is not a top goal right now.  Protobuf is meant to be fairly lightweight and straight forward to use.  The only other Protobuf support for Ocaml I am aware of is through <a href="http://piqi.org/">piqi</a>, however that was too heavy for my needs. </p> <p>Protobuf is meant to be very low level, mostly dealing with representation of values and not semantics.  For example, the <code>fixed32</code> and <code>sfixed32</code> values are both parsed as <code>Int32.t</code>'s.  Dealing with being signed or not is left up to the user. </p> <p>The source code can be viewed <a href="https://github.com/orbitz/ocaml-protobuf/tree/0.0.2">here</a>.  Protobuf is in opam, to install it <code>opam install protobuf</code>. </p> <a onclick="switchContent('post5','post6')" class="btn" href="#10d12e77b837ececa6666cfdb0c9aa91">Read more...</a></div><div id="post6" style="display: none"><p>Protobuf is an Ocaml library for communicating with Google's protobuf format.  It provides a method for writing parsers and builders.  There is no protoc support, yet and writing it is not a top goal right now.  Protobuf is meant to be fairly lightweight and straight forward to use.  The only other Protobuf support for Ocaml I am aware of is through <a href="http://piqi.org/">piqi</a>, however that was too heavy for my needs. </p> <p>Protobuf is meant to be very low level, mostly dealing with representation of values and not semantics.  For example, the <code>fixed32</code> and <code>sfixed32</code> values are both parsed as <code>Int32.t</code>'s.  Dealing with being signed or not is left up to the user. </p> <p>The source code can be viewed <a href="https://github.com/orbitz/ocaml-protobuf/tree/0.0.2">here</a>.  Protobuf is in opam, to install it <code>opam install protobuf</code>. </p> <p>The hope is that parsers and builders look reasonably close to the <code>.proto</code> files such that translation is straight forward, at least until protoc support is added.  This is an early release and, without a doubt, has bugs in it please submit pull requests and issues. </p> <p><a href="https://github.com/orbitz/ocaml-protobuf/tree/0.0.2/">https://github.com/orbitz/ocaml-protobuf/tree/0.0.2/</a></p> <h1>Examples</h1><p>The best collection of examples right now is the <a href="https://github.com/orbitz/ocaml-protobuf/blob/0.0.2/lib/protobuf/protobuf_test.ml">tests</a>.  An example from the file: </p> <p></p><pre><code><b></b></code></pre><font color="#0000FF">let</font> simple <font color="#990000">=</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><font color="#009900">int32</font> <font color="#993399">1</font> <font color="#990000">&gt;&gt;=</font> <b><font color="#000080">P</font></b><font color="#990000">.</font>return<br/><br/><b><font color="#0000FF">let</font></b> complex <font color="#990000">=</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><font color="#009900">int32</font> <font color="#993399">1</font>           <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> num <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><font color="#009900">string</font> <font color="#993399">2</font>          <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> s <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font>embd_msg <font color="#993399">3</font> simple <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> emsg <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font>return <font color="#990000">(</font>num<font color="#990000">,</font> s<font color="#990000">,</font> emsg<font color="#990000">)</font><br/><br/><b><font color="#0000FF">let</font></b> run_complex str <font color="#990000">=</font><br/>  <b><font color="#0000FF">let</font></b> <b><font color="#000080">open</font></b> <b><font color="#000080">Result</font></b><font color="#990000">.</font><font color="#009900">Monad_infix</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font><b><font color="#000080">State</font></b><font color="#990000">.</font>create <font color="#990000">(</font><b><font color="#000080">Bitstring</font></b><font color="#990000">.</font>bitstring_of_string str<font color="#990000">)</font><br/>  <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> s <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">P</font></b><font color="#990000">.</font>run complex s<br/><p></p> <p>The builder for this message looks like: </p> <p></p><pre><code><b></b></code></pre><font color="#0000FF">let</font> build_simple i <font color="#990000">=</font><br/>  <b><font color="#0000FF">let</font></b> <b><font color="#000080">open</font></b> <b><font color="#000080">Result</font></b><font color="#990000">.</font><font color="#009900">Monad_infix</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#0000FF">let</font></b> b <font color="#990000">=</font> <b><font color="#000080">B</font></b><font color="#990000">.</font>create <font color="#990000">()</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font><font color="#009900">int32</font> b <font color="#993399">1</font> i <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <font color="#009900">Ok</font> <font color="#990000">(</font><b><font color="#000080">B</font></b><font color="#990000">.</font>to_string b<font color="#990000">)</font><br/><br/><b><font color="#0000FF">let</font></b> build_complex <font color="#990000">(</font>i1<font color="#990000">,</font> s<font color="#990000">,</font> i2<font color="#990000">)</font> <font color="#990000">=</font><br/>  <b><font color="#0000FF">let</font></b> <b><font color="#000080">open</font></b> <b><font color="#000080">Result</font></b><font color="#990000">.</font><font color="#009900">Monad_infix</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#0000FF">let</font></b> b <font color="#990000">=</font> <b><font color="#000080">B</font></b><font color="#990000">.</font>create <font color="#990000">()</font> <b><font color="#0000FF">in</font></b><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font><font color="#009900">int32</font> b <font color="#993399">1</font> i1                 <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font><font color="#009900">string</font> b <font color="#993399">2</font> s                 <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <b><font color="#000080">B</font></b><font color="#990000">.</font>embd_msg b <font color="#993399">3</font> i2 build_simple <font color="#990000">&gt;&gt;=</font> <b><font color="#0000FF">fun</font></b> <font color="#990000">()</font> <font color="#990000">-&gt;</font><br/>  <font color="#009900">Ok</font> <font color="#990000">(</font><b><font color="#000080">B</font></b><font color="#990000">.</font>to_string b<font color="#990000">)</font><br/><p></p><a onclick="switchContent('post6','post5')" class="btn" href="#10d12e77b837ececa6666cfdb0c9aa91">Hide</a></div></span>
+<a name="175d5661f0dbe68962e4cbd84fded38c"></a><span class="rss-header"><span class="rss-title"><a href="http://www.ocamlpro.com/blog/2013/03/14/opam-1.0.0.html"> OPAM 1.0.0 Released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_4">OCamlPro &#9001;thomas<abbr title="(at) &rarr; @">(at)</abbr>ocamlpro.com (Thomas Gazagnaire)&#9002;</span><script type="text/javascript"><!--;
 local = "thomas";
 h = "ocamlpro.com (Thomas Gazagnaire)";
 hq = "ocamlpro.com%20(Thomas%20Gazagnaire)";
-document.getElementById("ocaml_3").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >OCamlPro<\/a>";
-//--></script></span>, <span class="rss-date">14 Mar 2013</span></span><span class="rss-description"><div id="post5"><p>We have previously <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-beta.html">announced</a> the beta-release of <a href="http://opam.ocamlpro.com/">OPAM</a>. After two intense months of work, we are now very proud to announce the <b>first official</b> release of OPAM!</p><p>This release fixes many bugs and adds few new features to the previously announced beta-release.</p><p>The most visible new feature, which should be useful for beginners with OCaml and OPAM, is an auto-configuration tool. This tool easily enables all the features of OPAM (auto-completion, fix the loading of scripts for the toplevel, opam-switch-eval alias, etc). This tool runs interactively on each <code>opam init</code> invocation. If you don't like OPAM to change your configuration files, use <code>opam init --no-setup</code>. If you trust the tool blindly, use <code>opam init --auto-setup</code>.</p><pre><code>opam init                 # Interactive setup
+document.getElementById("ocaml_4").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >OCamlPro<\/a>";
+//--></script></span>, <span class="rss-date">14 Mar 2013</span></span><span class="rss-description"><div id="post7"><p>We have previously <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-beta.html">announced</a> the beta-release of <a href="http://opam.ocamlpro.com/">OPAM</a>. After two intense months of work, we are now very proud to announce the <b>first official</b> release of OPAM!</p><p>This release fixes many bugs and adds few new features to the previously announced beta-release.</p><p>The most visible new feature, which should be useful for beginners with OCaml and OPAM, is an auto-configuration tool. This tool easily enables all the features of OPAM (auto-completion, fix the loading of scripts for the toplevel, opam-switch-eval alias, etc). This tool runs interactively on each <code>opam init</code> invocation. If you don't like OPAM to change your configuration files, use <code>opam init --no-setup</code>. If you trust the tool blindly, use <code>opam init --auto-setup</code>.</p><pre><code>opam init                 # Interactive setup
 opam init --no-setup      # No configuration change
 opam init --auto-setup    # Automatic setup
-</code></pre><p>You can later change the setup by doing:</p><a onclick="switchContent('post5','post6')" class="btn" href="#175d5661f0dbe68962e4cbd84fded38c">Read more...</a></div><div id="post6" style="display: none"><p>We have previously <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-beta.html">announced</a> the beta-release of <a href="http://opam.ocamlpro.com/">OPAM</a>. After two intense months of work, we are now very proud to announce the <b>first official</b> release of OPAM!</p><p>This release fixes many bugs and adds few new features to the previously announced beta-release.</p><p>The most visible new feature, which should be useful for beginners with OCaml and OPAM, is an auto-configuration tool. This tool easily enables all the features of OPAM (auto-completion, fix the loading of scripts for the toplevel, opam-switch-eval alias, etc). This tool runs interactively on each <code>opam init</code> invocation. If you don't like OPAM to change your configuration files, use <code>opam init --no-setup</code>. If you trust the tool blindly, use <code>opam init --auto-setup</code>.</p><pre><code>opam init                 # Interactive setup
+</code></pre><p>You can later change the setup by doing:</p><a onclick="switchContent('post7','post8')" class="btn" href="#175d5661f0dbe68962e4cbd84fded38c">Read more...</a></div><div id="post8" style="display: none"><p>We have previously <a href="http://www.ocamlpro.com/blog/2013/01/17/opam-beta.html">announced</a> the beta-release of <a href="http://opam.ocamlpro.com/">OPAM</a>. After two intense months of work, we are now very proud to announce the <b>first official</b> release of OPAM!</p><p>This release fixes many bugs and adds few new features to the previously announced beta-release.</p><p>The most visible new feature, which should be useful for beginners with OCaml and OPAM, is an auto-configuration tool. This tool easily enables all the features of OPAM (auto-completion, fix the loading of scripts for the toplevel, opam-switch-eval alias, etc). This tool runs interactively on each <code>opam init</code> invocation. If you don't like OPAM to change your configuration files, use <code>opam init --no-setup</code>. If you trust the tool blindly, use <code>opam init --auto-setup</code>.</p><pre><code>opam init                 # Interactive setup
 opam init --no-setup      # No configuration change
 opam init --auto-setup    # Automatic setup
 </code></pre><p>You can later change the setup by doing:</p><pre><code>opam config setup --list  # show your current setup
 opam config setup --all   # Enable all the features of OPAM
-</code></pre><p>You can of course manually review and modifye the changes made b by editing your <code>~/.profile</code> (or <code>~/.zshrc</code> for zsh users), <code>~/.ocamlinit</code> and the <code>~/.opam/opam-init/*</code> init scripts.</p><h2>Contribute</h2><p>Please report:</p><ul> <li> <p>Bug reports and feature requests for the OPAM tool <a href="http://github.com/OCamlPro/opam/issues">here</a>.</p> </li><li> <p>Packaging issues or requests for a new package <a href="http://github.com/OCamlPro/opam-repository/issues">here</a>.</p> </li><li> <p>General queries to the <a href="http://lists.ocaml.org/listinfo/platform">platform list</a>.</p> </li><li> <p>More specific queries about the internals of OPAM to the <a href="http://lists.ocaml.org/listinfo/opam-devel">OPAM devel list</a>.</p> </li> </ul><h2>Install</h2><p>Packages for Debian and OSX (at least homebrew) should follow shortly and I'm looking for volunteers to create and maintain rpm packages. The binary installer is up-to-date for Linux and Darwin 64-bit architectures, the 32-bit version for Linux should arrive shortly.</p><p>If you want to build from sources, the full archive (including dependencies) is available at:</p><p><a href="http://www.ocamlpro.com/pub/opam-full-latest.tar.gz">http://www.ocamlpro.com/pub/opam-full-latest.tar.gz</a></p><h2>Upgrade</h2><p>If you are upgrading from 0.9.* (eg. if you have at least installed the beta release announced in January) you won't have anything special to do apart installing the new binary. You can then update your package metadata by running <code>opam update</code>. If you want to use the auto-setup feature, remove the "eval <code>opam config env</code> line you have previously added in your <code>~/.profile</code> and run <code>opam config setup --all</code>.</p><p>So everything should be fine. But you never know ... so if something goes horribly wrong in the upgrade process (of if your are upgrading from an old version of OPAM) you can still trash your <code>~/.opam</code>, manually remove what OPAM added in your <code>~/.profile</code> (<code>~/.zshrc</code> for zsh users) and <code>~/.ocamlinit</code>, and start again from scratch.</p><h2>Random Statistics</h2><p>The OPAM project on Github is very pleasantly active. We have got lot of contribution from a lot of different people, and I am very pleased to regularly discover new and interesting OCaml projects pushed to the OPAM repository. So thanks everybody for the great contributions!</p><p>We have worked hard to deliver OPAM and we are very delighted to get a warm welcome from the community. This give us a lot of motivation to continue improving OPAM!</p><h3>Repositories</h3><ul> <li> <p><a href="https://github.com/OCamlPro/opam">https://github.com/OCamlPro/opam</a>: +2000 commits, 26 contributors</p> </li><li> <p><a href="https://github.com/OCamlPro/opam-repository">https://github.com/OCamlPro/opam-repository</a>: +1700 commits, 75 contributors, 370+ packages</p> </li> </ul><h3>Usage</h3><p>On <a href="http://opam.ocamlpro.com/">http://opam.ocamlpro.com/</a></p><ul> <li> <p>+400 unique visitor per week, 15k <code>opam update</code> per week</p> </li><li> <p>+1300 unique visitor per month, 55k <code>opam update</code> per month</p> </li><li> <p>3815 unique visitor since the alpha release</p> </li> </ul><h2>Changelog</h2><p>The full change-log is available <a href="https://github.com/OCamlPro/opam/blob/master/CHANGES">here</a></p><a onclick="switchContent('post6','post5')" class="btn" href="#175d5661f0dbe68962e4cbd84fded38c">Hide</a></div></span>
+</code></pre><p>You can of course manually review and modifye the changes made b by editing your <code>~/.profile</code> (or <code>~/.zshrc</code> for zsh users), <code>~/.ocamlinit</code> and the <code>~/.opam/opam-init/*</code> init scripts.</p><h2>Contribute</h2><p>Please report:</p><ul> <li> <p>Bug reports and feature requests for the OPAM tool <a href="http://github.com/OCamlPro/opam/issues">here</a>.</p> </li><li> <p>Packaging issues or requests for a new package <a href="http://github.com/OCamlPro/opam-repository/issues">here</a>.</p> </li><li> <p>General queries to the <a href="http://lists.ocaml.org/listinfo/platform">platform list</a>.</p> </li><li> <p>More specific queries about the internals of OPAM to the <a href="http://lists.ocaml.org/listinfo/opam-devel">OPAM devel list</a>.</p> </li> </ul><h2>Install</h2><p>Packages for Debian and OSX (at least homebrew) should follow shortly and I'm looking for volunteers to create and maintain rpm packages. The binary installer is up-to-date for Linux and Darwin 64-bit architectures, the 32-bit version for Linux should arrive shortly.</p><p>If you want to build from sources, the full archive (including dependencies) is available at:</p><p><a href="http://www.ocamlpro.com/pub/opam-full-latest.tar.gz">http://www.ocamlpro.com/pub/opam-full-latest.tar.gz</a></p><h2>Upgrade</h2><p>If you are upgrading from 0.9.* (eg. if you have at least installed the beta release announced in January) you won't have anything special to do apart installing the new binary. You can then update your package metadata by running <code>opam update</code>. If you want to use the auto-setup feature, remove the "eval <code>opam config env</code> line you have previously added in your <code>~/.profile</code> and run <code>opam config setup --all</code>.</p><p>So everything should be fine. But you never know ... so if something goes horribly wrong in the upgrade process (of if your are upgrading from an old version of OPAM) you can still trash your <code>~/.opam</code>, manually remove what OPAM added in your <code>~/.profile</code> (<code>~/.zshrc</code> for zsh users) and <code>~/.ocamlinit</code>, and start again from scratch.</p><h2>Random Statistics</h2><p>The OPAM project on Github is very pleasantly active. We have got lot of contribution from a lot of different people, and I am very pleased to regularly discover new and interesting OCaml projects pushed to the OPAM repository. So thanks everybody for the great contributions!</p><p>We have worked hard to deliver OPAM and we are very delighted to get a warm welcome from the community. This give us a lot of motivation to continue improving OPAM!</p><h3>Repositories</h3><ul> <li> <p><a href="https://github.com/OCamlPro/opam">https://github.com/OCamlPro/opam</a>: +2000 commits, 26 contributors</p> </li><li> <p><a href="https://github.com/OCamlPro/opam-repository">https://github.com/OCamlPro/opam-repository</a>: +1700 commits, 75 contributors, 370+ packages</p> </li> </ul><h3>Usage</h3><p>On <a href="http://opam.ocamlpro.com/">http://opam.ocamlpro.com/</a></p><ul> <li> <p>+400 unique visitor per week, 15k <code>opam update</code> per week</p> </li><li> <p>+1300 unique visitor per month, 55k <code>opam update</code> per month</p> </li><li> <p>3815 unique visitor since the alpha release</p> </li> </ul><h2>Changelog</h2><p>The full change-log is available <a href="https://github.com/OCamlPro/opam/blob/master/CHANGES">here</a></p><a onclick="switchContent('post8','post7')" class="btn" href="#175d5661f0dbe68962e4cbd84fded38c">Hide</a></div></span>
 <a name="0115a8e5838e2168af30a5dedfe7ee44"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.03.12.html"> Caml Weekly News, 12 Mar 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">12 Mar 2013</span></span><span class="rss-description">Commercial Users of Functional Programming 2013 / OPAM mailing-lists ERRATUM / Barista 2.0-beta release / A brief guide to a bit of the OCaml type checker / llpp v15 / [ocamlgraph] Johnson's algo, C-bindings, GraphML reader, edge dominators / If you distribute oasis' setup.ml with your software, please use a recent (&gt;= 0.3.0) version of Oasis / OpenGL Ocaml mailing-list / Other Caml News</span>
-<a name="c3f4de345dacff845f985e402cced3c6"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/03/10/ocaml-namespaces.html"> Adding namespaces to OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_4">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
+<a name="c3f4de345dacff845f985e402cced3c6"></a><span class="rss-header"><span class="rss-title"><a href="http://lpw25.net/2013/03/10/ocaml-namespaces.html"> Adding namespaces to OCaml</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_5">Leo White &#9001;leo<abbr title="(at) &rarr; @">(at)</abbr>lpw25.net (Leo White)&#9002;</span><script type="text/javascript"><!--;
 local = "leo";
 h = "lpw25.net (Leo White)";
 hq = "lpw25.net%20(Leo%20White)";
-document.getElementById("ocaml_4").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Leo White<\/a>";
-//--></script></span>, <span class="rss-date">10 Mar 2013</span></span><span class="rss-description"><div id="post7"><a onclick="switchContent('post7','post8')" class="btn" href="#c3f4de345dacff845f985e402cced3c6">Read more...</a></div><div id="post8" style="display: none"><div class="well well-small">
+document.getElementById("ocaml_5").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >Leo White<\/a>";
+//--></script></span>, <span class="rss-date">10 Mar 2013</span></span><span class="rss-description"><div id="post9"><a onclick="switchContent('post9','post10')" class="btn" href="#c3f4de345dacff845f985e402cced3c6">Read more...</a></div><div id="post10" style="display: none"><div class="well well-small">
 <h4>Contents</h4>
 <div class="toc">
    <ul>
@@ -816,7 +842,7 @@ module by default:</p>
 <p>By adding support for this feature to OCamlFind, libraries could add this
 argument to every program compiled using them. This amounts to having
 automatically opened modules as part of the package system rather than part of
-the namespace system.</p><a onclick="switchContent('post8','post7')" class="btn" href="#c3f4de345dacff845f985e402cced3c6">Hide</a></div></span>
+the namespace system.</p><a onclick="switchContent('post10','post9')" class="btn" href="#c3f4de345dacff845f985e402cced3c6">Hide</a></div></span>
 <a name="0802910a1b39035bde5255ca97da05df"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=871"> Barista: 2.0-beta</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">08 Mar 2013</span></span><span class="rss-description"><pre class="rss-text">Changes:
   - update for Objective Caml 4.00.1
   - update for Camlzip 1.05
@@ -852,265 +878,6 @@ the namespace system.</p><a onclick="switchContent('post8','post7')" class="btn"
 Also a command-line [dis]assembler for Java.</span>
 <a name="86dbf4d4225c32b951bbd5d7b4ccdf18"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/cgi-bin/hump.cgi?contrib=641"> Jane Street's core library 109.11.00</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">The Caml Humps</span>, <span class="rss-date">08 Mar 2013</span></span><span class="rss-description">Jane Street's alternative to the standard library.</span>
 <a name="3e720f21429ee19a49cf32078b39dac8"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/sekred/"> Sekred</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">07 Mar 2013</span></span><span class="rss-description">This program helps to manage passwords set automatically and stored in a semi-secure way.  It is not a secure storage for password because only the Unix ACL system protects the secret.  The system is designed to be a companion tool for puppet.</span>
-<a name="06cbe253950211843d19cd91ac1b647c"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/a-library-to-record-ocaml-backtraces"> A library to record OCaml backtraces</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">07 Mar 2013</span></span><span class="rss-description"><div id="post9"><p>
-      Sometimes using
-      <code>OCAMLRUNPARAM="b"</code> returns a disappointingly
-      unhelpful backtrace, because the program you're trying to debug
-      has a non-trivial usage of exceptions that destroys the
-      backtrace information you were expecting. Here is a new library
-      that should solve this problem, by allowing you to reliably
-      register backtraces. Read more for the source, and the juicy
-      internal details: weak tables, semi-manual garbage collection
-      logic, and an <em>optional</em> change to the OCaml runtime to
-      improve the library performances.
-    </p>
-
-    
-
-    <h3>The problem</h3>
-    <a onclick="switchContent('post9','post10')" class="btn" href="#06cbe253950211843d19cd91ac1b647c">Read more...</a></div><div id="post10" style="display: none"><p>
-      Sometimes using
-      <code>OCAMLRUNPARAM="b"</code> returns a disappointingly
-      unhelpful backtrace, because the program you're trying to debug
-      has a non-trivial usage of exceptions that destroys the
-      backtrace information you were expecting. Here is a new library
-      that should solve this problem, by allowing you to reliably
-      register backtraces. Read more for the source, and the juicy
-      internal details: weak tables, semi-manual garbage collection
-      logic, and an <em>optional</em> change to the OCaml runtime to
-      improve the library performances.
-    </p>
-
-    
-
-    <h3>The problem</h3>
-    <p>
-      When debugging OCaml programs, it is sometimes hard to get
-      useful backtraces for exceptions. Let's take an example: you are
-      hacking the Coq implementation, and your patch launches an
-      exception (any resemblance to real persons, living or dead, is
-      purely coincidental). Of course, you have no idea why this
-      exception has been raised, so a little bit of context would be
-      appreciated: getting a backtrace would be very useful, because
-      it tells you where the exception has been raised, and what were
-      the state of the call stack at that time.
-    </p>
-
-    <p>
-      There is already some support for getting backtraces in
-      OCaml. If you compile in debug mode (eg. with
-      the <code>-g</code> option), and then run your code
-      with <code>OCAMLRUNPARAM="b"</code> in the environment, then you
-      can get exception backtraces. They will be automatically printed
-      for uncaught exceptions (those that stop the program execution),
-      and inside your programs you can use
-      the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Printexc.html">Printexc</a>
-      module of the OCaml standard library, to print the backtrace
-      from the "raise" of the last exception that was raised up to the
-      "try..with" that caught it (or the end of the program).
-    </p>
-
-    <p>
-      However, this system is not always satisfactory: in OCaml,
-      exceptions are very efficient, and it is a common idiom to use
-      them for control flow (rather than only to handle errors). As
-      a consequence, the exception handling mechanism in big OCaml
-      programs can be complicated, because it has to filter
-      exceptional exceptions (which are a sign of an error), and
-      exceptions used for control. It can also be the case that the
-      error handlers themselves uses exceptions internally, for
-      example some error messages formatter do this. This is
-      problematic, because it erases the original, relevant
-      backtrace. Asking for a backtrace after the fact will show you
-      traces for exceptions that were raised and caught internally in
-      the message formatter, and then you're lost, which (in the
-      good case) makes you write frustrated blog posts such
-      as <a href="http://www.acunu.com/2/post/2012/05/dude-wheres-my-stacktrace.html">this
-      one</a>.
-    </p>
-
-    <h3>The solution of other languages</h3>
-    <p>
-      In some other languages, like Java, every exception stores its
-      own backtrace. So, even if you do strange things with exceptions
-      internally, as long as you have access to the exception that has
-      been raised, you can print its backtrace. However, this has
-      a non-negligible memory and performance cost, because the
-      runtime has to copy the exception backtrace into the heap.
-    </p>
-      
-    <p>
-      In OCaml, it would be unpleasant to do that in the general case,
-      because exception can be heavily used. We could imagine to do
-      that only in debug mode and when backtraces are active, but this
-      poses non-trivial questions, because we have to choose at
-      compile time whether to allocate a backtrace-compliant exception
-      object or not, for example. Besides, it would require quite
-      invasive changes to the compiler and runtime, probably add bugs,
-      etc. Not something you want to try over a week-end.
-    </p>
-
-    <h3>A less invasive approach: a user library</h3>
-    <p>
-      If we cannot add a pointer from the exception to the backtrace,
-      we can consider building an global map from exceptions to
-      backtraces. Each time we catch an exception, we can store its
-      backtrace in the map. Then, when needed, we can lookup the
-      backtrace from the exception in this map.
-    </p>
-
-    <p>
-      This has the advantage of not requiring any change to the
-      compiler. You can implement this big table as a library, and let
-      users call a library function, in their exception handler, to
-      add their current exception to the table.
-    </p>
-
-    <p>
-      But this requires user intervention to work well: the user must
-      explicitly call the registration function in each error
-      handler. This is good, as it allows to decide whether to store
-      traces in a fine-grained way, making performance/traceability
-      compromises or simply not tracing exceptions that you know do
-      not correspond to bugs. But this can be painful for legacy or
-      third-party code for which you just want a backtrace quick: you
-      don't really want to go over all the `try..with` handlers in
-      Coq's implementation to add a call to our registration function,
-      by hand. Gabriel Scherer implemented a small preprocessor
-      (as a Camlp4 extension and a `-ppx` rewriter) to add them
-      automatically at each handler if desired.
-    </p>
-
-    <p>
-      Implementing the map itself is more challenging: inserting in it
-      should be efficient (while lookup operations can be slow); it
-      should operate with physical equality, because two occurrences
-      of <code>Not_found</code> should see their backtraces
-      distinguished; it should not leak memory, that is, it should
-      throw away the backtrace when the exception is no longer
-      accessible -- and it should not be considered as accessible by
-      the Garbage Collector (GC) trough this map. Finally, we need to
-      be able to store multiple backtrace for the same exception,
-      because an exception can be re-raised: in that case, we want to
-      be able to get all the backtraces.
-    </p>
-
-    <p>
-      Our solution is to use two arrays: one for exceptions, the other for
-      backtraces. At the same indices, we store corresponding
-      elements. Inserting is very cheap in amortized time, even if it
-      involves resizing the arrays if necessary. The lookup is in linear
-      time, but we almost never need it. The array of exceptions is a
-      <a href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Weak.html">weak
-      array</a>: this data structures makes the GC able to collect
-      exceptions even if they are still referenced in the map. At the
-      end of each major GC cycle, we compact those arrays, manually
-      removing traces corresponding to collected exceptions.
-    </p>
-
-    <h3>Performances considerations</h3>
-    <p>
-      Storing &lt;emph&gt;all&lt;/emph&gt; traces in this way is very slow
-      for <code>raise</code>-happy programs (which are the one for
-      which you need better traces in the first place). The
-      performances of Coq are divided by 3 to 4 by this
-      modification. The main reason for this cost is that the only way
-      in the OCaml standard library to get the backtrace information
-      is to convert it to a string, with English sentences, file
-      names, line numbers, and so on. It takes a long time to generate
-      such strings for each caught exception, and uses a lot of
-      memory, stressing the GC. But still, it works, and if you really
-      need good backtraces you are ready to pay the performance
-      price... which only exists when you turn on backtrace recording.
-    </p>
-
-    <p>
-      The next idea was to modify the OCaml runtime and standard
-      library, in order to expose a more low-level representation of
-      backtraces without the processing costs. Actually, this already
-      exists: when using the existing mechanism for recording
-      backtraces in OCaml, the runtime generate a compact
-      representation of the backtrace in a global variable for each
-      raised exception. The only thing we have to do is to split the
-      collecting-and-formatting function in two, and expose an API for
-      copying on demand this information in the ocaml heap, for
-      a possible future conversion to the string representation.
-    </p>
-
-    <p>
-      We implemented this as a small change to the OCaml runtime system
-      and <a href="http://caml.inria.fr/pub/docs/manual-ocaml/libref/Printexc.html">Printexc</a>
-      module -- much less invasive than the compiler-wide change we
-      are avoiding with our user-side solution. Using this new
-      feature, Coq only get 10% slower (tested on the compilation
-      of CompCert). It still uses more memory (about 30%). We think
-      this is very reasonable, given that Coq uses quite a lot of
-      exceptions for backtracking, and that there is no cost when
-      backtrace recording is not activated.
-    </p>
-
-    <p>
-      Of course, performances could be improved even further by
-      letting users decide which exception handlers really correspond
-      to <em>errors</em> that needs to store traces, and which are
-      purely control-flow logic (loop exit, backtracking...) that does
-      not need to record anything. But getting good traces out the box
-      with reasonable performance impact is already satisfying enough
-      for now.
-    </p>
-
-    <h3>The actual code</h3>
-    <p>
-      Our library for recording backtraces can be found
-      in <a href="http://gallium.inria.fr/blog/exceptionHandling.ml">exceptionHandling.ml</a>
-      (slow version using strings),
-      or <a href="http://gallium.inria.fr/blog/exceptionHandling.ml.new">exceptionHandling.ml.new</a>
-      (fast version using the new runtime functions). Both share
-      a single
-      interface <a href="http://gallium.inria.fr/blog/exceptionHandling.mli">exceptionHandling.mli</a>.
-    </p>
-
-    <p>
-      The rewriter that adds exception handling logic to all <code>try
-      .. with ..</code> in your code (to use with care) is available
-      for Camlp4, <a href="http://gallium.inria.fr/blog/add_smartcatch.ml">add_smartcatch.ml</a>,
-      or for the new <code>-ppx</code> AST rewriting mechanism
-      available in OCaml
-      trunk, <a href="http://gallium.inria.fr/blog/smartcatch_ppx.ml">smartcatch_ppx.ml</a>.
-    </p>
-
-    <p>
-      The patch to the available runtime is available
-      as <a href="http://gallium.inria.fr/blog/abstract-backtraces.patch.txt">abstract-backtraces.patch.txt</a>. It
-      is mostly of historical curiosity, as the maintainers found the
-      change non-invasive enough to accept it into the OCaml trunk, so
-      you should be able to get fast backtrace recording in the next
-      OCaml version.
-    </p>
-    
-    <p>
-      Our quick-and-dirty patch for Coq 8.4pl1
-      is <a href="http://gallium.inria.fr/blog/coq-8.4pl1.patch">coq-8.4pl1.patch</a> (it mostly
-      hacks around the Coq build system to add an additional camlp4
-      preprocessing step to all files). In order to use it, you must
-      add either version¹ of the exception handling library in
-      the <code>lib</code> subdirectory, under the
-      name <code>exceptionHandling.ml</code>. Then, simply type:
-    </p>
-
-<pre><code>./configure -debug
-make</code></pre>
-
-    <p>And voilà, pixel-perfect backtraces!</p>
-
-    <p>
-      ¹: Note that for obscure camlp5 reasons, Coq will not build
-      easily against the OCaml trunk, so you should apply the runtime
-      patch to the 4.00 branch instead; as the patch adds a new
-      primitive, you will need to throw a <code>make coreboot</code>
-      somewhere in the OCaml compilation process. Even then, building
-      Coq won't be for the faint of heart.
-    </p><a onclick="switchContent('post10','post9')" class="btn" href="#06cbe253950211843d19cd91ac1b647c">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
