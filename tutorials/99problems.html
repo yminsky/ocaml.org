@@ -947,8 +947,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = <span class="ocaml-mod">Unix</span>.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00294899940490722656
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 4.88758087158203125e-05
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00295019149780273438
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 4.9114227294921875e-05
 </span></pre>
 </div>
 
@@ -2237,7 +2237,7 @@ val paths : 'a graph_term -&gt; 'a -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
     and a set of words. The problem is to place the words into the
     framework.</p>
   <center>
-    <img src="https://sites.google.com/site/prologsite/prolog-problems/7/p99.gif?attredirects=0" alt="puzzle"/>
+    <img src="https://sites.google.com/site/prologsite/_/rsrc/1264956149766/prolog-problems/7/p99.gif" alt="puzzle"/>
   </center>
   <p>The particular crossword puzzle is specified in a text file which
     first lists the words (one word per line) in an arbitrary
