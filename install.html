@@ -166,6 +166,7 @@
 	<ul class="dropdown-menu">
 	  <li><a data-toggle="tab" href="#debian">Debian</a></li>
 	  <li><a data-toggle="tab" href="#fedora">Fedora</a></li>
+	  <li><a data-toggle="tab" href="#freebsd">FreeBSD</a></li>
 	  <li><a data-toggle="tab" href="#gentoo">Gentoo</a></li>
 	  <li><a data-toggle="tab" href="#macosx">Mac OS X</a></li>
 	  <li><a data-toggle="tab" href="#suse">SuSE</a></li>
@@ -335,6 +336,35 @@ cd godi-rocketboost-20110811
 	  mailing list for people interested in OCaml on Fedora or Red Hat
 	  Enterprise Linux.</li>
 	</ul>
+      </div>
+
+      <div id="freebsd" class="tab-pane">
+	<h2>FreeBSD</h2>
+
+	<p><a href="http://www.freebsd.org/">FreeBSD</a> had a great
+	support for OCaml development for a long time.  There are
+	easy to use packages available for most popular platforms
+	(i386, amd64, powerpc, sparc64) for both the core languages
+	and supplimentary libraries, documentation, examples and
+	development tools.  There is a framework available to make
+	adding new ocaml application and libraries easy.</p>
+
+	<p>To install the OCaml compiler using packages do:</p>
+	<pre>
+        pkg_add -r ocaml</pre>
+	or
+	<pre>
+	pkg_add -r ocaml-nox11</pre>
+	to install OCaml without X11-dependent libraries (e.g. to deploy
+	on a headless server).
+
+	<p>To install the developer documentation, examples and emacs
+	editing macros use the <code>ocaml-doc</code>, <code>ocaml-examples</code>
+	and <code>ocaml-mode.el</code> packages.</p>
+
+	<p>The same packages can be installed via the port system.  There is a
+	a large set of libraries available in the <code>devel</code> category
+	of the ports system as well as in the specific topic-related categories.</p>
       </div>
 
       <div id="gentoo" class="tab-pane">
