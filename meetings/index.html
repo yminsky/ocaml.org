@@ -6,7 +6,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     
     <meta content="IE=8" http-equiv="X-UA-Compatible"/>
-    <title>OCaml :: Hashtbl</title>
+    <title>OCaml :: OCaml Meetings</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="Ashish Agarwal, Esther Baruk, Christophe Troestler and many contributors" name="author"/>
     <meta content="" name="description"/>
@@ -21,7 +21,7 @@
     
     
 
-    <meta content="Hashtbl" property="og:title"/>
+    <meta content="OCaml Meetings" property="og:title"/>
     <meta content="non_profit" property="og:type"/>
 
     <meta content="all" name="robots"/>
@@ -128,62 +128,61 @@
 
     <div class="container">
       <span class="navigation-bar">
-	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span><a href="./">Tutorials</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>Hashtbl
+	<a href="./../">Home</a><span class="separation"><img src=".././img/right_arrow.png" alt="&gt;"/></span>OCaml Meetings
 	<span id="language">
 	  <span class="horizontal-toolbar"><span class="open-bracket">[</span><span class="current-url">En</span><span class="close-bracket">]</span></span>
 	</span>
       </span>
 
       
-<h1><span>Hashtbl</span></h1>
 
-<a name="Hashtbl"></a><h2><span>Module Hashtbl</span></h2>
-<p class="first_para">The Hashtbl module implements an efficient, mutable lookup table. To create a hash table we could write:</p>
+    <h1>OCaml Meetings</h1>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">my_hash</span> = <span class="ocaml-mod">Hashtbl</span>.create 123456;;</span></pre>
+    <h2>In Europe</h2>
+    <ul>
+      <li>2013, January 29, 8:00
+	PM: <a href="http://www.meetup.com/ocaml-paris/events/99222322/">First "OPAM Party"</a>, IRILL 23, avenue d'Italie 75013
+	Paris.  Organized
+	by <a href="http://www.meetup.com/ocaml-paris/">OCaml Users
+	  in PariS (OUPS)</a>.</li>
+      <li>2012: <a href="http://oud.ocaml.org/2012/">OCaml Users and Developers Workshop</a> (OUD) and <a href="http://cufp.org">Commercial Users of Functional Programming</a> (CUFP) colocated with ICFP in Copenhagen (Denmark)
+      </li><li>2011: <a href="https://forge.ocamlcore.org/plugins/mediawiki/wiki/ocaml-meeting/index.php/OCamlMeeting2011">Paris</a></li>
+      <li>2010: <a href="http://lambda-the-ultimate.org/node/3826">Paris</a>
 
-<p>The 123456 is the initial size of the hashtbl. This initial number is just your best guess as to the amount of data that you will be putting into the hash table. The hash table can grow if you under-estimate the size so don't worry about it too much. The type of my_hash is:</p>
+	<a href="http://vimeo.com/13746263">Videos</a>,
+	<a href="http://www.scribd.com/doc/39582083/OCaml-Meeting-2010-OASIS-Slides">Slides (OASIS)</a>
+      </li>
+      <li>2009:
+	<a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2008/12/19/48-ocaml-meeting-2009-in-grenoble-progress">Grenoble</a>.
+	Data to get from the cocan wiki (Richard).</li>
+      <li>2008: Paris
+	<a href="http://video.google.com/videoplay?docid=1704671501085578312#">Videos (to be removed soon!)</a>
+      </li>
+    </ul>
 
+    <h2>In Japan</h2>
+    <ul>
+      <li>2010: <a href="http://atnd.org/events/4873">Nagoya</a>
 
-<pre><span class="listing"><span class="kwa"><span class="kwa">val</span></span> <span class="ocaml-function">my_hash</span> : ('_a, '_b) <span class="ocaml-mod">Hashtbl</span>.t =</span></pre>
+	<a href="http://www.slideshare.net/camlspotter/um2010">ocamlspotter</a>
+	<a href="http://www.slideshare.net/mzpi/ocamlapisearch">OCaml API search</a>
+	<a href="http://www.slideshare.net/keigoi/ocaml-web-ocsigen-osc2009nagoya">ocsigen</a> (in japanese)
+	<a href="">
+      </a></li>
+      <li>2009: <a href="http://atnd.org/events/738">Tokyo</a></li>
+    </ul>
 
-<p>The '_a and '_b correspond to the key and value types, respectively. There are no concrete types (e.g., int or float * string) filled in in those slots because the type of the key and value are not yet determined. The underscore indicates that the key and data types, once chosen, will be fixed. In other words, you can't sometimes use a given hashtable with ints for keys, and then later use a string as a key in that same hashtable.</p>
+    <h2>In the US</h2>
+    <ul>
+      <li>2012: <a href="http://www.meetup.com/NYC-OCaml/">NYC OCaml Meetup</a></li>
+    </ul>
 
-<p>Lets add some data to my_hash. Lets say I am working on a cross word solving program and I want to find all words that start with a certain letter. First I need to enter the data into my_hash.</p>
+    <h2>In the UK</h2>
+    <ul>
+      <li>2012: <a href="http://www.meetup.com/Cambridge-NonDysFunctional-Programmers/">Cambridge NonDysFunctional Programmers</a></li>
+    </ul>
 
-<p>Note that a hashtable is modified by in-place updates, so, unlike a map, another hash table is not created every time you change the table. Thus, the code "let my_hash = Hashtbl.add my_hash ..." wouldn't make any sense. Instead, we would write something like this:</p>
-
-
-
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hello&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hi&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hug&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hard&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;w&quot; &quot;wimp&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;w&quot; &quot;world&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;w&quot; &quot;wine&quot;;;</span></pre>
-
-<p>If we want to find one element in my_hash that has an "h" in it then we would write. Notice how it only returns just one element? That element was the last one entered in with the value of "h".</p>
-
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.find my_hash &quot;h&quot;;;</span></pre>
-
-<p>What we probably want is all the elements that start with "h". To do this we want to find all of them. What better name for this then "find_all"?</p>
-
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.find_all my_hash &quot;h&quot;;;</span></pre>
-
-<p>returns</p>
-
-<pre><span class="listing">[&quot;hard&quot;; &quot;hug&quot;; &quot;hi&quot;; &quot;hello&quot;]</span></pre>
-
-<p>To find out if there is an entry in the my_hash for a letter we would do:</p>
-
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.mem my_hash &quot;h&quot;;;</span></pre>
-
-
-
-
-
-
+  
     </div>
 
     
