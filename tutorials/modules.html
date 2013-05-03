@@ -218,7 +218,7 @@ ocamlopt -c amodule.ml
 <span class="kwa"><span class="kwa">val</span></span> <span class="ocaml-function">sub</span> : date -&gt; date -&gt; date
 <span class="kwa"><span class="kwa">val</span></span> <span class="ocaml-function">years</span> : date -&gt; float</span></pre>
 
-<p>The point is that only <code>create</code> and <code>sub</code> can be used to create <code>date</code> records. Therefore it is not possible for the user of the module to create ill-formed records. Actually, our implementation uses a record, but we could change it and be sure that it will not break any code that relies on this module! This takes all its sense in a library since subsequent versions of the same library can continue to expose the same interface, while internally changing the implementation, including data structures.</p>
+<p>The point is that only <code>create</code> and <code>sub</code> can be used to create <code>date</code> records. Therefore, it is not possible for the user of the module to create ill-formed records. Actually, our implementation uses a record, but we could change it and be sure that it will not break any code that relies on this module! This takes all its sense in a library since subsequent versions of the same library can continue to expose the same interface, while internally changing the implementation, including data structures.</p>
 
 <h2><a name="Submodules"></a>Submodules</h2>
 
@@ -293,7 +293,7 @@ ocamlopt -c amodule.ml
  ...
 <span class="kwa">end</span></span></pre>
 
-<p>where <code>X</code> is the module that will passed as argument, and <code>X_type</code> is its signature, which is mandatory.</p>
+<p>where <code>X</code> is the module that will be passed as argument, and <code>X_type</code> is its signature, which is mandatory.</p>
 <p>The signature of the returned module itself can be constrained, using this syntax:</p>
 <pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">F</span> <span class="ocaml-variable">(X : X_type) </span>: <span class="ocaml-mod">Y_type</span> =
 <span class="kwa">struct</span>
@@ -359,7 +359,7 @@ ocamlopt -c amodule.ml
 
 <p>Otherwise, there is online documentation for most libraries or you can use <code>ocamlbrowser</code> which comes with labltk (Tk graphical user interface for OCaml).</p>
 <h3>Module inclusion</h3>
-<p>Let's say we feel that a function is missing from the standard <code>List</code> module, but we really want as if it were part of it. In an <code>extensions.ml</code> file, we can achieve this effect by using the <code>include</code> directive:</p>
+<p>Let's say we feel that a function is missing from the standard <code>List</code> module, but we really want it as if it were part of it. In an <code>extensions.ml</code> file, we can achieve this effect by using the <code>include</code> directive:</p>
 <pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">List</span> <span class="ocaml-variable"></span>= <span class="kwa">struct</span>
   <span class="kwa">include</span> List
   <span class="kwa">let rec</span> <span class="ocaml-function">optmap</span> <span class="ocaml-variable">f </span>= <span class="kwb">function</span>
@@ -370,7 +370,7 @@ ocamlopt -c amodule.ml
        | Some x -&gt; x :: optmap f tl
 <span class="kwa">end</span></span></pre>
 
-<p>It creates a module <code>Extensions.List</code>, that has everything that the standard <code>List</code> module has, plus a new <code>optmap</code> function. From another file, all we have to do to override the default <code>List</code> module is <code>open Extensions</code> at the beginning of the .ml file:</p>
+<p>It creates a module <code>Extensions.List</code> that has everything the standard <code>List</code> module has, plus a new <code>optmap</code> function. From another file, all we have to do to override the default <code>List</code> module is <code>open Extensions</code> at the beginning of the .ml file:</p>
 <pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Extensions</span>
 ...
 <span class="ocaml-mod">List</span>.optmap ...</span></pre>

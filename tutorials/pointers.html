@@ -173,7 +173,7 @@
 
 <p>
   You can program directly with explicit references if you want to,
-  but this is normally a vast of time and effort.
+  but this is normally a waste of time and effort.
 </p>
 <p>
   Let's examine the simple example of linked lists (integer lists to
@@ -264,7 +264,7 @@ function cons (x: integer; l: list): list;
   <code>tl</code> field would also be declared as mutable:
 </p>
 
-<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">list</span> = | Nil | Cons <span class="kwb">of</span> cell
+<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">list</span> = Nil | Cons <span class="kwb">of</span> cell
 <span class="kwa">and </span><span class="ocaml-variable">cell</span> = {<span class="kwb">mutable</span> hd : int; <span class="kwb">mutable</span> tl : list};;</span></pre>
 
 <p>

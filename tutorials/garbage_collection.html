@@ -285,7 +285,7 @@ compactions: 0
 <span class="ocaml-comment">(* On-disk file. *)</span>
 <span class="kwa">let </span><span class="ocaml-variable">diskfile</span> = openfile &quot;users.bin&quot; [ O_RDWR ] 0</span></pre>
 
-<p>Download <a href="http://ocaml-tutorial.org/_bin/upload_file_form.cmo?name=users.bin.gz" class="file_not_found">users.bin.gz</a> and decompress it before running the program.</p>
+<p>Download <a href="../img/users.bin.gz">users.bin.gz</a> and decompress it before running the program.</p>
 <p>Our cache of records is very simple:</p>
 <pre><span class="listing"><span class="ocaml-comment">(* Cache <span class="kwb">of</span> records. *)</span>
 <span class="kwa">let </span><span class="ocaml-variable">cache</span> = <span class="ocaml-mod">Weak</span>.create nr_records</span></pre>
