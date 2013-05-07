@@ -347,7 +347,7 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
     may ~f:(set_title window) title;
     may ~f:(set_width window) width;
     may ~f:(set_height window) height;
-    window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 1, characters 30-200:
+    window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 1, characters 31-37:
 Warning 16: this optional argument cannot be erased.
 </span>val open_window : ?title:string -&gt; ?width:int -&gt; ?height:int -&gt; window =
   &lt;fun&gt;
@@ -405,7 +405,7 @@ Warning 16: this optional argument cannot be erased.
 
 <p>There's another little wrinkle concerning optional arguments. Suppose we write a function around <code>open_window</code> to open up an application:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=
-    open_window ~title:&quot;My Application&quot; ~width ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 40-46:
+    open_window ~title:&quot;My Application&quot; ~width ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 2, characters 41-46:
 Error: This expression has type 'a option
        but an expression was expected of type int
 </span></pre>

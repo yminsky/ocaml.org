@@ -158,8 +158,8 @@ Error: This expression has type float but an expression was expected of type
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">my_type</span> = A | B</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type my_type = A | B
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">b</span> = B</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val b : my_type = B
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">a = b</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 4-5:
-Error: This expression has type my_type/2750
-       but an expression was expected of type my_type/2746
+Error: This expression has type my_type/1301
+       but an expression was expected of type my_type/1297
 </span></pre>
 
 <p>For the compiler, the second definition of my_type is totally independent from the first definition. So we have defined two types which have the same name. Since &quot;a&quot; was defined earlier, it belongs to the first type while &quot;b&quot; belongs to the second type. In this example, redefining &quot;a&quot; after the last definition of my_type solves the problem. This kind of problem should not happen in real programs unless you use the same name for the same type in the same module, which is highly discouraged.</p>
@@ -220,7 +220,7 @@ contains type variables that cannot be generalized
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">test_member</span> <span class="ocaml-variable">x tup </span>=
     <span class="kwb">match</span> tup <span class="kwb">with</span>
     | (y, _) | (_, y) when y = x -&gt; true
-    | _ -&gt; false</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 3, characters 16-20:
+    | _ -&gt; false</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 3, characters 15-21:
 Warning 12: this sub-pattern is unused.
 </span>val test_member : 'a -&gt; 'a * 'a -&gt; bool = &lt;fun&gt;
 </span></pre>
@@ -272,7 +272,8 @@ some_module.cmi is not a compiled interface
 
 <h3>Warning: Illegal backslash escape in string</h3>
 <p>Recent versions of OCaml warn you against unprotected backslashes in strings since they should be doubled. Such a message may be displayed when compiling an older program, and can be turned off with the &quot;-w x&quot; option.</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">&quot;\e\n&quot; <span class="ocaml-comment">(* bad practice *)</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning: File &quot;&quot;, line 1, characters 1-3: Illegal backslash escape in string or character (e)
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">&quot;\e\n&quot; <span class="ocaml-comment">(* bad practice *)</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">File &quot;&quot;, line 1, characters 1-3:
+Warning 14: illegal backslash escape in string.
 </span>- : string = &quot;\\e\n&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">&quot;\\e\n&quot; <span class="ocaml-comment">(* good practice *)</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;\\e\n&quot;
 </span></pre>
