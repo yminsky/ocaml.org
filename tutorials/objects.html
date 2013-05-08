@@ -501,7 +501,9 @@ Error: This expression has type widget list
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">r</span> =
     <span class="kwa">let </span><span class="ocaml-variable">n</span> = <span class="kwb">ref</span> 0 <span class="kwa">in</span>
     { get = (<span class="kwb">fun</span> () -&gt; !n);
-      incr = (<span class="kwb">fun</span> () -&gt; incr n) }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val r : counter_r = {get = &lt;fun&gt;; incr = &lt;fun&gt;}
+      incr = (<span class="kwb">fun</span> () -&gt; incr n) }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 4, characters 29-30:
+Error: This expression has type int ref
+       but an expression was expected of type t
 </span></pre>
 
 <p>In terms of functionality, both the object and the record are similar, but each solution has its own advantages:</p>
