@@ -220,14 +220,13 @@ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach.ml
 
 <ul><li>FYI: Camlp4 is complicated to learn because a syntax extension consists of two domain-specific languages that are foreign to OCaml: parsing and code embedding. To add insult to injury, Camlp4 has a "<a title="http://caml.inria.fr/pub/docs/manual-camlp4/manual007.html" class="external" href="http://caml.inria.fr/pub/docs/manual-camlp4/manual007.html">revised syntax</a>" dialect of OCaml that can be used, in addition to the original OCaml dialect, both as the host (top-level) language and as the embedded language. This tutorial uses original OCaml as the host language and revised dialect as the embedded language. This choice is reflected in the camlp4 executable that we use here, <code>camlp4orf</code>. See <a title="http://brion.inria.fr/gallium/index.php/Using_Camlp4" class="external" href="http://brion.inria.fr/gallium/index.php/Using_Camlp4">Using Camlp4</a> for the explanation and additional options.</li></ul>
 <p>We can verify that it works:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;camlp4o.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1:
-Error: Reference to undefined global `Dynlink'
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Add directory where the syntax extension is compiled <span class="kwb">to</span> the module
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;camlp4o.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Add directory where the syntax extension is compiled <span class="kwb">to</span> the module
    path (not required <span class="kwb">if</span> pa_foreach.cmo is <span class="kwa">in</span> the current directory). *)</span>
-#directory &quot;_build/src/html/tutorials/camlp4_3.10/&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;pa_foreach.cmo&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1:
-Error: Reference to undefined global `Camlp4'
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> s <span class="kwa">in</span> List [&quot;hello&quot;; &quot;world&quot;] <span class="kwb">do</span> print_endline s <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 6-8:
-Error: Syntax error
+#directory &quot;_build/src/html/tutorials/camlp4_3.10/&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">	Camlp4 Parsing version 4.00.1
+
+</span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;pa_foreach.cmo&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> s <span class="kwa">in</span> List [&quot;hello&quot;; &quot;world&quot;] <span class="kwb">do</span> print_endline s <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">hello
+world
+</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p>Now we have a rudimentary syntax extension. However, it is quite restrictive. For example, it would be nice to do pattern matching like this:</p>
@@ -272,12 +271,11 @@ Error: Syntax error
 <pre>
 ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach2.ml
 </pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;pa_foreach2.cmo&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1:
-Error: Reference to undefined global `Camlp4'
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> (k, v) <span class="kwa">in</span> List [(0, &quot;hello&quot;); (1, &quot;world&quot;)] <span class="kwb">do</span>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;pa_foreach2.cmo&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> (k, v) <span class="kwa">in</span> List [(0, &quot;hello&quot;); (1, &quot;world&quot;)] <span class="kwb">do</span>
     <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v
-  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 5-6:
-Error: Syntax error
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">0: hello
+1: world
+</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p>and that multiple arguments work:</p>
@@ -287,8 +285,10 @@ Error: Syntax error
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 2 &quot;foobar&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span>
     <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v
-  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 6-7:
-Error: Syntax error
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">2: foobar
+0: hello
+1: world
+</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p>There are still some subtle problems with this approach. In the next section, we'll discuss solutions to these problems.</p>
