@@ -948,8 +948,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = <span class="ocaml-mod">Unix</span>.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00298786163330078125
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 5.41210174560546875e-05
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00306797027587890625
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 5.1975250244140625e-05
 </span></pre>
 </div>
 
@@ -1394,8 +1394,7 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
 <pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span></pre>
   <p>Find out how many height-balanced trees exist for <code>n =
       15</code>.</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">List</span>.length (hbal_tree_nodes 15)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 13-28:
-Error: Unbound value hbal_tree_nodes
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">List</span>.length (<span class="ocamltop-error-loc">hbal_tree_nodes</span> 15)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Unbound value hbal_tree_nodes
 </span></pre>
 </div>
 

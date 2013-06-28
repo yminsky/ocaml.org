@@ -181,8 +181,7 @@
 </span></pre>
 
 <p>The stream expression syntax is not able to interpret recursive values like this, and attempts to do this will result in a syntax error:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">rec</span> <span class="ocaml-variable">ones </span>= [&lt; '1; ones &gt;]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 18-20:
-Error: This kind of expression is not allowed as right-hand side of `let rec'
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">rec</span> <span class="ocaml-variable">ones </span>= [&lt; <span class="ocamltop-error-loc">'1</span>; ones &gt;]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This kind of expression is not allowed as right-hand side of `let rec'
 </span></pre>
 
 <p>This is only a minor inconvenience, since most streams will be built from one or more parameters.  For example, here is the <code>const_stream</code> from the <a title="Streams" class="internal" href="streams.html">Streams</a> chapter, redefined using stream expression syntax:</p>

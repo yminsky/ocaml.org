@@ -229,7 +229,8 @@ for each line of your matrix. For instance:
     <span class="kwb">for</span> i = 1 <span class="kwb">to</span> n - 1 <span class="kwb">do</span>
       result.(i) &lt;- <span class="ocaml-mod">Array</span>.make m init
     <span class="kwb">done</span>;
-    result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error"></span></pre>
+    result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val matrix : int -&gt; int -&gt; 'a -&gt; 'a array array = &lt;fun&gt;
+</span></pre>
 
 In the same vein, the <code>copy_vect</code> primitive gives strange
 results, when applied to matrices: you need to write a function that
@@ -242,7 +243,8 @@ explicitly copies each line of the matrix at hand:
       <span class="kwb">for</span> i = 0 <span class="kwb">to</span> l - 1 <span class="kwb">do</span>
         result.(i) &lt;- <span class="ocaml-mod">Array</span>.copy m.(i)
       <span class="kwb">done</span>;
-      result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error"></span></pre>
+      result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val copy_matrix : 'a array array -&gt; 'a array array = &lt;fun&gt;
+</span></pre>
 </div>
 
 <h3>Types definitions</h3>
@@ -273,8 +275,7 @@ last defined type hides the labels of the first type. For instance:
 
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">point_3d</span> = {x : float; y : float; z : float}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type point_3d = { x : float; y : float; z : float; }
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">point_2d</span> = {x : float; y : float}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type point_2d = { x : float; y : float; }
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{x = 10.; y = 20.; z = 30.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 19-20:
-Error: The record field label z belongs to the type point_3d
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{x = 10.; y = 20.; <span class="ocamltop-error-loc">z</span> = 30.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: The record field label z belongs to the type point_3d
        but is mixed here with labels of type point_2d
 </span></pre>
 
@@ -596,9 +597,8 @@ written the same. Consider for instance:
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">x</span> = T 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val x : t = T 1
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">t</span> = T <span class="kwb">of</span> int</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type t = T of int
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">incr</span> = <span class="kwb">function</span> T x -&gt; T (x+1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val incr : t -&gt; t = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr x</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1, characters 5-6:
-Error: This expression has type t/3264 but an expression was expected of type
-         t/3267
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr <span class="ocamltop-error-loc">x</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type t/3207 but an expression was expected of type
+         t/3210
 </span></pre>
 
 This phenomenon appears when you load many times the same file into
