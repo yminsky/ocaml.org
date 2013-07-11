@@ -365,13 +365,13 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
               | Value <span class="kwb">of</span> string          <span class="ocaml-comment">(* "x", "y", "n", etc. *)</span></span><span class="ocamltop-prompt">;;</span></pre>
 
 <p>I then recompiled the <code>to_string</code> function without changing it. OCaml reported the following warning:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let <span class="ocamltop-error-loc">rec to_string e =
-    <span class="kwb">match</span> e <span class="kwb">with</span>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">to_string</span> <span class="ocaml-variable">e </span>=
+    <span class="ocamltop-error-loc"><span class="kwb">match</span> e <span class="kwb">with</span>
     | Plus (left, right)   -&gt; &quot;(&quot; ^ to_string left ^ &quot; + &quot; ^ to_string right ^ &quot;)&quot;
     | Minus (left, right)  -&gt; &quot;(&quot; ^ to_string left ^ &quot; - &quot; ^ to_string right ^ &quot;)&quot;
     | Times (left, right)  -&gt; &quot;(&quot; ^ to_string left ^ &quot; * &quot; ^ to_string right ^ &quot;)&quot;
-    | Divide (left, right) -&gt; &quot;(&quot; ^ to_string left ^ &quot; / &quot; ^ to_string right ^ </span>&quot;)&quot;
-    | Value v -&gt; v</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 8: this pattern-matching is not exhaustive.
+    | Divide (left, right) -&gt; &quot;(&quot; ^ to_string left ^ &quot; / &quot; ^ to_string right ^ &quot;)&quot;
+    | Value v -&gt; v</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 8: this pattern-matching is not exhaustive.
 Here is an example of a value that is not matched:
 Product _
 </span>val to_string : expr -&gt; string = &lt;fun&gt;
