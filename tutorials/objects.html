@@ -276,12 +276,12 @@ widget  (superclass for all widgets)
 
 <p>(Notice that a <code>button</code> is a <code>container</code> because it can contain either a label or an image, depending on what is displayed on the button).</p>
 <p><code>widget</code> is the virtual superclass for all widgets. I want every widget to have a name (just a string) which is constant over the life of that widget. This was my first attempt:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">class <span class="ocamltop-error-loc">virtual widget name =
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">class <span class="ocamltop-error-loc">virtual widget</span> name =
     <span class="kwa">object</span> (self)
       <span class="kwa">method</span> <span class="ocaml-function">get_name</span><span class="ocaml-ty"></span> =
         name
       method virtual repaint : unit
-    <span class="kwa">end</span></span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Some type variables are unbound in this type:
+    <span class="kwa">end</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Some type variables are unbound in this type:
          class virtual widget :
            'a -&gt;
            object method get_name : 'a method virtual repaint : unit end

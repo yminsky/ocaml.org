@@ -343,12 +343,12 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 
 <h3>&quot;Warning: This optional argument cannot be erased&quot;</h3>
 <p>We've just touched upon labels and optional arguments, but even this brief explanation should have raised several questions. The first may be why the extra <code>unit</code> argument to <code>open_window</code>? Let's try defining this function without the extra <code>unit</code>:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let open_window ?title ?width ?<span class="ocamltop-error-loc">height</span> =
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let open_window ?title ?width <span class="ocamltop-error-loc">?height =
     <span class="kwa">let </span><span class="ocaml-variable">window</span> = create_window () <span class="kwa">in</span>
     may ~f:(set_title window) title;
     may ~f:(set_width window) width;
     may ~f:(set_height window) height;
-    window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 16: this optional argument cannot be erased.
+    window</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 16: this optional argument cannot be erased.
 </span>val open_window : ?title:string -&gt; ?width:int -&gt; ?height:int -&gt; window =
   &lt;fun&gt;
 </span></pre>
@@ -404,8 +404,8 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 <h3>Using <code>?foo</code> in a function call</h3>
 
 <p>There's another little wrinkle concerning optional arguments. Suppose we write a function around <code>open_window</code> to open up an application:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=
-<span class="ocamltop-error-loc">    o</span>pen_window ~title:&quot;My Application&quot; ~width ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type 'a option
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=<span class="ocamltop-error-loc">
+    o</span>pen_window ~title:&quot;My Application&quot; ~width ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type 'a option
        but an expression was expected of type int
 </span></pre>
 
