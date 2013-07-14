@@ -217,8 +217,7 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
   <span class="kwa">let </span><span class="ocaml-variable">result</span> = <span class="ocaml-mod">Array</span>.create (max n1 n2) 0 <span class="kwa">in</span>
   <span class="kwb">for</span> i = 0 <span class="kwb">to</span> n1 - 1 <span class="kwb">do</span> result.(i) &lt;- p1.(i) <span class="kwb">done</span>;
   <span class="kwb">for</span> i = 0 <span class="kwb">to</span> n2 - 1 <span class="kwb">do</span> result.(i) &lt;- result.(i) + p2.(i) <span class="kwb">done</span>;
-  result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val add_polynom : int array -&gt; int array -&gt; int array = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">add_polynom [| 1; 2 |] [| 1; 2; 3 |]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int array = [|2; 4; 3|]
+  result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">add_polynom</span> [| 1; 2 |] [| 1; 2; 3 |]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Unbound value add_polynom
 </span></pre>
 
   <p>OCaml offre des cellules mémoire modifiables
@@ -239,8 +238,7 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
     <span class="kwb">for</span> i = 2 <span class="kwb">to</span> n <span class="kwb">do</span>
       result := i * !result
     <span class="kwb">done</span>;
-    !result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val fact : int -&gt; int = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 120
+    !result</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 120
 </span></pre>
 
 
