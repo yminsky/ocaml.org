@@ -280,7 +280,9 @@ do_next_job ();
 
 <p>OCaml doesn't support the concept of breaking out of a <code>for</code> loop early - i.e. it has no <code>break</code>, <code>continue</code> or <code>last</code> statements. (You <em>could</em> throw an exception and catch it outside, and this would run fast but often looks clumsy.)  </p>
 <p>The expression inside an OCaml for loop should evaluate to <code>unit</code> (otherwise you'll get a warning), and the for loop expression as a whole returns <code>unit</code>:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> i = 1 <span class="kwb">to</span> 10 <span class="kwb">do</span> i <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error"></span></pre>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> i = 1 <span class="kwb">to</span> 10 <span class="kwb">do</span> <span class="ocamltop-error-loc">i</span> <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 10: this expression should have type unit.
+</span>- : unit = ()
+</span></pre>
 
 <p>Functional programmers tend to use recursion instead of explicit loops, and regard <strong>for</strong> loops with suspicion since it can't return anything, hence OCaml's relatively powerless <strong>for</strong> loop.  We talk about recursion below.</p>
 <p><strong>While loops</strong> in OCaml are written:</p>
@@ -738,7 +740,8 @@ print_endline (string_of_filesystem fs)</span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">a</span> = <span class="ocaml-mod">Array</span>.create 10 0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val a : int array = [|0; 0; 0; 0; 0; 0; 0; 0; 0; 0|]
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> i = 0 <span class="kwb">to</span> <span class="ocaml-mod">Array</span>.length a - 1 <span class="kwb">do</span>
     a.(i) &lt;- i
-  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error"></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">a</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int array = [|0; 0; 0; 0; 0; 0; 0; 0; 0; 0|]
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">a</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int array = [|0; 1; 2; 3; 4; 5; 6; 7; 8; 9|]
 </span></pre>
 
 <p>Notice the syntax for writing arrays: <code>[| <em>element</em>; <em>element</em>; ... |]</code></p>
