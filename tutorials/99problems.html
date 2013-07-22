@@ -118,7 +118,7 @@
             </ul>
 	    <form action="http://www.google.com/search" method="get" class="navbar-search pull-right">
 	      <input placeholder="Search" class="search-query" name="q" type="text"/>
-	      <input value="site:http://www.ocaml.org/" name="q" type="hidden"/>
+	      <input value="site:http://ocaml.org/" name="q" type="hidden"/>
 	    </form>
             
 	    
@@ -948,8 +948,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = <span class="ocaml-mod">Unix</span>.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00294589996337890625
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 5.0067901611328125e-05
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00295710563659667969
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 5.50746917724609375e-05
 </span></pre>
 </div>
 
