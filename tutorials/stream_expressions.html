@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -144,11 +144,11 @@
 <p>Streams are very powerful and concise once the necessary tools (stream builders, combinators, and other utilities) are in place. However, the code behind these tools can be a chore to write, at times resembling state machines more than elegant functional expressions. The Camlp4 preprocessor adds syntax support for stream and stream parser expressions, raising the level of abstraction a bit higher and simplifying many common stream-oriented tasks.</p>
 <a name="Interactive_Use"></a><h2><span>Interactive Use</span></h2>
 <p>To enable stream expression support in the toplevel, you can type the following:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;dynlink.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;camlp4o.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span></pre>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;dynlink.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;camlp4o.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span></pre>
 
 <p>Or, if you are using findlib:</p>
-<pre><span class="listing">#use &quot;topfind&quot;;;
-#camlp4o;;</span></pre>
+<pre><span class="listing">#use <span class="ocaml-string">&quot;topfind&quot;</span><span class="ocamltop-prompt">;;</span>
+#camlp4o<span class="ocamltop-prompt">;;</span></span></pre>
 
 <h2><a name="Stream_Literals"></a>Stream Literals</h2>
 
@@ -233,13 +233,13 @@
   <span class="ocaml-mod">Stream</span>.iter
     (function
      | `Dir path -&gt;
-         <span class="ocaml-mod">Printf</span>.printf &quot;dir: %s%!\n&quot; path
+         <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;dir: %s%!\n&quot;</span> path
      | `File path -&gt;
-         <span class="ocaml-mod">Printf</span>.printf &quot;file: %s%!\n&quot; path
+         <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;file: %s%!\n&quot;</span> path
      | `Error (path, e) -&gt;
-         <span class="ocaml-mod">Printf</span>.printf &quot;error: %s (%s)%!\n&quot; path
+         <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;error: %s (%s)%!\n&quot;</span> path
            (<span class="ocaml-mod">Printexc</span>.to_string e))
-    (walk &quot;/var/log&quot;)</span></pre>
+    (walk <span class="ocaml-string">&quot;/var/log&quot;</span>)</span></pre>
 
 
 

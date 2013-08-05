@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -246,7 +246,7 @@ tag:                            1111 1100 (String_tag)
 <h3>Tail recursion</h3>
 <p>We mentioned in chapter 6 that OCaml can turn tail-recursive function calls into simple loops. Is this actually true? Let's look at what simple tail recursion compiles to:</p>
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">loop</span> <span class="ocaml-variable">() </span>=
-  print_string &quot;I go on forever ...&quot;;
+  print_string <span class="ocaml-string">&quot;I go on forever ...&quot;</span>;
   loop ()
 
 <span class="kwa">let</span> () = loop ()</span></pre>
@@ -387,7 +387,7 @@ print_int (max 2 3)</span></pre>
 
 <p>There are a number of peculiarities about integers in OCaml. One of these is that integers are 31 bit entities, not 32 bit entities. What happens to the &quot;missing&quot; bit?</p>
 <p>Write this to <code>int.ml</code>:</p>
-<pre><span class="listing">print_int 3;;</span></pre>
+<pre><span class="listing">print_int 3<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>and compile with <code>ocamlopt -S int.ml -o int</code> to generate assembly language in <code>int.s</code>. Recall from the discussion above that we are expecting OCaml to inline the <code>print_int</code> function as <code>output_string (string_of_int 3)</code>, and examining the assembly language output we can see that this is exactly what OCaml does:</p>
 <pre>
@@ -460,7 +460,7 @@ double array[10];
 
 <p>... instead of having an array of pointers to ten separately allocated floats on the heap.</p>
 <p>Let's see this in practice:</p>
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a</span> = <span class="ocaml-mod">Array</span>.create 10 0.0;;
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a</span> = <span class="ocaml-mod">Array</span>.create 10 0.0<span class="ocamltop-prompt">;;</span>
 <span class="kwb">for</span> i = 0 <span class="kwb">to</span> 9 <span class="kwb">do</span>
   a.(i) &lt;- float_of_int i
 <span class="kwb">done</span></span></pre>
@@ -597,14 +597,14 @@ Closure__fun_58:
    $ ./graphtest
    $ ocamlprof graphtest.ml *)</span>
 
-<span class="ocaml-mod">Random</span>.self_init ();;
-<span class="ocaml-mod">Graphics</span>.open_graph &quot; 640x480&quot;;;
+<span class="ocaml-mod">Random</span>.self_init ()<span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Graphics</span>.open_graph <span class="ocaml-string">&quot; 640x480&quot;</span><span class="ocamltop-prompt">;;</span>
 
 <span class="kwa">let rec</span> <span class="ocaml-function">iterate</span> <span class="ocaml-variable">r x_init i </span>=
   <span class="ocaml-comment">(* 12820000 *)</span> <span class="kwb">if</span> i == 1 <span class="kwb">then</span> <span class="ocaml-comment">(* 25640 *)</span> x_init
   <span class="kwb">else</span>
     <span class="ocaml-comment">(* 12794360 *)</span> <span class="kwa">let </span><span class="ocaml-variable">x</span> = iterate r x_init (i-1) <span class="kwa">in</span>
-    r *. x *. (1.0 -. x);;
+    r *. x *. (1.0 -. x)<span class="ocamltop-prompt">;;</span>
 
 <span class="kwb">for</span> x = 0 <span class="kwb">to</span> 640 <span class="kwb">do</span>
   <span class="ocaml-comment">(* 641 *)</span> <span class="kwa">let </span><span class="ocaml-variable">r</span> = 4.0 *. (float_of_int x) /. 640.0 <span class="kwa">in</span>
@@ -614,7 +614,7 @@ Closure__fun_58:
     <span class="kwa">let </span><span class="ocaml-variable">y</span> = int_of_float (x_final *. 480.) <span class="kwa">in</span>
     <span class="ocaml-mod">Graphics</span>.plot x y
   <span class="kwb">done</span>
-<span class="kwb">done</span>;;</span></pre>
+<span class="kwb">done</span><span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>The comments <code>(* nnn *)</code> are added by <code>ocamlprof</code>, showing how many times each part of the code was called.</p>
 <p>Profiling native code is done using your operating system's native support for profiling. In the case of Linux, we use <code>gprof</code>.</p>

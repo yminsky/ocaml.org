@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -142,7 +142,7 @@
 <h2><a name="Streams"></a>Streams</h2>
 <p>Suppose you need to process each line of a text file. One way to do this is to read the file in as a single large string and use something like <code>Str.split</code> to turn it into a list. This works when the file is small, but because the entire file is loaded into memory, it does not scale well when the file is large.</p>
 <p>More commonly, the <code>input_line</code> function can be used to read one line at a time from a channel. This typically looks like:</p>
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">in_channel</span> = open_in &quot;lines.txt&quot; <span class="kwa">in</span>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">in_channel</span> = open_in <span class="ocaml-string">&quot;lines.txt&quot;</span> <span class="kwa">in</span>
 <span class="kwb">try</span>
   <span class="kwb">while</span> true <span class="kwb">do</span>
     <span class="kwa">let </span><span class="ocaml-variable">line</span> = input_line in_channel <span class="kwa">in</span>
@@ -161,7 +161,7 @@
 
 <p>The &quot;Stream.from&quot; function builds a stream from a callback function. This function is passed the current stream count (starting with 0) as an argument and is expected to return an <code>'a option</code>. If the option has a value (<code>Some x</code>), that value will be the next item in the stream. If it has no value (<code>None</code>), this indicates that the stream is empty and no further reads will be attempted. Since the option is polymorphic, <code>Stream.from</code> can construct streams of any type. These streams have a type of <code>'a Stream.t</code>.</p>
 <p>With this simple function, we can now easily construct line streams from any input channel:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">in_channel</span> = open_in &quot;_oasis&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val in_channel : in_channel = &lt;abstr&gt;
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">in_channel</span> = open_in <span class="ocaml-string">&quot;_oasis&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val in_channel : in_channel = &lt;abstr&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">lines</span> = line_stream_of_channel in_channel</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val lines : string Stream.t = &lt;abstr&gt;
 </span></pre>
 
@@ -174,12 +174,12 @@
 </span></pre>
 
 <p>As you can see, <code>Stream.next</code> either returns the next item in the stream or raises a <code>Stream.Failure</code> exception indicating that the stream is empty. Likewise, with a little help from the <code>Stream.of_list</code> constructor and the <code>Str</code> regular expression module, we could build a stream of lines from a string in memory:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">line_stream_of_string</span> <span class="ocaml-variable">string </span>=
-  <span class="ocaml-mod">Stream</span>.of_list (<span class="ocaml-mod">Str</span>.split (<span class="ocaml-mod">Str</span>.regexp &quot;\n&quot;) string)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val line_stream_of_string : string -&gt; string Stream.t = &lt;fun&gt;
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;str.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">line_stream_of_string</span> <span class="ocaml-variable">string </span>=
+  <span class="ocaml-mod">Stream</span>.of_list (<span class="ocaml-mod">Str</span>.split (<span class="ocaml-mod">Str</span>.regexp <span class="ocaml-string">&quot;\n&quot;</span>) string)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val line_stream_of_string : string -&gt; string Stream.t = &lt;fun&gt;
 </span></pre>
 
 <p>and these streams could be used exactly the same way:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">lines</span> = line_stream_of_string &quot;hello\nstream\nworld&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val lines : string Stream.t = &lt;abstr&gt;
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">lines</span> = line_stream_of_string <span class="ocaml-string">&quot;hello\nstream\nworld&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val lines : string Stream.t = &lt;abstr&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.next lines</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;hello&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.next lines</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;stream&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.next lines</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;world&quot;
@@ -188,7 +188,7 @@
 
 <p>Since both cases raise <code>Stream.Failure</code> on an empty stream, there is no need to worry about catching <code>End_of_file</code> in the case of file I/O. This unified interface makes it much easier to write functions that can receive data from multiple sources.</p>
 <p>The <code>Stream.iter</code> function automates the common task of performing an operation for each item. With it, we can rewrite the original example as follows:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">in_channel</span> = open_in &quot;_oasis&quot; <span class="kwa">in</span>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">in_channel</span> = open_in <span class="ocaml-string">&quot;_oasis&quot;</span> <span class="kwa">in</span>
   <span class="kwb">try</span>
     <span class="ocaml-mod">Stream</span>.iter
       (<span class="kwb">fun</span> line -&gt;
@@ -211,14 +211,21 @@ BuildTools:  ocamlbuild
 Library ocamlorg
   Path:         src/lib
   FindlibName:  ocamlorg
-  BuildDepends: weberizer (&gt;= 0.7.2), netstring, netclient, rss (&gt;= 2.2.1)
+  BuildDepends: weberizer (&gt;= 0.7.6), netstring, netclient, rss (&gt;= 2.2.1)
   Install:      false
-  Modules:      Main
+  Modules:      Ocamlorg
 
 Executable build
   Path:           src/app
   MainIs:         build.ml
-  BuildDepends:   weberizer, ocamlorg, unix, str, dynlink
+  BuildDepends:   weberizer, ocamlorg, unix, str
+  CompiledObject: best
+  Install:        false
+
+Executable code_top
+  Path:	          src/app
+  MainIs:	  code_top.ml
+  BuildDepends:   unix, dynlink
 # The following cannot be conditional.  The correct compilations tags
 # are set in myocamlbuild.ml.  Wait for 4.00.0 to be mainstream to remove.
 #  BuildDepends+: compiler-libs.toplevel
@@ -237,12 +244,11 @@ Library pa_foreach2
   Install:        false
   FindlibParent:  pa_foreach # sic
 
-# FIXME: does not compile
-# Library pa_foreach3
-#   Path:           src/html/tutorials/camlp4_3.10
-#   Modules:	  Pa_foreach3
-#   Install:        false
-#   FindlibParent:  pa_foreach # sic
+Library pa_foreach3
+  Path:           src/html/tutorials/camlp4_3.10
+  Modules:	  Pa_foreach3
+  Install:        false
+  FindlibParent:  pa_foreach # sic
 
 Document doclib
   Title:                API reference for ocaml.org source code
@@ -291,7 +297,7 @@ Document doclib
 
 <a name="Deconstructing_streams"></a><h2><span>Deconstructing streams</span></h2>
 <p>We already saw the <code>Stream.next</code> function, which retrieves a single item from a stream. There is another way to work with streams that is often preferable: <code>Stream.peek</code> and <code>Stream.junk</code>. When used together, these functions allow you to see what the next item would be. This feature, known as &quot;look ahead&quot;, is very useful when writing parsers. Even if you don't need to look ahead, the peek/junk protocol may be nicer to work with because it uses options instead of exceptions:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">lines</span> = line_stream_of_string &quot;hello\nworld&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val lines : string Stream.t = &lt;abstr&gt;
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">lines</span> = line_stream_of_string <span class="ocaml-string">&quot;hello\nworld&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val lines : string Stream.t = &lt;abstr&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.peek lines</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string option = Some &quot;hello&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.peek lines</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string option = Some &quot;hello&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.junk lines</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
@@ -308,11 +314,11 @@ Document doclib
     <span class="kwa">let rec</span> <span class="ocaml-function">next</span> <span class="ocaml-variable">para_lines i </span>=
       <span class="kwb">match</span> <span class="ocaml-mod">Stream</span>.peek lines, para_lines <span class="kwb">with</span>
       | None, [] -&gt; None
-      | Some &quot;&quot;, [] -&gt;
+      | Some <span class="ocaml-string">&quot;&quot;</span>, [] -&gt;
           <span class="ocaml-mod">Stream</span>.junk lines;
           next para_lines i
-      | Some &quot;&quot;, _ | None, _ -&gt;
-          Some (<span class="ocaml-mod">String</span>.concat &quot;\n&quot; (<span class="ocaml-mod">List</span>.rev para_lines))
+      | Some <span class="ocaml-string">&quot;&quot;</span>, _ | None, _ -&gt;
+          Some (<span class="ocaml-mod">String</span>.concat <span class="ocaml-string">&quot;\n&quot;</span> (<span class="ocaml-mod">List</span>.rev para_lines))
       | Some line, _ -&gt;
           <span class="ocaml-mod">Stream</span>.junk lines;
           next (line :: para_lines) i <span class="kwa">in</span>
@@ -332,7 +338,7 @@ Document doclib
   <span class="ocaml-mod">Stream</span>.iter
     (<span class="kwb">fun</span> para -&gt;
        print_endline para;
-       print_endline &quot;--&quot;)
+       print_endline <span class="ocaml-string">&quot;--&quot;</span>)
     (paragraphs lines)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
@@ -403,10 +409,10 @@ val leap_years : int Stream.t = &lt;abstr&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.iter print_endline
     (stream_map
        (<span class="kwb">fun</span> (bg, s) -&gt;
-          <span class="ocaml-mod">Printf</span>.sprintf &quot;&lt;div style='background: %s'&gt;%s&lt;/div&gt;&quot; bg s)
+          <span class="ocaml-mod">Printf</span>.sprintf <span class="ocaml-string">&quot;&lt;div style='background: %s'&gt;%s&lt;/div&gt;&quot;</span> bg s)
        (stream_combine
-          (cycle [&quot;#eee&quot;; &quot;#fff&quot;])
-          (<span class="ocaml-mod">Stream</span>.of_list [&quot;hello&quot;; &quot;html&quot;; &quot;world&quot;])))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">&lt;div style='background: #eee'&gt;hello&lt;/div&gt;
+          (cycle [<span class="ocaml-string">&quot;#eee&quot;</span>; <span class="ocaml-string">&quot;#fff&quot;</span>])
+          (<span class="ocaml-mod">Stream</span>.of_list [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;html&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>])))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">&lt;div style='background: #eee'&gt;hello&lt;/div&gt;
 &lt;div style='background: #fff'&gt;html&lt;/div&gt;
 &lt;div style='background: #eee'&gt;world&lt;/div&gt;
 </span><span class="ocamltop-stderr"></span>- : unit = ()
@@ -475,10 +481,10 @@ val leap_years : int Stream.t = &lt;abstr&gt;
   (stream_combine key_stream value_stream)</span></pre>
 
 <p>Since <code>stream_combine</code> stops as soon as either of its input streams runs out, it can be used to combine an infinite stream with a finite one. This provides a neat way to add indexes to a sequence:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">items</span> = [&quot;this&quot;; &quot;is&quot;; &quot;a&quot;; &quot;test&quot;]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val items : string list = [&quot;this&quot;; &quot;is&quot;; &quot;a&quot;; &quot;test&quot;]
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">items</span> = [<span class="ocaml-string">&quot;this&quot;</span>; <span class="ocaml-string">&quot;is&quot;</span>; <span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;test&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val items : string list = [&quot;this&quot;; &quot;is&quot;; &quot;a&quot;; &quot;test&quot;]
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.iter
     (<span class="kwb">fun</span> (index, value) -&gt;
-       <span class="ocaml-mod">Printf</span>.printf &quot;%d. %s\n%!&quot; index value)
+       <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d. %s\n%!&quot;</span> index value)
     (stream_combine (count_stream 1) (<span class="ocaml-mod">Stream</span>.of_list items))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">1. this
 2. is
 3. a
@@ -559,7 +565,7 @@ val hash_of_stream : ('a * 'b) Stream.t -&gt; ('a, 'b) Hashtbl.t = &lt;fun&gt;
 </span></pre>
 
 <p>What if you want to convert arbitary data types to streams? Well, if the data type defines an <code>iter</code> function, and you don't mind using threads, you can use a producer-consumer arrangement to invert control:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#directory &quot;+threads&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;threads.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">elements</span> <span class="ocaml-variable">iter coll </span>=
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#directory <span class="ocaml-string">&quot;+threads&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;threads.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">elements</span> <span class="ocaml-variable">iter coll </span>=
     <span class="kwa">let </span><span class="ocaml-variable">channel</span> = <span class="ocaml-mod">Event</span>.new_channel () <span class="kwa">in</span>
     <span class="kwa">let</span> <span class="ocaml-function">producer</span> <span class="ocaml-variable">() </span>=
       <span class="kwa">let</span> () =
@@ -573,10 +579,10 @@ val hash_of_stream : ('a * 'b) Stream.t -&gt; ('a, 'b) Hashtbl.t = &lt;fun&gt;
 
 <p>Now it is possible to build a stream from an <code>iter</code> function and a corresponding value:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">module</span> <span class="ocaml-mod">StringSet</span> <span class="ocaml-variable"></span>= <span class="ocaml-mod">Set</span>.Make(String)</span><span class="ocamltop-prompt">;;</span></pre><pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.empty</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add &quot;here&quot; set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add &quot;are&quot; set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add &quot;some&quot; set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add &quot;values&quot; set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add <span class="ocaml-string">&quot;here&quot;</span> set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add <span class="ocaml-string">&quot;are&quot;</span> set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add <span class="ocaml-string">&quot;some&quot;</span> set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">set</span> = <span class="ocaml-mod">StringSet</span>.add <span class="ocaml-string">&quot;values&quot;</span> set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val set : StringSet.t = &lt;abstr&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">stream</span> = elements <span class="ocaml-mod">StringSet</span>.iter set</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val stream : StringSet.elt Stream.t = &lt;abstr&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.iter print_endline stream</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">are
 here

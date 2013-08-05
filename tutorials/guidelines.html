@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -333,8 +333,8 @@ an indication of string continuation at the end of each line (a
 <code>\</code> character at the end of the line that omits white
 spaces on the beginning of next line):
 <pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">universal_declaration</span> =
-  &quot;-1- Programs are born and remain free and equal under the law;\n\
-   distinctions can only be based on the common good.&quot; <span class="kwa">in</span>
+  <span class="ocaml-string">&quot;-1- Programs are born and remain free and equal under the law;\n\
+   distinctions can only be based on the common good.&quot;</span> <span class="kwa">in</span>
   ...</span></pre>
  
  
@@ -736,7 +736,7 @@ construct:
 | Var v -&gt; 1</span></pre>
 <pre><span class="listing"><span class="kwb">try</span> f x <span class="kwb">with</span>
 | Not_found -&gt; ...
-| Failure &quot;not yet implemented&quot; -&gt; ...</span></pre>
+| Failure <span class="ocaml-string">&quot;not yet implemented&quot;</span> -&gt; ...</span></pre>
 
 Put the keyword <code><strong>with</strong></code> at the end of the
 line. If the preceding expression extends beyond one line, put
@@ -746,7 +746,7 @@ line. If the preceding expression extends beyond one line, put
   <span class="kwb">if</span> ...
 <span class="kwb">with</span>
 | Not_found -&gt; ...
-| Failure &quot;not yet implemented&quot; -&gt; ...</span></pre>
+| Failure <span class="ocaml-string">&quot;not yet implemented&quot;</span> -&gt; ...</span></pre>
 <blockquote><p>
     <strong>Justification</strong>: The
     keyword <code><strong>with</strong></code>, on a line by itself shows
@@ -1091,10 +1091,10 @@ comments.
 *)</span>
 <span class="kwa">let rec</span> <span class="ocaml-function">print_lambda</span> <span class="ocaml-variable">lam </span>=
   <span class="kwb">match</span> lam <span class="kwb">with</span>
-  | Var s -&gt; printf &quot;%s&quot; s
-  | Abs l -&gt; printf &quot;\\ %a&quot; print_lambda l
+  | Var s -&gt; printf <span class="ocaml-string">&quot;%s&quot;</span> s
+  | Abs l -&gt; printf <span class="ocaml-string">&quot;\\ %a&quot;</span> print_lambda l
   | App (l1, l2) -&gt;
-     printf &quot;(%a %a)&quot; print_lambda l1 print_lambda l2</span></pre>
+     printf <span class="ocaml-string">&quot;(%a %a)&quot;</span> print_lambda l1 print_lambda l2</span></pre>
 
 <h4>Usage in module interface</h4>
 
@@ -1355,7 +1355,7 @@ For example:
   in the display, that are difficult to trace. For instance:
 </p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">f</span> <span class="ocaml-variable">() </span>=
-  <span class="ocaml-mod">Format</span>.print_string &quot;Hello World!&quot;; print_newline ()</span></pre>
+  <span class="ocaml-mod">Format</span>.print_string <span class="ocaml-string">&quot;Hello World!&quot;</span>; print_newline ()</span></pre>
 <p>
   is bogus since it does not call <code>Format.print_newline</code> to
   flush the pretty-printer queue and output <code>"Hello World!"</code>.
@@ -1562,7 +1562,7 @@ print_newline ()</span></pre>
   <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">add</span> <span class="ocaml-variable">x y </span>=
   <span class="kwb">if</span> x &gt; 1 <span class="kwb">then</span> print_int x;
   print_newline ();
-  x + y;;</span></pre>
+  x + y<span class="ocamltop-prompt">;;</span></span></pre>
   into the clearer separate definitions    
   and change old calls to <code>add</code> accordingly.
 </li></ul>
@@ -1610,7 +1610,7 @@ e3</span></pre></blockquote>
   <span class="kwa">let rec</span> <span class="ocaml-function">loop</span> <span class="ocaml-variable">i </span>=
     <span class="kwb">if</span> i &gt;= <span class="ocaml-mod">Array</span>.length v <span class="kwb">then</span> <span class="kwb">raise</span> Not_found <span class="kwb">else</span>
     <span class="kwb">if</span> v.(i) = e <span class="kwb">then</span> i <span class="kwb">else</span> loop (i + 1) <span class="kwa">in</span>
-  loop 0;;</span></pre>
+  loop 0<span class="ocamltop-prompt">;;</span></span></pre>
 <blockquote><p>
     <strong>Justification</strong>: The recursive function lets you
     code any loop whatsoever simply, even a complex one, for example
@@ -1889,7 +1889,7 @@ contrast with an explicit encoding:
   <span class="kwb">while</span> !l &lt;&gt; [] <span class="kwb">do</span>
     incr res; l := <span class="ocaml-mod">List</span>.tl !l
   <span class="kwb">done</span>;
-  !res;;</span></pre>
+  !res<span class="ocamltop-prompt">;;</span></span></pre>
 in place of the following recursive function, so simple and clear:
 <pre><span class="listing"><span class="kwa">let rec</span> <span class="ocaml-function">list_length</span> = <span class="kwb">function</span>
   | [] -&gt; 0
@@ -1987,10 +1987,10 @@ x + y</span></pre>
 
   </li><li> Another efficient way to write unreadable code is to mix
     all or some of these methods. For example:
-    <pre><span class="listing">(<span class="kwb">fun</span> u -&gt; print_string &quot;world&quot;; print_string u)
-  (<span class="kwa">let </span><span class="ocaml-variable">temp</span> = print_string &quot;Hello&quot;; &quot;!&quot; <span class="kwa">in</span>
-   ((<span class="kwb">fun</span> x -&gt; print_string x; flush stdout) &quot; &quot;;
-    temp));;</span></pre>
+    <pre><span class="listing">(<span class="kwb">fun</span> u -&gt; print_string <span class="ocaml-string">&quot;world&quot;</span>; print_string u)
+  (<span class="kwa">let </span><span class="ocaml-variable">temp</span> = print_string <span class="ocaml-string">&quot;Hello&quot;</span>; <span class="ocaml-string">&quot;!&quot;</span> <span class="kwa">in</span>
+   ((<span class="kwb">fun</span> x -&gt; print_string x; flush stdout) <span class="ocaml-string">&quot; &quot;</span>;
+    temp))<span class="ocamltop-prompt">;;</span></span></pre>
   </li></ul>
 <p>
   If you naturally write the program

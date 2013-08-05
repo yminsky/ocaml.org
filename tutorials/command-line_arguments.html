@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -148,7 +148,7 @@
 
 <span class="kwa">let</span> () =
   <span class="kwb">for</span> i = 0 <span class="kwb">to</span> <span class="ocaml-mod">Array</span>.length <span class="ocaml-mod">Sys</span>.argv - 1 <span class="kwb">do</span>
-    printf &quot;[%i] %s\n&quot; i <span class="ocaml-mod">Sys</span>.argv.(i)
+    printf <span class="ocaml-string">&quot;[%i] %s\n&quot;</span> i <span class="ocaml-mod">Sys</span>.argv.(i)
   <span class="kwb">done</span></span></pre>
 
 <p>If you save the program above as <code>args.ml</code>, and run <code>ocaml args.ml arg1 arg2 arg3</code>, here is what you get:</p>

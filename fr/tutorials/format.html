@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././../css/bootstrap.css"/>
     <link href=".././../css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././../css/bootstrap-responsive.css"/>
@@ -683,7 +683,7 @@ Prix TTC <b></b>=<b></b> 100 Euros
 val kwd : string -&gt; unit = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">print_exp0</span> = <span class="kwb">function</span>
     | Var s -&gt;  ident s
-    | lam -&gt; open_hovbox 1; kwd &quot;(&quot;; print_lambda lam; kwd &quot;)&quot;; close_box ()
+    | lam -&gt; open_hovbox 1; kwd <span class="ocaml-string">&quot;(&quot;</span>; print_lambda lam; kwd <span class="ocaml-string">&quot;)&quot;</span>; close_box ()
   <span class="kwa">and</span> <span class="ocaml-function">print_app</span> = <span class="kwb">function</span>
     | e -&gt; open_hovbox 2; print_other_applications e; close_box ()
   <span class="kwa">and</span> <span class="ocaml-function">print_other_applications</span> <span class="ocaml-variable">f </span>=
@@ -693,7 +693,7 @@ val kwd : string -&gt; unit = &lt;fun&gt;
   <span class="kwa">and</span> <span class="ocaml-function">print_lambda</span> = <span class="kwb">function</span>
     | Lambda (s, lam) -&gt;
         open_hovbox 1;
-        kwd &quot;\\&quot;; ident s; kwd &quot;.&quot;; print_space(); print_lambda lam;
+        kwd <span class="ocaml-string">&quot;\\&quot<span class="ocamltop-prompt">;;</span> ident s; kwd &quot;</span>.&quot<span class="ocamltop-prompt">;;</span> print_space(); print_lambda lam;
         close_box()
     | e -&gt; print_app e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val print_exp0 : lambda -&gt; unit = &lt;fun&gt;
 val print_app : lambda -&gt; unit = &lt;fun&gt;
@@ -730,22 +730,22 @@ val print_lambda : lambda -&gt; unit = &lt;fun&gt;
   formats d'impression à la <code>fprintf</code>.
 </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s
-  <span class="kwa">let</span> <span class="ocaml-function">kwd</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf &quot;%s&quot; s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ident : Format.formatter -&gt; string -&gt; unit = &lt;fun&gt;
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">ident</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf <span class="ocaml-string">&quot;%s&quot;</span> s
+  <span class="kwa">let</span> <span class="ocaml-function">kwd</span> <span class="ocaml-variable">ppf s </span>= fprintf ppf <span class="ocaml-string">&quot;%s&quot;</span> s</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ident : Format.formatter -&gt; string -&gt; unit = &lt;fun&gt;
 val kwd : Format.formatter -&gt; string -&gt; unit = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">pr_exp0</span> <span class="ocaml-variable">ppf </span>= <span class="kwb">function</span>
-    | Var s -&gt; fprintf ppf &quot;%a&quot; ident s
-    | lam -&gt; fprintf ppf &quot;@[&lt;1&gt;(%a)@]&quot; pr_lambda lam
+    | Var s -&gt; fprintf ppf <span class="ocaml-string">&quot;%a&quot;</span> ident s
+    | lam -&gt; fprintf ppf <span class="ocaml-string">&quot;@[&lt;1&gt;(%a)@]&quot;</span> pr_lambda lam
   <span class="kwa">and</span> <span class="ocaml-function">pr_app</span> <span class="ocaml-variable">ppf e </span>=
-    fprintf ppf &quot;@[&lt;2&gt;%a@]&quot; pr_other_applications e
+    fprintf ppf <span class="ocaml-string">&quot;@[&lt;2&gt;%a@]&quot;</span> pr_other_applications e
   <span class="kwa">and</span> <span class="ocaml-function">pr_other_applications</span> <span class="ocaml-variable">ppf f </span>=
     <span class="kwb">match</span> f <span class="kwb">with</span>
-    | Apply (f, arg) -&gt; fprintf ppf &quot;%a@ %a&quot; pr_app f pr_exp0 arg
+    | Apply (f, arg) -&gt; fprintf ppf <span class="ocaml-string">&quot;%a@ %a&quot;</span> pr_app f pr_exp0 arg
     | f -&gt; pr_exp0 ppf f
   <span class="kwa">and</span> <span class="ocaml-function">pr_lambda</span> <span class="ocaml-variable">ppf </span>= <span class="kwb">function</span>
     | Lambda (s, lam) -&gt;
-       fprintf ppf &quot;@[&lt;1&gt;%a%a%a@ %a@]&quot;
-               kwd &quot;\\&quot; ident s kwd &quot;.&quot; pr_lambda lam
+       fprintf ppf <span class="ocaml-string">&quot;@[&lt;1&gt;%a%a%a@ %a@]&quot;</span>
+               kwd <span class="ocaml-string">&quot;\\&quot; ident s kwd &quot;</span>.&quot; pr_lambda lam
     | e -&gt; pr_app ppf e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val pr_exp0 : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 val pr_app : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;
 val pr_other_applications : Format.formatter -&gt; lambda -&gt; unit = &lt;fun&gt;

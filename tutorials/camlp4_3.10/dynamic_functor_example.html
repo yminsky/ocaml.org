@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="../.././css/bootstrap.css"/>
     <link href="../.././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="../.././css/bootstrap-responsive.css"/>
@@ -145,23 +145,23 @@
 <span class="kwa">open</span> <span class="ocaml-mod">Camlp4</span>
 
 <span class="kwa">module</span> <span class="ocaml-mod">Id</span> <span class="ocaml-variable"></span>= <span class="kwa">struct</span> <span class="ocaml-comment">(* Information <span class="kwb">for</span> dynamic loading *)</span>
-  <span class="kwa">let </span><span class="ocaml-variable">name</span> = &quot;My_extension&quot;
-  <span class="kwa">let </span><span class="ocaml-variable">version</span> = &quot;$Id$&quot;
+  <span class="kwa">let </span><span class="ocaml-variable">name</span> = <span class="ocaml-string">&quot;My_extension&quot;</span>
+  <span class="kwa">let </span><span class="ocaml-variable">version</span> = <span class="ocaml-string">&quot;$Id$&quot;</span>
 <span class="kwa">end</span>
 
 <span class="ocaml-comment">(* An extension is just a functor: Syntax -&gt; Syntax *)</span>
 <span class="kwa">module</span> <span class="ocaml-mod">Make</span> <span class="ocaml-variable">(Syntax : <span class="ocaml-mod">Sig</span>.Syntax) </span>= <span class="kwa">struct</span>
   <span class="kwa">include</span> Syntax
-  <span class="kwa">let </span><span class="ocaml-variable">foo</span> = <span class="ocaml-mod">Gram</span>.<span class="ocaml-mod">Entry</span>.mk &quot;foo&quot;
-  <span class="kwa">let </span><span class="ocaml-variable">bar</span> = <span class="ocaml-mod">Gram</span>.<span class="ocaml-mod">Entry</span>.mk &quot;bar&quot;
+  <span class="kwa">let </span><span class="ocaml-variable">foo</span> = <span class="ocaml-mod">Gram</span>.<span class="ocaml-mod">Entry</span>.mk <span class="ocaml-string">&quot;foo&quot;</span>
+  <span class="kwa">let </span><span class="ocaml-variable">bar</span> = <span class="ocaml-mod">Gram</span>.<span class="ocaml-mod">Entry</span>.mk <span class="ocaml-string">&quot;bar&quot;</span>
   <span class="kwa">open</span> <span class="ocaml-mod">Camlp4</span>.<span class="ocaml-mod">Sig</span>
   EXTEND Gram
     GLOBAL: foo bar;
-    foo: [ [ &quot;foo&quot;; i = LIDENT; b = bar -&gt; Foo(i, b) ] ];
-    bar: [ [ &quot;?&quot; -&gt; A | &quot;.&quot; -&gt; B ] ];
-  END;;
-  <span class="ocaml-mod">Gram</span>.parse_string foo (<span class="ocaml-mod">Loc</span>.mk &quot;&lt;string&gt;&quot;) &quot;foo x?&quot; = Foo(&quot;x&quot;, A)
-  DELETE_RULE Gram foo: &quot;foo&quot;; LIDENT; bar END
+    foo: [ [ <span class="ocaml-string">&quot;foo&quot;</span>; i = LIDENT; b = bar -&gt; Foo(i, b) ] ];
+    bar: [ [ <span class="ocaml-string">&quot;?&quot;</span> -&gt; A | <span class="ocaml-string">&quot;.&quot;</span> -&gt; B ] ];
+  END<span class="ocamltop-prompt">;;</span>
+  <span class="ocaml-mod">Gram</span>.parse_string foo (<span class="ocaml-mod">Loc</span>.mk <span class="ocaml-string">&quot;&lt;string&gt;&quot;</span>) <span class="ocaml-string">&quot;foo x?&quot;</span> = Foo(<span class="ocaml-string">&quot;x&quot;</span>, A)
+  DELETE_RULE Gram foo: <span class="ocaml-string">&quot;foo&quot;</span>; LIDENT; bar END
 <span class="kwa">end</span>
 
 <span class="ocaml-comment">(* Register it <span class="kwb">to</span> make it usable via the camlp4 binary. *)</span>

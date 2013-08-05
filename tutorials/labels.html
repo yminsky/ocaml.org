@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -179,21 +179,21 @@
 <p>Although we haven't looked at object-oriented programming (that's the subject for the next chapter), here's an example from OCamlNet of an aliased function call. All you need to know is that <code>cgi # output # output_string <em>&quot;string&quot;</em></code> is a method call, similar to <code>cgi.output().output_string (<em>&quot;string&quot;</em>)</code> in Java.</p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">begin_page</span> <span class="ocaml-variable">cgi title </span>=
   <span class="kwa">let </span><span class="ocaml-variable">out</span> = cgi # output # output_string <span class="kwa">in</span>
-  out &quot;&lt;html&gt;\n&quot;;
-  out &quot;&lt;head&gt;\n&quot;;
-  out (&quot;&lt;title&gt;&quot; ^ text title ^ &quot;&lt;/title&gt;\n&quot;);
-  out (&quot;&lt;style <span class="kwa">type</span>=\&quot;text/css\&quot;&gt;\n&quot;);
-  out &quot;body { background: white; color: black; }\n&quot;;
-  out &quot;&lt;/style&gt;\n&quot;;
-  out &quot;&lt;/head&gt;\n&quot;;
-  out &quot;&lt;body&gt;\n&quot;;
-  out (&quot;&lt;h1&gt;&quot; ^ text title ^ &quot;&lt;/h1&gt;\n&quot;)</span></pre>
+  out <span class="ocaml-string">&quot;&lt;html&gt;\n&quot;</span>;
+  out <span class="ocaml-string">&quot;&lt;head&gt;\n&quot;</span>;
+  out (<span class="ocaml-string">&quot;&lt;title&gt;&quot;</span> ^ text title ^ <span class="ocaml-string">&quot;&lt;/title&gt;\n&quot;</span>);
+  out (<span class="ocaml-string">&quot;&lt;style <span class="kwa">type</span>=\&quot;text/css\&quot;&gt;\n&quot;</span>);
+  out <span class="ocaml-string">&quot;body { background: white; color: black; }\n&quot;</span>;
+  out <span class="ocaml-string">&quot;&lt;/style&gt;\n&quot;</span>;
+  out <span class="ocaml-string">&quot;&lt;/head&gt;\n&quot;</span>;
+  out <span class="ocaml-string">&quot;&lt;body&gt;\n&quot;</span>;
+  out (<span class="ocaml-string">&quot;&lt;h1&gt;&quot;</span> ^ text title ^ <span class="ocaml-string">&quot;&lt;/h1&gt;\n&quot;</span>)</span></pre>
 
 <p>The <code>let out = ... </code> is a partial function application for that method call (partial, because the string parameter hasn't been applied). <code>out</code> is therefore a function, which takes a string parameter.</p>
-<pre><span class="listing">out &quot;&lt;html&gt;\n&quot;;</span></pre>
+<pre><span class="listing">out <span class="ocaml-string">&quot;&lt;html&gt;\n&quot;</span>;</span></pre>
 
 <p>is equivalent to:</p>
-<pre><span class="listing">cgi # output # output_string &quot;&lt;html&gt;\n&quot;;</span></pre>
+<pre><span class="listing">cgi # output # output_string <span class="ocaml-string">&quot;&lt;html&gt;\n&quot;</span>;</span></pre>
 
 <p>We saved ourselves a lot of typing there.</p>
 <p>We can also add arguments. This alternative definition of <code>print_string</code> can be thought of as a kind of alias for a function name plus arguments:</p>
@@ -276,7 +276,7 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 
 <p>What does this function do? Running the function in the OCaml toplevel gives us some clues:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">may ~f:print_endline None</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">may ~f:print_endline (Some &quot;hello&quot;)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">hello
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">may ~f:print_endline (Some <span class="ocaml-string">&quot;hello&quot;</span>)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">hello
 </span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
@@ -324,13 +324,13 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 
 <p>The <code>set_title</code>, <code>set_width</code> and <code>set_height</code> functions are impure functions which modify the <code>window</code> structure, in the obvious way. For example:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">w</span> = create_window () <span class="kwa">in</span>
-  set_title w &quot;My Application&quot;;
+  set_title w <span class="ocaml-string">&quot;My Application&quot;</span>;
   w</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : window = {title = &quot;My Application&quot;; width = 640; height = 480}
 </span></pre>
 
 <p>So far this is just the imperative &quot;mutable records&quot; which we talked about in the previous chapter. Now the complex part is the <code>open_window</code> function. This function takes <em>4</em> arguments, three of them optional, followed by a required, unlabelled <code>unit</code>. Let's first see this function in action:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window ~title:&quot;My Application&quot; ()</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : window = {title = &quot;My Application&quot;; width = 640; height = 480}
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window ~title:&quot;Clock&quot; ~width:128 ~height:128 ()</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : window = {title = &quot;Clock&quot;; width = 128; height = 128}
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window ~title:<span class="ocaml-string">&quot;My Application&quot;</span> ()</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : window = {title = &quot;My Application&quot;; width = 640; height = 480}
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window ~title:<span class="ocaml-string">&quot;Clock&quot;</span> ~width:128 ~height:128 ()</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : window = {title = &quot;Clock&quot;; width = 128; height = 128}
 </span></pre>
 
 <p>It does what you expect, but how?! The secret is in the <code>may</code> function (see above) and the fact that the optional parameters <em>don't</em> have defaults.</p>
@@ -343,19 +343,19 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 
 <h3>&quot;Warning: This optional argument cannot be erased&quot;</h3>
 <p>We've just touched upon labels and optional arguments, but even this brief explanation should have raised several questions. The first may be why the extra <code>unit</code> argument to <code>open_window</code>? Let's try defining this function without the extra <code>unit</code>:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let open_window ?title ?width <span class="ocamltop-error-loc">?height =
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let open_window ?title ?width ?<span class="ocamltop-error-loc">height</span> =
     <span class="kwa">let </span><span class="ocaml-variable">window</span> = create_window () <span class="kwa">in</span>
     may ~f:(set_title window) title;
     may ~f:(set_width window) width;
     may ~f:(set_height window) height;
-    window</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 16: this optional argument cannot be erased.
+    window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 16: this optional argument cannot be erased.
 </span>val open_window : ?title:string -&gt; ?width:int -&gt; ?height:int -&gt; window =
   &lt;fun&gt;
 </span></pre>
 
 <p>Although OCaml has compiled the function, it has generated a somewhat infamous warning: &quot;This optional argument cannot be erased&quot;, referring to the final <code>?height</code> argument. To try to show what's going on here, let's call our modified <code>open_window</code> function:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : ?title:string -&gt; ?width:int -&gt; ?height:int -&gt; window = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window ~title:&quot;My Application&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : ?width:int -&gt; ?height:int -&gt; window = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">open_window ~title:<span class="ocaml-string">&quot;My Application&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : ?width:int -&gt; ?height:int -&gt; window = &lt;fun&gt;
 </span></pre>
 
 <p>Did that work or not? No it didn't. In fact it didn't even run the <code>open_window</code> function at all. Instead it printed some strange type information. What's going on?</p>
@@ -405,14 +405,14 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 
 <p>There's another little wrinkle concerning optional arguments. Suppose we write a function around <code>open_window</code> to open up an application:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=
-    open_window ~title:&quot;My Application&quot; <span class="ocamltop-error-loc">~width</span> ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type 'a option
+    open_window ~title:<span class="ocaml-string">&quot;My Application&quot;</span> ~<span class="ocamltop-error-loc">width</span> ~height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type 'a option
        but an expression was expected of type int
 </span></pre>
 
 <p>Recall that <code>~width</code> is shorthand for <code>~width:width</code>. The type of <code>width</code> is <code>'a option</code>, but <code>open_window ~width:</code> expects an <code>int</code>.</p>
 <p>OCaml provides more syntactic sugar. Writing <code>?width</code> in the function call is shorthand for writing <code>~width:(unwrap width)</code> where <code>unwrap</code> would be a function which would remove the &quot;<code>option</code> wrapper&quot; around <code>width</code> (it's not actually possible to write an <code>unwrap</code> function like this, but conceptually that's the idea). So the correct way to write this function is:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=
-    open_window ~title:&quot;My Application&quot; ?width ?height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val open_application : ?width:int -&gt; ?height:int -&gt; unit -&gt; unit -&gt; window =
+    open_window ~title:<span class="ocaml-string">&quot;My Application&quot;</span> ?width ?height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val open_application : ?width:int -&gt; ?height:int -&gt; unit -&gt; unit -&gt; window =
   &lt;fun&gt;
 </span></pre>
 
@@ -423,7 +423,7 @@ may : f:('a -&gt; 'b) -&gt; 'a option -&gt; unit
 
 <p>or when using the specialised &quot;unwrap <code>option</code> wrapper&quot; form for function calls:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">open_application</span> <span class="ocaml-variable">?width ?height () </span>=
-    open_window ~title:&quot;My Application&quot; ?width ?height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val open_application : ?width:int -&gt; ?height:int -&gt; unit -&gt; unit -&gt; window =
+    open_window ~title:<span class="ocaml-string">&quot;My Application&quot;</span> ?width ?height</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val open_application : ?width:int -&gt; ?height:int -&gt; unit -&gt; unit -&gt; window =
   &lt;fun&gt;
 </span></pre>
 
@@ -515,8 +515,8 @@ test.c:1: error: previous declaration of `close'
 <p>OCaml uses the most recent definition for <code>Open</code>, giving it the type <code>door</code>. This is actually not such a serious problem because if you accidentally tried to use <code>Open</code> in the type context of a <code>lock</code>, then OCaml's wonderful type inference would immediately spot the error and you wouldn't be able to compile the code.</p>
 <p>So far, so much like C. Now I said that OCaml provides a way to work around the constraint that <code>Open</code> can only have one type. In other words, suppose I want to use <code>Open</code> to mean either &quot;the <code>Open</code> of type <code>lock</code>&quot; or &quot;the <code>Open</code> of type <code>door</code>&quot; and I want OCaml to work out which one I mean.</p>
 <p>The syntax is slightly different, but here is how we do it:</p>
-<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">lock</span> = [ `Open | `Close ];;
-<span class="kwa">type</span> <span class="ocaml-mod">door</span> = [ `Open | `Close ];;</span></pre>
+<pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">lock</span> = [ `Open | `Close ]<span class="ocamltop-prompt">;;</span>
+<span class="kwa">type</span> <span class="ocaml-mod">door</span> = [ `Open | `Close ]<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Notice the syntactic differences:</p>
 <ol><li>Each variant name is prefixed with <code>`</code> (a back tick).</li>
@@ -534,8 +534,8 @@ test.c:1: error: previous declaration of `close'
 <p>Let's write a function to print the state of a <code>lock</code>:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">print_lock</span> <span class="ocaml-variable">st </span>=
     <span class="kwb">match</span> st <span class="kwb">with</span>
-    | `Open -&gt; print_endline &quot;The lock is open&quot;
-    | `Close -&gt; print_endline &quot;The lock is closed&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val print_lock : [&lt; `Close | `Open ] -&gt; unit = &lt;fun&gt;
+    | `Open -&gt; print_endline <span class="ocaml-string">&quot;The lock is open&quot;</span>
+    | `Close -&gt; print_endline <span class="ocaml-string">&quot;The lock is closed&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val print_lock : [&lt; `Close | `Open ] -&gt; unit = &lt;fun&gt;
 </span></pre>
 
 <p>Take a careful look at the type of that function. Type inference has worked out that the <code>st</code> argument has type <code>[&lt; `Close | `Open]</code>. The &lt; (less than) sign means that this is a &lt;dfn&gt;closed class&lt;/dfn&gt;. In other words, this function will only work on <code>`Close</code> or <code>`Open</code> and not on anything else.</p>

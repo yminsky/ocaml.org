@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -152,7 +152,7 @@
 
 (* Primality test. *)
 <span class="kwa">let</span> <span class="ocaml-function">is_prime</span> <span class="ocaml-variable">n </span>=
-  (* note <span class="kwb">to</span> self: ask about this on the mailing lists *) XXX;;
+  (* note <span class="kwb">to</span> self: ask about this on the mailing lists *) XXX<span class="ocamltop-prompt">;;</span>
 
 *)</span></span></pre>
 
@@ -165,7 +165,7 @@ repeated (&quot;hello&quot;, 3)  /* this is C code */
 
 <p class="first_para">This means &quot;call the function <code>repeated</code> with two arguments, first argument the string hello and second argument the number 3&quot;.</p>
 <p>OCaml, in common with other functional languages, writes and brackets function calls differently, and this is the cause of many mistakes. Here is the same function call in OCaml:</p>
-<pre><span class="listing">repeated &quot;hello&quot; 3  <span class="ocaml-comment">(* this is OCaml code *)</span></span></pre>
+<pre><span class="listing">repeated <span class="ocaml-string">&quot;hello&quot;</span> 3  <span class="ocaml-comment">(* this is OCaml code *)</span></span></pre>
 
 <p class="first_para">Note — <strong>no</strong> brackets, and <strong>no</strong> comma between the arguments.</p>
 <p>The syntax <code>repeated (&quot;hello&quot;, 3)</code> <strong>is</strong> meaningful in OCaml. It means &quot;call the function <code>repeated</code> with ONE argument, that argument being a 'pair' structure of two elements&quot;. Of course that would be a mistake, because the <code>repeated</code> function is expecting two arguments, not one, and the first argument should be a string, not a pair. But let's not worry about pairs (&quot;tuples&quot;) just yet. Instead, just remember that it's a mistake to put the brackets and commas in around function call arguments.</p>
@@ -176,20 +176,20 @@ repeated (prompt_string (&quot;Name please: &quot;), 3)
 </pre>
 
 <pre><span class="listing"><span class="ocaml-comment">(* OCaml code: *)</span>
-repeated (prompt_string &quot;Name please: &quot;) 3</span></pre>
+repeated (prompt_string <span class="ocaml-string">&quot;Name please: &quot;</span>) 3</span></pre>
 
 <p class="first_para">Take a careful look at the bracketing and the missing comma. In the OCaml version, the brackets enclose the first argument of repeated because that argument is the result of another function call.  In general the rule is: &quot;bracket around the whole function call - don't put brackets around the arguments to a function call&quot;. Here are some more examples:</p>
-<pre><span class="listing">f 5 (g &quot;hello&quot;) 3    <span class="ocaml-comment">(* f has three arguments, g has one argument *)</span>
+<pre><span class="listing">f 5 (g <span class="ocaml-string">&quot;hello&quot;</span>) 3    <span class="ocaml-comment">(* f has three arguments, g has one argument *)</span>
 f (g 3 4)            <span class="ocaml-comment">(* f has one argument, g has two arguments *)</span>
 
-# repeated (&quot;hello&quot;, 3);;     <span class="ocaml-comment">(* OCaml will spot the mistake *)</span>
+# repeated (<span class="ocaml-string">&quot;hello&quot;</span>, 3)<span class="ocamltop-prompt">;;</span>     <span class="ocaml-comment">(* OCaml will spot the mistake *)</span>
 This expression has <span class="kwa">type</span> string * int but is here used <span class="kwb">with</span> <span class="kwa">type</span> <span class="ocaml-mod">string</span></span></pre>
 
 <a name="Defining_a_function"></a><h2><span>Defining a function</span></h2>
 <p class="first_para">You all know how to define a function (or static method, for Java-heads) in our existing languages. How do we do it in OCaml?</p>
 <p>The OCaml syntax is pleasantly concise. Here's a function which takes two floating point numbers and calculates the average:</p>
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=
-  (a +. b) /. 2.0;;</span></pre>
+  (a +. b) /. 2.0<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p class="first_para">Type this into the OCaml &quot;toplevel&quot; (on Unix, type the command <code>ocaml</code> from the shell) and you'll see this:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">average</span> <span class="ocaml-variable">a b </span>=

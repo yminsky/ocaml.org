@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="../.././css/bootstrap.css"/>
     <link href="../.././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="../.././css/bootstrap-responsive.css"/>
@@ -169,13 +169,13 @@ world
 
 <p>However, that doesn't mean OCaml can't support iterators! As it turns out, many modules in OCaml that define a data structure also provide an "iter" higher-order function that works similarly:</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a_list</span> = [&quot;hello&quot;; &quot;world&quot;] <span class="kwa">in</span>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a_list</span> = [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>] <span class="kwa">in</span>
 <span class="ocaml-mod">List</span>.iter (<span class="kwb">fun</span> s -&gt; print_endline s) a_list</span></pre>
 
 
 <p>Besides <code>List</code>, other modules that provide "iter" are <code>Array</code>, <code>Hashtbl</code>, <code>Map.Make(_)</code>, <code>Queue</code>, <code>Set.Make(_)</code>, <code>Stack</code>, and even <code>String</code>. Wouldn't it be nice if one can write:</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a_list</span> = [&quot;hello&quot;; &quot;world&quot;] <span class="kwa">in</span>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a_list</span> = [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>] <span class="kwa">in</span>
 <span class="kwb">for</span> s <span class="kwa">in</span> a_list <span class="kwb">do</span>
   print_endline s
 <span class="kwb">done</span></span></pre>
@@ -184,7 +184,7 @@ world
 <p>The idea is to transform the latter code into former, leveraging the "iter" function provided by these modules.</p>
 <p>Notice that we can't generally look up a module specific "iter" function by the type of the expression we want to iterate over, so we have to specify a module like this:</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a_list</span> = [&quot;hello&quot;; &quot;world&quot;] <span class="kwa">in</span>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">a_list</span> = [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>] <span class="kwa">in</span>
 <span class="kwb">for</span> s <span class="kwa">in</span> List a_list <span class="kwb">do</span>
   print_endline s
 <span class="kwb">done</span></span></pre>
@@ -203,10 +203,10 @@ world
 
 <span class="kwa">let</span> () =
   EXTEND Gram
-    expr: LEVEL &quot;top&quot;
-    [ [ &quot;<span class="kwb">for</span>&quot;; v = a_LIDENT; &quot;<span class="kwa">in</span>&quot;; m = a_UIDENT; e = expr; &quot;<span class="kwb">do</span>&quot;;
-        seq = sequence; &quot;<span class="kwb">done</span>&quot; -&gt;
-           $seq$) $e$ &gt;&gt;
+    expr: LEVEL <span class="ocaml-string">&quot;top&quot;</span>
+    [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; v = a_LIDENT; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>;
+        seq = sequence; <span class="ocaml-string">&quot;<span class="kwb">done</span>&quot;</span> -&gt;
+          &lt;:expr&lt; $uid:m$.iter (<span class="kwb">fun</span> $lid:v$ -&gt; $seq$) $e$ &gt;&gt;
       ] ];
   END</span></pre>
 <p>For what follows, it is assumed that this code is written to a
@@ -220,18 +220,18 @@ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach.ml
 
 <ul><li>FYI: Camlp4 is complicated to learn because a syntax extension consists of two domain-specific languages that are foreign to OCaml: parsing and code embedding. To add insult to injury, Camlp4 has a "<a title="http://caml.inria.fr/pub/docs/manual-camlp4/manual007.html" class="external" href="http://caml.inria.fr/pub/docs/manual-camlp4/manual007.html">revised syntax</a>" dialect of OCaml that can be used, in addition to the original OCaml dialect, both as the host (top-level) language and as the embedded language. This tutorial uses original OCaml as the host language and revised dialect as the embedded language. This choice is reflected in the camlp4 executable that we use here, <code>camlp4orf</code>. See <a title="http://brion.inria.fr/gallium/index.php/Using_Camlp4" class="external" href="http://brion.inria.fr/gallium/index.php/Using_Camlp4">Using Camlp4</a> for the explanation and additional options.</li></ul>
 <p>We can verify that it works:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;camlp4o.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1:
-Error: Reference to undefined global `Dynlink'
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Add directory where the syntax extension is compiled <span class="kwb">to</span> the module
-   path (not required <span class="kwb">if</span> pa_foreach.cmo is <span class="kwa">in</span> the current directory). *)</span>
-#directory &quot;_build/src/html/tutorials/camlp4_3.10/&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;pa_foreach.cmo&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1:
-Error: Reference to undefined global `Camlp4'
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> s <span class="ocamltop-error-loc"><span class="kwa">in</span></span> List [&quot;hello&quot;; &quot;world&quot;] <span class="kwb">do</span> print_endline s <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Syntax error
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;camlp4o.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Add directory where the syntax extension is compiled <span class="kwb">to</span> the module
+     path (not required <span class="kwb">if</span> pa_foreach.cmo is <span class="kwa">in</span> the current directory). *)</span>
+  #directory <span class="ocaml-string">&quot;_build/src/html/tutorials/camlp4_3.10/&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">	Camlp4 Parsing version 4.00.1
+
+</span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;pa_foreach.cmo&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> s <span class="kwa">in</span> List [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>] <span class="kwb">do</span> print_endline s <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">hello
+world
+</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p>Now we have a rudimentary syntax extension. However, it is quite restrictive. For example, it would be nice to do pattern matching like this:</p>
-<pre><span class="listing"><span class="kwb">for</span> (k, v) <span class="kwa">in</span> List [(0, &quot;hello&quot;); (1, &quot;world&quot;)] <span class="kwb">do</span>
-  <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v
+<pre><span class="listing"><span class="kwb">for</span> (k, v) <span class="kwa">in</span> List [(0, <span class="ocaml-string">&quot;hello&quot;</span>); (1, <span class="ocaml-string">&quot;world&quot;</span>)] <span class="kwb">do</span>
+  <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v
 <span class="kwb">done</span></span></pre>
 
 <p>And it doesn't support <code>Hashtbl.iter</code> yet because, so far, we can only generate functions with one argument. <code>Hashtbl.iter</code> passes two arguments to the function, the key and the value. We will address these issues in the next section.</p>
@@ -246,17 +246,17 @@ Error: Reference to undefined global `Camlp4'
 <span class="kwa">let rec</span> <span class="ocaml-function">mkfun</span> <span class="ocaml-variable">_loc patts e </span>=
   <span class="kwb">match</span> patts <span class="kwb">with</span>
   | p :: patts -&gt;
-       $mkfun _loc patts e$ &gt;&gt;
+      &lt;:expr&lt; <span class="kwb">fun</span> $p$ -&gt; $mkfun _loc patts e$ &gt;&gt;
   | [] -&gt;
       e
 
 <span class="kwa">let</span> () =
   EXTEND Gram
-    expr: LEVEL &quot;top&quot;
-    [ [ &quot;<span class="kwb">for</span>&quot;; patts = LIST1 ipatt; &quot;<span class="kwa">in</span>&quot;; m = a_UIDENT; e = expr; &quot;<span class="kwb">do</span>&quot;;
-        seq = sequence; &quot;<span class="kwb">done</span>&quot; -&gt;
+    expr: LEVEL <span class="ocaml-string">&quot;top&quot;</span>
+    [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; patts = LIST1 ipatt; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>;
+        seq = sequence; <span class="ocaml-string">&quot;<span class="kwb">done</span>&quot;</span> -&gt;
           <span class="kwa">let </span><span class="ocaml-variable">f</span> = mkfun _loc patts seq <span class="kwa">in</span>
-          &gt;
+          &lt;:expr&lt; $uid:m$.iter $f$ $e$ &gt;&gt;
       ] ];
   END</span></pre>
 
@@ -271,85 +271,92 @@ Error: Reference to undefined global `Camlp4'
 <pre>
 ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach2.ml
 </pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;pa_foreach2.cmo&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">File &quot;&quot;, line 1:
-Error: Reference to undefined global `Camlp4'
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> (<span class="ocamltop-error-loc">k</span>, v) <span class="kwa">in</span> List [(0, &quot;hello&quot;); (1, &quot;world&quot;)] <span class="kwb">do</span>
-    <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v
-  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Syntax error
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;pa_foreach2.cmo&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> (k, v) <span class="kwa">in</span> List [(0, <span class="ocaml-string">&quot;hello&quot;</span>); (1, <span class="ocaml-string">&quot;world&quot;</span>)] <span class="kwb">do</span>
+    <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">0: hello
+1: world
+</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p>and that multiple arguments work:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">tbl</span> = <span class="ocaml-mod">Hashtbl</span>.create 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val tbl : ('_a, '_b) Hashtbl.t = &lt;abstr&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 0 &quot;hello&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 1 &quot;world&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 2 &quot;foobar&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k <span class="ocamltop-error-loc">v</span> <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span>
-    <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v
-  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Syntax error
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 0 <span class="ocaml-string">&quot;hello&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 1 <span class="ocaml-string">&quot;world&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 2 <span class="ocaml-string">&quot;foobar&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span>
+    <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">2: foobar
+0: hello
+1: world
+</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
 <p>There are still some subtle problems with this approach. In the next section, we'll discuss solutions to these problems.</p>
 <h2><a name="Final_Touch_up">Final Touch-up</a></h2>
 <p>The first problem we find out is that foreach body is supposed to be a sequence, but that doesn't work:</p>
-<pre><span class="listing"># <span class="kwb">for</span> s <span class="kwa">in</span> List [&quot;hello&quot;; &quot;world&quot;] <span class="kwb">do</span> print_endline s; () <span class="kwb">done</span>;;
-Failure: &quot;expr; expr: not allowed here, use <span class="kwb">do</span> {...} or [|...|] <span class="kwb">to</span> surround them&quot;</span></pre>
+<pre><span class="listing"># <span class="kwb">for</span> s <span class="kwa">in</span> List [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>] <span class="kwb">do</span> print_endline s; () <span class="kwb">done</span><span class="ocamltop-prompt">;;</span>
+Failure: <span class="ocaml-string">&quot;expr; expr: not allowed here, use <span class="kwb">do</span> {...} or [|...|] <span class="kwb">to</span> surround them&quot;</span></span></pre>
 
 <p>The problem is due to the desugared form, which becomes:</p>
-<pre><span class="listing"><span class="ocaml-mod">List</span>.iter (<span class="kwb">fun</span> s -&gt; print_endline s; ()) [&quot;hello&quot;; &quot;world&quot;]</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">List</span>.iter (<span class="kwb">fun</span> s -&gt; print_endline s; ()) [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>]</span></pre>
 
 <p>and this is ambiguous. Do we interpret the expression <code>fun s -> print_endline s; ()</code> as <code>(fun s -> print_endline s); ()</code> or <code>fun s -> (print_endline (); ())</code>? In order to avoid ambiguity, we wrap the sequence using <code>do {$seq$}</code> when it is a sequence. The function <code>mksequence'</code> in <code>Camlp4OCamlRevisedParser.ml</code> provides some inspiration how to handle this.</p>
 <ul><li>FYI: see <a title="http://caml.inria.fr/pub/ml-archives/caml-list/2007/07/40966461d8ade5dcee6790fa32cc9983.en.html" class="external" href="http://caml.inria.fr/pub/ml-archives/caml-list/2007/07/40966461d8ade5dcee6790fa32cc9983.en.html">this post</a> by Nicolas Pouillard for a discussion of a similar issue.</li></ul>
 <p>We also notice that the original for-loop syntax ceases working:</p>
-<pre><span class="listing"># <span class="kwb">for</span> i = 0 <span class="kwb">to</span> 5 <span class="kwb">do</span> print_int i <span class="kwb">done</span>;;
-Parse error: [ipatt] or [a_LIDENT] expected after &quot;<span class="kwb">for</span>&quot; (<span class="kwa">in</span> [expr])</span></pre>
+<pre><span class="listing"># <span class="kwb">for</span> i = 0 <span class="kwb">to</span> 5 <span class="kwb">do</span> print_int i <span class="kwb">done</span><span class="ocamltop-prompt">;;</span>
+Parse error: [ipatt] or [a_LIDENT] expected after <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span> (<span class="kwa">in</span> [expr])</span></pre>
+
 
 <p>It turns out that the new rule we add for "for" doesn't play nice with the original rule. The solution is to rewrite the original rule so it becomes compatible with the new rule.</p>
 <p>The code listing that addresses these issues can be found below:</p>
 <pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Camlp4</span>.<span class="ocaml-mod">PreCast</span>
 <span class="kwa">open</span> <span class="ocaml-mod">Syntax</span>
 
-<span class="kwa">let</span> <span class="ocaml-function">mksequence</span> <span class="ocaml-variable">_loc e </span>= <span class="kwb">function</span>
-  | &gt; <span class="kwb">as</span> e -&gt; &gt;
+<span class="kwa">let</span> <span class="ocaml-function">mksequence</span> <span class="ocaml-variable">_loc </span>= <span class="kwb">function</span>
+  | &lt;:expr&lt; $_$; $_$ &gt;&gt; <span class="kwb">as</span> e -&gt; &lt;:expr&lt; $e$ &gt;&gt;
   | e -&gt; e
 
 <span class="kwa">let rec</span> <span class="ocaml-function">mkfun</span> <span class="ocaml-variable">_loc patts e </span>=
   <span class="kwb">match</span> patts <span class="kwb">with</span>
-  | p :: patts -&gt;
-       $mkfun _loc patts e$ &gt;&gt;
+  | p :: patts -&gt; &lt;:expr&lt; <span class="kwb">fun</span> $p$ -&gt; $mkfun _loc patts e$ &gt;&gt;
   | [] -&gt; mksequence _loc e
 
 <span class="kwa">let</span> <span class="ocaml-function">lident_of_patt</span> <span class="ocaml-variable">p </span>=
   <span class="kwb">match</span> p <span class="kwb">with</span>
-  | &gt; -&gt; i
-  | _ -&gt; invalid_arg &quot;lident_of_patt&quot;
+  | &lt;:patt&lt; $lid:i$ &gt;&gt; -&gt; i
+  | _ -&gt; invalid_arg <span class="ocaml-string">&quot;lident_of_patt&quot;</span>
 
 <span class="kwa">let</span> () =
   DELETE_RULE Gram
   expr:
-    &quot;<span class="kwb">for</span>&quot;; a_LIDENT; &quot;=&quot;; sequence; direction_flag; sequence; &quot;<span class="kwb">do</span>&quot;; do_sequence
+    <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; a_LIDENT; <span class="ocaml-string">&quot;=&quot;</span>; sequence; direction_flag; sequence; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; do_sequence
   END;
 
   EXTEND Gram
-  expr: LEVEL &quot;top&quot;
-    [ [ &quot;<span class="kwb">for</span>&quot;; i = ipatt; &quot;=&quot;; e1 = sequence; df = direction_flag;
-        e2 = sequence; &quot;<span class="kwb">do</span>&quot;; seq = do_sequence -&gt;
-         &gt;
-      | &quot;<span class="kwb">for</span>&quot;; p = ipatt; patts = LIST0 ipatt; &quot;<span class="kwa">in</span>&quot;; m = a_UIDENT; e = expr;
-        &quot;<span class="kwb">do</span>&quot;; seq = do_sequence -&gt;
+  expr: LEVEL <span class="ocaml-string">&quot;top&quot;</span>
+    [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; i = ipatt; <span class="ocaml-string">&quot;=&quot;</span>; e1 = sequence; df = direction_flag;
+        e2 = sequence; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; seq = do_sequence -&gt;
+         &lt;:expr&lt;
+           <span class="kwb">for</span> $lident_of_patt i$ =
+             $mksequence _loc e1$ $<span class="kwb">to</span>:df$ $mksequence _loc e2$
+             <span class="kwb">do</span> $seq$ <span class="kwb">done</span>
+         &gt;&gt;
+      | <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; p = ipatt; patts = LIST0 ipatt; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr;
+        <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; seq = do_sequence -&gt;
          <span class="kwa">let </span><span class="ocaml-variable">patts</span> = p :: patts <span class="kwa">in</span>
          <span class="kwa">let </span><span class="ocaml-variable">f</span> = mkfun _loc patts seq <span class="kwa">in</span>
-         &gt;
+         &lt;:expr&lt; $uid:m$.iter $f$ $e$ &gt;&gt;
       ] ];
   END</span></pre>
 
 <p>In order for alternative rules to "fall through" correctly, rules must share a common prefix, and the rest of the non-terminals must be distinct enough. The way we structured the "for" syntax before, we essentially have the following two rules:</p>
 <pre><span class="listing">EXTEND Gram
-  expr: LEVEL &quot;top&quot;
-    [ [ &quot;<span class="kwb">for</span>&quot;; patts = LIST1 ipatt; &quot;<span class="kwa">in</span>&quot;; m = a_UIDENT; e = expr;
-       &quot;<span class="kwb">do</span>&quot;; seq = do_sequence -&gt;
+  expr: LEVEL <span class="ocaml-string">&quot;top&quot;</span>
+    [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; patts = LIST1 ipatt; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr;
+       <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; seq = do_sequence -&gt;
          <span class="ocaml-comment">(* ... *)</span>
-      | &quot;<span class="kwb">for</span>&quot;; i = a_LIDENT; &quot;=&quot;; e1 = sequence; df = direction_flag;
-       e2 = sequence; &quot;<span class="kwb">do</span>&quot;; seq = do_sequence -&gt;
+      | <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; i = a_LIDENT; <span class="ocaml-string">&quot;=&quot;</span>; e1 = sequence; df = direction_flag;
+       e2 = sequence; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; seq = do_sequence -&gt;
          <span class="ocaml-comment">(* ... *)</span>
       ] ]
   ;
@@ -358,37 +365,25 @@ END</span></pre>
 <p>Once the "for" keyword is matched, the parser proceeds to match the next token, but <code>ipatt</code> also matches <code>a_LIDENT</code> (a lowercase identifier is also a legal pattern). At this point, the parser fixes on a rule (whichever comes first) and no longer backtracks to the alternative option.</p>
 <p>The solution is to make the original for loop always match <code>ipatt</code>, but refuse anything except a lowercase identifier.</p>
 <p>We can now verify that everything works as expected.</p>
-<pre><span class="listing">$ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach.ml
-$ ocaml
-        Objective Caml version 3.10.0
-
-# #load &quot;camlp4o.cma&quot;;;
-        Camlp4 Parsing version 3.10.0
-
-# #load &quot;pa_foreach.cmo&quot;;;
-# <span class="kwa">let </span><span class="ocaml-variable">tbl</span> = <span class="ocaml-mod">Hashtbl</span>.create 3;;
-<span class="kwa"><span class="kwa">val</span></span> <span class="ocaml-function">tbl</span> : ('_a, '_b) <span class="ocaml-mod">Hashtbl</span>.t = 
-# <span class="ocaml-mod">Hashtbl</span>.add tbl 0 &quot;hello&quot;;;
-- : unit = ()
-# <span class="ocaml-mod">Hashtbl</span>.add tbl 1 &quot;world&quot;;;
-- : unit = ()
-# <span class="ocaml-mod">Hashtbl</span>.add tbl 2 &quot;foo&quot;;;
-- : unit = ()
-# <span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span> <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v <span class="kwb">done</span>;;
+<pre>
+$ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach3.ml
+</pre>
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;pa_foreach3.cmo&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">tbl</span> = <span class="ocaml-mod">Hashtbl</span>.create 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val tbl : ('_a, '_b) Hashtbl.t = &lt;abstr&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 0 <span class="ocaml-string">&quot;hello&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 1 <span class="ocaml-string">&quot;world&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 2 <span class="ocaml-string">&quot;foo&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span> <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">2: foo
 0: hello
 1: world
-2: foo
-- : unit = ()
-# <span class="kwb">for</span> i = 0 <span class="kwb">to</span> 5 <span class="kwb">do</span> print_int i <span class="kwb">done</span>;;
-012345- : unit = ()
-# <span class="kwb">for</span> k, v <span class="kwa">in</span> List [0, &quot;hello&quot;; 1, &quot;world&quot;; 2, &quot;foo&quot;] <span class="kwb">do</span>
-    <span class="ocaml-mod">Printf</span>.printf &quot;%d: %s\n&quot; k v;
-    ()
-  <span class="kwb">done</span>;;
-0: hello
+</span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> i = 0 <span class="kwb">to</span> 5 <span class="kwb">do</span> print_int i <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">012345</span><span class="ocamltop-stderr"></span>- : unit = ()
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k, v <span class="kwa">in</span> List [0, <span class="ocaml-string">&quot;hello&quot;</span>; 1, <span class="ocaml-string">&quot;world&quot;</span>; 2, <span class="ocaml-string">&quot;foo&quot;</span>] <span class="kwb">do</span>
+    <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">0: hello
 1: world
 2: foo
-- : unit = ()</span></pre>
+</span><span class="ocamltop-stderr"></span>- : unit = ()
+</span></pre>
 
 <h2><a name="Conclusion">Conclusion</a></h2>
 <p>We begin with a simple Camlp4 syntax extension for the for-each iterator syntax, then explored further refinements to that idea that works around parsing issues both in embedded code and in the rules.</p>

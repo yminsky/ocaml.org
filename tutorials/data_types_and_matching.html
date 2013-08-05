@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -207,7 +207,7 @@ struct foo {
 <pre><span class="listing">Nothing
 Int 3
 Pair (4, 5)
-String &quot;hello&quot;
+String <span class="ocaml-string">&quot;hello&quot;</span>
 ...</span></pre>
 
 <p>Each of these expressions has type <code>foo</code>.</p>
@@ -236,7 +236,7 @@ Tree (Tree (Leaf 3, Leaf 4), Tree (Tree (Leaf 3, Leaf 4), Leaf 5))</span></pre>
 </span></pre>
 
 <p>This is a general type. The specific type which stores integers at each leaf is called <code>int binary_tree</code>. Similarly the specific type which stores strings at each leaf is called <code>string binary_tree</code>. In the next example we type some instances into the top-level and allow the type inference system to show the types for us:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Leaf &quot;hello&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string binary_tree = Leaf &quot;hello&quot;
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Leaf <span class="ocaml-string">&quot;hello&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string binary_tree = Leaf &quot;hello&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Leaf 3.0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float binary_tree = Leaf 3.
 </span></pre>
 
@@ -276,7 +276,7 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
               | Minus <span class="kwb">of</span> expr * expr       <span class="ocaml-comment">(* means a - b *)</span>
               | Times <span class="kwb">of</span> expr * expr       <span class="ocaml-comment">(* means a * b *)</span>
 	      | Divide <span class="kwb">of</span> expr * expr      <span class="ocaml-comment">(* means a / b *)</span>
-              | Value <span class="kwb">of</span> string            <span class="ocaml-comment">(* &quot;x&quot;, &quot;y&quot;, &quot;n&quot;, etc. *)</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type expr =
+              | Value <span class="kwb">of</span> string            <span class="ocaml-comment">(* <span class="ocaml-string">&quot;x&quot;</span>, <span class="ocaml-string">&quot;y&quot;</span>, <span class="ocaml-string">&quot;n&quot;</span>, etc. *)</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type expr =
     Plus of expr * expr
   | Minus of expr * expr
   | Times of expr * expr
@@ -285,16 +285,16 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
 </span></pre>
 
 <p>The expression <code>n * (x + y)</code> would be written:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : expr = Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">Times (Value <span class="ocaml-string">&quot;n&quot;</span>, Plus (Value <span class="ocaml-string">&quot;x&quot;</span>, Value <span class="ocaml-string">&quot;y&quot;</span>))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : expr = Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))
 </span></pre>
 
 <p>Let's write a function which prints out <code>Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))</code> as something more like <code>n * (x + y)</code>.  Actually, I'm going to write two functions, one which converts the expression to a pretty string, and one which prints it out (the reason is that I might want to write the same string to a file and I wouldn't want to repeat the whole of the function just for that).</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">to_string</span> <span class="ocaml-variable">e </span>=
     <span class="kwb">match</span> e <span class="kwb">with</span>
-    | Plus (left, right)   -&gt; &quot;(&quot; ^ to_string left ^ &quot; + &quot; ^ to_string right ^ &quot;)&quot;
-    | Minus (left, right)  -&gt; &quot;(&quot; ^ to_string left ^ &quot; - &quot; ^ to_string right ^ &quot;)&quot;
-    | Times (left, right)  -&gt; &quot;(&quot; ^ to_string left ^ &quot; * &quot; ^ to_string right ^ &quot;)&quot;
-    | Divide (left, right) -&gt; &quot;(&quot; ^ to_string left ^ &quot; / &quot; ^ to_string right ^ &quot;)&quot;
+    | Plus (left, right)   -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; + &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
+    | Minus (left, right)  -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; - &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
+    | Times (left, right)  -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; * &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
+    | Divide (left, right) -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; / &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
     | Value v -&gt; v</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val to_string : expr -&gt; string = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">print_expr</span> <span class="ocaml-variable">e </span>=
     print_endline (to_string e)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val print_expr : expr -&gt; unit = &lt;fun&gt;
@@ -302,7 +302,7 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
 
 <p>(NB: The <code>^</code> operator concatenates strings.)</p>
 <p>Here's the print function in action:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">print_expr (Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">(n * (x + y))
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">print_expr (Times (Value <span class="ocaml-string">&quot;n&quot;</span>, Plus (Value <span class="ocaml-string">&quot;x&quot;</span>, Value <span class="ocaml-string">&quot;y&quot;</span>)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">(n * (x + y))
 </span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
@@ -329,7 +329,7 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
 </span></pre>
 
 <p>Here it is in action:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">print_expr (multiply_out (Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">((n * x) + (n * y))
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">print_expr (multiply_out (Times (Value <span class="ocaml-string">&quot;n&quot;</span>, Plus (Value <span class="ocaml-string">&quot;x&quot;</span>, Value <span class="ocaml-string">&quot;y&quot;</span>))))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">((n * x) + (n * y))
 </span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
@@ -346,7 +346,7 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
     | e -&gt; e</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val factorize : expr -&gt; expr = &lt;fun&gt;
 </span></pre>
 
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">factorize (Plus (Times (Value &quot;n&quot;, Value &quot;x&quot;), Times (Value &quot;n&quot;, Value &quot;y&quot;)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : expr = Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">factorize (Plus (Times (Value <span class="ocaml-string">&quot;n&quot;</span>, Value <span class="ocaml-string">&quot;x&quot;</span>), Times (Value <span class="ocaml-string">&quot;n&quot;</span>, Value <span class="ocaml-string">&quot;y&quot;</span>)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : expr = Times (Value &quot;n&quot;, Plus (Value &quot;x&quot;, Value &quot;y&quot;))
 </span></pre>
 
 <p>The factorize function above introduces another couple of features. You can add what are known as <strong>guards</strong> to each pattern match. A guard is the conditional which follows the <code>when</code>, and it means that the pattern match only happens if the pattern matches <em>and</em> the condition in the <code>when</code>-clause is satisfied.</p>
@@ -367,10 +367,10 @@ parameterized   type 'a my_list = Empty                Cons (1, Cons (2, Empty))
 <p>I then recompiled the <code>to_string</code> function without changing it. OCaml reported the following warning:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">to_string</span> <span class="ocaml-variable">e </span>=
     <span class="ocamltop-error-loc"><span class="kwb">match</span> e <span class="kwb">with</span>
-    | Plus (left, right)   -&gt; &quot;(&quot; ^ to_string left ^ &quot; + &quot; ^ to_string right ^ &quot;)&quot;
-    | Minus (left, right)  -&gt; &quot;(&quot; ^ to_string left ^ &quot; - &quot; ^ to_string right ^ &quot;)&quot;
-    | Times (left, right)  -&gt; &quot;(&quot; ^ to_string left ^ &quot; * &quot; ^ to_string right ^ &quot;)&quot;
-    | Divide (left, right) -&gt; &quot;(&quot; ^ to_string left ^ &quot; / &quot; ^ to_string right ^ &quot;)&quot;
+    | Plus (left, right)   -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; + &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
+    | Minus (left, right)  -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; - &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
+    | Times (left, right)  -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; * &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
+    | Divide (left, right) -&gt; <span class="ocaml-string">&quot;(&quot;</span> ^ to_string left ^ <span class="ocaml-string">&quot; / &quot;</span> ^ to_string right ^ <span class="ocaml-string">&quot;)&quot;</span>
     | Value v -&gt; v</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr">Warning 8: this pattern-matching is not exhaustive.
 Here is an example of a value that is not matched:
 Product _

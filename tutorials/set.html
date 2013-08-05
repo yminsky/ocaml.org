@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -142,50 +142,50 @@
 
 <p>To make a set of strings:</p>
 
-<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">SS</span> <span class="ocaml-variable"></span>= <span class="ocaml-mod">Set</span>.Make(String);;</span></pre>
+<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">SS</span> <span class="ocaml-variable"></span>= <span class="ocaml-mod">Set</span>.Make(String)<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>To create a set you need to start somewhere so here is the empty set</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s</span> = <span class="ocaml-mod">SS</span>.empty;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s</span> = <span class="ocaml-mod">SS</span>.empty<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Alternatively if we know an element to start with we can create a set like</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s</span> = <span class="ocaml-mod">SS</span>.singleton &quot;hello&quot;;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s</span> = <span class="ocaml-mod">SS</span>.singleton <span class="ocaml-string">&quot;hello&quot;</span><span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>To add some elements to the the set we can do.</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s</span> = <span class="ocaml-mod">List</span>.fold_right <span class="ocaml-mod">SS</span>.add [&quot;hello&quot;; &quot;world&quot;; &quot;community&quot;; &quot;manager&quot;;
-                                 &quot;stuff&quot;; &quot;blue&quot;; &quot;green&quot;] s;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s</span> = <span class="ocaml-mod">List</span>.fold_right <span class="ocaml-mod">SS</span>.add [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>; <span class="ocaml-string">&quot;community&quot;</span>; <span class="ocaml-string">&quot;manager&quot;</span>;
+                                 <span class="ocaml-string">&quot;stuff&quot;</span>; <span class="ocaml-string">&quot;blue&quot;</span>; <span class="ocaml-string">&quot;green&quot;</span>] s<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Now if we are playing around with sets we will probably want to see what is in the set that we have created. To do this we can write a function that will print the set out.</p>
 
-<pre><span class="listing"><span class="ocaml-comment">(* Prints a <span class="kwb">new</span> line &quot;\n&quot; after each string is printed *)</span>
+<pre><span class="listing"><span class="ocaml-comment">(* Prints a <span class="kwb">new</span> line <span class="ocaml-string">&quot;\n&quot;</span> after each string is printed *)</span>
 <span class="kwa">let</span> <span class="ocaml-function">print_set</span> <span class="ocaml-variable">s </span>= 
-   <span class="ocaml-mod">SS</span>.iter print_endline s;;</span></pre>
+   <span class="ocaml-mod">SS</span>.iter print_endline s<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>If we want to remove a specific element of a set there is a remove function. However if we want to remove several elements at once we could think of it as doing a 'filter'. Let's filter out all words that are longer than 5 characters.</p>
 
 <p>This can be written as:</p>
 
 <pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">my_filter</span> <span class="ocaml-variable">str </span>=
-  <span class="ocaml-mod">String</span>.length str &lt;= 5;;
-<span class="kwa">let </span><span class="ocaml-variable">s2</span> = <span class="ocaml-mod">SS</span>.filter my_filter s;;</span></pre>
+  <span class="ocaml-mod">String</span>.length str &lt;= 5<span class="ocamltop-prompt">;;</span>
+<span class="kwa">let </span><span class="ocaml-variable">s2</span> = <span class="ocaml-mod">SS</span>.filter my_filter s<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>or using an anonymous function:</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s2</span> = <span class="ocaml-mod">SS</span>.filter (<span class="kwb">fun</span> str -&gt; <span class="ocaml-mod">String</span>.length str &lt;= 5) s;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">s2</span> = <span class="ocaml-mod">SS</span>.filter (<span class="kwb">fun</span> str -&gt; <span class="ocaml-mod">String</span>.length str &lt;= 5) s<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>If we want to check and see if an element is in the set it might look like this.</p>
 
-<pre><span class="listing"><span class="ocaml-mod">SS</span>.exists (<span class="kwb">fun</span> str -&gt; str = &quot;hello&quot;) s2;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">SS</span>.exists (<span class="kwb">fun</span> str -&gt; str = <span class="ocaml-string">&quot;hello&quot;</span>) s2<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>or even:</p>
 
-<pre><span class="listing"><span class="ocaml-mod">SS</span>.exists (( = ) &quot;hello&quot;) s2;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">SS</span>.exists (( = ) <span class="ocaml-string">&quot;hello&quot;</span>) s2<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>The Set module also provides the set theoretic operations union, intersection and difference. For example, the difference of the original set and the set with short strings (<=5 characters) is the set of long strings:</p>
 
-<pre><span class="listing">print_set (<span class="ocaml-mod">SS</span>.diff s s2);;</span></pre>
+<pre><span class="listing">print_set (<span class="ocaml-mod">SS</span>.diff s s2)<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Note that the Set module provides a purely functional data structure: removing an element from a set does not alter that set but, rather, returns a new set that is very similar to (and shares much of its internals with) the original set.</p>
 

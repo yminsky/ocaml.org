@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -187,7 +187,7 @@ foreach (@files)
 
 <span class="kwa">let</span> () =
   <span class="ocaml-mod">Random</span>.self_init ();
-  <span class="ocaml-mod">Graphics</span>.open_graph &quot; 640x480&quot;
+  <span class="ocaml-mod">Graphics</span>.open_graph <span class="ocaml-string">&quot; 640x480&quot;</span>
   <span class="kwb">for</span> x = 0 <span class="kwb">to</span> 640 <span class="kwb">do</span>
     <span class="kwa">let </span><span class="ocaml-variable">r</span> = 4.0 *. (float_of_int x) /. 640.0 <span class="kwa">in</span>
     <span class="kwb">for</span> i = 0 <span class="kwb">to</span> 39 <span class="kwb">do</span>
@@ -284,7 +284,7 @@ compactions: 0
 <span class="kwa">let </span><span class="ocaml-variable">nr_records</span> = 10000
 
 <span class="ocaml-comment">(* On-disk file. *)</span>
-<span class="kwa">let </span><span class="ocaml-variable">diskfile</span> = openfile &quot;users.bin&quot; [ O_RDWR ] 0</span></pre>
+<span class="kwa">let </span><span class="ocaml-variable">diskfile</span> = openfile <span class="ocaml-string">&quot;users.bin&quot;</span> [ O_RDWR ] 0</span></pre>
 
 <p>Download <a href="../img/users.bin.gz">users.bin.gz</a> and decompress it before running the program.</p>
 <p>Our cache of records is very simple:</p>
@@ -296,7 +296,7 @@ compactions: 0
 
 <span class="ocaml-comment">(* The finaliser function. *)</span>
 <span class="kwa">let</span> <span class="ocaml-function">finaliser</span> <span class="ocaml-variable">n record </span>=
-  printf &quot;*** objcache: finalising record %d\n&quot; n;
+  printf <span class="ocaml-string">&quot;*** objcache: finalising record %d\n&quot;</span> n;
   write_record record n diskfile;
   unlock_record n diskfile
 
@@ -304,10 +304,10 @@ compactions: 0
 <span class="kwa">let</span> <span class="ocaml-function">get_record</span> <span class="ocaml-variable">n </span>=
   <span class="kwb">match</span> <span class="ocaml-mod">Weak</span>.get cache n <span class="kwb">with</span>
   | Some record -&gt;
-      printf &quot;*** objcache: fetching record %d from memory cache\n&quot; n;
+      printf <span class="ocaml-string">&quot;*** objcache: fetching record %d from memory cache\n&quot;</span> n;
       record
   | None -&gt;
-      printf &quot;*** objcache: loading record %d from disk\n&quot; n;
+      printf <span class="ocaml-string">&quot;*** objcache: loading record %d from disk\n&quot;</span> n;
       <span class="kwa">let </span><span class="ocaml-variable">record</span> = new_record () <span class="kwa">in</span>
       <span class="ocaml-mod">Gc</span>.finalise (finaliser n) record;
       lock_record n diskfile;

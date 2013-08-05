@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -144,35 +144,35 @@
 
 <p>To create a Map I can do:</p>
 
-<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">MyUsers</span> <span class="ocaml-variable"></span>= <span class="ocaml-mod">Map</span>.Make(String);;</span></pre>
+<pre><span class="listing"><span class="kwa">module</span> <span class="ocaml-mod">MyUsers</span> <span class="ocaml-variable"></span>= <span class="ocaml-mod">Map</span>.Make(String)<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Ok, we have created the module. Now, lets start putting something into it. Where do we start? Well, lets try an empty module to begin with:</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.empty;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.empty<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Hummm. An empty module is kind of boring, so lets add some data.</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;fred&quot; &quot;sugarplums&quot; m;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add <span class="ocaml-string">&quot;fred&quot;</span> <span class="ocaml-string">&quot;sugarplums&quot;</span> m<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>We have now added "fred" and his password of "sugarplums" to our module. There is a fairly important point to make here. Once we have added the string "sugarplums" we have fixed the types of mappings that we can do. This means our mapping in our module MyUsers is from strings to strings. If we want a mapping from strings to integers or a mapping from integers to whatever we will have to create a different mapping.</p>
 
 <p>Lets add in some additional data just for kicks.</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;tom&quot; &quot;ilovelucy&quot; m;;
-<span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;mark&quot; &quot;ocamlrules&quot; m;;
-<span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add &quot;pete&quot; &quot;linux&quot; m;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add <span class="ocaml-string">&quot;tom&quot;</span> <span class="ocaml-string">&quot;ilovelucy&quot;</span> m<span class="ocamltop-prompt">;;</span>
+<span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add <span class="ocaml-string">&quot;mark&quot;</span> <span class="ocaml-string">&quot;ocamlrules&quot;</span> m<span class="ocamltop-prompt">;;</span>
+<span class="kwa">let </span><span class="ocaml-variable">m</span> = <span class="ocaml-mod">MyUsers</span>.add <span class="ocaml-string">&quot;pete&quot;</span> <span class="ocaml-string">&quot;linux&quot;</span> m<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>Now that we have some data inside of our Map module, wouldn't it be nice to be able to view that data at some point? Lets begin by creating a simple print function.</p>
 
-<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">print_users</span> <span class="ocaml-variable">key password </span>= print_string(key ^ &quot; &quot; ^ password ^ &quot;\n&quot;);;</span></pre>
+<pre><span class="listing"><span class="kwa">let</span> <span class="ocaml-function">print_users</span> <span class="ocaml-variable">key password </span>= print_string(key ^ <span class="ocaml-string">&quot; &quot;</span> ^ password ^ <span class="ocaml-string">&quot;\n&quot;</span>)<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>We have here a function that will take two strings, a key and a pasword, and print them out nicely, including a new line character at the end. All we need to do is to have this function applied to our mapping. Here is what that would look like.</p>
 
-<pre><span class="listing"><span class="ocaml-mod">MyUsers</span>.iter print_users m;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">MyUsers</span>.iter print_users m<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>The reason we put our data into a mapping however is probably so we can quickly find the data. Lets actually show how to do a find.</p>
 
-<pre><span class="listing"><span class="ocaml-mod">MyUsers</span>.find &quot;fred&quot; m;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">MyUsers</span>.find <span class="ocaml-string">&quot;fred&quot;</span> m<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>This should quickly and efficienty return Fred's password: "sugarplums".</p>
 

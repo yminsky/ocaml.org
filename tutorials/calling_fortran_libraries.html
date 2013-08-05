@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -191,7 +191,7 @@ CAMLprim value gtd6_t (value iydV, value secVal, value altVal, value latVal, val
 
 <p>Now in an OCaml file (gtd6.ml) we have to define the external
   reference to the function and a function to call it.</p>
-<pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">temp</span>&nbsp;: int -&gt; float -&gt; float -&gt; float -&gt; float -&gt; float = &quot;gtd6_t&quot;
+<pre><span class="listing"><span class="kwa">external</span> <span class="ocaml-function">temp</span>&nbsp;: int -&gt; float -&gt; float -&gt; float -&gt; float -&gt; float = <span class="ocaml-string">&quot;gtd6_t&quot;</span>
 
 <span class="kwa">let</span> () =
   print_double (temp 1 2.0 3.0 4.0 5.0);

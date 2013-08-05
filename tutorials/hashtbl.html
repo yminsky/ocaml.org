@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -141,7 +141,7 @@
 <a name="Hashtbl"></a><h2><span>Module Hashtbl</span></h2>
 <p class="first_para">The Hashtbl module implements an efficient, mutable lookup table. To create a hash table we could write:</p>
 
-<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">my_hash</span> = <span class="ocaml-mod">Hashtbl</span>.create 123456;;</span></pre>
+<pre><span class="listing"><span class="kwa">let </span><span class="ocaml-variable">my_hash</span> = <span class="ocaml-mod">Hashtbl</span>.create 123456<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>The 123456 is the initial size of the hashtbl. This initial number is just your best guess as to the amount of data that you will be putting into the hash table. The hash table can grow if you under-estimate the size so don't worry about it too much. The type of my_hash is:</p>
 
@@ -156,29 +156,29 @@
 
 
 
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hello&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hi&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hug&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;h&quot; &quot;hard&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;w&quot; &quot;wimp&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;w&quot; &quot;world&quot;;;
-<span class="ocaml-mod">Hashtbl</span>.add my_hash &quot;w&quot; &quot;wine&quot;;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;h&quot;</span> <span class="ocaml-string">&quot;hello&quot;</span><span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;h&quot;</span> <span class="ocaml-string">&quot;hi&quot;</span><span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;h&quot;</span> <span class="ocaml-string">&quot;hug&quot;</span><span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;h&quot;</span> <span class="ocaml-string">&quot;hard&quot;</span><span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;w&quot;</span> <span class="ocaml-string">&quot;wimp&quot;</span><span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;w&quot;</span> <span class="ocaml-string">&quot;world&quot;</span><span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Hashtbl</span>.add my_hash <span class="ocaml-string">&quot;w&quot;</span> <span class="ocaml-string">&quot;wine&quot;</span><span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>If we want to find one element in my_hash that has an "h" in it then we would write. Notice how it only returns just one element? That element was the last one entered in with the value of "h".</p>
 
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.find my_hash &quot;h&quot;;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.find my_hash <span class="ocaml-string">&quot;h&quot;</span><span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>What we probably want is all the elements that start with "h". To do this we want to find all of them. What better name for this then "find_all"?</p>
 
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.find_all my_hash &quot;h&quot;;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.find_all my_hash <span class="ocaml-string">&quot;h&quot;</span><span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>returns</p>
 
-<pre><span class="listing">[&quot;hard&quot;; &quot;hug&quot;; &quot;hi&quot;; &quot;hello&quot;]</span></pre>
+<pre><span class="listing">[<span class="ocaml-string">&quot;hard&quot;</span>; <span class="ocaml-string">&quot;hug&quot;</span>; <span class="ocaml-string">&quot;hi&quot;</span>; <span class="ocaml-string">&quot;hello&quot;</span>]</span></pre>
 
 <p>To find out if there is an entry in the my_hash for a letter we would do:</p>
 
-<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.mem my_hash &quot;h&quot;;;</span></pre>
+<pre><span class="listing"><span class="ocaml-mod">Hashtbl</span>.mem my_hash <span class="ocaml-string">&quot;h&quot;</span><span class="ocamltop-prompt">;;</span></span></pre>
 
 
 

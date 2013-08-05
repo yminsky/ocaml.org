@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -266,7 +266,7 @@ function cons (x: integer; l: list): list;
 </p>
 
 <pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">list</span> = Nil | Cons <span class="kwb">of</span> cell
-<span class="kwa">and </span><span class="ocaml-variable">cell</span> = {<span class="kwb">mutable</span> hd : int; <span class="kwb">mutable</span> tl : list};;</span></pre>
+<span class="kwa">and </span><span class="ocaml-variable">cell</span> = {<span class="kwb">mutable</span> hd : int; <span class="kwb">mutable</span> tl : list}<span class="ocamltop-prompt">;;</span></span></pre>
 
 <p>
   Physical assignments are still useless to allocate mutable data: you
@@ -319,11 +319,11 @@ function cons (x: integer; l: list): list;
   infix <code>^:=</code>.
 </p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">( !^ )</span> = <span class="kwb">function</span>
-    | Null -&gt; invalid_arg &quot;Attempt <span class="kwb">to</span> dereference the null pointer&quot;
+    | Null -&gt; invalid_arg <span class="ocaml-string">&quot;Attempt <span class="kwb">to</span> dereference the null pointer&quot;</span>
     | Pointer r -&gt; !r</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ( !^ ) : 'a pointer -&gt; 'a = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">( ^:= )</span> <span class="ocaml-variable">p v </span>=
     <span class="kwb">match</span> p <span class="kwb">with</span>
-    | Null -&gt; invalid_arg &quot;Attempt <span class="kwb">to</span> assign the null pointer&quot;
+    | Null -&gt; invalid_arg <span class="ocaml-string">&quot;Attempt <span class="kwb">to</span> assign the null pointer&quot;</span>
     | Pointer r -&gt; r := v</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ( ^:= ) : 'a pointer -&gt; 'a -&gt; unit = &lt;fun&gt;
 </span></pre>
 

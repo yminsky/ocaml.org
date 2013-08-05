@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link href="css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
@@ -167,10 +167,10 @@ thus <code>+/</code>. You build big numbers using conversion from
 (small) integers or character strings.  For printing in the toplevel,
 a custom printer can be used.  An example under OCaml is given below.
 
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load &quot;nums.cma&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Num</span>
-  <span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">print_num</span> <span class="ocaml-variable">ff n </span>= fprintf ff &quot;%s&quot; (string_of_num n)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val print_num : Format.formatter -&gt; Num.num -&gt; unit = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#install_printer print_num</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">num_of_string &quot;2/3&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : Num.num = 2/3
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">n</span> = num_of_string &quot;1/3&quot; +/ num_of_string &quot;2/3&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val n : Num.num = 1
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;nums.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">open</span> <span class="ocaml-mod">Num</span>
+  <span class="kwa">open</span> <span class="ocaml-mod">Format</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">print_num</span> <span class="ocaml-variable">ff n </span>= fprintf ff <span class="ocaml-string">&quot;%s&quot;</span> (string_of_num n)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val print_num : Format.formatter -&gt; Num.num -&gt; unit = &lt;fun&gt;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#install_printer print_num</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">num_of_string <span class="ocaml-string">&quot;2/3&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : Num.num = 2/3
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">n</span> = num_of_string <span class="ocaml-string">&quot;1/3&quot;</span> +/ num_of_string <span class="ocaml-string">&quot;2/3&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val n : Num.num = 1
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">fact</span> <span class="ocaml-variable">n </span>=
     <span class="kwb">if</span> n &lt;= 0 <span class="kwb">then</span> (num_of_int 1) <span class="kwb">else</span> num_of_int n */ (fact (n - 1))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val fact : int -&gt; Num.num = &lt;fun&gt;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">fact 100</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : Num.num =
@@ -262,9 +262,9 @@ are the constructors of the <code>color</code> type.  One can define
 functions on this type by pattern matching:
 
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">string_of_color</span> = <span class="kwb">function</span>
-    | Blue -&gt; &quot;blue&quot;
-    | White -&gt; &quot;white&quot;
-    | Red -&gt; &quot;red&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val string_of_color : color -&gt; string = &lt;fun&gt;
+    | Blue -&gt; <span class="ocaml-string">&quot;blue&quot;</span>
+    | White -&gt; <span class="ocaml-string">&quot;white&quot;</span>
+    | Red -&gt; <span class="ocaml-string">&quot;red&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val string_of_color : color -&gt; string = &lt;fun&gt;
 </span></pre>
 </div>
 
@@ -429,7 +429,7 @@ Procedures with argument are defined exactly as ordinary
 functions. For instance:
 
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">message</span> <span class="ocaml-variable">s </span>= print_string s; print_newline()</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val message : string -&gt; unit = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">message &quot;Hello world!&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">Hello world!
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">message <span class="ocaml-string">&quot;Hello world!&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">Hello world!
 </span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 </div>
@@ -597,8 +597,8 @@ written the same. Consider for instance:
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">x</span> = T 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val x : t = T 1
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">t</span> = T <span class="kwb">of</span> int</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type t = T of int
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">incr</span> = <span class="kwb">function</span> T x -&gt; T (x+1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val incr : t -&gt; t = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr <span class="ocamltop-error-loc">x</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type t/3207 but an expression was expected of type
-         t/3210
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr <span class="ocamltop-error-loc">x</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type t/1179 but an expression was expected of type
+         t/1182
 </span></pre>
 
 This phenomenon appears when you load many times the same file into
@@ -700,9 +700,9 @@ queue) in order to find out the proper line breaking to perform with
 the material at hand. By contrast low level output is performed with
 no more buffering than usual I/O buffering.
 
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">print_endline &quot;before&quot;;
-  <span class="ocaml-mod">Format</span>.print_string &quot;MIDDLE&quot;;
-  print_endline &quot;after&quot;</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">before
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">print_endline <span class="ocaml-string">&quot;before&quot;</span>;
+  <span class="ocaml-mod">Format</span>.print_string <span class="ocaml-string">&quot;MIDDLE&quot;</span>;
+  print_endline <span class="ocaml-string">&quot;after&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">before
 after
 MIDDLE</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>

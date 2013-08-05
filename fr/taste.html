@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="../css/bootstrap.css"/>
     <link href="../css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="../css/bootstrap-responsive.css"/>
@@ -199,7 +199,7 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
   chaînes de caractères.
   </p>
 <pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [2; 1; 0]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list = [0; 1; 2]
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [&quot;yes&quot;; &quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;; &quot;yes&quot;]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sort [<span class="ocaml-string">&quot;yes&quot;</span>; <span class="ocaml-string">&quot;ok&quot;</span>; <span class="ocaml-string">&quot;sure&quot;</span>; <span class="ocaml-string">&quot;ya&quot;</span>; <span class="ocaml-string">&quot;yep&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;ok&quot;; &quot;sure&quot;; &quot;ya&quot;; &quot;yep&quot;; &quot;yes&quot;]
 </span></pre>
 
 
@@ -331,11 +331,11 @@ val insert : 'a -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
        eval_op op v1 v2
   <span class="kwa">and</span> <span class="ocaml-function">eval_op</span> <span class="ocaml-variable">op v1 v2 </span>=
     <span class="kwb">match</span> op <span class="kwb">with</span>
-    | &quot;+&quot; -&gt; v1 + v2
-    | &quot;-&quot; -&gt; v1 - v2
-    | &quot;*&quot; -&gt; v1 * v2
-    | &quot;/&quot; -&gt; v1 / v2
-    | _ -&gt; <span class="kwb">failwith</span> (&quot;Unknown operator: &quot; ^ op)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val eval : (string * int) list -&gt; expression -&gt; int = &lt;fun&gt;
+    | <span class="ocaml-string">&quot;+&quot;</span> -&gt; v1 + v2
+    | <span class="ocaml-string">&quot;-&quot;</span> -&gt; v1 - v2
+    | <span class="ocaml-string">&quot;*&quot;</span> -&gt; v1 * v2
+    | <span class="ocaml-string">&quot;/&quot;</span> -&gt; v1 / v2
+    | _ -&gt; <span class="kwb">failwith</span> (<span class="ocaml-string">&quot;Unknown operator: &quot;</span> ^ op)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val eval : (string * int) list -&gt; expression -&gt; int = &lt;fun&gt;
 val eval_op : string -&gt; int -&gt; int -&gt; int = &lt;fun&gt;
 </span></pre>
 
@@ -343,7 +343,7 @@ val eval_op : string -&gt; int -&gt; int -&gt; int = &lt;fun&gt;
   1 <b>in</b> x + x</code> :
   </p>
 
-<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">eval [] (Let (&quot;x&quot;, Num 1, Binop (&quot;+&quot;, Var &quot;x&quot;, Var &quot;x&quot;)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 2
+<pre class="listing"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">eval [] (Let (<span class="ocaml-string">&quot;x&quot;</span>, Num 1, Binop (<span class="ocaml-string">&quot;+&quot;</span>, Var <span class="ocaml-string">&quot;x&quot;</span>, Var <span class="ocaml-string">&quot;x&quot;</span>)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 2
 </span></pre>
 
   <p>L'emploi du filtrage facilite la définition des fonctions opérant

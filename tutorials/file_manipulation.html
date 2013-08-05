@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href=".././css/bootstrap.css"/>
     <link href=".././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href=".././css/bootstrap-responsive.css"/>
@@ -171,13 +171,13 @@
 <h3>Example</h3>
 <pre><span class="listing"><span class="kwa">open</span> <span class="ocaml-mod">Printf</span>
 
-<span class="kwa">let </span><span class="ocaml-variable">file</span> = &quot;example.dat&quot;
-<span class="kwa">let </span><span class="ocaml-variable">message</span> = &quot;Hello!&quot;
+<span class="kwa">let </span><span class="ocaml-variable">file</span> = <span class="ocaml-string">&quot;example.dat&quot;</span>
+<span class="kwa">let </span><span class="ocaml-variable">message</span> = <span class="ocaml-string">&quot;Hello!&quot;</span>
 
 <span class="kwa">let</span> () =
   <span class="ocaml-comment">(* Write message <span class="kwb">to</span> file *)</span>
   <span class="kwa">let </span><span class="ocaml-variable">oc</span> = open_out file <span class="kwa">in</span>    <span class="ocaml-comment">(* create or truncate file, return channel *)</span>
-  fprintf oc &quot;%s\n&quot; message;   <span class="ocaml-comment">(* write something *)</span>   
+  fprintf oc <span class="ocaml-string">&quot;%s\n&quot;</span> message;   <span class="ocaml-comment">(* write something *)</span>   
   close_out oc;                <span class="ocaml-comment">(* flush and close the channel *)</span>
 
   <span class="ocaml-comment">(* Read file and display the first line *)</span>

@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link href="css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/bootstrap-responsive.css"/>
@@ -332,11 +332,11 @@ one_pass_vect* --&gt; ()
     </p>
 
     <pre><span class="listing"><span class="ocaml-comment">(* file uncaught.ml *)</span>
-<span class="kwa">let </span><span class="ocaml-variable">l</span> = <span class="kwb">ref</span> [];;
-<span class="kwa">let</span> <span class="ocaml-function">find_address</span> <span class="ocaml-variable">name </span>= <span class="ocaml-mod">List</span>.assoc name !l;;
-<span class="kwa">let</span> <span class="ocaml-function">add_address</span> <span class="ocaml-variable">name address </span>= l := (name, address) :: ! l;;
-add_address &quot;IRIA&quot; &quot;Rocquencourt&quot;;;
-print_string (find_address &quot;INRIA&quot;); print_newline ();;</span></pre>
+<span class="kwa">let </span><span class="ocaml-variable">l</span> = <span class="kwb">ref</span> []<span class="ocamltop-prompt">;;</span>
+<span class="kwa">let</span> <span class="ocaml-function">find_address</span> <span class="ocaml-variable">name </span>= <span class="ocaml-mod">List</span>.assoc name !l<span class="ocamltop-prompt">;;</span>
+<span class="kwa">let</span> <span class="ocaml-function">add_address</span> <span class="ocaml-variable">name address </span>= l := (name, address) :: ! l<span class="ocamltop-prompt">;;</span>
+add_address <span class="ocaml-string">&quot;IRIA&quot;</span> <span class="ocaml-string">&quot;Rocquencourt&quot;</span><span class="ocamltop-prompt">;;</span>
+print_string (find_address <span class="ocaml-string">&quot;INRIA&quot;</span>); print_newline ()<span class="ocamltop-prompt">;;</span></span></pre>
 
     <p>
       At runtime, the program raises an uncaught exception

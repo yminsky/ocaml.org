@@ -13,7 +13,7 @@
     <meta content="" name="keywords"/>
     <meta content="OCaml (Weberizer)" name="generator"/>
 
-    <link href="https://static.ocamlcore.org/official/images/favicon.ico" rel="shortcut icon"/>
+    <link href="http://ocaml.org/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="../.././css/bootstrap.css"/>
     <link href="../.././css/ocaml.css" media="all" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="../.././css/bootstrap-responsive.css"/>
@@ -143,15 +143,15 @@
 <pre><span class="listing"><span class="kwa">type</span> <span class="ocaml-mod">t1</span> = A | B
 <span class="kwa">type</span> <span class="ocaml-mod">t2</span> = Foo <span class="kwb">of</span> string * t1
 <span class="kwa">open</span> <span class="ocaml-mod">Pcaml</span>
-<span class="kwa">let </span><span class="ocaml-variable">foo</span> = <span class="ocaml-mod">Entry</span>.mk gram &quot;foo&quot;
-<span class="kwa">let </span><span class="ocaml-variable">bar</span> = <span class="ocaml-mod">Entry</span>.mk gram &quot;bar&quot;
+<span class="kwa">let </span><span class="ocaml-variable">foo</span> = <span class="ocaml-mod">Entry</span>.mk gram <span class="ocaml-string">&quot;foo&quot;</span>
+<span class="kwa">let </span><span class="ocaml-variable">bar</span> = <span class="ocaml-mod">Entry</span>.mk gram <span class="ocaml-string">&quot;bar&quot;</span>
 EXTEND
   GLOBAL: foo bar;
-  foo: [ [ &quot;foo&quot;; i = LIDENT; b = bar -&gt; Foo(i, b) ] ];
-  bar: [ [ &quot;?&quot; -&gt; A | &quot;.&quot; -&gt; B ] ];
-END;;
-<span class="ocaml-mod">Entry</span>.parse foo (<span class="ocaml-mod">Stream</span>.of_string &quot;foo x?&quot;) = Foo(&quot;x&quot;, A)
-DELETE_RULE foo: &quot;foo&quot;; LIDENT; bar END</span></pre>
+  foo: [ [ <span class="ocaml-string">&quot;foo&quot;</span>; i = LIDENT; b = bar -&gt; Foo(i, b) ] ];
+  bar: [ [ <span class="ocaml-string">&quot;?&quot;</span> -&gt; A | <span class="ocaml-string">&quot;.&quot;</span> -&gt; B ] ];
+END<span class="ocamltop-prompt">;;</span>
+<span class="ocaml-mod">Entry</span>.parse foo (<span class="ocaml-mod">Stream</span>.of_string <span class="ocaml-string">&quot;foo x?&quot;</span>) = Foo(<span class="ocaml-string">&quot;x&quot;</span>, A)
+DELETE_RULE foo: <span class="ocaml-string">&quot;foo&quot;</span>; LIDENT; bar END</span></pre>
 
     </div>
 
