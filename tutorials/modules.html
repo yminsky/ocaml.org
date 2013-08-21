@@ -321,7 +321,9 @@ ocamlopt -c amodule.ml
     val concat : 'a list list -&gt; 'a list
     val flatten : 'a list list -&gt; 'a list
     val iter : ('a -&gt; unit) -&gt; 'a list -&gt; unit
+    val iteri : (int -&gt; 'a -&gt; unit) -&gt; 'a list -&gt; unit
     val map : ('a -&gt; 'b) -&gt; 'a list -&gt; 'b list
+    val mapi : (int -&gt; 'a -&gt; 'b) -&gt; 'a list -&gt; 'b list
     val rev_map : ('a -&gt; 'b) -&gt; 'a list -&gt; 'b list
     val fold_left : ('a -&gt; 'b -&gt; 'a) -&gt; 'a -&gt; 'b list -&gt; 'a
     val fold_right : ('a -&gt; 'b -&gt; 'b) -&gt; 'a list -&gt; 'b -&gt; 'b
