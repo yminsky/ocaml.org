@@ -153,7 +153,10 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="a3a2834584a279b8df2dea6086c41930"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=883"> Litiom 2.1 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Aug 2013</span></span><span class="rss-description"><pre class="rss-text">This release adds support for all HTML5 input types.</pre></span>
+    <div class="planet"><a name="052182f7b8288f6e4accd1cb4eebf11e"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=884"> ocurl 0.6.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">30 Aug 2013</span></span><span class="rss-description"><pre class="rss-text">ocurl is the set of bindings to libcurl - URL transfer library, supporting HTTP and many other protocols.
+
+This release introduces bindings to pluggable asynchronous multi api, enabling the development of efficient ocurl wrappers for lwt and async.</pre></span>
+<a name="a3a2834584a279b8df2dea6086c41930"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=883"> Litiom 2.1 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Aug 2013</span></span><span class="rss-description"><pre class="rss-text">This release adds support for all HTML5 input types.</pre></span>
 <a name="4175976d51fa049dc9cd5ba29541a628"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/?p=1535"> The elements of an inductive type</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">28 Aug 2013</span></span><span class="rss-description"><div id="post1"><p>In the HoTT book <a href="https://github.com/HoTT/book/issues/460">issue 460</a> a question by <em>gluttonousGrandma</em> (where do people get these nicknames?) once more exposed a common misunderstanding that we tried to explain in <a href="http://books.google.si/books?id=LkDUKMv3yp0C&amp;lpg=PA3&amp;dq=homotopy%20type%20theory&amp;pg=PA166#v=onepage&amp;q&amp;f=false">section 5.8</a> of the book (many thanks to Bas Spitters for putting the book into Google Books so now we can link to particular pages). Apparently the following belief is widely spread, and I admit to holding it a couple of years ago:</p>
 <blockquote><p>An inductive type contains exactly those elements that we obtain by repeatedly using the constructors.</p></blockquote>
 <p>If you believe the above statement you should keep reading. I am going to convince you that the statement is unfounded, or that at the very least it is preventing you from understanding type theory.</p>
@@ -332,85 +335,6 @@ The development repository is at github
 The easiest way to install is ...</span>
 <a name="29c1351b3f931f8078adb9b93b05dbef"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocaml-unidiff/"> ocaml-unidiff</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Aug 2013</span></span><span class="rss-description">Unified diff parsing functions.  The source code is located here: https://github.com/gildor478/ocaml-unidiff</span>
 <a name="848280c40fb9df0eba2ab66b9f4c927a"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/ocaml-precommit/"> ocaml-precommit</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">21 Aug 2013</span></span><span class="rss-description">Apply simple pre-commit checks to sources files, output errors compatible with vim quickfix.  Source code is located here: https://github.com/gildor478/ocaml-precommit</span>
-<a name="e3b4a6b8436dca1e844740f844ddaf0b"></a><span class="rss-header"><span class="rss-title"><a href="http://math.andrej.com/?p=1462"> How to review formalized mathematics</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Andrej Bauer</span>, <span class="rss-date">19 Aug 2013</span></span><span class="rss-description"><div id="post7"><p>Recently I reviewed a paper in which most proofs were done in a proof assistant. Yes, the machine guaranteed that the proofs were correct, but I still had to make sure that the authors correctly formulated their definitions and theorems, that the code did not contain hidden assumptions, that there were no unfinished proofs, and so on.</p>
-<p>In a typical situation an author submits a paper accompanied with some source code which contains the formalized parts of the work. Sometimes the code is enclosed with the paper, and sometimes it is available for download somewhere. <strong><i>It is easy to ignore the code! </i></strong>The journal finds it difficult to archive the code, the editor naturally focuses on the paper itself, the reviewer trusts the authors and the proof assistant, and the authors are tempted not to mention dirty little secrets about their code. If the proponents of formalized mathematics want to avert a disaster that could destroy their efforts in a single blow, they must adopt a set of rules that will ensure high standards. There is much more to trusting a piece of formalized mathematics than just running it through a proof checker.</p>
-<p><span id="more-1462"></span></p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#e3b4a6b8436dca1e844740f844ddaf0b">Read more...</a></div><div id="post8" style="display: none"><p>Recently I reviewed a paper in which most proofs were done in a proof assistant. Yes, the machine guaranteed that the proofs were correct, but I still had to make sure that the authors correctly formulated their definitions and theorems, that the code did not contain hidden assumptions, that there were no unfinished proofs, and so on.</p>
-<p>In a typical situation an author submits a paper accompanied with some source code which contains the formalized parts of the work. Sometimes the code is enclosed with the paper, and sometimes it is available for download somewhere. <strong><i>It is easy to ignore the code! </i></strong>The journal finds it difficult to archive the code, the editor naturally focuses on the paper itself, the reviewer trusts the authors and the proof assistant, and the authors are tempted not to mention dirty little secrets about their code. If the proponents of formalized mathematics want to avert a disaster that could destroy their efforts in a single blow, they must adopt a set of rules that will ensure high standards. There is much more to trusting a piece of formalized mathematics than just running it through a proof checker.</p>
-<p><span id="more-1462"></span></p>
-<p>Before I say anything about reviewing formalized mathematics, let me just point out that being anonymous does not give the referee the right to be impolite or even abusive. A good guiding principle is to never write anything in a review that you would not say to the author’s face. You can be harsh and you can criticize, but do it politely and ground your opinions in arguments. After all, you expect no less of the author.</p>
-<p>Let us imagine  a submission to a journal in which the author claims to have checked proofs using a computer proof assistant or some other such tool. Almost everything I write below follows from the simple observation that <em><strong>the code contains proofs  and that proofs are an essential part of the paper</strong></em>. If as a reviewer or an editor you are ever in doubt, just imagine how you would act if the formalized part were actually an appendix written informally as ordinary math.</p>
-<p>Here is a set of guidelines that I think should be followed when formalized mathematics is reviewed.</p>
-<h3>The rules for the author</h3>
-<ol>
-<li><em>Enclose the code with the paper submission.</em></li>
-<li><em>Provide information on how to independently verify the correctness of the code.</em></li>
-<li><em>License the code so that anyone who wants to check the correctness of the proofs is free to do so.</em></li>
-<li><em>Provide explicit information on what parts of the code correspond to what parts of the paper.</em></li>
-</ol>
-<p>Comments:</p>
-<ol>
-<li>It is not acceptable to just provide a link where the code is available for download, for several reasons:
-<ul>
-<li>When the anonymous reviewer downloads the code, he will give away his location and therefore very likely his identity. The anonymity of the reviewer must be respected. While there are methods that allow the reviewer to download the code anonymously, it is not for him to worry about such things.</li>
-<li>There is no guarantee that the code will be available from the given link in the future. Even if the code is on Github or some other such established service, in the long run the published paper is likely going to outlive the service.</li>
-<li>It must be perfectly clear which version of the code goes with the paper. Code that is available for download is likely going to be updated and change, which will put it out of sync with the paper. The author is of course always free to mention that the code is <em>also</em> available on some web site.</li>
-</ul>
-</li>
-<li>Without instructions on how to verify correctness of the code, the reviewer and the readers may have a very hard time figuring things out. The information provided must:
-<ul>
-<li>List the prerequisites: which proof assistant the code works with and which libraries it depends on, with exact version information for all of them.</li>
-<li>Include step-by-step instructions on how to compile the code.</li>
-<li>Provide an outline of how the code is organized.</li>
-</ul>
-</li>
-<li>Formalized mathematics is a form of software. I am not a copyright expert, but I suspect that the rules for software are not the same as those for published papers. Therefore, the code should be licenced separately. I strongly urge everybody to release their code under an open source license, otherwise the evil journals will think of ways to hide the code from the readers, or to charge extra for access to the code.</li>
-<li>The reviewer must check that all theorems stated in the paper have actually been proved in the code. To make his job possible the author should make it clear how to pair up the paper theorems with the machine proofs. It is <em>not</em> easy for the reviewer to wade through the code and try to figure out what is what. Imagine a paper in which all proofs were put in an appendix but they were not numbered, so that the reader would have to figure out which theorem goes with which proof.</li>
-</ol>
-<h3>The rules for the reviewer</h3>
-<ol>
-<li><em>Review the paper part according to established standards.</em></li>
-<li><em>Verify that the code compiles as described in the provided instructions.</em></li>
-<li><em>Check that the code correctly formulates all the definitions.</em></li>
-<li><em>Check that the code proves each theorem stated in the paper and that the machine version of the theorem is the same as the paper version.</em></li>
-<li><em>Check that the code does not contain unfinished proofs or hypotheses that are not stated in the paper.</em></li>
-<li><em>Review the code for quality.</em></li>
-</ol>
-<p>Comments:</p>
-<ol>
-<li>Of course the reviewer should not forget the traditional part of his job.</li>
-<li>It is absolutely critical that the reviewer independently compile the code. This may require some effort, but skipping this step is like not reading proofs.</li>
-<li>Because the work is presented in two separate parts, the paper and the code, there is potential for mismatch. It is the job of the reviewer to make sure that the two parts fit together. The reviewer can reject the paper if he cannot easily figure out which part of the code corresponds to which part of the paper.</li>
-<li>The code is part of the paper and is therefore subject to reviewing. Just because a piece of code is accepted by a proof checker, that does not automatically make it worthy. Again, think how you would react to a convoluted paper proof which were nevertheless correct. You would most definitely comment on it and ask for an improvement.</li>
-</ol>
-<h3>The rules for the journal</h3>
-<ol>
-<li><em>The journal must archive the code and make it permanently available with the paper, under exactly the same access permissions as the paper itself.</em></li>
-</ol>
-<p>This is an extremely difficult thing to accomplish, so the journal should do whatever it can. Here are just two things to worry about:</p>
-<ol>
-<li>It is unacceptable to make the code less accessible than the paper because the code <em>is</em> the paper.</li>
-<li>The printed version of the journal should have the code enclosed on a medium that lasts as long as paper.</li>
-<li>If the code is placed on a web site, it is easy for it do disappear in the future when the site is re-organized.</li>
-</ol>
-<h3>The rules for the editor</h3>
-<ol>
-<li><em>The editor must find a reviewer who is not only competent to judge the math, but can also verify that the code is as advertised.</em></li>
-<li><em>The editor must make sure that the author, the journal, and the reviewer follow the rules.</em></li>
-</ol>
-<p>Comments:</p>
-<ol>
-<li>It may be quite hard to find a reviewer that both knows the math and can deal with the code. In such as a case the best strategy might be to find two reviewers whose joint abilities cover all tasks. But it is a very bad idea for the two reviewers to work independently, for who is going to check that the paper theorems really correspond to the computer proofs? It is not enough to just have a reviewer run the code and report back as “it compiles”.</li>
-<li>In particular, the editor must:
-<ul>
-<li>insist that the code be enclosed with the paper</li>
-<li>convince the journal that the code be archived appropriately</li>
-<li>require that the reviewer explicitly describe to what extent he verified the code: did he run it, did he check it corresponds to the paper theorems, etc? (See the list under “The rules for the reviewer”.)</li>
-</ul>
-</li>
-</ol>
-<h3>Can we trust formalized mathematics?</h3>
-<p>I think the answer is <em>not without a diligent reviewing process.</em> While a computer verified proof can instill quite a bit of confidence in a mathematical result, there are things that the machine simply cannot check. So even though the reviewer need not check the proofs themselves, there is still a lot for him to do. Trust is in the domain of humans. Let us not replace it with blind belief in the power of machines.</p><a onclick="switchContent('post8','post7')" class="btn" href="#e3b4a6b8436dca1e844740f844ddaf0b">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
