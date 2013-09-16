@@ -341,7 +341,205 @@ Sylvain Le Gall</pre></span>
 <p>Notice that these figures are comparable to experiments conducted when the value restriction had been introduced. In that case, it was argued that eta-expansion solved most situations at a very low syntactic (and computational) cost. For monomorphic let, it suffices to provide an annotation to recover polymorphism, thus the solution is universal, but its cost for the programmer is higher.</p>
 <p>Actually, this discussion is mostly academic, because in OCaml we have no specific reason to make local let-definitions monomorphic. By contrast with Haskell which propagates type information through constraint solving, we instead only perform forward propagation, and actually rely on polymorphism to decide when some type information does not depend on the order of type inference and is safe to use. GADTs create problems of their own, but we handle these through <a href="http://cristal.inria.fr/~remy/gadts/">ambivalent types</a>, a mechanism similar in spirit to the tracking of sharing used for type information, which again relies on local polymorphism rather than forgoes it.</p><a onclick="switchContent('post4','post3')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Hide</a></div></span>
 <a name="3eb62f7b5dd4e17948290ecc87812b7e"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.10.html"> Caml Weekly News, 10 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">10 Sep 2013</span></span><span class="rss-description">Pippo: a pretty interesting pre-processor that uses OCaml / OCaml 4.01.0+rc2 / Uutf 0.9.3 &amp; Xmlm 1.2.0 / OCamlPro Highlights, August 2013 / Other Caml News</span>
-<a name="d6c831966663fa2d001ee4356a668fc5"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/06/OUnit-2.0-progress%2C-August-2013"> OUnit 2.0 progress, August 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
+<a name="987ab477f849380c60405a46b6c2ca46"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging"> OCamlot--exploring the edges of OPAM packages</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">08 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
+
+<p>I wanted to share some of what OCamlot does today, some of the results from about 3 months worth of runs that may help OCaml package maintainers, and finally where we’re going with future developments. This work has been done in collaboration with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/people/sheets.html">David Sheets</a> (who built the OCamlot daemon) and the OPAM team ably led by <a href="http://gazagnaire.org">Thomas Gazagnaire</a> at <a href="http://ocamlpro.com">OCamlPro</a>. We’ve also had a lot of help from <a href="https://github.com/diml">Jeremie Dimino</a> and <a href="https://github.com/ysulsky">Yury Sulsky</a> from Jane Street and <a href="http://dave.recoil.org">Dave Scott</a> and <a href="http://jon.recoil.org">Jon Ludlam</a> from Citrix acting as guinea pigs for their respective regular releases of the <a href="https://github.com/janestreet">Core</a> and <a href="https://github.com/xapi-project">Xen/XAPI</a> releases to OPAM.</p>
+
+<h2 id="towards_a_truely_portable_ocaml">Towards a truely portable OCaml</h2>
+
+<a onclick="switchContent('post5','post6')" class="btn" href="#987ab477f849380c60405a46b6c2ca46">Read more...</a></div><div id="post6" style="display: none"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
+
+<p>I wanted to share some of what OCamlot does today, some of the results from about 3 months worth of runs that may help OCaml package maintainers, and finally where we’re going with future developments. This work has been done in collaboration with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/people/sheets.html">David Sheets</a> (who built the OCamlot daemon) and the OPAM team ably led by <a href="http://gazagnaire.org">Thomas Gazagnaire</a> at <a href="http://ocamlpro.com">OCamlPro</a>. We’ve also had a lot of help from <a href="https://github.com/diml">Jeremie Dimino</a> and <a href="https://github.com/ysulsky">Yury Sulsky</a> from Jane Street and <a href="http://dave.recoil.org">Dave Scott</a> and <a href="http://jon.recoil.org">Jon Ludlam</a> from Citrix acting as guinea pigs for their respective regular releases of the <a href="https://github.com/janestreet">Core</a> and <a href="https://github.com/xapi-project">Xen/XAPI</a> releases to OPAM.</p>
+
+<h2 id="towards_a_truely_portable_ocaml">Towards a truely portable OCaml</h2>
+
+<p>The upstream OCaml toolchain is built on very UNIX-like principles, with a number of command-line tools that form a build pipeline. This process usually ends with linking the intermediate object files with a <a href="https://github.com/ocaml/ocaml/tree/trunk/byterun">runtime library</a> that provides the garbage collector and other intrinsic OS functions.</p>
+
+<p>Given these raw compiler tools, it’s very easy to compile OCaml into all sorts of weird and wonderful architectures. We’ve seen it run on <a href="http://www.algo-prog.info/ocaml_for_pic/web/index.php">8-bit PICs</a>, several efficient Javascript backends (originally <a href="http://jaked.github.io/ocamljs/">ocamljs</a> and more recently <a href="http://ocsigen.org/js_of_ocaml">js_of_ocaml</a>), and of course my own <a href="http://openmirage.org">Mirage</a> Xen unikernel.</p>
+
+<p>While the compiler tools themselves are quite portable and work on almost any UNIX-like system, the build system scaffolding around third-party packages is less portable. Some features such as C bindings often contribute to build breakage on some less-used operating systems such as FreeBSD or OpenBSD, as they usually require probing for header file locations or adding custom <code>CFLAGS</code> before building.</p>
+<table width="90%" align="center">
+<tbody><tr>
+<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/dreamplug-nest-1.jpg"><img src="http://anil.recoil.org/images/dreamplug-nest-1-thumb.jpg" border="0" width="200"/></a><br/>Every Internet of Things starts with a tangled pile of ARM Dreamplugs.</td>
+<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/sparc-macppc-openbsd-1.jpg"><img src="http://anil.recoil.org/images/sparc-macppc-openbsd-1-thumb.jpg" border="0" width="200"/></a><br/>And in our server room, venerable Sparc and PowerPC G4 OpenBSD boxen still live.</td>
+<td width="30%" style="vertical-align: bottom;" class="bimg"><a href="http://anil.recoil.org/images/macppc-desktop-1.jpg"><img src="http://anil.recoil.org/images/macppc-desktop-1-thumb.jpg" border="0" width="200"/></a><br/>Finding older machines is getting tough, but here's <a href="http://dave.recoil.org">Dave's</a> old iMac G5 running Linux.</td>
+</tr>
+</tbody></table>
+<p>Most OCaml developers use x86-based machines and so foreign architectures also get less day-to-day testing (OCaml has superb support for fast native code compilation on ARM, PowerPC, Sparc32, and we’re working on MIPS64 here as part of the <a href="http://www.cl.cam.ac.uk/research/security/ctsrd/cheri.html">CHERI</a> project).</p>
+
+<p>We want to make sure that OCaml and its package ecosystem works just as well in the embedded ecosystem as well as it does on vanilla x86 Linux. This includes running on my Linux iMac G5, my <a href="https://wiki.freebsd.org/FreeBSD/arm/Raspberry%20Pi">FreeBSD Raspberry Pi</a>, my <a href="http://www.openbsd.org/beagle.html">OpenBSD Pandaboard</a>, or even on a bytecode-only architecture like an <a href="http://www.openbsd.org/sparc64.html">OpenBSD/Sparc64</a>.</p>
+
+<p>In the longer term, this paves the way to reliable cross-compiled packages for Windows, <a href="https://github.com/vouillon/ocaml-android">Android</a> and <a href="http://psellos.com/ocaml/compile-to-iphone.html">iPhone</a> (all of which have OCaml ports, but aren’t heavily tested with the full package database). The only practical way to get started on this is by building an automated test infrastructure for OCaml that explores the feature matrix (which eerily for me, happened in the early days of Xen too, via <a href="http://blogs.citrix.com/2013/08/30/xenserver-automated-testing-and-lab-orchestration-introducing-xenrt/">XenRT</a> to stabilize the hypervisor).</p>
+
+<h3 id="why_not_jenkins_or_travis">Why not Jenkins or Travis?</h3>
+
+<p>When we first started hacking on the OPAM testing infrastructure earlier this year, I maintained a local <a href="http://jenkins-ci.org">Jenkins</a> installation that monitored the repository. While Jenkins is a superb tool for many continuous integration tasks, it fell over badly when trying to use it on the non-x86 and non-Linux (or Windows) operating systems. Jenkins requires a full Java runtime stack to be available on each of the client machines, which was taking up more time to get up and running than a simple OCaml-based client and server that could compile to both portable bytecode or fast native code.</p>
+
+<p>The other difficulty with OPAM is selecting which packages actually need to be tested, as it has a constraint-based package solver that supports expressive forwards and backwards version restrictions. While basic tests of the latest packages worked with Jenkins, we needed to increasingly customize it to automate interfacing directly with the OPAM libraries and calculating test schedules based on incoming change requests.</p>
+
+<p>Another factor that ruled out depending on hosted services such as <a href="https://travis-ci.org">Travis</a> is that they tend to support x86-only architectures, whereas we really want to test the full spectrum of CPU variants supported by OCaml. This doesn’t mean that there’s no place for Travis of course, and in fact Mike Lin has already <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">made this work</a> with OPAM.</p>
+
+<p>For our full testing needs though, <a href="https://github.com/ocamllabs/ocamlot">OCamlot</a> was born: an OCaml client and server system which coordinates different versions of the compiler, architectures and OPAM versions and records the results for triage and fixing issues.</p>
+
+<h3 id="running_ocamlot">Running OCamlot</h3>
+
+<p>The latest alpha release of OCamlot is pretty straightforward to run locally, if you are so inclined. First start a server process:</p>
+
+<pre><code>$ git clone git://github.com/ocamllab/ocamlot
+$ cd ocamlot
+$ ./install_deps.sh
+$ oasis setup
+# (edit lib/config.ml if you need to change ports)
+$ make
+$ ./_build/lib/ocamlot_cmd.native --help
+$ ./_build/lib/ocamlot_cmd.native serve</code></pre>
+
+<p>The server listens on localhost only by default, and normally an SSL-to-TCP proxy is deployed to listen for external connections (I use <a href="https://github.com/bumptech/stud">stud</a>, which is fast and easy to configure).</p>
+
+<p>The OCamlot clients require a local compilation of OCaml, and they autodetect their local CPU architecture and operating system. I’ve put a <a href="https://gist.github.com/avsm/6393649">gist script</a> together that automates this on most Linux and BSD variants. Just customize the top variables (set <code>MAKE</code> to <code>gmake</code> under BSD) and set the hostname to your server process.</p>
+
+<h3 id="the_results_repository_and_autotriage">The results repository and auto-triage</h3>
+
+<p>Once the client is running, the server dispatches tasks from its test matrix, which is calculated from the OPAM package repository. The server maintains a <a href="https://github.com/ocamlot/ocamlot-state">results repository</a>, which is a Git filesystem database that records the build results and logs via an s-expression per task. It also uses <a href="https://github.com/mirage/ocaml-cohttp">Cohttp</a> to serve up the results for a web browser.</p>
+
+<p>It’s very convenient using Git repositories like this since we can use GitHub (or any other Git host) to coordinate and record results, and restart the server without needing any local state. So convenient, in fact, that Thomas and I have been working on a more formal engine for this called <a href="https://github.com/samoht/irminsule">Irminsule</a> (more on that in a later post, though).</p>
+
+<p>It’s almost unheard of to have a full OCamlot run go by without some errors, and so David put together the <code>ocamlot triage</code> command. This takes the state repository and runs a set of regular expressions over it to classify them into common errors. The full file is <a href="https://github.com/ocamllabs/ocamlot/blob/master/lib/result.ml">here</a>, but an excerpt should give you an idea of what we look for:</p>
+<div class="highlight"><pre><code class="ocaml">	<span class="c">(* ordered minor to severe *)</span>
+	<span class="k">type</span> <span class="n">analysis</span> <span class="o">=</span>
+	  <span class="o">|</span> <span class="nc">Solver</span> <span class="k">of</span> <span class="n">solver_error</span> <span class="n">option</span>
+	  <span class="o">|</span> <span class="nc">Dep</span> <span class="k">of</span> <span class="kt">string</span> <span class="o">*</span> <span class="n">analysis</span>
+	  <span class="o">|</span> <span class="nc">Transient</span> <span class="k">of</span> <span class="n">transient_error</span>
+	  <span class="o">|</span> <span class="nc">System</span> <span class="k">of</span> <span class="n">system_error</span>
+	  <span class="o">|</span> <span class="nc">Meta</span> <span class="k">of</span> <span class="n">meta_error</span>
+	  <span class="o">|</span> <span class="nc">Ext_dep</span> <span class="k">of</span> <span class="n">ext_dep_error</span>
+	  <span class="o">|</span> <span class="nc">Build</span> <span class="k">of</span> <span class="n">build_error</span>
+	  <span class="o">|</span> <span class="nc">Multiple</span> <span class="k">of</span> <span class="n">analysis</span> <span class="kt">list</span>
+	    <span class="k">with</span> <span class="n">sexp</span>
+	
+</code></pre>
+</div>
+<p>The errors are ordered by severity to aid in color highlighting. They start with OPAM solver failures and dependency failures (e.g. due to trying to build a package that requires a specific OCaml version that isn’t available), and move onto missing package dependencies or system libraris.</p>
+
+<h2 id="testing_the_run_up_to_ocaml_401">Testing the run up to OCaml 4.01</h2>
+
+<p>Of course, running all these tests is useless without taking action on the results. I’ve been keeping track of them in <a href="https://github.com/OCamlPro/opam-repository/issues/1029">issue #1029</a>. The nice thing about GitHub issues is that when this bug is referenced in commits (even in other repositories) a cross-reference shows up on that webpage and lets everything be tracked nicely.</p>
+
+<p>So what were the most common failures in the runup to 4.01, and what should you avoid when writing your own code?</p>
+
+<h3 id="different_standard_library_module_signatures">Different standard library module signatures</h3>
+
+<p>There have been a few changes to some of the functor signatures in the standard library, such as adding a <code>find</code> function to Set (<a href="http://caml.inria.fr/mantis/view.php?id=5864">mantis #5864</a>). A third-party library that tries to match the functor signature will fail to compile with a type error, such as this one below for <a href="http://anil.recoil.org/feeds/atom.xml">zipperposition.0.2</a>:</p>
+
+<pre><code>Error: The implementation src/ptset.ml
+       does not match the interface src/ptset.cmi:
+       ...
+       In module Big:
+       The field `find' is required but not provided</code></pre>
+
+<p>The relevant code in <code>zipperposition</code> makes it clear what the problem is:</p>
+<div class="highlight"><pre><code class="ocaml">	<span class="c">(* Big-endian Patricia trees *)</span>
+	<span class="k">module</span> <span class="nc">Big</span> <span class="o">:</span> <span class="k">sig</span>
+	  <span class="k">include</span> <span class="nn">Set</span><span class="p">.</span><span class="nc">S</span> <span class="k">with</span> <span class="k">type</span> <span class="n">elt</span> <span class="o">=</span> <span class="kt">int</span>
+	  <span class="k">val</span> <span class="n">intersect</span> <span class="o">:</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">bool</span>
+	<span class="k">end</span>
+	
+</code></pre>
+</div>
+<p>This particular bug was <a href="https://github.com/c-cube/zipperposition/issues/1">reported upstream</a>, and the fix requires implementing the <code>find</code> function for the Patricia-tree-based <code>Set</code>. Since the OPAM package will always be broken on OCaml 4.01, it was marked with a <a href="https://github.com/ocamlpro/opam-repository/commit/e45530205987f67d4316a958446d3dcc954b19ec">compiler version constraint</a> to prevent it being selected for installation under that compiler. When a new version with the fix is uploaded to OPAM, it will always be selected in preference to this broken one.</p>
+
+<p>One other 4.01 change that temporarily broke most of the bigger networking libraries such as <a href="https://github.com/janestreet/core">Core</a>, <a href="https://ocsigen.org/lwt">Lwt</a> and <a href="http://batteries.forge.ocamlcore.org">Batteries</a> was the addition of the <a href="http://caml.inria.fr/mantis/view.php?id=5568">close-on-exec</a> flag to the <code>Unix</code> module. This change only affects upstream packages that redefine the UNIX module for their own purposes (such as adding an asynchronous I/O monad as Lwt does), hence it affects the standard library replacement packages.</p>
+
+<p>The fix here was to locally add patches into the relevant OPAM packages to immediately unbreak things when the fix when into the 4.01 branch of the compiler, and notify upstream maintainers to release new versions of their projects. There’s a subtle problem here: when a patch such as this goes into an unreleased branch of the compiler (such as <code>4.01.0dev</code>), it’s hard to reliably detect if the user has got the very latest version of the compiler or not. If you do have problems like this in the future, try recompiling via <code>opam switch reinstall &lt;version&gt;</code> to the latest branch.</p>
+
+<p>It’s very useful to be able to drop in bleeding-edge compiler tools into the OPAM repository using compiler constraints like this. For an example, see Alain Frisch’s <a href="https://github.com/OCamlPro/opam-repository/blob/master/packages/ppx_tools.0.1/opam">ppx_tools</a>, that require the very latest 4.02dev trunk release to compile his new extension-points feature.</p>
+
+<h3 id="multiple_object_definitions">Multiple object definitions</h3>
+
+<p>OCaml 4.01 also restricts multiple method definitions with the same name in the same object. This leaves only inheritance as the way to override method names, but some packages such as OCamlnet and Mlorg had minor uses of the old mechanism.</p>
+
+<p>You can see this by using <code>opam switch</code>:</p>
+
+<pre><code>$ opam switch 4.00.1
+$ eval `opam config env`
+$ ocaml
+# object method x = 1 method x = 2 end;;
+- : &lt; x : int &gt; = &lt;obj&gt;
+$ opam switch 4.01.0
+$ eval `opam config env`
+$ ocaml
+# object method x = 1 method x = 2 end;;
+Error: The method `x' has multiple definitions in this object</code></pre>
+
+<h3 id="new_warnings_and_the_dreaded_warningsaserrors">New warnings, and the dreaded warnings-as-errors</h3>
+
+<p>After a decade of being deprecated, the <code>(or)</code> and <code>(&amp;)</code> operators finally had a warning turned on by default.</p>
+
+<pre><code>$ ocaml
+# true or false;;
+Warning 3: deprecated feature: operator (or); you should use (||) instead
+- : bool = true</code></pre>
+
+<p>This wouldn’t normally be so bad, except that a surprising number of released packages also turn warnings into fatal errors (by using the <code>-w @</code> flags explained in the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/comp.html">manual</a>). Warnings-as-errors is extremely useful when <em>developing</em> code but is rather harmful in released code, since a future compiler can choose to emit new warnings that aren’t necessarily fatal bugs.</p>
+
+<p>Packages that failed like this include ocamlgraph, spotlib, quickcheck, OPA, Lablgtk-extras and many more. Please do make an effort to not leave this option turned on in your packages, or else it makes life more difficult for testing your code on bleeding edge versions of the compiler in the future.</p>
+
+<p>It’s worth noting here that OCaml 4.01 has introduced a fair number of new and very useful warnings across a number of areas, mainly to do with detecting unexpected ambiguation or shadowing of values. I’ll cover more on these in a future post about the new 4.01 goodies.</p>
+
+<h3 id="external_system_dependencies">External system dependencies</h3>
+
+<p>While there any many packages in OPAM that are pure OCaml, there are also a substantial number that require other system tools to be installed. The Lablgtk GUI library obviously requires the C <code>gtk</code> library to be installed.</p>
+
+<p>Determining if these libraries are installed on a particular OS is well beyond the scope of OPAM, as there are almost as many package managers as there are operating systems. However, it’s important for automated testing and user-friendly error messages to have some notion of detecting if the environment is ready for the OCaml package or not.</p>
+
+<p>We’re solving this by using a <code>depexts</code> field in OPAM that consists of a set of tags that identify OS-specific packages that need to be present. A separate script can query these tags from OPAM and do the OS-specific tests or installation.</p>
+
+<p>For example, here’s the <code>sqlite3-ocaml</code> OPAM description:</p>
+
+<pre><code>opam-version: "1"
+maintainer: "markus.mottl@gmail.com"
+build: [
+  ["ocaml" "setup.ml" "-configure"]
+  ["ocaml" "setup.ml" "-build"]
+  ["ocaml" "setup.ml" "-install"]
+]
+remove: [ ["ocamlfind" "remove" "sqlite3"] ]
+depends: ["ocamlfind"]
+depexts: [
+  [ ["debian"  ] [ "libsqlite3-dev"]    ]
+  [ ["freebsd" ] [ "database/sqlite3"]  ]
+  [ ["openbsd" ] [ "database/sqlite3"]  ]
+]</code></pre>
+
+<p>The <code>depexts</code> field here lists APT package for Debian, and the ports tree locations for FreeBSD and OpenBSD. It could also list more specialised tags for particular versions of an OS. You can query this from OPAM as follows:</p>
+
+<pre><code>$ opam install -e debian sqlite3-ocaml
+libsqlite3-dev
+$ opam install -e openbsd sqlite3-ocaml
+database/sqlite3</code></pre>
+
+<p>OCamlot therefore needs to query the <code>depexts</code> field from the package and run the right <code>apt</code> or <code>pkg_add</code> commands. I’ll write about this in more detail when it’s fully baked, as we’ve modified the semantics of the tag querying between OPAM 1.0 and OPAM 1.1 to make it easier to use in OCamlot.</p>
+
+<h3 id="portable_shell_scripts">Portable shell scripts</h3>
+
+<p>Once we’ve gotten past the hurdle of the compiler version causing failures, there is the small matter of testing non-Linux operating systems, as well as non-x86 CPU architectures. The <a href="https://github.com/OCamlPro/opam-repository/issues/1029">#1029 overview</a> lists many of these failures under the Portability section.</p>
+<a href="http://www.openbsd.org"><img src="http://anil.recoil.org/images/ppuf200X181.gif" style="float: right;"/></a>
+<p>Damien Doligez made some excellent points about how to write <a href="http://gallium.inria.fr/blog/portable-conditionals-in-makefiles/">portable Makefiles</a> that works across both GNU and BSD makes. This is why the carefully crafted OCaml Makefiles do not require GNU make to be installed when compiling on FreeBSD or OpenBSD (MacOS X gave up the fight a long time ago and installs GNU make as its default <code>make</code> command).</p>
+
+<p>OPAM tries to help out BSD by providing a <code>make</code> macro in <code>opam</code> files that is substituted with either <code>"make"</code> (by default) or <code>"gmake"</code> (for BSD). While this works for for the toplevel invocation of the Makefile, it fails if the Makefile recursively invokes further targets without using the <code>$(MAKE)</code> variable instead of directly calling the command. Patching these sorts of things is easy but tedious: see the <a href="https://github.com/OCamlPro/opam-repository/blob/master/packages/facile.1.1/files/bsdmake.patch">patchfile</a> for the Facile constraint programming library for an example.</p>
+
+<p>The real problem here, of course, is that package maintainers cannot be reasonably expected to test their code on systems that they don’t normally use–if we demanded perfect portability to be present in the main OPAM repository, we would’t get any submissions!</p>
+
+<p>OCamlot automates this nicely though, by finding lots of portability bugs automatically, and maintainers are by-and-large very responsive when we report the problem upstream.</p>
+
+<h2 id="the_emerging_distributed_workflow">The emerging distributed workflow</h2>
+
+<p>The big drawback to OCamlot in its current form is the amount of triage effort it puts on the OPAM maintainers. The package database has now exceeded 500 packages in just a short few months, and has over 1500 unique versions that all need build testing and more accurate constraints. The wider community has been <em>really</em> keen to participate in helping with triage (just look at all the other people that leapt in on <a href="https://github.com/OCamlPro/opam-repository/issues/1029">bug #1029</a>), so its our immediate priority to make OCamlot more transparent for people that want to use it to improve their own packages, and in the future also use it to test various hypotheses about all the available open-source OCaml code (see Jacques’ experiment with <a href="http://gallium.inria.fr/blog/monomorphic_let/">monomorphic let</a> as an example of something that can benefit from wider automated compilation).</p>
+
+<p>I’ll talk more about how we’re solving this in my upcoming <a href="http://ocaml.org/meetings/ocaml/2013/">OCaml 2013 Workshop</a> talk about the Platform. I don’t want spoil it too much, but it involves a lovely distributed Git workflow, an enhanced <a href="https://github.com/OCamlPro/opam2web">opam2web</a>, and a brand new metadata overlay system for OPAM that lets us enhance the package database with extra information such as statistics, portability and test results, but without polluting the main Git repository with all this extra non-essential data.</p>
+
+<p>If you’re really curious to know right now, then you can see the outline of the new system at Amir’s <a href="http://amirchaudhry.com/wireframe-demos-for-ocamlorg/">new ocaml.org wireframes</a> blog post, where Part III contains the continuous integration workflow. A lot of infrastructure work has gone into building all of this over the summer, and now it’s all starting to be deployed in a very satisfying way…</p><a onclick="switchContent('post6','post5')" class="btn" href="#987ab477f849380c60405a46b6c2ca46">Hide</a></div></span>
+<a name="d6c831966663fa2d001ee4356a668fc5"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/06/OUnit-2.0-progress%2C-August-2013"> OUnit 2.0 progress, August 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
 
 
 <p>The basic features:</p>
@@ -369,7 +567,7 @@ Sylvain Le Gall</pre></span>
 </ul>
 
 <p>I still need to do the following:</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Read more...</a></div><div id="post6" style="display: none"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Read more...</a></div><div id="post8" style="display: none"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
 
 
 <p>The basic features:</p>
@@ -490,7 +688,7 @@ Sylvain Le Gall</pre></span>
 <p>Patches always welcome.</p>
 
 
-<p>Special thanks to Thomas Wickham who has entirely written OUnitRunnerThreads and kickstarted the processes runner.</p><a onclick="switchContent('post6','post5')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Hide</a></div></span>
+<p>Special thanks to Thomas Wickham who has entirely written OUnitRunnerThreads and kickstarted the processes runner.</p><a onclick="switchContent('post8','post7')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Hide</a></div></span>
 <a name="06bf61429abfb4a29b6d1fca28c2cd0d"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Uutf 0.9.3 and Xmlm 1.2.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><p>Release of Uutf 0.9.3 and Xmlm 1.2.0. Consult the individual release notes for details.</p></span>
 <a name="084d4489740acd01cf618fd8f8ddb477"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/labltk/"> LablTk</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description">LablTk is an interface to the Tcl/Tk GUI framework. It allows to develop GUI applications in a speedy and type safe way. A legacy Camltk interface is included. The OCamlBrowser library viewer is also part of this project.</span>
 <a name="27df2f358de2d91f6750cba25663cb71"></a><span class="rss-header"><span class="rss-title"><a href="http://coherentpdf.com/blog/?p=68"> Community Release of PDF Command Line Tools</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Coherent Graphics</span>, <span class="rss-date">05 Sep 2013</span></span><span class="rss-description"><p>The <code>cpdf</code> tool has been available commercially since 2007, and is widely used in industry and government. The same technology is used in the <a href="http://www.coherentpdf.com/proview.html">Proview PDF Editor</a> for the mac.</p>
@@ -512,12 +710,6 @@ Sylvain Le Gall</pre></span>
   addthis_title  = 'Community+Release+of+PDF+Command+Line+Tools';
   addthis_pub    = '';
 &lt;/script&gt;&lt;script src="http://s7.addthis.com/js/addthis_widget.php?v=12" type="text/javascript"&gt;&lt;/script&gt;</span>
-<a name="34f77640bd5230e8242a0d4f26c7404a"></a><span class="rss-header"><span class="rss-title"><a href="http://www.ocamlpro.com/blog/2013/09/04/monthly-08.html"> OCamlPro Highlights, August 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author"><span id="ocaml_1">OCamlPro &#9001;louis.gesbert<abbr title="(at) &rarr; @">(at)</abbr>ocamlpro.com (Louis Gesbert)&#9002;</span><script type="text/javascript"><!--;
-local = "louis.gesbert";
-h = "ocamlpro.com (Louis Gesbert)";
-hq = "ocamlpro.com%20(Louis%20Gesbert)";
-document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' + hq + "\" >OCamlPro<\/a>";
-//--></script></span>, <span class="rss-date">04 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>Here is a short report on the different projects we have been working on in August.</p><h2> News from OCamlPro</h2><h3> Compiler Optimizations</h3><p>After our reports on <a href="http://www.ocamlpro.com/blog/2013/07/11/inlining-progress-report.html">better inlining</a> have raised big expectations, we have been working hard on fixing the few remaining bugs. An enhanced alias/constant analysis was added, to provide the information needed to lift some constraints on the maintained invariants, and simplifying some other passes quite a lot in the process. We are now working on reestablishing cross-module inlining, by exporting the new information between compilation units.</p><h3> Memory Profiling</h3><p>On the memory profiling front, now that the compiler patch is well tested and quite stable, we started some cleanup to make it more modular, easier to understand and extend. We also worked on improving the performance of the profiler (the tool that analyzes the heap snapshots), by caching some expensive computations, such as extracting type information from 'cmt' files associated with each location, in files that are shared between executions. We have started testing the profiler on <a href="http://why3.lri.fr/">the Why3 verification platform</a>, and these optimizations proved very useful to analyze longer traces.</p><h3> OPAM Package Manager</h3><a onclick="switchContent('post7','post8')" class="btn" href="#34f77640bd5230e8242a0d4f26c7404a">Read more...</a></div><div id="post8" style="display: none"><p>Here is a short report on the different projects we have been working on in August.</p><h2> News from OCamlPro</h2><h3> Compiler Optimizations</h3><p>After our reports on <a href="http://www.ocamlpro.com/blog/2013/07/11/inlining-progress-report.html">better inlining</a> have raised big expectations, we have been working hard on fixing the few remaining bugs. An enhanced alias/constant analysis was added, to provide the information needed to lift some constraints on the maintained invariants, and simplifying some other passes quite a lot in the process. We are now working on reestablishing cross-module inlining, by exporting the new information between compilation units.</p><h3> Memory Profiling</h3><p>On the memory profiling front, now that the compiler patch is well tested and quite stable, we started some cleanup to make it more modular, easier to understand and extend. We also worked on improving the performance of the profiler (the tool that analyzes the heap snapshots), by caching some expensive computations, such as extracting type information from 'cmt' files associated with each location, in files that are shared between executions. We have started testing the profiler on <a href="http://why3.lri.fr/">the Why3 verification platform</a>, and these optimizations proved very useful to analyze longer traces.</p><h3> OPAM Package Manager</h3><p>On OPAM, we are still preparing the release of version 1.1. The release date has shifted a little bit -- it is now planned to happen mid-September, before the <a href="http://ocaml.org/meetings/ocaml/2013/">OCaml'2013 meeting</a> -- because we are focusing on getting speed and stability improvements in a very good shape. We are now relying on <a href="https://github.com/OCamlPro/opam-rt">opam-rt</a>, our new regression testing infrastructure, to be sure to get the best level of quality for the release.</p><p>Regarding the package and compiler <a href="https://github.com/OCamlPro/opam-repository">metadata</a>, we are very proud to announce that our community has crossed an important line, with more than 100 contributors and 500 different packages ! In order to ensure that these hours of packaging efforts continue to benefit everyone in the OCaml community in the future, we are (i) clarifying the license for all the metadata in the package repository to use <a href="https://github.com/OCamlPro/opam-repository/issues/955">CC0</a> and (ii) discussing with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/">OCamlLabs</a> and the different stakeholders to migrate all the metadata to the <a href="http://ocaml.org">ocaml.org</a> infrastructure.</p><h3> Simple Build Manager</h3><p>We also made progress on the design of our simple build-manager for OCaml, <a href="http://www.typerex.org/ocp-build.html">ocp-build</a>. The <a href="https://github.com/OCamlPro/ocp-build/tree/next">next branch in the GIT repository</a> features a new, much more expressive package description language : ocp-build can now be used to build arbitrary files, for example to generate new source files, or to compile files in other languages than OCaml. We successfully used the new language to build <a href="http://try.ocamlpro.com">Try-ocaml</a> and <a href="http://www.typerex.org/ocplib-wxOCaml.html">wxOCaml</a>, completely avoiding the use of "make".</p><p>It can also automatically generate <a href="http://www.typerex.org/ocplib-wxOCaml/doc.0.1/index.html">basic HTML documentation</a> for libraries using ocamldoc with "ocp-build make -doc". There are still some improvements on our TODO list before an official release, for example improving the support of META files, but we are getting very close ! ocp-build is very efficient: compiling <a href="http://www.typerex.org/ocp-build/merlin.ocp">Merlin with ocp-build</a> takes only 4s on a quad-core while ocamlbuild needs 13s in similar conditions and with the same parallelisation settings.</p><h3> Graphics on Try-OCaml</h3><p><a href="http://try.ocamlpro.com">Try-OCaml</a> has been improved with a dedicated implementation of the Graphics module: type "lesson 19", and you will get some fun examples, including a simple game by Sylvain Conchon.</p><h3> Alt-Ergo Theorem Prover</h3><p>We are also happy to welcome Mohamed Iguernelala in the team, starting at the beginning of September. Mohamed is a great OCaml programmer, and he will be working on the Alt-Ergo theorem prover, an SMT-solver in OCaml developed by Sylvain Conchon, and heavily used in the industry for safety-critical software (aircrafts, trains, etc.).</p><h2>News from the INRIA-OCamlPro Lab</h2><h3> Multi-runtime OCaml</h3><p>After thorough testing, the <a href="https://github.com/lucasaiu/ocaml">multi-runtime branch</a> is getting stable enough for being submitted upstream. The build system has been fixed to enable the modified OCaml to run, in single-runtime mode, on architectures for which no multi-runtime port exists yet, while maintaining API compatibility with mainline OCaml. Thanks to some clever preprocessor hacks, the performance impact in single-runtime mode will be negligible.</p><h3> Whole-Program Analysis</h3><p>Our work on <a href="https://github.com/thomasblanc/ocaml-data-analysis/">whole program analysis</a>, while still in the early stages, is quickly getting forward, and we managed to generate well-formed graphs representing a whole OCaml program. The tool can be fed sources and .cmt files, and at each point of the program, will compute all of the plausible values every variable can take, plus the calculations that allowed to get those values. We hope to have it ready for testing the detection of uncaught exceptions soon.</p><h3> Editing OCaml Online</h3><p>We also made a lot of progress in our Online IDE for OCaml, with code generation within the browser. The prototype is now quite robust, and some tricky bugs with the representation of integers and floats in Javascript have been fixed, so that the generated code is always the same as the one generated by a standalone compiler. Also, the interface now allows the user to have a full hierarchy of files and projects in his workspace. There is still some work to be done on improving the design, but we are very exited with the possibility to develop in OCaml without installing anything on the computer !</p><h3> Scilab Code Analysis</h3><p>For the <a href="http://www.richelieu.pro">Richelieu</a> project, after testing some type inference analysis on Scilab code in the last months, we have now started to implement a new tool, <a href="https://github.com/OCamlPro/scilint">Scilint</a>, to perform some of this analysis on whole Scilab projects and report warnings on suspect code. We hope this tool will soon be used by every Scilab user, to avoid wasting hours of computation before reaching an easy-to-catch error, such as a misspelled -- thus undefined -- variable.</p><h2> Meeting with the Community</h2><p>Some of us are going to present part of this work at <a href="http://ocaml.org/meetings/ocaml/2013/program.html">OCaml'2013</a>, the OCaml Users and Developers Workshop in Boston. We expect it to be a good opportunity to get some feedback on these projects from the community!</p><a onclick="switchContent('post8','post7')" class="btn" href="#34f77640bd5230e8242a0d4f26c7404a">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
