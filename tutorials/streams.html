@@ -379,7 +379,8 @@ val leap_years : int Stream.t = &lt;abstr&gt;
 <p>We can use the <code>Stream.npeek</code> function to look ahead by more than one item. In this case, we'll peek at the next 30 items to make sure that the year 2100 is not a leap year (since it's divisible by 100 but not 400!):</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Stream</span>.npeek 30 leap_years</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list =
 [2000; 2004; 2008; 2012; 2016; 2020; 2024; 2028; 2032; 2036; 2040; 2044;
- 2048; 2052; 2056; 2060; 2064; 2068; 2072; ...]
+ 2048; 2052; 2056; 2060; 2064; 2068; 2072; 2076; 2080; 2084; 2088; 2092;
+ 2096; 2104; 2108; 2112; 2116; 2120]
 </span></pre>
 
 <p>Note that we must be careful not to use <code>Stream.iter</code> on an infinite stream like <code>leap_years</code>. This applies to <code>stream_fold</code>, as well as any function that attempts to consume the entire stream.</p>

@@ -193,8 +193,8 @@ function toggleContent(id) {
     | [x] -&gt; Some x
     | _ :: t -&gt; last t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val last : 'a list -&gt; 'a option = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span> ; <span class="ocaml-string">&quot;d&quot;</span> ] = Some <span class="ocaml-string">&quot;d&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last [] = None</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span> ; <span class="ocaml-string">&quot;d&quot;</span> ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string option = Some &quot;d&quot;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : 'a option = None
 </span></pre>
 </div>
 
@@ -207,8 +207,8 @@ function toggleContent(id) {
     | [x;y] -&gt; Some (x,y)
     | _::t -&gt; last_two t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val last_two : 'a list -&gt; ('a * 'a) option = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last_two [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span> ; <span class="ocaml-string">&quot;d&quot;</span> ] = Some (<span class="ocaml-string">&quot;c&quot;</span>, <span class="ocaml-string">&quot;d&quot;</span>)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last_two [ <span class="ocaml-string">&quot;a&quot;</span> ] = None</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last_two [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span> ; <span class="ocaml-string">&quot;d&quot;</span> ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (string * string) option = Some (&quot;c&quot;, &quot;d&quot;)
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">last_two [ <span class="ocaml-string">&quot;a&quot;</span> ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (string * string) option = None
 </span></pre>
 </div>
 
@@ -219,8 +219,8 @@ function toggleContent(id) {
     | [] -&gt; None
     | h :: t -&gt; <span class="kwb">if</span> k = 1 <span class="kwb">then</span> Some h <span class="kwb">else</span> at (k-1) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val at : int -&gt; 'a list -&gt; 'a option = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at 3 [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span> ] = Some <span class="ocaml-string">&quot;c&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at 3 [ <span class="ocaml-string">&quot;a&quot;</span> ] = None</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at 3 [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span> ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string option = Some &quot;c&quot;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at 3 [ <span class="ocaml-string">&quot;a&quot;</span> ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string option = None
 </span></pre>
 </div>
 
@@ -239,8 +239,8 @@ function toggleContent(id) {
       | _::t -&gt; aux (n+1) t
     <span class="kwa">in</span> aux 0 list</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val length : 'a list -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">length [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span>] = 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">length [] = 0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">length [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 3
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">length []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 0
 </span></pre>
 </div>
 
@@ -255,7 +255,7 @@ function toggleContent(id) {
       | h::t -&gt; aux (h::acc) t <span class="kwa">in</span>
     aux [] list</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val rev : 'a list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">rev [<span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span>] = [<span class="ocaml-string">&quot;c&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;a&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">rev [<span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;c&quot;; &quot;b&quot;; &quot;a&quot;]
 </span></pre>
 </div>
 
@@ -293,8 +293,7 @@ function toggleContent(id) {
       | Many l :: t -&gt; aux (aux acc l) t <span class="kwa">in</span>
     <span class="ocaml-mod">List</span>.rev (aux [] list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val flatten : 'a node list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">flatten [ One <span class="ocaml-string">&quot;a&quot;</span> ; Many [ One <span class="ocaml-string">&quot;b&quot;</span> ; Many [ One <span class="ocaml-string">&quot;c&quot;</span> ; One <span class="ocaml-string">&quot;d&quot;</span> ] ; One <span class="ocaml-string">&quot;e&quot;</span> ] ]
-  = [ <span class="ocaml-string">&quot;a&quot;</span> ; <span class="ocaml-string">&quot;b&quot;</span> ; <span class="ocaml-string">&quot;c&quot;</span> ; <span class="ocaml-string">&quot;d&quot;</span> ; <span class="ocaml-string">&quot;e&quot;</span> ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">flatten [ One <span class="ocaml-string">&quot;a&quot;</span> ; Many [ One <span class="ocaml-string">&quot;b&quot;</span> ; Many [ One <span class="ocaml-string">&quot;c&quot;</span> ; One <span class="ocaml-string">&quot;d&quot;</span> ] ; One <span class="ocaml-string">&quot;e&quot;</span> ] ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;; &quot;d&quot;; &quot;e&quot;]
 </span></pre>
 </div>
 
@@ -306,8 +305,7 @@ function toggleContent(id) {
     | a :: (b :: _ <span class="kwb">as</span> t) -&gt; <span class="kwb">if</span> a = b <span class="kwb">then</span> compress t <span class="kwb">else</span> a :: compress t
     | smaller -&gt; smaller</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val compress : 'a list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">compress [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]
-  = [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">compress [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;; &quot;a&quot;; &quot;d&quot;; &quot;e&quot;]
 </span></pre>
 </div>
 
@@ -324,9 +322,9 @@ function toggleContent(id) {
          <span class="kwb">else</span> aux [] ((a :: current) :: acc) t  <span class="kwa">in</span>
     <span class="ocaml-mod">List</span>.rev (aux [] [] list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val pack : 'a list -&gt; 'a list list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">pack [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]
-  = [[<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>]; [<span class="ocaml-string">&quot;b&quot;</span>]; [<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>];
-     [<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">pack [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list list =
+[[&quot;a&quot;; &quot;a&quot;; &quot;a&quot;; &quot;a&quot;]; [&quot;b&quot;]; [&quot;c&quot;; &quot;c&quot;]; [&quot;a&quot;; &quot;a&quot;]; [&quot;d&quot;; &quot;d&quot;];
+ [&quot;e&quot;; &quot;e&quot;; &quot;e&quot;; &quot;e&quot;]]
 </span></pre>
 </div>
 
@@ -343,8 +341,8 @@ function toggleContent(id) {
                               <span class="kwb">else</span> aux 0 ((count+1,a) :: acc) t   <span class="kwa">in</span>
     <span class="ocaml-mod">List</span>.rev (aux 0 [] list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val encode : 'a list -&gt; (int * 'a) list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">encode [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]
-  = [4,<span class="ocaml-string">&quot;a&quot;</span> ; 1,<span class="ocaml-string">&quot;b&quot;</span> ; 2,<span class="ocaml-string">&quot;c&quot;</span> ; 2,<span class="ocaml-string">&quot;a&quot;</span> ; 1,<span class="ocaml-string">&quot;d&quot;</span> ; 4,<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">encode [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (int * string) list =
+[(4, &quot;a&quot;); (1, &quot;b&quot;); (2, &quot;c&quot;); (2, &quot;a&quot;); (1, &quot;d&quot;); (4, &quot;e&quot;)]
 </span></pre>
 </div>
 
@@ -377,8 +375,9 @@ function toggleContent(id) {
     aux (pack list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val pack : 'a list -&gt; 'a list list = &lt;fun&gt;
 val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">encode [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]
-  = [Many (4,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;b&quot;</span>; Many (2,<span class="ocaml-string">&quot;c&quot;</span>); Many (2,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;d&quot;</span>; Many (4,<span class="ocaml-string">&quot;e&quot;</span>)]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">encode [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string rle list =
+[Many (4, &quot;a&quot;); One &quot;b&quot;; Many (2, &quot;c&quot;); Many (2, &quot;a&quot;); One &quot;d&quot;;
+ Many (4, &quot;e&quot;)]
 </span></pre>
 </div>
 
@@ -396,8 +395,8 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
       | Many (n,x) :: t -&gt; aux (many acc n x) t  <span class="kwa">in</span>
     aux [] (<span class="ocaml-mod">List</span>.rev list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val decode : 'a rle list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">decode [Many (4,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;b&quot;</span>; Many (2,<span class="ocaml-string">&quot;c&quot;</span>); Many (2,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;d&quot;</span>; Many (4,<span class="ocaml-string">&quot;e&quot;</span>)]
-  = [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">decode [Many (4,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;b&quot;</span>; Many (2,<span class="ocaml-string">&quot;c&quot;</span>); Many (2,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;d&quot;</span>; Many (4,<span class="ocaml-string">&quot;e&quot;</span>)]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list =
+[&quot;a&quot;; &quot;a&quot;; &quot;a&quot;; &quot;a&quot;; &quot;b&quot;; &quot;c&quot;; &quot;c&quot;; &quot;a&quot;; &quot;a&quot;; &quot;d&quot;; &quot;e&quot;; &quot;e&quot;; &quot;e&quot;; &quot;e&quot;]
 </span></pre>
 </div>
 
@@ -422,8 +421,9 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
                               <span class="kwb">else</span> aux 0 (rle count a :: acc) t   <span class="kwa">in</span>
     <span class="ocaml-mod">List</span>.rev (aux 0 [] list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">encode [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>] =
-  [Many (4,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;b&quot;</span>; Many (2,<span class="ocaml-string">&quot;c&quot;</span>); Many (2,<span class="ocaml-string">&quot;a&quot;</span>); One <span class="ocaml-string">&quot;d&quot;</span>; Many (4,<span class="ocaml-string">&quot;e&quot;</span>)]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">encode [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string rle list =
+[Many (4, &quot;a&quot;); One &quot;b&quot;; Many (2, &quot;c&quot;); Many (2, &quot;a&quot;); One &quot;d&quot;;
+ Many (4, &quot;e&quot;)]
 </span></pre>
 </div>
 
@@ -434,7 +434,7 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
     | [] -&gt; []
     | h :: t -&gt; h :: h :: duplicate t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val duplicate : 'a list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">duplicate [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] = [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">duplicate [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;a&quot;; &quot;b&quot;; &quot;b&quot;; &quot;c&quot;; &quot;c&quot;; &quot;c&quot;; &quot;c&quot;; &quot;d&quot;; &quot;d&quot;]
 </span></pre>
 </div>
 
@@ -452,7 +452,7 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
        <span class="ocaml-mod">List</span>.fold_left (prepend n) [] (<span class="ocaml-mod">List</span>.rev list) *)</span>
     aux [] (<span class="ocaml-mod">List</span>.rev list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val replicate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">replicate [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>] 3 = [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">replicate [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>] 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;a&quot;; &quot;a&quot;; &quot;b&quot;; &quot;b&quot;; &quot;b&quot;; &quot;c&quot;; &quot;c&quot;; &quot;c&quot;]
 </span></pre>
 </div>
 
@@ -465,8 +465,7 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
       | h :: t -&gt; <span class="kwb">if</span> i = n <span class="kwb">then</span> aux 1 t <span class="kwb">else</span> h :: aux (i+1) t  <span class="kwa">in</span>
     aux 1 list</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val drop : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">drop [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>] 3
-  = [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">drop [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>] 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;b&quot;; &quot;d&quot;; &quot;e&quot;; &quot;g&quot;; &quot;h&quot;; &quot;j&quot;]
 </span></pre>
 </div>
 
@@ -484,9 +483,9 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
                        <span class="kwb">else</span> aux (i-1) (h :: acc) t  <span class="kwa">in</span>
     aux n [] list</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val split : 'a list -&gt; int -&gt; 'a list * 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">split [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>] 3
-  = ([<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>], [<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>])</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">split [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] 5 = ([<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>], [])</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">split [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>] 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list * string list =
+([&quot;a&quot;; &quot;b&quot;; &quot;c&quot;], [&quot;d&quot;; &quot;e&quot;; &quot;f&quot;; &quot;g&quot;; &quot;h&quot;; &quot;i&quot;; &quot;j&quot;])
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">split [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list * string list = ([&quot;a&quot;; &quot;b&quot;; &quot;c&quot;; &quot;d&quot;], [])
 </span></pre>
 </div>
 
@@ -511,7 +510,7 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
     take (k - i + 1) (drop i list)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val slice : 'a list -&gt; int -&gt; int -&gt; 'a list = &lt;fun&gt;
 </span></pre>
   </div>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">slice [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>] 2 6 = [<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">slice [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>;<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>;<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>] 2 6</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;c&quot;; &quot;d&quot;; &quot;e&quot;; &quot;f&quot;; &quot;g&quot;]
 </span></pre>
 </div>
 
@@ -533,10 +532,8 @@ val encode : 'a list -&gt; 'a rle list = &lt;fun&gt;
     <span class="kwb">else</span> let a, b = split list n <span class="kwa">in</span> b @ a</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val split : 'a list -&gt; int -&gt; 'a list * 'a list = &lt;fun&gt;
 val rotate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">rotate [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>; <span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>] 3
-  = [<span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>; <span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>; <span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">rotate [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>; <span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>] (-2)
-  = [<span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>; <span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>; <span class="ocaml-string">&quot;f&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">rotate [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>; <span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>] 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;d&quot;; &quot;e&quot;; &quot;f&quot;; &quot;g&quot;; &quot;h&quot;; &quot;a&quot;; &quot;b&quot;; &quot;c&quot;]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">rotate [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>; <span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>] (-2)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;g&quot;; &quot;h&quot;; &quot;a&quot;; &quot;b&quot;; &quot;c&quot;; &quot;d&quot;; &quot;e&quot;; &quot;f&quot;]
 </span></pre>
 </div>
 
@@ -548,7 +545,7 @@ val rotate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
     | [] -&gt; []
     | h :: t -&gt; <span class="kwb">if</span> n = 0 <span class="kwb">then</span> t <span class="kwb">else</span> h :: remove_at (n-1) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val remove_at : int -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">remove_at 1 [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] = [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">remove_at 1 [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;c&quot;; &quot;d&quot;]
 </span></pre>
 </div>
 
@@ -561,7 +558,7 @@ val rotate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
     | [] -&gt; []
     | h :: t <span class="kwb">as</span> l -&gt; <span class="kwb">if</span> n = 0 <span class="kwb">then</span> x :: l <span class="kwb">else</span> h :: insert_at x (n-1) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val insert_at : 'a -&gt; int -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">insert_at <span class="ocaml-string">&quot;alfa&quot;</span> 1 [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] = [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;alfa&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">insert_at <span class="ocaml-string">&quot;alfa&quot;</span> 1 [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;a&quot;; &quot;alfa&quot;; &quot;b&quot;; &quot;c&quot;; &quot;d&quot;]
 </span></pre>
 </div>
 
@@ -576,8 +573,8 @@ val rotate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
       <span class="kwb">if</span> a &gt; b <span class="kwb">then</span> [] <span class="kwb">else</span> a :: aux (a+1) b  <span class="kwa">in</span>
     <span class="kwb">if</span> a &gt; b <span class="kwb">then</span> <span class="ocaml-mod">List</span>.rev (aux b a) <span class="kwb">else</span> aux a b</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val range : int -&gt; int -&gt; int list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">range 4 9 = [4;5;6;7;8;9]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">range 9 4 = [9;8;7;6;5;4]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">range 4 9</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list = [4; 5; 6; 7; 8; 9]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">range 9 4</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list = [9; 8; 7; 6; 5; 4]
 </span></pre>
 </div>
 
@@ -664,8 +661,8 @@ val rotate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
     <span class="kwa">let</span> <span class="ocaml-function">emit</span> <span class="ocaml-variable">x acc </span>= x :: acc <span class="kwa">in</span>
     aux k [] emit list</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val extract : int -&gt; 'a list -&gt; 'a list list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">extract 2 [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]
-  = [[<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">extract 2 [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list list =
+[[&quot;c&quot;; &quot;d&quot;]; [&quot;b&quot;; &quot;d&quot;]; [&quot;b&quot;; &quot;c&quot;]; [&quot;a&quot;; &quot;d&quot;]; [&quot;a&quot;; &quot;c&quot;]; [&quot;a&quot;; &quot;b&quot;]]
 </span></pre>
 </div>
 
@@ -712,11 +709,11 @@ val rotate : 'a list -&gt; int -&gt; 'a list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">complete</span> = <span class="ocaml-mod">List</span>.filter (<span class="ocaml-mod">List</span>.for_all (<span class="kwb">fun</span> (x,_) -&gt; x = 0)) all <span class="kwa">in</span>
     <span class="ocaml-mod">List</span>.map (<span class="ocaml-mod">List</span>.map snd) complete</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val group : 'a list -&gt; int list -&gt; 'a list list list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">group [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] [2;1]
-  = [[[<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>]; [<span class="ocaml-string">&quot;c&quot;</span>]]; [[<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;b&quot;</span>]]; [[<span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>]];
-     [[<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>]]; [[<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>]]; [[<span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>]];
-     [[<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;b&quot;</span>]]; [[<span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>]]; [[<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;c&quot;</span>]];
-     [[<span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;c&quot;</span>]]; [[<span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>]]; [[<span class="ocaml-string">&quot;c&quot;</span>; <span class="ocaml-string">&quot;d&quot;</span>]; [<span class="ocaml-string">&quot;b&quot;</span>]]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">group [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>;<span class="ocaml-string">&quot;d&quot;</span>] [2;1]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list list list =
+[[[&quot;a&quot;; &quot;b&quot;]; [&quot;c&quot;]]; [[&quot;a&quot;; &quot;c&quot;]; [&quot;b&quot;]]; [[&quot;b&quot;; &quot;c&quot;]; [&quot;a&quot;]];
+ [[&quot;a&quot;; &quot;b&quot;]; [&quot;d&quot;]]; [[&quot;a&quot;; &quot;c&quot;]; [&quot;d&quot;]]; [[&quot;b&quot;; &quot;c&quot;]; [&quot;d&quot;]];
+ [[&quot;a&quot;; &quot;d&quot;]; [&quot;b&quot;]]; [[&quot;b&quot;; &quot;d&quot;]; [&quot;a&quot;]]; [[&quot;a&quot;; &quot;d&quot;]; [&quot;c&quot;]];
+ [[&quot;b&quot;; &quot;d&quot;]; [&quot;c&quot;]]; [[&quot;c&quot;; &quot;d&quot;]; [&quot;a&quot;]]; [[&quot;c&quot;; &quot;d&quot;]; [&quot;b&quot;]]]
 </span></pre>
 </div>
 
@@ -774,15 +771,14 @@ val length_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
 val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
 </span></pre>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">length_sort [ [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]; [<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>];
-                [<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>;<span class="ocaml-string">&quot;k&quot;</span>;<span class="ocaml-string">&quot;l&quot;</span>]; [<span class="ocaml-string">&quot;m&quot;</span>;<span class="ocaml-string">&quot;n&quot;</span>]; [<span class="ocaml-string">&quot;o&quot;</span>] ]
-  = [[<span class="ocaml-string">&quot;o&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>]; [<span class="ocaml-string">&quot;m&quot;</span>; <span class="ocaml-string">&quot;n&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>];
-     [<span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>]; [<span class="ocaml-string">&quot;i&quot;</span>; <span class="ocaml-string">&quot;j&quot;</span>; <span class="ocaml-string">&quot;k&quot;</span>; <span class="ocaml-string">&quot;l&quot;</span>]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+                [<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>;<span class="ocaml-string">&quot;k&quot;</span>;<span class="ocaml-string">&quot;l&quot;</span>]; [<span class="ocaml-string">&quot;m&quot;</span>;<span class="ocaml-string">&quot;n&quot;</span>]; [<span class="ocaml-string">&quot;o&quot;</span>] ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list list =
+[[&quot;o&quot;]; [&quot;d&quot;; &quot;e&quot;]; [&quot;d&quot;; &quot;e&quot;]; [&quot;m&quot;; &quot;n&quot;]; [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]; [&quot;f&quot;; &quot;g&quot;; &quot;h&quot;];
+ [&quot;i&quot;; &quot;j&quot;; &quot;k&quot;; &quot;l&quot;]]
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">frequency_sort [ [<span class="ocaml-string">&quot;a&quot;</span>;<span class="ocaml-string">&quot;b&quot;</span>;<span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>]; [<span class="ocaml-string">&quot;f&quot;</span>;<span class="ocaml-string">&quot;g&quot;</span>;<span class="ocaml-string">&quot;h&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>;<span class="ocaml-string">&quot;e&quot;</span>];
-                   [<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>;<span class="ocaml-string">&quot;k&quot;</span>;<span class="ocaml-string">&quot;l&quot;</span>]; [<span class="ocaml-string">&quot;m&quot;</span>;<span class="ocaml-string">&quot;n&quot;</span>]; [<span class="ocaml-string">&quot;o&quot;</span>] ]
-  = [[<span class="ocaml-string">&quot;i&quot;</span>; <span class="ocaml-string">&quot;j&quot;</span>; <span class="ocaml-string">&quot;k&quot;</span>; <span class="ocaml-string">&quot;l&quot;</span>]; [<span class="ocaml-string">&quot;o&quot;</span>]; [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>]; [<span class="ocaml-string">&quot;f&quot;</span>; <span class="ocaml-string">&quot;g&quot;</span>; <span class="ocaml-string">&quot;h&quot;</span>];
-     [<span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>]; [<span class="ocaml-string">&quot;d&quot;</span>; <span class="ocaml-string">&quot;e&quot;</span>]; [<span class="ocaml-string">&quot;m&quot;</span>; <span class="ocaml-string">&quot;n&quot;</span>]]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+                   [<span class="ocaml-string">&quot;i&quot;</span>;<span class="ocaml-string">&quot;j&quot;</span>;<span class="ocaml-string">&quot;k&quot;</span>;<span class="ocaml-string">&quot;l&quot;</span>]; [<span class="ocaml-string">&quot;m&quot;</span>;<span class="ocaml-string">&quot;n&quot;</span>]; [<span class="ocaml-string">&quot;o&quot;</span>] ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list list =
+[[&quot;i&quot;; &quot;j&quot;; &quot;k&quot;; &quot;l&quot;]; [&quot;o&quot;]; [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]; [&quot;f&quot;; &quot;g&quot;; &quot;h&quot;]; [&quot;d&quot;; &quot;e&quot;];
+ [&quot;d&quot;; &quot;e&quot;]; [&quot;m&quot;; &quot;n&quot;]]
 </span></pre>
-
 </div>
 
 
@@ -817,8 +813,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
 <pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let rec</span> <span class="ocaml-function">gcd</span> <span class="ocaml-variable">a b </span>=
     <span class="kwb">if</span> b = 0 <span class="kwb">then</span> a <span class="kwb">else</span> gcd b (a mod b)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val gcd : int -&gt; int -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gcd 13 27 = 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gcd 20536 7826 = 2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gcd 13 27</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 1
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gcd 20536 7826</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 2
 </span></pre>
 </div>
 
@@ -858,8 +854,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">in</span>
     <span class="kwb">if</span> n = 1 <span class="kwb">then</span> 1 <span class="kwb">else</span> count_coprime 0 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val phi : int -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi 10 = 4</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi 13 = 12</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi 10</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 4
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi 13</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 12
 </span></pre>
 </div>
 
@@ -877,7 +873,7 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">in</span>
     aux 2 n</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val factors : int -&gt; int list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">factors 315 = [3;3;5;7]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">factors 315</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int list = [3; 3; 5; 7]
 </span></pre>
 </div>
 
@@ -900,7 +896,7 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">in</span>
     aux 2 n</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val factors : int -&gt; (int * int) list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">factors 315 = [3,2 ; 5,1 ; 7,1]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">factors 315</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (int * int) list = [(3, 2); (5, 1); (7, 1)]
 </span></pre>
 </div>
 
@@ -932,8 +928,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
       | (p,m) :: t -&gt; aux ((p - 1) * pow p (m - 1) * acc) t <span class="kwa">in</span>
     aux 1 (factors n)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val phi_improved : int -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi_improved 10 = 4</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi_improved 13 = 12</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi_improved 10</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 4
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">phi_improved 13</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 12
 </span></pre>
 </div>
 
@@ -954,8 +950,8 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">t1</span> = <span class="ocaml-mod">Unix</span>.gettimeofday() <span class="kwa">in</span>
     t1 -. t0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val timeit : ('a -&gt; 'b) -&gt; 'a -&gt; float = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.0078449249267578125
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 7.4863433837890625e-05
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 0.00945186614990234375
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">timeit phi_improved 10090</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : float = 7.3909759521484375e-05
 </span></pre>
 </div>
 
@@ -976,7 +972,7 @@ val frequency_sort : 'a list list -&gt; 'a list list = &lt;fun&gt;
       <span class="kwb">if</span> is_prime a <span class="kwb">then</span> a :: rest <span class="kwb">else</span> rest</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val is_prime : int -&gt; bool = &lt;fun&gt;
 val all_primes : int -&gt; int -&gt; int list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">List</span>.length (all_primes 2 7920) = 1000</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">List</span>.length (all_primes 2 7920)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 1000
 </span></pre>
 </div>
 
@@ -998,7 +994,7 @@ val all_primes : int -&gt; int -&gt; int list = &lt;fun&gt;
       <span class="kwb">else</span> aux (d+1) <span class="kwa">in</span>
     aux 2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val goldbach : int -&gt; int * int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">goldbach 28 = (5,23)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">goldbach 28</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int * int = (5, 23)
 </span></pre>
 </div>
 
@@ -1023,12 +1019,12 @@ val all_primes : int -&gt; int -&gt; int list = &lt;fun&gt;
     <span class="ocaml-mod">List</span>.filter (<span class="kwb">fun</span> (_,(a,b)) -&gt; a &gt; lim &amp;&amp; b &gt; lim) (goldbach_list a b)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val goldbach_list : int -&gt; int -&gt; (int * (int * int)) list = &lt;fun&gt;
 val goldbach_limit : int -&gt; int -&gt; int -&gt; (int * (int * int)) list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">goldbach_list 9 20
-  = [(10, (3, 7)); (12, (5, 7)); (14, (3, 11)); (16, (3, 13)); (18, (5, 13));
-     (20, (3, 17))]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">goldbach_limit 1 2000 50
-  = [(992, (73, 919)); (1382, (61, 1321)); (1856, (67, 1789));
-     (1928, (61, 1867))]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">goldbach_list 9 20</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (int * (int * int)) list =
+[(10, (3, 7)); (12, (5, 7)); (14, (3, 11)); (16, (3, 13)); (18, (5, 13));
+ (20, (3, 17))]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">goldbach_limit 1 2000 50</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (int * (int * int)) list =
+[(992, (73, 919)); (1382, (61, 1321)); (1856, (67, 1789));
+ (1928, (61, 1867))]
 </span></pre>
 </div>
 
@@ -1076,11 +1072,9 @@ notation, as in the following example:
 val table2 : string -&gt; string -&gt; bool_expr -&gt; (bool * bool * bool) list =
   &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">table2 <span class="ocaml-string">&quot;a&quot;</span> <span class="ocaml-string">&quot;b&quot;</span> (And(Var <span class="ocaml-string">&quot;a&quot;</span>, Or(Var <span class="ocaml-string">&quot;a&quot;</span>, Var <span class="ocaml-string">&quot;b&quot;</span>)))
-  = [(true, true, true);
-     (true, false, true);
-     (false, true, false);
-     (false, false, false) ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">table2 <span class="ocaml-string">&quot;a&quot;</span> <span class="ocaml-string">&quot;b&quot;</span> (And(Var <span class="ocaml-string">&quot;a&quot;</span>, Or(Var <span class="ocaml-string">&quot;a&quot;</span>, Var <span class="ocaml-string">&quot;b&quot;</span>)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : (bool * bool * bool) list =
+[(true, true, true); (true, false, true); (false, true, false);
+ (false, false, false)]
 </span></pre>
 </div>
 
@@ -1117,15 +1111,19 @@ val table_make :
 val table : string list -&gt; bool_expr -&gt; ((string * bool) list * bool) list =
   &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">table [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>] (And(Var <span class="ocaml-string">&quot;a&quot;</span>, Or(Var <span class="ocaml-string">&quot;a&quot;</span>, Var <span class="ocaml-string">&quot;b&quot;</span>)))
-  = [[<span class="ocaml-string">&quot;a&quot;</span>, true; <span class="ocaml-string">&quot;b&quot;</span>, true], true;
-     [<span class="ocaml-string">&quot;a&quot;</span>, true; <span class="ocaml-string">&quot;b&quot;</span>, false], true;
-     [<span class="ocaml-string">&quot;a&quot;</span>, false; <span class="ocaml-string">&quot;b&quot;</span>, true], false;
-     [<span class="ocaml-string">&quot;a&quot;</span>, false; <span class="ocaml-string">&quot;b&quot;</span>, false], false ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">table [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>] (And(Var <span class="ocaml-string">&quot;a&quot;</span>, Or(Var <span class="ocaml-string">&quot;a&quot;</span>, Var <span class="ocaml-string">&quot;b&quot;</span>)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : ((string * bool) list * bool) list =
+[([(&quot;a&quot;, true); (&quot;b&quot;, true)], true); ([(&quot;a&quot;, true); (&quot;b&quot;, false)], true);
+ ([(&quot;a&quot;, false); (&quot;b&quot;, true)], false); ([(&quot;a&quot;, false); (&quot;b&quot;, false)], false)]
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">a</span> = Var <span class="ocaml-string">&quot;a&quot;</span> <span class="kwa">and </span><span class="ocaml-variable">b</span> = Var <span class="ocaml-string">&quot;b&quot;</span> <span class="kwa">and </span><span class="ocaml-variable">c</span> = Var <span class="ocaml-string">&quot;c&quot;</span> <span class="kwa">in</span>
   table [<span class="ocaml-string">&quot;a&quot;</span>; <span class="ocaml-string">&quot;b&quot;</span>; <span class="ocaml-string">&quot;c&quot;</span>] (Or(And(a, Or(b,c)), Or(And(a,b), And(a,c))))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : ((string * bool) list * bool) list =
 [([(&quot;a&quot;, true); (&quot;b&quot;, true); (&quot;c&quot;, true)], true);
- ([(&quot;a&quot;, true); (&quot;b&quot;, ...); ...], ...); ...]
+ ([(&quot;a&quot;, true); (&quot;b&quot;, true); (&quot;c&quot;, false)], true);
+ ([(&quot;a&quot;, true); (&quot;b&quot;, false); (&quot;c&quot;, true)], true);
+ ([(&quot;a&quot;, true); (&quot;b&quot;, false); (&quot;c&quot;, false)], false);
+ ([(&quot;a&quot;, false); (&quot;b&quot;, true); (&quot;c&quot;, true)], false);
+ ([(&quot;a&quot;, false); (&quot;b&quot;, true); (&quot;c&quot;, false)], false);
+ ([(&quot;a&quot;, false); (&quot;b&quot;, false); (&quot;c&quot;, true)], false);
+ ([(&quot;a&quot;, false); (&quot;b&quot;, false); (&quot;c&quot;, false)], false)]
 </span></pre>
 </div>
 
@@ -1155,9 +1153,9 @@ n = 3: C(3) = ['000','001','011','010',´110´,´111´,´101´,´100´].
        <span class="ocaml-mod">List</span>.map (prepend '0') g @ <span class="ocaml-mod">List</span>.map (prepend '1') g</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val prepend : char -&gt; string -&gt; string = &lt;fun&gt;
 val gray : int -&gt; string list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gray 1 = [<span class="ocaml-string">&quot;0&quot;</span>; <span class="ocaml-string">&quot;1&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gray 2 = [<span class="ocaml-string">&quot;00&quot;</span>; <span class="ocaml-string">&quot;01&quot;</span>; <span class="ocaml-string">&quot;11&quot;</span>; <span class="ocaml-string">&quot;10&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = false
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gray 3 = [<span class="ocaml-string">&quot;000&quot;</span>; <span class="ocaml-string">&quot;001&quot;</span>; <span class="ocaml-string">&quot;011&quot;</span>; <span class="ocaml-string">&quot;010&quot;</span>; <span class="ocaml-string">&quot;110&quot;</span>; <span class="ocaml-string">&quot;111&quot;</span>; <span class="ocaml-string">&quot;101&quot;</span>; <span class="ocaml-string">&quot;100&quot;</span>]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = false
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gray 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;0&quot;; &quot;1&quot;]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gray 2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;00&quot;; &quot;01&quot;; &quot;10&quot;; &quot;11&quot;]
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">gray 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string list = [&quot;000&quot;; &quot;001&quot;; &quot;010&quot;; &quot;011&quot;; &quot;100&quot;; &quot;101&quot;; &quot;110&quot;; &quot;111&quot;]
 </span></pre>
 </div>
 
@@ -1204,7 +1202,7 @@ val gray : int -&gt; string list = &lt;fun&gt;
     Node('a', Node('b', Node('d', Empty, Empty), Node('e', Empty, Empty)),
          Node('c', Empty, Node('f', Node('g', Empty, Empty), Empty)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val example_tree : char binary_tree =
   Node ('a', Node ('b', Node ('d', Empty, Empty), Node ('e', Empty, Empty)),
-   Node ('c', Empty, Node ('f', Node ('g', Empty, ...), ...)))
+   Node ('c', Empty, Node ('f', Node ('g', Empty, Empty), Empty)))
 </span></pre>
   <p>In OCaml, the strict type discipline <em>guarantees</em> that, if
   you get a value of type <code>binary_tree</code>, then it must have
@@ -1246,15 +1244,15 @@ val gray : int -&gt; string list = &lt;fun&gt;
   &lt;fun&gt;
 val cbal_tree : int -&gt; char binary_tree list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">cbal_tree 4
-  = [Node('x', Node('x', Empty, Empty),
-          Node('x', Node('x', Empty, Empty), Empty));
-     Node('x', Node('x', Empty, Empty),
-          Node('x', Empty, Node('x', Empty, Empty)));
-     Node('x', Node('x', Node('x', Empty, Empty), Empty),
-          Node('x', Empty, Empty));
-     Node('x', Node('x', Empty, Node('x', Empty, Empty)),
-          Node('x', Empty, Empty)); ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">cbal_tree 4</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char binary_tree list =
+[Node ('x', Node ('x', Empty, Empty),
+  Node ('x', Node ('x', Empty, Empty), Empty));
+ Node ('x', Node ('x', Empty, Empty),
+  Node ('x', Empty, Node ('x', Empty, Empty)));
+ Node ('x', Node ('x', Node ('x', Empty, Empty), Empty),
+  Node ('x', Empty, Empty));
+ Node ('x', Node ('x', Empty, Node ('x', Empty, Empty)),
+  Node ('x', Empty, Empty))]
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">List</span>.length(cbal_tree 40)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 524288
 </span></pre>
 </div>
@@ -1301,9 +1299,9 @@ val is_symmetric : 'a binary_tree -&gt; bool = &lt;fun&gt;
   <span class="kwa">let</span> <span class="ocaml-function">construct</span> <span class="ocaml-variable">l </span>= <span class="ocaml-mod">List</span>.fold_left insert Empty l</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val insert : 'a binary_tree -&gt; 'a -&gt; 'a binary_tree = &lt;fun&gt;
 val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">construct [3;2;5;7;1]
-  = Node(3, Node(2, Node(1, Empty, Empty), Empty),
-         Node(5, Empty, Node(7, Empty, Empty)))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">construct [3;2;5;7;1]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int binary_tree =
+Node (3, Node (2, Node (1, Empty, Empty), Empty),
+ Node (5, Empty, Node (7, Empty, Empty)))
 </span></pre>
   <p>Then use this function to test the solution of the previous
     problem.</p>
@@ -1320,11 +1318,11 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
 <pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">sym_cbal_trees</span> <span class="ocaml-variable">n </span>=
     <span class="ocaml-mod">List</span>.filter is_symmetric (cbal_tree n)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val sym_cbal_trees : int -&gt; char binary_tree list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sym_cbal_trees 5
-  = [Node('x', Node('x', Node('x', Empty, Empty), Empty),
-               Node('x', Empty, Node('x', Empty, Empty)));
-     Node('x', Node('x', Empty, Node('x', Empty, Empty)),
-               Node('x', Node('x', Empty, Empty), Empty)) ]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">sym_cbal_trees 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char binary_tree list =
+[Node ('x', Node ('x', Node ('x', Empty, Empty), Empty),
+  Node ('x', Empty, Node ('x', Empty, Empty)));
+ Node ('x', Node ('x', Empty, Node ('x', Empty, Empty)),
+  Node ('x', Node ('x', Empty, Empty), Empty))]
 </span></pre>
 <p>
   How many such trees are there with 57 nodes? Investigate about how
@@ -1362,7 +1360,34 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">t</span> = hbal_tree 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val t : char binary_tree list =
   [Node ('x', Node ('x', Empty, Node ('x', Empty, Empty)),
     Node ('x', Empty, Node ('x', Empty, Empty)));
-   Node ('x', Node (...), ...); ...]
+   Node ('x', Node ('x', Empty, Node ('x', Empty, Empty)),
+    Node ('x', Node ('x', Empty, Empty), Empty));
+   Node ('x', Node ('x', Empty, Node ('x', Empty, Empty)),
+    Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Empty),
+    Node ('x', Empty, Node ('x', Empty, Empty)));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Empty),
+    Node ('x', Node ('x', Empty, Empty), Empty));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Empty),
+    Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)),
+    Node ('x', Empty, Node ('x', Empty, Empty)));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)),
+    Node ('x', Node ('x', Empty, Empty), Empty));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)),
+    Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)));
+   Node ('x', Node ('x', Empty, Node ('x', Empty, Empty)),
+    Node ('x', Empty, Empty));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Empty),
+    Node ('x', Empty, Empty));
+   Node ('x', Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)),
+    Node ('x', Empty, Empty));
+   Node ('x', Node ('x', Empty, Empty),
+    Node ('x', Empty, Node ('x', Empty, Empty)));
+   Node ('x', Node ('x', Empty, Empty),
+    Node ('x', Node ('x', Empty, Empty), Empty));
+   Node ('x', Node ('x', Empty, Empty),
+    Node ('x', Node ('x', Empty, Empty), Node ('x', Empty, Empty)))]
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">x</span> = 'x'</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val x : char = 'x'
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">List</span>.mem (Node(x, Node(x, Node(x, Empty, Empty), Node(x, Empty, Empty)),
                  Node(x, Node(x, Empty, Empty), Node(x, Empty, Empty)))) t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
@@ -1414,8 +1439,8 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
     | Node(_, Empty, Empty) -&gt; 1
     | Node(_, l, r) -&gt; count_leaves l + count_leaves r</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val count_leaves : 'a binary_tree -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">count_leaves Empty = 0</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">count_leaves example_tree = 3</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">count_leaves Empty</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 0
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">count_leaves example_tree</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 3
 </span></pre>
 </div>
 
@@ -1430,8 +1455,8 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
     | Node(c, Empty, Empty) -&gt; [c]
     | Node(_, l, r) -&gt; leaves l @ leaves r</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val leaves : 'a binary_tree -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">leaves Empty = []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">leaves example_tree = ['d'; 'e'; 'g']</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">leaves Empty</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : 'a list = []
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">leaves example_tree</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = ['d'; 'e'; 'g']
 </span></pre>
 </div>
 
@@ -1446,8 +1471,8 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
     | Empty | Node(_, Empty, Empty) -&gt; []
     | Node(c, l, r) -&gt; internals l @ (c :: internals r)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val internals : 'a binary_tree -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">internals (Node('a', Empty, Empty)) = []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">internals example_tree = ['b'; 'a'; 'c'; 'f']</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">internals (Node('a', Empty, Empty))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = []
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">internals example_tree</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = ['b'; 'a'; 'c'; 'f']
 </span></pre>
 </div>
 
@@ -1465,9 +1490,9 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
        <span class="kwb">if</span> l = 1 <span class="kwb">then</span> [c]
        <span class="kwb">else</span> at_level left (l - 1) @ at_level right (l - 1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val at_level : 'a binary_tree -&gt; int -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at_level example_tree 2 = ['b'; 'c']</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at_level example_tree 2 = ['b'; 'c']</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at_level example_tree 5 = []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at_level example_tree 2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = ['b'; 'c']
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at_level example_tree 2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = ['b'; 'c']
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">at_level example_tree 5</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = []
 </span></pre>
   <p>Using <code>at_level</code> it is easy to construct a function
     <code>levelorder</code> which creates the level-order sequence of
@@ -1663,8 +1688,7 @@ val construct : 'a list -&gt; 'a binary_tree = &lt;fun&gt;
   following OCaml expression:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">T('a', [T('f',[T('g',[])]); T('c',[]); T('b',[T('d',[]); T('e',[])])])</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char mult_tree =
 T ('a',
- [T ('f', [T ('g', [])]); T ('c', []);
-  T ('b', [T ('d', []); T ('e', ...); ...]); ...])
+ [T ('f', [T ('g', [])]); T ('c', []); T ('b', [T ('d', []); T ('e', [])])])
 </span></pre>
 
 <div id="q70_c" class="question easy">
@@ -1673,7 +1697,7 @@ T ('a',
 <pre class="solution"><span class="ocamltop-prompt"># </span><span class="ocamltop-input">let rec count_nodes (T(_, sub)) =
     <span class="ocaml-mod">List</span>.fold_left (<span class="kwb">fun</span> n t -&gt; n + count_nodes t) 1 sub</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val count_nodes : 'a mult_tree -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">count_nodes (T('a', [T('f',[]) ])) = 2</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">count_nodes (T('a', [T('f',[]) ]))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 2
 </span></pre>
 </div>
 
@@ -1720,9 +1744,8 @@ val tree_of_string : string -&gt; char mult_tree = &lt;fun&gt;
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">t</span> =
     T('a', [T('f',[T('g',[])]); T('c',[]); T('b',[T('d',[]); T('e',[])])])</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val t : char mult_tree =
   T ('a',
-   [T ('f', [T ('g', [])]); T ('c', []);
-    T ('b', [T ('d', []); T ('e', ...); ...]); ...])
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">string_of_tree t = <span class="ocaml-string">&quot;afg^^c^bd^e^^^&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+   [T ('f', [T ('g', [])]); T ('c', []); T ('b', [T ('d', []); T ('e', [])])])
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">string_of_tree t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;afg^^c^bd^e^^^&quot;
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">tree_of_string <span class="ocaml-string">&quot;afg^^c^bd^e^^^&quot;</span> = t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
 </span></pre>
 </div>
@@ -1744,7 +1767,7 @@ val tree_of_string : string -&gt; char mult_tree = &lt;fun&gt;
   <span class="kwa">let</span> <span class="ocaml-function">ipl</span> <span class="ocaml-variable">t </span>= ipl_sub 0 t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val ipl_sub : int -&gt; 'a mult_tree -&gt; int = &lt;fun&gt;
 val ipl : 'a mult_tree -&gt; int = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">ipl t = 9</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">ipl t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : int = 9
 </span></pre>
 </div>
 
@@ -1760,8 +1783,8 @@ val ipl : 'a mult_tree -&gt; int = &lt;fun&gt;
   <span class="kwa">let</span> <span class="ocaml-function">bottom_up</span> <span class="ocaml-variable">t </span>= prepend_bottom_up t []</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val prepend_bottom_up : 'a mult_tree -&gt; 'a list -&gt; 'a list = &lt;fun&gt;
 val bottom_up : 'a mult_tree -&gt; 'a list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">bottom_up (T('a', [T('b', [])])) = ['b'; 'a']</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">bottom_up t = ['g'; 'f'; 'c'; 'd'; 'e'; 'b'; 'a']</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">bottom_up (T('a', [T('b', [])]))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = ['b'; 'a']
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">bottom_up t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list = ['g'; 'f'; 'c'; 'd'; 'e'; 'b'; 'a']
 </span></pre>
 </div>
 
@@ -1795,9 +1818,9 @@ val bottom_up : 'a mult_tree -&gt; 'a list = &lt;fun&gt;
     <span class="ocaml-mod">Buffer</span>.contents buf</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val add_lispy : Buffer.t -&gt; char mult_tree -&gt; unit = &lt;fun&gt;
 val lispy : char mult_tree -&gt; string = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">lispy (T('a', [])) = <span class="ocaml-string">&quot;a&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">lispy (T('a', [T('b', [])])) = <span class="ocaml-string">&quot;(a b)&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">lispy t = <span class="ocaml-string">&quot;(a (f g) c (b d e))&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">lispy (T('a', []))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;a&quot;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">lispy (T('a', [T('b', [])]))</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;(a b)&quot;
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">lispy t</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : string = &quot;(a (f g) c (b d e))&quot;
 </span></pre>
 </div>
 
@@ -1830,7 +1853,7 @@ val lispy : char mult_tree -&gt; string = &lt;fun&gt;
     { nodes = ['b'; 'c'; 'd'; 'f'; 'g'; 'h'; 'k'];
       edges = ['h', 'g';  'k', 'f';  'f', 'b';  'f', 'c';  'c', 'b'] }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val example_graph : char graph_term =
   {nodes = ['b'; 'c'; 'd'; 'f'; 'g'; 'h'; 'k'];
-   edges = [('h', 'g'); ('k', 'f'); ('f', 'b'); (...); ...]}
+   edges = [('h', 'g'); ('k', 'f'); ('f', 'b'); ('f', 'c'); ('c', 'b')]}
 </span></pre>
     <p>We call this <strong>graph-term form</strong>. Note, that the
     lists are kept sorted, they are really sets, without duplicated
@@ -1910,7 +1933,7 @@ val lispy : char mult_tree -&gt; string = &lt;fun&gt;
 val list_path : 'a graph_term -&gt; 'a -&gt; 'a list -&gt; 'a list list = &lt;fun&gt;
 val paths : 'a graph_term -&gt; 'a -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">paths example_graph 'f' 'b' = [['f'; 'c'; 'b']; ['f'; 'b']]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">paths example_graph 'f' 'b'</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list list = [['f'; 'c'; 'b']; ['f'; 'b']]
 </span></pre>
 </div>
 
@@ -1926,9 +1949,9 @@ val paths : 'a graph_term -&gt; 'a -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
     <span class="kwa">let </span><span class="ocaml-variable">p</span> = <span class="ocaml-mod">List</span>.concat(<span class="ocaml-mod">List</span>.map (<span class="kwb">fun</span> c -&gt; list_path g a [c]) n) <span class="kwa">in</span>
     <span class="ocaml-mod">List</span>.map (<span class="kwb">fun</span> p -&gt; p @ [a]) p</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val cycles : 'a graph_term -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
 </span></pre>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">cycles example_graph 'f'
-  = [['f'; 'b'; 'c'; 'f']; ['f'; 'c'; 'f']; ['f'; 'c'; 'b'; 'f'];
-     ['f'; 'b'; 'f']; ['f'; 'k'; 'f']]</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : bool = true
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">cycles example_graph 'f'</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : char list list =
+[['f'; 'b'; 'c'; 'f']; ['f'; 'c'; 'f']; ['f'; 'c'; 'b'; 'f'];
+ ['f'; 'b'; 'f']; ['f'; 'k'; 'f']]
 </span></pre>
 </div>
 
@@ -1952,7 +1975,9 @@ val paths : 'a graph_term -&gt; 'a -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
                      ('c', 'e'); ('d', 'e'); ('d', 'f'); ('d', 'g');
                      ('e', 'h'); ('f', 'g'); ('g', 'h')] }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val g : char graph_term =
   {nodes = ['a'; 'b'; 'c'; 'd'; 'e'; 'f'; 'g'; 'h'];
-   edges = [('a', 'b'); ('a', 'd'); ('b', 'c'); ...]}
+   edges =
+    [('a', 'b'); ('a', 'd'); ('b', 'c'); ('b', 'e'); ('c', 'e'); ('d', 'e');
+     ('d', 'f'); ('d', 'g'); ('e', 'h'); ('f', 'g'); ('g', 'h')]}
 </span></pre>
 </div>
 
@@ -1983,7 +2008,10 @@ val paths : 'a graph_term -&gt; 'a -&gt; 'a -&gt; 'a list list = &lt;fun&gt;
                      ('c', 'e', 6); ('d', 'e', 7); ('d', 'f', 4); ('d', 'g', 3);
                      ('e', 'h', 5); ('f', 'g', 4); ('g', 'h', 1)] }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val g : (char, int) labeled_graph =
   {nodes = ['a'; 'b'; 'c'; 'd'; 'e'; 'f'; 'g'; 'h'];
-   edges = [('a', 'b', 5); ('a', 'd', 3); (...); ...]}
+   edges =
+    [('a', 'b', 5); ('a', 'd', 3); ('b', 'c', 2); ('b', 'e', 4);
+     ('c', 'e', 6); ('d', 'e', 7); ('d', 'f', 4); ('d', 'g', 3);
+     ('e', 'h', 5); ('f', 'g', 4); ('g', 'h', 1)]}
 </span></pre>
 </div>
 
