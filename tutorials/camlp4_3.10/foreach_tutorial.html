@@ -222,7 +222,7 @@ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach.ml
 <p>We can verify that it works:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;camlp4o.cma&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-comment">(* Add directory where the syntax extension is compiled <span class="kwb">to</span> the module
      path (not required <span class="kwb">if</span> pa_foreach.cmo is <span class="kwa">in</span> the current directory). *)</span>
-  #directory <span class="ocaml-string">&quot;_build/src/html/tutorials/camlp4_3.10/&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">	Camlp4 Parsing version 4.00.1
+  #directory <span class="ocaml-string">&quot;_build/src/html/tutorials/camlp4_3.10/&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">	Camlp4 Parsing version 3.12.1
 
 </span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">#load <span class="ocaml-string">&quot;pa_foreach.cmo&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span></span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> s <span class="kwa">in</span> List [<span class="ocaml-string">&quot;hello&quot;</span>; <span class="ocaml-string">&quot;world&quot;</span>] <span class="kwb">do</span> print_endline s <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">hello
 world
@@ -285,9 +285,9 @@ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach2.ml
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 2 <span class="ocaml-string">&quot;foobar&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span>
     <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v
-  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">2: foobar
-0: hello
+  <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">0: hello
 1: world
+2: foobar
 </span><span class="ocamltop-stderr"></span>- : unit = ()
 </span></pre>
 
@@ -372,9 +372,9 @@ $ ocamlc -I +camlp4 camlp4lib.cma -pp camlp4orf -c pa_foreach3.ml
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 0 <span class="ocaml-string">&quot;hello&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 1 <span class="ocaml-string">&quot;world&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocaml-mod">Hashtbl</span>.add tbl 2 <span class="ocaml-string">&quot;foo&quot;</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : unit = ()
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span> <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">2: foo
-0: hello
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k v <span class="kwa">in</span> Hashtbl tbl <span class="kwb">do</span> <span class="ocaml-mod">Printf</span>.printf <span class="ocaml-string">&quot;%d: %s\n&quot;</span> k v <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">0: hello
 1: world
+2: foo
 </span><span class="ocamltop-stderr"></span>- : unit = ()
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> i = 0 <span class="kwb">to</span> 5 <span class="kwb">do</span> print_int i <span class="kwb">done</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout">012345</span><span class="ocamltop-stderr"></span>- : unit = ()
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwb">for</span> k, v <span class="kwa">in</span> List [0, <span class="ocaml-string">&quot;hello&quot;</span>; 1, <span class="ocaml-string">&quot;world&quot;</span>; 2, <span class="ocaml-string">&quot;foo&quot;</span>] <span class="kwb">do</span>

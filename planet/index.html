@@ -153,13 +153,174 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="95e24529fbb0f6445d9ce28f00b17d68"></a><span class="rss-header"><span class="rss-title"><a href="http://jobs.github.com/positions/0a9333c4-71da-11e0-9ac7-692793c00b45"> Full Time: Software Developer (Functional Programming) at Jane Street in New York, NY; London, UK; Hong Kong</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Github OCaml jobs</span>, <span class="rss-date">16 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>Software Developer (Functional Programming)</p>
+    <div class="planet"><a name="e4b7facd5718f6280cd57d17d1618638"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/?p=171"> Code layout of Fan (a metaprogramming tool for OCaml)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">16 Sep 2013</span></span><span class="rss-description"><div id="post1"><a onclick="switchContent('post1','post2')" class="btn" href="#e4b7facd5718f6280cd57d17d1618638">Read more...</a></div><div id="post2" style="display: none"><div id="content">
+<p>
+Fan is a metaprogramming tool for OCaml.  I believe it would be an<br/>
+invaluable tool for the community when it’s production ready.
+</p>
+<p>
+If you are attracted by the power of Camlp4 while frustrated with the<br/>
+complexity, slowness, complex build or  buggy implementation, I would<br/>
+be very glad that you could join and contribute.
+</p>
+<p>
+It’s already ready for accepting external contribution, since the<br/>
+development of Fan would be pinned to <a href="http://caml.inria.fr/pub/distrib/ocaml-4.01/">OCaml 4.01.0</a> for a while.
+</p>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Code layout</h2>
+<div id="text-1" class="outline-text-2">
+<p>
+The source is scattered in four directories<br/>
+<code>common</code>, <code>treeparser</code>, <code>src</code>, <code>cold</code>, and <code>unitest</code>
+</p>
+<p>
+In the common directory, all sources are written in <i>vanilla OCaml</i>,<br/>
+it defines basic primitives which dumps Fan’s abstract syntax into<br/>
+OCaml’s abstract syntax.
+</p>
+<p>
+Note that all compiler related modules is isolated in this<br/>
+directory. That said, in the future, if we would like to support<br/>
+different patched compiler, for example, metaocaml or Lexifi’s mlfi<br/>
+compiler, only this directory needs to be touched.
+</p>
+<p>
+In the treeparser directory, it is also written in <i>vanilla Ocaml</i>,<br/>
+it defines the runtime of the parsing structure.
+</p>
+<p>
+The <code>src</code> directory is written in Fan’s syntax.<br/>
+Keep in mind that Fan’s syntax is essentially the same as OCaml’s<br/>
+syntax, except that it allows quotations, and other tiny<br/>
+differences (parens around tuple is necessary, not optional).
+</p>
+<p>
+The <code>cold</code> directory is a mirror of <code>src</code> directory in <i>vanilla<br/>
+ocaml</i>, though it is much verbose compared with src.
+</p>
+<p>
+So when you get the source tree, the initial build  is typically
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">ocamlbuild cold/fan.native
+</pre>
+</div>
+<p>
+The first command <code>ocamlbuild cold/fan.native</code> would build a binary<br/>
+composed of modules from <code>common</code>, <code>treeparser</code> and <code>cold</code>. Since<br/>
+they are all written in <i>vanilla ocaml</i>, no preprocessors are<br/>
+needed for the initial compilation.
+</p>
+<p>
+If you are a third party user, that’s pretty much all you need to<br/>
+know. As a developer of Fan, the next command is
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./re cold fan.native
+</pre>
+</div>
+<p>
+This shell script would symlink <code>_build/cold/fan.native</code> to<br/>
+<code>_build/boot/fan</code>, which would be used by compiling src.
+</p>
+<p>
+Now you can compile the src directory
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">ocamlbuild src/fan.native
+</pre>
+</div>
+<p>
+The command <code>ocamlbuild cold/fan.native</code> would build a binary<br/>
+composed of modules from <code>common</code>, <code>treeparser</code> and <code>cold</code>.
+</p>
+<p>
+Note that at this time src is a mirror of cold, after preprocessored<br/>
+by fan, the produced binary <code>src/fan.native</code> should be the same as<br/>
+<code>cold/fan.native</code>.
+</p>
+<p>
+Now you can
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./re src fan.native
+</pre>
+</div>
+<p>
+But this does not make much sense since <code>src/fan.native</code> is exactly<br/>
+the same as <code>./cold/fan.native</code>.
+</p>
+<p>
+Okay, in most cases, your development would be in such directories:<br/>
+common, treeparser, src and unitest.
+</p>
+<p>
+If you only touch common, treeparser or unitest, commit the changes<br/>
+and send me a pull request.
+</p>
+<p>
+If you also touch the files in <code>src</code> directory, you should mirror<br/>
+those changes back to <code>cold</code> directory. Here we go:
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./snapshot
+</pre>
+</div>
+<p>
+Yes, now all the changes in <code>src</code> will be mirrored back to <code>cold</code><br/>
+directory.<br/>
+For a simple change, commit and done. For a complex change that you<br/>
+are not sure whether it would break anything or not, try to run:
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./hb fan.native
+</pre>
+</div>
+<p>
+The command above would first build <code>src/fan.native</code> using the<br/>
+current preprocessor <code>_build/boot/fan</code>.
+</p>
+<p>
+When it’s done, it would first remove the directories <code>_build/src</code>,<br/>
+and <code>_build/common</code>, <code>_build/treeparser</code>. Then it would set<br/>
+<code>_build/boot/fan</code> to be the new build preprocessor <code>src/fan.native</code>.<br/>
+After that it would call <code>ocamlbuild src/fan.native</code> to build a new<br/>
+preprocessor based on the existing preprocessor.
+</p>
+<p>
+Then it would compare the two preprocessors, if they are exactly the<br/>
+same, it means we manage to have a successful bootstrap. There is a<br/>
+large chance that your change is correct.
+</p>
+<p>
+Then
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">make test
+</pre>
+</div>
+<p>
+If everything goes well, it’s safe to commit now.
+</p>
+<p>
+When the bootstrap fails, generally two cases: 1. the comparison<br/>
+does not tell you the two preprocessors are the same, the normal<br/>
+workflow is to repeat the command <code>./hb fan.native</code> again. 2. It<br/>
+fails to compile, since you always have <code>cold/fan.native</code> compiled,<br/>
+fall back to such preprocessor and see where you made wrong.
+</p>
+</div>
+</div>
+</div>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/171/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/171/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=171&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post2','post1')" class="btn" href="#e4b7facd5718f6280cd57d17d1618638">Hide</a></div></span>
+<a name="95e24529fbb0f6445d9ce28f00b17d68"></a><span class="rss-header"><span class="rss-title"><a href="http://jobs.github.com/positions/0a9333c4-71da-11e0-9ac7-692793c00b45"> Full Time: Software Developer (Functional Programming) at Jane Street in New York, NY; London, UK; Hong Kong</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Github OCaml jobs</span>, <span class="rss-date">16 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>Software Developer (Functional Programming)</p>
 
 <p>Jane Street is looking to hire great software developers with an interest in functional programming. OCaml, a statically typed functional programming with similarities to Haskell, Scheme, Erlang, F# and SML, is our language of choice. We've got the largest team of OCaml developers in any industrial setting, and probably the world's largest OCaml codebase. We use OCaml for running our entire business, supporting everything from research to systems administration to trading systems. If you're interested in seeing how functional programming plays out in the real world, there's no better place.</p>
 
 <p>The atmosphere is informal and intellectual. There is a focus on education, and people learn about software and trading, both through formal classes and on the job. The work is challenging, and you get to see the practical impact of your efforts in quick and dramatic terms. Jane Street is also small enough that people have the freedom to get involved in many different areas of the business. Compensation is highly competitive, and there's a lot of room for growth.</p>
 
-<a onclick="switchContent('post1','post2')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Read more...</a></div><div id="post2" style="display: none"><p>Software Developer (Functional Programming)</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Read more...</a></div><div id="post4" style="display: none"><p>Software Developer (Functional Programming)</p>
 
 <p>Jane Street is looking to hire great software developers with an interest in functional programming. OCaml, a statically typed functional programming with similarities to Haskell, Scheme, Erlang, F# and SML, is our language of choice. We've got the largest team of OCaml developers in any industrial setting, and probably the world's largest OCaml codebase. We use OCaml for running our entire business, supporting everything from research to systems administration to trading systems. If you're interested in seeing how functional programming plays out in the real world, there's no better place.</p>
 
@@ -182,8 +343,8 @@
 <li>16 weeks fully paid maternity/paternity leave for primary caregivers, plus additional unpaid leave</li>
 </ul>
 
-<p>More information at <a href="http://janestreet.com/culture/benefits/">http://janestreet.com/culture/benefits/</a></p><a onclick="switchContent('post2','post1')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Hide</a></div></span>
-<a name="354f8f8d76890e1efa633feb38aabb82"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/16/camlpdf-the-end-of-sucky-pdf-tools"> Camlpdf, the first good command-line PDF tool I've found</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">15 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>The fine folks at O’Reilly have been proof-reading the <a href="https://realworldocaml.org">Real World OCaml</a> book that I’ve been working on. My heart leapt with joy when the copyeditor commented that she thought it was very well written, but my joy was short-lived when it turns out that all her comments were safely ensconced as PDF comments. A few hundreds comments that required a response from us, too.</p>
+<p>More information at <a href="http://janestreet.com/culture/benefits/">http://janestreet.com/culture/benefits/</a></p><a onclick="switchContent('post4','post3')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Hide</a></div></span>
+<a name="354f8f8d76890e1efa633feb38aabb82"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/16/camlpdf-the-end-of-sucky-pdf-tools"> Camlpdf, the first good command-line PDF tool I've found</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">15 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>The fine folks at O’Reilly have been proof-reading the <a href="https://realworldocaml.org">Real World OCaml</a> book that I’ve been working on. My heart leapt with joy when the copyeditor commented that she thought it was very well written, but my joy was short-lived when it turns out that all her comments were safely ensconced as PDF comments. A few hundreds comments that required a response from us, too.</p>
 
 <p><em>“No problem! MacOS X Preview can handle these!”</em> was of course my first response, but it turns out it’s totally broken with PDF notes. The first note that you select will appear as the content of all the other subsequent notes. Yaron Minsky then experimented with Adobe Acrobat, which I’ve sworn never to install again after an unfortunate incident involving the uninstaller a couple of years ago. That turned out to be incredibly slow. I tried a few open-source tools such as <a href="http://en.wikipedia.org/wiki/Skim_(software">Skim</a> which, while otherwise an excellent bit of software, couldn’t render these particular annotations.</p>
 <table style="float: right; padding: 10px;">
@@ -192,7 +353,7 @@
 </td></tr>
 <tr><td width="210"><i><small>I <a href="http://www.theguardian.com/media/mind-your-language/2012/jan/29/literally-a-much-misused-word">literally</a> jumped off my seat upon discovering cpdf.</small></i></td></tr>
 </tbody></table>
-<a onclick="switchContent('post3','post4')" class="btn" href="#354f8f8d76890e1efa633feb38aabb82">Read more...</a></div><div id="post4" style="display: none"><p>The fine folks at O’Reilly have been proof-reading the <a href="https://realworldocaml.org">Real World OCaml</a> book that I’ve been working on. My heart leapt with joy when the copyeditor commented that she thought it was very well written, but my joy was short-lived when it turns out that all her comments were safely ensconced as PDF comments. A few hundreds comments that required a response from us, too.</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#354f8f8d76890e1efa633feb38aabb82">Read more...</a></div><div id="post6" style="display: none"><p>The fine folks at O’Reilly have been proof-reading the <a href="https://realworldocaml.org">Real World OCaml</a> book that I’ve been working on. My heart leapt with joy when the copyeditor commented that she thought it was very well written, but my joy was short-lived when it turns out that all her comments were safely ensconced as PDF comments. A few hundreds comments that required a response from us, too.</p>
 
 <p><em>“No problem! MacOS X Preview can handle these!”</em> was of course my first response, but it turns out it’s totally broken with PDF notes. The first note that you select will appear as the content of all the other subsequent notes. Yaron Minsky then experimented with Adobe Acrobat, which I’ve sworn never to install again after an unfortunate incident involving the uninstaller a couple of years ago. That turned out to be incredibly slow. I tried a few open-source tools such as <a href="http://en.wikipedia.org/wiki/Skim_(software">Skim</a> which, while otherwise an excellent bit of software, couldn’t render these particular annotations.</p>
 <table style="float: right; padding: 10px;">
@@ -221,11 +382,11 @@
 </li>
 </ul>
 
-<p>Total time including this blog post: 40 minutes. Now, onto fixing the author responses comments for Real World OCaml now. I’m so happy to have <code>cpdf</code> as a simple, hackable PDF utility, as it does things like page combining and rotations that have always been a little flaky in other tools for me. It’s the <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> of PDFs!</p><a onclick="switchContent('post4','post3')" class="btn" href="#354f8f8d76890e1efa633feb38aabb82">Hide</a></div></span>
-<a name="43953969909edadc60d40a276a7da149"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/?p=4580"> OCaml 4.01.0 entering Rawhide</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">14 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>After using OCaml for around 10 years it is still my favourite language, and it’s amazing how far ahead of other programming languages it remains to this day.</p>
+<p>Total time including this blog post: 40 minutes. Now, onto fixing the author responses comments for Real World OCaml now. I’m so happy to have <code>cpdf</code> as a simple, hackable PDF utility, as it does things like page combining and rotations that have always been a little flaky in other tools for me. It’s the <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> of PDFs!</p><a onclick="switchContent('post6','post5')" class="btn" href="#354f8f8d76890e1efa633feb38aabb82">Hide</a></div></span>
+<a name="43953969909edadc60d40a276a7da149"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/?p=4580"> OCaml 4.01.0 entering Rawhide</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">14 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>After using OCaml for around 10 years it is still my favourite language, and it’s amazing how far ahead of other programming languages it remains to this day.</p>
 <p><a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">OCaml 4.01.0 was released on Thursday</a> and I’m putting it into Fedora Rawhide over this weekend.</p>
 <p>Debuginfo is now (partially) enabled.  <a href="http://www.ocamlpro.com/blog/2012/08/20/ocamlpro-and-4.00.0.html">The OCaml code generator has produced good quality DWARF information for a while</a>, and now you are able to debug OCaml programs in gdb under Fedora:</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#43953969909edadc60d40a276a7da149">Read more...</a></div><div id="post6" style="display: none"><p>After using OCaml for around 10 years it is still my favourite language, and it’s amazing how far ahead of other programming languages it remains to this day.</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#43953969909edadc60d40a276a7da149">Read more...</a></div><div id="post8" style="display: none"><p>After using OCaml for around 10 years it is still my favourite language, and it’s amazing how far ahead of other programming languages it remains to this day.</p>
 <p><a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">OCaml 4.01.0 was released on Thursday</a> and I’m putting it into Fedora Rawhide over this weekend.</p>
 <p>Debuginfo is now (partially) enabled.  <a href="http://www.ocamlpro.com/blog/2012/08/20/ocamlpro-and-4.00.0.html">The OCaml code generator has produced good quality DWARF information for a while</a>, and now you are able to debug OCaml programs in gdb under Fedora:</p>
 <pre>$ <b>sudo debuginfo-install ocaml ocaml-findlib</b>
@@ -266,7 +427,7 @@ Breakpoint 1, camlFrontend__query_package_1199 () at frontend.ml:469
 </pre>
 <p>GDB only understands location data at the moment, so you can’t yet query variables (although I understand OCaml generates the correct DWARF info for this, GDB just doesn’t know how to print OCaml expressions).</p>
 <p>There will also be some limitations on the debuginfo built at first.  At the moment it doesn’t include debuginfo for OCaml libraries called from an OCaml program, because of problems that need to be worked out with the toolchain.  Mixed OCaml binary / C library debuginfo does work.</p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4580/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4580/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4580&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post6','post5')" class="btn" href="#43953969909edadc60d40a276a7da149">Hide</a></div></span>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4580/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4580/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4580&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#43953969909edadc60d40a276a7da149">Hide</a></div></span>
 <a name="2725cd9f1034ea5060a28a7d7d44f03e"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=885"> Expiration of SSL certificate and upcoming forge.ocaml.org</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">13 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">Hi everyone,
 
 The wildcard SSL I bought a couple of years ago for *.ocamlcore.org is about to expire. I have decided to not buy a new commercial certificate. I am still considering my options, but I will probably go back to a free SSL cert from CACert. This is not widely supported but other upcoming changes don't push me to invest a lot in the ocamlcore.org domain name.
@@ -280,7 +441,7 @@ I will take advantage of this migration to initiate another migration: changing 
 Your forge master
 Sylvain Le Gall</pre></span>
 <a name="e274d9a66167786d803a222d9d616b9b"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/pub/distrib/ocaml-4.01/"> OCaml 4.01.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml INRIA</span>, <span class="rss-date">12 Sep 2013</span></span><span class="rss-description"></span>
-<a name="9096fd236bdf1bfe00d3eb0975343acc"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/monomorphic_let"> Monomophic let in OCaml?</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">11 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>Since version 7, GHC has decided to treat local let-definitions as monomorphic. We check how such a change would fare with OCaml.</p>
+<a name="9096fd236bdf1bfe00d3eb0975343acc"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/monomorphic_let"> Monomophic let in OCaml?</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">11 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>Since version 7, GHC has decided to treat local let-definitions as monomorphic. We check how such a change would fare with OCaml.</p>
 
 
 
@@ -288,7 +449,7 @@ Sylvain Le Gall</pre></span>
 <p>In their 2010 paper <a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/index.htm">Let should not be generalised</a>, Dimitrios Vytiniotis, Simon Peyton Jones and Tom Schrijvers argue that this allows for simpler type inference, with a very limited impact on the existing code base. Independently of the potential benefit of such a choice, it is interesting to see how much polymorphism is really needed in OCaml.</p>
 <p>To check the impact of a monomorphic let, I did a small experiment, modifying the OCaml compiler to only generalize let-definitions when there is an explicit polymorphic-type annotation. (Strictly speaking, this is not full let-monomorphism, as we still generalize implicit parts inside the annotation, but this should not make any difference for our experiment.)</p>
 <p>The patch can be found <a href="http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/garrigue/nongeneral-let.diff?view=markup">here</a>.</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Read more...</a></div><div id="post8" style="display: none"><p>Since version 7, GHC has decided to treat local let-definitions as monomorphic. We check how such a change would fare with OCaml.</p>
+<a onclick="switchContent('post9','post10')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Read more...</a></div><div id="post10" style="display: none"><p>Since version 7, GHC has decided to treat local let-definitions as monomorphic. We check how such a change would fare with OCaml.</p>
 
 
 
@@ -408,15 +569,15 @@ Sylvain Le Gall</pre></span>
 <p>Finally, polymorphic variants are particularly troublesome, because the inferred type can be huge, and we are in a situation where we need it to be polymorphic, so that using type abbreviations may not be so easy.</p>
 <h3 id="what-conclusions-can-we-draw">What conclusions can we draw?</h3>
 <p>Notice that these figures are comparable to experiments conducted when the value restriction had been introduced. In that case, it was argued that eta-expansion solved most situations at a very low syntactic (and computational) cost. For monomorphic let, it suffices to provide an annotation to recover polymorphism, thus the solution is universal, but its cost for the programmer is higher.</p>
-<p>Actually, this discussion is mostly academic, because in OCaml we have no specific reason to make local let-definitions monomorphic. By contrast with Haskell which propagates type information through constraint solving, we instead only perform forward propagation, and actually rely on polymorphism to decide when some type information does not depend on the order of type inference and is safe to use. GADTs create problems of their own, but we handle these through <a href="http://cristal.inria.fr/~remy/gadts/">ambivalent types</a>, a mechanism similar in spirit to the tracking of sharing used for type information, which again relies on local polymorphism rather than forgoes it.</p><a onclick="switchContent('post8','post7')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Hide</a></div></span>
+<p>Actually, this discussion is mostly academic, because in OCaml we have no specific reason to make local let-definitions monomorphic. By contrast with Haskell which propagates type information through constraint solving, we instead only perform forward propagation, and actually rely on polymorphism to decide when some type information does not depend on the order of type inference and is safe to use. GADTs create problems of their own, but we handle these through <a href="http://cristal.inria.fr/~remy/gadts/">ambivalent types</a>, a mechanism similar in spirit to the tracking of sharing used for type information, which again relies on local polymorphism rather than forgoes it.</p><a onclick="switchContent('post10','post9')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Hide</a></div></span>
 <a name="3eb62f7b5dd4e17948290ecc87812b7e"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.10.html"> Caml Weekly News, 10 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">10 Sep 2013</span></span><span class="rss-description">Pippo: a pretty interesting pre-processor that uses OCaml / OCaml 4.01.0+rc2 / Uutf 0.9.3 &amp; Xmlm 1.2.0 / OCamlPro Highlights, August 2013 / Other Caml News</span>
-<a name="987ab477f849380c60405a46b6c2ca46"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging"> OCamlot--exploring the edges of OPAM packages</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">08 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
+<a name="987ab477f849380c60405a46b6c2ca46"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging"> OCamlot--exploring the edges of OPAM packages</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">08 Sep 2013</span></span><span class="rss-description"><div id="post11"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
 
 <p>I wanted to share some of what OCamlot does today, some of the results from about 3 months worth of runs that may help OCaml package maintainers, and finally where we’re going with future developments. This work has been done in collaboration with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/people/sheets.html">David Sheets</a> (who built the OCamlot daemon) and the OPAM team ably led by <a href="http://gazagnaire.org">Thomas Gazagnaire</a> at <a href="http://ocamlpro.com">OCamlPro</a>. We’ve also had a lot of help from <a href="https://github.com/diml">Jeremie Dimino</a> and <a href="https://github.com/ysulsky">Yury Sulsky</a> from Jane Street and <a href="http://dave.recoil.org">Dave Scott</a> and <a href="http://jon.recoil.org">Jon Ludlam</a> from Citrix acting as guinea pigs for their respective regular releases of the <a href="https://github.com/janestreet">Core</a> and <a href="https://github.com/xapi-project">Xen/XAPI</a> releases to OPAM.</p>
 
 <h2 id="towards_a_truely_portable_ocaml">Towards a truely portable OCaml</h2>
 
-<a onclick="switchContent('post9','post10')" class="btn" href="#987ab477f849380c60405a46b6c2ca46">Read more...</a></div><div id="post10" style="display: none"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
+<a onclick="switchContent('post11','post12')" class="btn" href="#987ab477f849380c60405a46b6c2ca46">Read more...</a></div><div id="post12" style="display: none"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
 
 <p>I wanted to share some of what OCamlot does today, some of the results from about 3 months worth of runs that may help OCaml package maintainers, and finally where we’re going with future developments. This work has been done in collaboration with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/people/sheets.html">David Sheets</a> (who built the OCamlot daemon) and the OPAM team ably led by <a href="http://gazagnaire.org">Thomas Gazagnaire</a> at <a href="http://ocamlpro.com">OCamlPro</a>. We’ve also had a lot of help from <a href="https://github.com/diml">Jeremie Dimino</a> and <a href="https://github.com/ysulsky">Yury Sulsky</a> from Jane Street and <a href="http://dave.recoil.org">Dave Scott</a> and <a href="http://jon.recoil.org">Jon Ludlam</a> from Citrix acting as guinea pigs for their respective regular releases of the <a href="https://github.com/janestreet">Core</a> and <a href="https://github.com/xapi-project">Xen/XAPI</a> releases to OPAM.</p>
 
@@ -454,7 +615,7 @@ Sylvain Le Gall</pre></span>
 
 <p>The latest alpha release of OCamlot is pretty straightforward to run locally, if you are so inclined. First start a server process:</p>
 
-<pre><code>$ git clone git://github.com/ocamllab/ocamlot
+<pre><code>$ git clone git://github.com/ocamllabs/ocamlot
 $ cd ocamlot
 $ ./install_deps.sh
 $ oasis setup
@@ -607,8 +768,8 @@ database/sqlite3</code></pre>
 
 <p>I’ll talk more about how we’re solving this in my upcoming <a href="http://ocaml.org/meetings/ocaml/2013/">OCaml 2013 Workshop</a> talk about the Platform. I don’t want spoil it too much, but it involves a lovely distributed Git workflow, an enhanced <a href="https://github.com/OCamlPro/opam2web">opam2web</a>, and a brand new metadata overlay system for OPAM that lets us enhance the package database with extra information such as statistics, portability and test results, but without polluting the main Git repository with all this extra non-essential data.</p>
 
-<p>If you’re really curious to know right now, then you can see the outline of the new system at Amir’s <a href="http://amirchaudhry.com/wireframe-demos-for-ocamlorg/">new ocaml.org wireframes</a> blog post, where Part III contains the continuous integration workflow. A lot of infrastructure work has gone into building all of this over the summer, and now it’s all starting to be deployed in a very satisfying way…</p><a onclick="switchContent('post10','post9')" class="btn" href="#987ab477f849380c60405a46b6c2ca46">Hide</a></div></span>
-<a name="d6c831966663fa2d001ee4356a668fc5"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/06/OUnit-2.0-progress%2C-August-2013"> OUnit 2.0 progress, August 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><div id="post11"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
+<p>If you’re really curious to know right now, then you can see the outline of the new system at Amir’s <a href="http://amirchaudhry.com/wireframe-demos-for-ocamlorg/">new ocaml.org wireframes</a> blog post, where Part III contains the continuous integration workflow. A lot of infrastructure work has gone into building all of this over the summer, and now it’s all starting to be deployed in a very satisfying way…</p><a onclick="switchContent('post12','post11')" class="btn" href="#987ab477f849380c60405a46b6c2ca46">Hide</a></div></span>
+<a name="d6c831966663fa2d001ee4356a668fc5"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/06/OUnit-2.0-progress%2C-August-2013"> OUnit 2.0 progress, August 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><div id="post13"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
 
 
 <p>The basic features:</p>
@@ -636,7 +797,7 @@ database/sqlite3</code></pre>
 </ul>
 
 <p>I still need to do the following:</p>
-<a onclick="switchContent('post11','post12')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Read more...</a></div><div id="post12" style="display: none"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
+<a onclick="switchContent('post13','post14')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Read more...</a></div><div id="post14" style="display: none"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
 
 
 <p>The basic features:</p>
@@ -757,8 +918,7 @@ database/sqlite3</code></pre>
 <p>Patches always welcome.</p>
 
 
-<p>Special thanks to Thomas Wickham who has entirely written OUnitRunnerThreads and kickstarted the processes runner.</p><a onclick="switchContent('post12','post11')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Hide</a></div></span>
-<a name="06bf61429abfb4a29b6d1fca28c2cd0d"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Uutf 0.9.3 and Xmlm 1.2.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><p>Release of Uutf 0.9.3 and Xmlm 1.2.0. Consult the individual release notes for details.</p></span>
+<p>Special thanks to Thomas Wickham who has entirely written OUnitRunnerThreads and kickstarted the processes runner.</p><a onclick="switchContent('post14','post13')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
