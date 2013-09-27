@@ -153,15 +153,222 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="985b9cfa68880b5f679328c3e7b01b58"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/09/16/code-layout-of-fan-a-metaprogramming-tool-for-ocaml/"> Code layout of Fan (a metaprogramming tool for OCaml)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">16 Sep 2013</span></span><span class="rss-description"><div id="post1"><a onclick="switchContent('post1','post2')" class="btn" href="#985b9cfa68880b5f679328c3e7b01b58">Read more...</a></div><div id="post2" style="display: none"><div id="content">
+    <div class="planet"><a name="e862e722280f522e7be81f5c35cb41b8"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/9/27/ocaml-tutorial-videos-now-available"> OCaml  tutorial videos now available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">27 Sep 2013</span></span><span class="rss-description"><p>I've made a few little tutorial videos to go with the book. Just seven for now, covering the first four chapters, but more to come:</p><ol><li>Evaluating an expression</li><li>True and false</li><li>Making decisions</li><li>Names and functions</li><li>Patterns</li><li>Lists</li><li>Take and drop</li><li>Appending two lists</li></ol><p>They're not really a substitute for the book but, when learning, it's always helpful to go over things twice, particularly using a different medium.</p><p>The videos are available <a href="http://ocaml-book.com/videos/">here</a>. </p><p> </p></span>
+<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+
+
+<p>The basic features:</p>
+<a onclick="switchContent('post1','post2')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post2" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+
+
+<p>The basic features:</p>
+<ul>
+<li>better configuration setup
+<ul>
+<li>environment variable</li>
+<li>command line options</li>
+<li>configuration files</li>
+</ul></li>
+<li>improved output of the tests:
+<ul>
+<li>allow vim quickfix to jump in the log file where the error has happened</li>
+<li>output HTML report</li>
+<li>output JUnit report</li>
+<li>systematic logging (verbose always on), but output log in a file</li>
+</ul></li>
+<li>choose how to run your test:
+<ul>
+<li>run tests in parallel using processes (auto-detect number of CPU and run as many worker processes)</li>
+<li>run tests concurrently using threads</li>
+<li>use the old sequential runner</li>
+</ul></li>
+<li>choose which test to run with a chooser that can do smart selection of tests:
+<ul>
+<li>simple: just run test in sequence</li>
+<li>failfirst: run the tests that failed in the last run first and skip the success if they are still failing</li>
+</ul></li>
+<li>some refactoring:
+<ul>
+<li>bracket: use a registration in the context but easier to use</li>
+<li>remove all useless functions in the OUnit2 interface</li>
+</ul></li>
+<li>non-fatal section: allow to fail inside non-fatal section without quitting immediately the whole test</li>
+<li>allow to use OUnit1 test inside OUnit2 (smooth the transition)</li>
+<li>timer that makes tests fail if they take too long, only when using the processes runner (I was not able to do it cleanly using threads and sequential)</li>
+<li>allow to parametrize filenames so that you can use <code>OUNIT_OUTPUT_FILE=ounit-$(suite_name),log</code> and have <code>$(suite_name)</code> replace by the test suite name</li>
+<li>create locks to avoid accessing the same resources within a single process or the whole application (typically to avoid doing a <code>chdir</code> while another thread is doing a <code>chdir</code> elsewhere)</li>
+<li>create a <code>in_testdata_dir</code> function to locate test data, if any</li>
+</ul>
+
+<p>Still remaining to do, but quite straightforward:</p>
+<ul>
+<li>sys admin (website, release process)</li>
+<li>update the whole documentation</li>
+</ul>
+
+<p>Some things that I decided not to do for OUnit 2.0 release:</p>
+<ul>
+<li>introduce a 'cached' state to avoid rerunning a test if you can programmaticaly determine that the result will be the same.</li>
+</ul>
+
+<p>The main development is now done, but before releasing I decided to test it first on a real scale application. The first big migration to OUnit2, will be the OASIS test suite. This is a pretty big test suite (100+ tests) that takes a fair amount of time to run. I hope that during the next week I will be able to port the whole test suite and come back with some timing results.</p>
+
+
+<p>You can follow my progress on porting OASIS to OUnit 2.0, in <a href="https://github.com/ocaml/oasis/tree/ounit2">github</a>.</p>
+
+
+<h2>Help wanted</h2>
+
+
+<p>If you have a long standing issue with OUnit, this is the time to submit a bug.
+<a href="https://forge.ocamlcore.org/tracker/?atid=733&amp;group_id=162&amp;func=browse">OUnit BTS</a></p>
+
+
+<p>If you want to try the dev version of OUnit:</p>
+
+
+<pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
+
+
+<p>Patches always welcome.</p>
+
+
+<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post2','post1')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
+<a name="b159bb33433f9b70968e3d4eb1ce64dd"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Gg 0.8.0 and Vg 0.8.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>First release of Gg and Vg. Thanks to <a href="http://www.xenproject.org/developers/teams/xapi.html">Citrix Systems R&amp;D</a> and <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/index.html">OCaml Labs</a> for sponsoring this work.</p></span>
+<a name="a5df4d5e6a84208a9f87406b4030f9d7"></a><span class="rss-header"><span class="rss-title"><a href="http://amirchaudhry.com/ocamlorg-request-for-feedback"> Feedback requested on the OCaml.org redesign</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Amir Chaudhry</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>There is a work-in-progress site at <a href="http://ocaml-redesign.github.io">ocaml-redesign.github.io</a>, where we’ve been developing both the tools and design for the new ocaml.org pages. This allows us to test our tools and fix issues before we consider merging changes upstream.</p>
+
+<p>There is a more detailed post coming about all the design work to date and the workflow we’re using, but in the meantime, feedback on the following areas would be most welcome. Please leave feedback in the form of issues on the <a href="https://github.com/ocamllabs/sandbox-ocaml.org/issues">ocaml.org sandbox repo</a>. You can also raise points on the <a href="http://lists.ocaml.org/listinfo/infrastructure">infrastructure mailing list</a>.</p>
+
+<ol>
+<li>
+<p><strong>OCaml Logo</strong> - There was some feedback on the last iteration of the logo, especially regarding the font, so there are now several options to consider. Please look at the images on the <a href="https://github.com/ocaml/ocaml.org/wiki/Draft-OCaml-Logos">ocaml.org GitHub wiki</a> and then leave your feedback on <a href="https://github.com/ocamllabs/sandbox-ocaml.org/issues/16">issue #16 on the sandbox repo</a>.</p>
+</li>
+
+<li>
+<p><strong>Site design</strong> - Please do give feedback on the design and any glitches you notice. Text on each of the new landing pages is still an initial draft so comments and improvements there are also welcome (specifically: Home Page, Learn, Documentation, Platform, Community). There are already a few <a href="https://github.com/ocamllabs/sandbox-ocaml.org/issues">known issues</a>, so do add your comments to those threads first.</p>
+</li>
+</ol></span>
+<a name="9b473804a34b88f50c84468e5d2ad0f8"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.24.html"> Caml Weekly News, 24 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description">OCaml on Android / OCaml release 4.01.0 / OCaml vs Ada and/or GUI options / Beta release of OPAM 1.1.0 / Ocaml on an embedded arm system (no linux) / Call for Talks - Open World Forum / OSDC / SIunits 0.1 / ocaml interface to berkeley db? / Other Caml News</span>
+<a name="79336793f839bc71e3b56a8399d9f156"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-4/"> Goaljobs, part 4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
+<p>If you wanted to use <code>make</code> to monitor a git repository and do a build when a new commit appears there would I guess be three choices: You could just run the <code>make</code> command manually over and over again.  You could have a git hook that runs <code>make</code>.  Or you have a cron job the periodically checks the git repository.</p>
+<p>The git hook is the ideal solution for goaljobs too, but goaljobs also has cron-like <b>periodic jobs</b> built in, and they are very easy to use:</p>
+<pre>every 30 minutes (fun () -&gt;
+  let commit =
+    shout "cd %s &amp;&amp; git rev-parse HEAD" repo in
+  require (git_commit_tested commit)
+)
+</pre>
+<p><code>every 30 minutes</code> is self-explanatory (right?).  The function that runs every half-an-hour is two lines of code.  The first line uses <code>shout</code> to run a <b>sh</b>ell command and capture the <b>out</b>put.  In this case git prints the current commit.  The second command requires that the <code>git_commit_tested</code> goal is reached for this commit.</p>
+<p>One way to implement this goal would be:</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Read more...</a></div><div id="post4" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
+<p>If you wanted to use <code>make</code> to monitor a git repository and do a build when a new commit appears there would I guess be three choices: You could just run the <code>make</code> command manually over and over again.  You could have a git hook that runs <code>make</code>.  Or you have a cron job the periodically checks the git repository.</p>
+<p>The git hook is the ideal solution for goaljobs too, but goaljobs also has cron-like <b>periodic jobs</b> built in, and they are very easy to use:</p>
+<pre>every 30 minutes (fun () -&gt;
+  let commit =
+    shout "cd %s &amp;&amp; git rev-parse HEAD" repo in
+  require (git_commit_tested commit)
+)
+</pre>
+<p><code>every 30 minutes</code> is self-explanatory (right?).  The function that runs every half-an-hour is two lines of code.  The first line uses <code>shout</code> to run a <b>sh</b>ell command and capture the <b>out</b>put.  In this case git prints the current commit.  The second command requires that the <code>git_commit_tested</code> goal is reached for this commit.</p>
+<p>One way to implement this goal would be:</p>
+<pre>let goal git_commit_tested commit =
+  let key = sprintf "repo-tested-%s" commit in
+  target (memory_exists key);
+
+  sh "
+      git clone %s test
+      cd test
+      ./configure
+      make
+      make check
+  " repo_url;
+
+  memory_set key "1"
+</pre>
+<p>This code clones the repository and runs <code>make check</code> to test it.  It uses the Memory (ie. memoization) to ensure that the tests are run at most once per commit.</p>
+<p>Actually this is not quite true: the tests run successfully once, but if the test fails, it will keep running every 30 minutes and nag you about it.  It’s trivial to change the memoization to remember failures as well as successes, or you could consider the repeated nagging to be a feature not a bug …</p>
+<p>That’s it!  The goaljobs website <i>will</i> be this (I’ve not uploaded it yet, but will do in the next day or two):</p>
+<p><a href="http://people.redhat.com/~rjones/goaljobs" rel="nofollow">http://people.redhat.com/~rjones/goaljobs</a></p>
+<p>You can also download the code from the <a href="http://git.annexia.org/?p=goaljobs.git;a=summary">git repository</a> and the goals I’ve written from <a href="http://git.annexia.org/?p=goals.git;a=summary">this repository</a>.</p>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4619/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4619/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4619&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Hide</a></div></span>
+<a name="f250946ccea5900b2fab62858722f2d5"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/"> Goaljobs, part 3</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
+<p>It’s time to take a closer look at <b>targets</b> — the promise that you make that some condition will be true by the time a goal has run.</p>
+<p>In the Fedora rebuild script the goal targets looked like this:</p>
+<pre>let goal rebuilt pkg =
+  <b>target (koji_build_state (fedora_verrel pkg branch)
+               == `Complete);</b>
+  ...
+</pre>
+<p><code>koji_build_state</code> is a regular function.  It’s implemented using the <code>koji buildinfo</code> command line tool for querying <a href="http://koji.fedoraproject.org/koji/">the Koji build system</a>.  (The koji command line tool is annoyingly hard to automate, but as we’ve got a complete programming language available — not just bash — <a href="http://git.annexia.org/?p=goals.git;a=blob;f=fedora.ml;hb=HEAD">the implementation of <code>koji_build_state</code></a> is tedious and long, but doable).</p>
+<p>Querying Koji takes a few seconds and we don’t want to do it every time we check a goal.  Goaljobs offers a feature called “The Memory” which lets you <a href="http://perl.plover.com/Memoize/doc.html#description">memoize</a> functions.  “The Memory” is just a fancy name for a key/value store which is kept in <code>~/.goaljobs-memory</code> and persists across goaljobs sessions:</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Read more...</a></div><div id="post6" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
+<p>It’s time to take a closer look at <b>targets</b> — the promise that you make that some condition will be true by the time a goal has run.</p>
+<p>In the Fedora rebuild script the goal targets looked like this:</p>
+<pre>let goal rebuilt pkg =
+  <b>target (koji_build_state (fedora_verrel pkg branch)
+               == `Complete);</b>
+  ...
+</pre>
+<p><code>koji_build_state</code> is a regular function.  It’s implemented using the <code>koji buildinfo</code> command line tool for querying <a href="http://koji.fedoraproject.org/koji/">the Koji build system</a>.  (The koji command line tool is annoyingly hard to automate, but as we’ve got a complete programming language available — not just bash — <a href="http://git.annexia.org/?p=goals.git;a=blob;f=fedora.ml;hb=HEAD">the implementation of <code>koji_build_state</code></a> is tedious and long, but doable).</p>
+<p>Querying Koji takes a few seconds and we don’t want to do it every time we check a goal.  Goaljobs offers a feature called “The Memory” which lets you <a href="http://perl.plover.com/Memoize/doc.html#description">memoize</a> functions.  “The Memory” is just a fancy name for a key/value store which is kept in <code>~/.goaljobs-memory</code> and persists across goaljobs sessions:</p>
+<pre>let koji_build_state verrel =
+  let key = sprintf "koji_build_complete_%s" verrel in
+  if <b>memory_exists key</b> then
+    `Complete
+  else (
+    <i>(* tedious code to query koji *)</i>
+    if state == `Complete then
+      <b>memory_set key "1"</b>;
+    state
+  )
+</pre>
+<p>With strategic use of memoization, evaluating goaljobs goals can be very fast and doesn’t change the fundamental contract of targets.</p>
+<p>Finally in this part: a note on how targets are implemented.</p>
+<p>A target is a boolean expression which is evaluated once near the beginning of the goal.  If it evaluates to true at the beginning of the goal then the rest of the goal can be skipped because the goal has already been achieved / doesn’t need to be repeated.</p>
+<p>And since targets are just general expressions, they can be anything at all, from accessing a remote server (as here) to checking the existence of a local file (like make).  As long as something can be tested quickly, or can be tested slowly and memoized, it’s suitable to be a target.</p>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4615/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4615/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4615&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post6','post5')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Hide</a></div></span>
+<a name="8443cf975eee954aeeee1b56d929e304"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/20/opam-1-1-beta.html"> OPAM 1.1 beta available, with pretty colours</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">19 Sep 2013</span></span><span class="rss-description"><div id="post7"><p><a href="http://gazagnaire.org">Thomas</a> just announced the availability of the <a href="http://opam.ocamlpro.com">OPAM</a> beta release. This has been a huge amount of work for him and <a href="http://louis.gesbert.fr/">Louis</a>, so I’m excited to see this release! Aside from general stability, the main highlights for me are:</p>
+
+<a onclick="switchContent('post7','post8')" class="btn" href="#8443cf975eee954aeeee1b56d929e304">Read more...</a></div><div id="post8" style="display: none"><p><a href="http://gazagnaire.org">Thomas</a> just announced the availability of the <a href="http://opam.ocamlpro.com">OPAM</a> beta release. This has been a huge amount of work for him and <a href="http://louis.gesbert.fr/">Louis</a>, so I’m excited to see this release! Aside from general stability, the main highlights for me are:</p>
+
+<ul>
+<li>
+<p>A switch to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a> public-domain-like license for the repository, and LGPL2+linking exception for OPAM itself. The <a href="https://github.com/OCamlPro/opam-repository/issues/955">cutover to the new license</a> was the first non-gratuitous use of GitHub’s fancy issue lists I’ve seen, too! As part of this, we’re also beginning a transition over to hosting it at <code>opam.ocaml.org</code>, to underline our committment to maintaining it as an OCaml community resource.</p>
+</li>
+
+<li>
+<p>Much-improved support for package pinning and updates. This is the feature that makes OPAM work well with <a href="http://openmirage.org">MirageOS</a>, since we often need to do development work on a low-level library (such as a <a href="https://github.com/mirage/ocaml-xen-block-driver">device driver</a> and recompile all the reverse dependencies.</p>
+</li>
+
+<li>
+<p>Support for post-installation messages (e.g. to display <a href="https://github.com/OCamlPro/opam-repository/pull/1100">licensing information</a> or configuration hints) and better support for the external library management issues I explained in an earlier post about <a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging.html">OCamlot testing</a>.</p>
+</li>
+
+<li>
+<p>Better library structuring to let tools like <a href="http://github.com/OCamlPro/opam2web">Opam2web</a> work with the package metadata. For instance, my group’s <a href="http://ocaml.io">OCaml Labs</a> has a comprehensive list of <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/pkg/index.html">the software packages that we work on</a> generated directly from an OPAM remote.</p>
+</li>
+
+<li>
+<p>A growing set of administration tools (via the <code>opam-admin</code> binary) that run health checks and compute statistics over package repositories. For example, here’s the result of running <code>opam-admin stats</code> over the latest package repository to show various growth curves.</p>
+</li>
+</ul>
+<table width="90%" align="center">
+<tbody><tr>
+<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/opam11-beta-contributors.png"><img src="http://anil.recoil.org/images/opam11-beta-contributors.png" border="0" width="220"/></a><br/>Number of unique contributors to the main OPAM package repository.</td>
+<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/opam11-beta-packages.png"><img src="http://anil.recoil.org/images/opam11-beta-packages.png" border="0" width="220"/></a><br/>Total number of unique packages (including multiple versions of the same package).</td>
+<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/opam11-beta-unique-packages.png"><img src="http://anil.recoil.org/images/opam11-beta-packages.png" border="0" width="220"/></a><br/>Total packages with multiple versions coalesced so you can see new package growth.</td>
+</tr>
+</tbody></table>
+<p>Is it a <a href="http://www.theatlantic.com/technology/archive/2013/05/the-hockey-stick-the-most-controversial-chart-in-science-explained/275753/">hockey stick</a> graph? Only time will tell! See Thomas’ <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00300.html">full release announcement</a> and let us know how you get along with this new release…</p><a onclick="switchContent('post8','post7')" class="btn" href="#8443cf975eee954aeeee1b56d929e304">Hide</a></div></span>
+<a name="57720400b0482a70ca341aeece1a046c"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.17.html"> Caml Weekly News, 17 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">17 Sep 2013</span></span><span class="rss-description">ReactiveML 1.09.01 / OCaml vs Ada and/or GUI options / OCaml release 4.01.0 / OCaml installer for Windows 4.01.0 / ocamlbuild documentation / Allocation profiling for x86-64 native code / Camomile 0.8.5 / ucorelib 0.0.2 / Other Caml News</span>
+<a name="985b9cfa68880b5f679328c3e7b01b58"></a><span class="rss-header"><span class="rss-title"><a href="http://hongboz.wordpress.com/2013/09/16/code-layout-of-fan-a-metaprogramming-tool-for-ocaml/"> Code layout of Fan (a metaprogramming tool for OCaml)</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Hong bo Zhang</span>, <span class="rss-date">16 Sep 2013</span></span><span class="rss-description"><div id="post9"><a onclick="switchContent('post9','post10')" class="btn" href="#985b9cfa68880b5f679328c3e7b01b58">Read more...</a></div><div id="post10" style="display: none"><div id="content">
 <p>
 Fan is a metaprogramming tool for OCaml.  I believe it would be an<br/>
 invaluable tool for the community when it’s production ready.
 </p>
 <p>
 If you are attracted by the power of Camlp4 while frustrated with the<br/>
-complexity, slowness, complex build or  buggy implementation, I would<br/>
-be very glad that you could join and contribute.
+complexity, or slowness, I would be very glad that you could join and contribute.
 </p>
 <p>
 It’s already ready for accepting external contribution, since the<br/>
@@ -313,612 +520,7 @@ fall back to such preprocessor and see where you made wrong.
 </div>
 </div>
 </div>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/171/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/171/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=171&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post2','post1')" class="btn" href="#985b9cfa68880b5f679328c3e7b01b58">Hide</a></div></span>
-<a name="95e24529fbb0f6445d9ce28f00b17d68"></a><span class="rss-header"><span class="rss-title"><a href="http://jobs.github.com/positions/0a9333c4-71da-11e0-9ac7-692793c00b45"> Full Time: Software Developer (Functional Programming) at Jane Street in New York, NY; London, UK; Hong Kong</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Github OCaml jobs</span>, <span class="rss-date">16 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>Software Developer (Functional Programming)</p>
-
-<p>Jane Street is looking to hire great software developers with an interest in functional programming. OCaml, a statically typed functional programming with similarities to Haskell, Scheme, Erlang, F# and SML, is our language of choice. We've got the largest team of OCaml developers in any industrial setting, and probably the world's largest OCaml codebase. We use OCaml for running our entire business, supporting everything from research to systems administration to trading systems. If you're interested in seeing how functional programming plays out in the real world, there's no better place.</p>
-
-<p>The atmosphere is informal and intellectual. There is a focus on education, and people learn about software and trading, both through formal classes and on the job. The work is challenging, and you get to see the practical impact of your efforts in quick and dramatic terms. Jane Street is also small enough that people have the freedom to get involved in many different areas of the business. Compensation is highly competitive, and there's a lot of room for growth.</p>
-
-<a onclick="switchContent('post3','post4')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Read more...</a></div><div id="post4" style="display: none"><p>Software Developer (Functional Programming)</p>
-
-<p>Jane Street is looking to hire great software developers with an interest in functional programming. OCaml, a statically typed functional programming with similarities to Haskell, Scheme, Erlang, F# and SML, is our language of choice. We've got the largest team of OCaml developers in any industrial setting, and probably the world's largest OCaml codebase. We use OCaml for running our entire business, supporting everything from research to systems administration to trading systems. If you're interested in seeing how functional programming plays out in the real world, there's no better place.</p>
-
-<p>The atmosphere is informal and intellectual. There is a focus on education, and people learn about software and trading, both through formal classes and on the job. The work is challenging, and you get to see the practical impact of your efforts in quick and dramatic terms. Jane Street is also small enough that people have the freedom to get involved in many different areas of the business. Compensation is highly competitive, and there's a lot of room for growth.</p>
-
-<p>You can learn more about Jane Street and our technology from our main site, janestreet.com. You can also look at a a talk given at CMU about why Jane Street uses functional programming (<a href="http://ocaml.janestreet.com/?q=node/61">http://ocaml.janestreet.com/?q=node/61</a>), and our programming blog (<a href="http://ocaml.janestreet.com">http://ocaml.janestreet.com</a>).</p>
-
-<p>We also have extensive benefits, including:</p>
-
-<ul>
-<li>90% book reimbursement for work-related books</li>
-<li>90% tuition reimbursement for continuing education</li>
-<li>Excellent, zero-premium medical and dental insurance</li>
-<li>Free lunch delivered daily from a selection of restaurants</li>
-<li>Catered breakfasts and fresh brewed Peet's coffee</li>
-<li>An on-site, private gym in New York with towel service</li>
-<li>Kitchens fully stocked with a variety of snack choices</li>
-<li>Full company 401(k) match up to 6% of salary, vests immediately</li>
-<li>Three weeks of paid vacation for new hires in the US</li>
-<li>16 weeks fully paid maternity/paternity leave for primary caregivers, plus additional unpaid leave</li>
-</ul>
-
-<p>More information at <a href="http://janestreet.com/culture/benefits/">http://janestreet.com/culture/benefits/</a></p><a onclick="switchContent('post4','post3')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Hide</a></div></span>
-<a name="35f4fbb3333f57efeddf90f27117ec70"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/16/camlpdf-the-end-of-sucky-pdf-tools.html"> Camlpdf, the first good command-line PDF tool I've found</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">15 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>The fine folks at O’Reilly have been proof-reading the <a href="https://realworldocaml.org">Real World OCaml</a> book that I’ve been working on. My heart leapt with joy when the copyeditor commented that she thought it was very well written, but my joy was short-lived when it turns out that all her comments were safely ensconced as PDF comments. A few hundreds comments that required a response from us, too.</p>
-
-<p><em>“No problem! MacOS X Preview can handle these!”</em> was of course my first response, but it turns out it’s totally broken with PDF notes. The first note that you select will appear as the content of all the other subsequent notes. Yaron Minsky then experimented with Adobe Acrobat, which I’ve sworn never to install again after an unfortunate incident involving the uninstaller a couple of years ago. That turned out to be incredibly slow. I tried a few open-source tools such as <a href="http://en.wikipedia.org/wiki/Skim_(software">Skim</a> which, while otherwise an excellent bit of software, couldn’t render these particular annotations.</p>
-<table style="float: right; padding: 10px;">
-<tbody><tr><td>
-<a href="http://anil.recoil.org/images/anil-jumping-acropolis.jpg"><img src="http://anil.recoil.org/images/anil-jumping-acropolis-thumb.jpg" style="float: right;" width="207"/></a>
-</td></tr>
-<tr><td width="210"><i><small>I <a href="http://www.theguardian.com/media/mind-your-language/2012/jan/29/literally-a-much-misused-word">literally</a> jumped off my seat upon discovering cpdf.</small></i></td></tr>
-</tbody></table>
-<a onclick="switchContent('post5','post6')" class="btn" href="#35f4fbb3333f57efeddf90f27117ec70">Read more...</a></div><div id="post6" style="display: none"><p>The fine folks at O’Reilly have been proof-reading the <a href="https://realworldocaml.org">Real World OCaml</a> book that I’ve been working on. My heart leapt with joy when the copyeditor commented that she thought it was very well written, but my joy was short-lived when it turns out that all her comments were safely ensconced as PDF comments. A few hundreds comments that required a response from us, too.</p>
-
-<p><em>“No problem! MacOS X Preview can handle these!”</em> was of course my first response, but it turns out it’s totally broken with PDF notes. The first note that you select will appear as the content of all the other subsequent notes. Yaron Minsky then experimented with Adobe Acrobat, which I’ve sworn never to install again after an unfortunate incident involving the uninstaller a couple of years ago. That turned out to be incredibly slow. I tried a few open-source tools such as <a href="http://en.wikipedia.org/wiki/Skim_(software">Skim</a> which, while otherwise an excellent bit of software, couldn’t render these particular annotations.</p>
-<table style="float: right; padding: 10px;">
-<tbody><tr><td>
-<a href="http://anil.recoil.org/images/anil-jumping-acropolis.jpg"><img src="http://anil.recoil.org/images/anil-jumping-acropolis-thumb.jpg" style="float: right;" width="207"/></a>
-</td></tr>
-<tr><td width="210"><i><small>I <a href="http://www.theguardian.com/media/mind-your-language/2012/jan/29/literally-a-much-misused-word">literally</a> jumped off my seat upon discovering cpdf.</small></i></td></tr>
-</tbody></table>
-<p>Meanwhile, John Whitington just announced the release of the <a href="http://coherentpdf.com/blog/?p=68">Coherent PDF</a> command-line tools. Since these are all written in OCaml (and have been developed over quite a few years now), he also sent in an OPAM <a href="https://github.com/OCamlPro/opam-repository/pull/977">pull request</a> to add it to the database. And most conveniently, this ended up solving my little PDF conundrum in less than an hour of hacking, and has almost cured me of my lifelong fear of dealing with anything in a PDF-like format. Here’s what I did:</p>
-
-<ul>
-<li>
-<p>I installed the tools via <code>opam install cpdf</code>. This installed the library but not the binary (<a href="https://github.com/OCamlPro/opam-repository/pull/1100">swiftly fixed</a>).</p>
-</li>
-
-<li>
-<p>Reading the license told me that it’s for non-commercial use only, so I bought a license from the <a href="http://coherentpdf.com">Coherent PDF</a> website (a bargain price, given how much it does!).</p>
-</li>
-
-<li>
-<p>I ran <code>cpdf -list-annotations</code> over the PDF, and it dumped out all the comments as a text file to stdout. This wasn’t quite enough for me, since I needed to match the annotation to a page number. But since John has released it as open-source, I forked the repository and patched the support directly into the command-line tools, and sent a <a href="https://github.com/johnwhitington/cpdf-source/pull/2">pull request</a> back over to John. Since it’s under a non-standard license, I decided to place my patch in the public domain to make it easier for him to accept it if he chooses.</p>
-</li>
-
-<li>
-<p>My co-authors can just run <code>opam pin cpdf git://github.com/avsm/cpdf-source#annotation-page-numbers</code> to pin their local copy of CPDF to my forked branch in their own OPAM installations, and easily use my copy until John gets a chance to integrate my changes properly upstream.</p>
-</li>
-</ul>
-
-<p>Total time including this blog post: 40 minutes. Now, onto fixing the author responses comments for Real World OCaml now. I’m so happy to have <code>cpdf</code> as a simple, hackable PDF utility, as it does things like page combining and rotations that have always been a little flaky in other tools for me. It’s the <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> of PDFs!</p><a onclick="switchContent('post6','post5')" class="btn" href="#35f4fbb3333f57efeddf90f27117ec70">Hide</a></div></span>
-<a name="1a2ccc5e3c4d649e76a541a336c5b865"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/14/ocaml-4-01-0-entering-rawhide/"> OCaml 4.01.0 entering Rawhide</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">14 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>After using OCaml for around 10 years it is still my favourite language, and it’s amazing how far ahead of other programming languages it remains to this day.</p>
-<p><a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">OCaml 4.01.0 was released on Thursday</a> and I’m putting it into Fedora Rawhide over this weekend.</p>
-<p>Debuginfo is now (partially) enabled.  <a href="http://www.ocamlpro.com/blog/2012/08/20/ocamlpro-and-4.00.0.html">The OCaml code generator has produced good quality DWARF information for a while</a>, and now you are able to debug OCaml programs in gdb under Fedora:</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#1a2ccc5e3c4d649e76a541a336c5b865">Read more...</a></div><div id="post8" style="display: none"><p>After using OCaml for around 10 years it is still my favourite language, and it’s amazing how far ahead of other programming languages it remains to this day.</p>
-<p><a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">OCaml 4.01.0 was released on Thursday</a> and I’m putting it into Fedora Rawhide over this weekend.</p>
-<p>Debuginfo is now (partially) enabled.  <a href="http://www.ocamlpro.com/blog/2012/08/20/ocamlpro-and-4.00.0.html">The OCaml code generator has produced good quality DWARF information for a while</a>, and now you are able to debug OCaml programs in gdb under Fedora:</p>
-<pre>$ <b>sudo debuginfo-install ocaml ocaml-findlib</b>
-$ <b>gdb /usr/bin/ocamlfind</b>
-[...]
-Reading symbols from /usr/bin/ocamlfind...
-Reading symbols from /usr/lib/debug/usr/bin/ocamlfind.debug...done.
-done.
-(gdb) <b>break frontend.ml:469</b>
-Breakpoint 1 at 0x432500: file frontend.ml, line 469.
-(gdb) <b>run query findlib -l</b>
-Starting program: /usr/bin/ocamlfind query findlib -l
-
-Breakpoint 1, camlFrontend__query_package_1199 () at frontend.ml:469
-469	let query_package () =
-(gdb) <b>bt</b>
-#0  camlFrontend__query_package_1199 () at frontend.ml:469
-#1  0x000000000043a4b4 in camlFrontend__main_1670 () at frontend.ml:2231
-#2  0x000000000043aa86 in camlFrontend__entry () at frontend.ml:2283
-#3  0x000000000042adc9 in caml_program ()
-#4  0x00000000004834be in caml_start_program ()
-#5  0x000000000048365d in __libc_csu_init ()
-#6  0x0000003979821b75 in __libc_start_main (main=0x42aa60 &lt;main&gt;, argc=4, 
-    ubp_av=0x7fffffffde38, init=&lt;optimized out&gt;, fini=&lt;optimized out&gt;, 
-    rtld_fini=&lt;optimized out&gt;, stack_end=0x7fffffffde28) at libc-start.c:258
-#7  0x000000000042aaa9 in _start ()
-(gdb) <b>list</b>
-464	;;
-465	
-466	
-467	(************************** QUERY SUBCOMMAND ***************************)
-468	
-469	let query_package () =
-470	
-471	  let long_format =
-472	    "package:     %p\ndescription: %D\nversion:     %v\narchive(s):  %A\nlinkopts:    %O\nlocation:    %d\n" in
-473	  let i_format =
-</pre>
-<p>GDB only understands location data at the moment, so you can’t yet query variables (although I understand OCaml generates the correct DWARF info for this, GDB just doesn’t know how to print OCaml expressions).</p>
-<p>There will also be some limitations on the debuginfo built at first.  At the moment it doesn’t include debuginfo for OCaml libraries called from an OCaml program, because of problems that need to be worked out with the toolchain.  Mixed OCaml binary / C library debuginfo does work.</p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4580/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4580/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4580&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#1a2ccc5e3c4d649e76a541a336c5b865">Hide</a></div></span>
-<a name="2725cd9f1034ea5060a28a7d7d44f03e"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=885"> Expiration of SSL certificate and upcoming forge.ocaml.org</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">13 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">Hi everyone,
-
-The wildcard SSL I bought a couple of years ago for *.ocamlcore.org is about to expire. I have decided to not buy a new commercial certificate. I am still considering my options, but I will probably go back to a free SSL cert from CACert. This is not widely supported but other upcoming changes don't push me to invest a lot in the ocamlcore.org domain name.
-
-I will publish more details about the SSL migration to CACert, but if you have problem with by the end of September, check that you trust CACert.
-
-The other big news is that OCaml Labs and RackSpace have provided me with a new host for the forge. This is a very good news because the current host starts to be unreliable.
-
-I will take advantage of this migration to initiate another migration: changing the name of the forge to forge.ocaml.org ! This is a strong signal that the OCaml community is uniting and I am all for it.
-
-Your forge master
-Sylvain Le Gall</pre></span>
-<a name="e274d9a66167786d803a222d9d616b9b"></a><span class="rss-header"><span class="rss-title"><a href="http://caml.inria.fr/pub/distrib/ocaml-4.01/"> OCaml 4.01.0 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml INRIA</span>, <span class="rss-date">12 Sep 2013</span></span><span class="rss-description"></span>
-<a name="9096fd236bdf1bfe00d3eb0975343acc"></a><span class="rss-header"><span class="rss-title"><a href="http://gallium.inria.fr/blog/monomorphic_let"> Monomophic let in OCaml?</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">GaGallium</span>, <span class="rss-date">11 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>Since version 7, GHC has decided to treat local let-definitions as monomorphic. We check how such a change would fare with OCaml.</p>
-
-
-
-
-<p>In their 2010 paper <a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/index.htm">Let should not be generalised</a>, Dimitrios Vytiniotis, Simon Peyton Jones and Tom Schrijvers argue that this allows for simpler type inference, with a very limited impact on the existing code base. Independently of the potential benefit of such a choice, it is interesting to see how much polymorphism is really needed in OCaml.</p>
-<p>To check the impact of a monomorphic let, I did a small experiment, modifying the OCaml compiler to only generalize let-definitions when there is an explicit polymorphic-type annotation. (Strictly speaking, this is not full let-monomorphism, as we still generalize implicit parts inside the annotation, but this should not make any difference for our experiment.)</p>
-<p>The patch can be found <a href="http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/garrigue/nongeneral-let.diff?view=markup">here</a>.</p>
-<a onclick="switchContent('post9','post10')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Read more...</a></div><div id="post10" style="display: none"><p>Since version 7, GHC has decided to treat local let-definitions as monomorphic. We check how such a change would fare with OCaml.</p>
-
-
-
-
-<p>In their 2010 paper <a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/index.htm">Let should not be generalised</a>, Dimitrios Vytiniotis, Simon Peyton Jones and Tom Schrijvers argue that this allows for simpler type inference, with a very limited impact on the existing code base. Independently of the potential benefit of such a choice, it is interesting to see how much polymorphism is really needed in OCaml.</p>
-<p>To check the impact of a monomorphic let, I did a small experiment, modifying the OCaml compiler to only generalize let-definitions when there is an explicit polymorphic-type annotation. (Strictly speaking, this is not full let-monomorphism, as we still generalize implicit parts inside the annotation, but this should not make any difference for our experiment.)</p>
-<p>The patch can be found <a href="http://caml.inria.fr/cgi-bin/viewvc.cgi/ocaml/trunk/experimental/garrigue/nongeneral-let.diff?view=markup">here</a>.</p>
-<p>Then I tried to compile various software with this modified compiler. Namely, the OCaml distribution itself, LablGTK, and Core/Async with their dependencies. At the beginning I was fixing missing polymorphism by adding annotations by hand, but soon I came to just recompile the file with the standard compiler when the modified compiler failed.</p>
-<p>The results are summarized in this table:</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Package</th>
-<th align="left">Number of files</th>
-<th align="left">Failed files</th>
-<th align="left">Ratio</th>
-<th align="left">Errors/Line</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">OCaml</td>
-<td align="left">488</td>
-<td align="left">20</td>
-<td align="left">4%</td>
-<td align="left">1/7000</td>
-</tr>
-<tr class="even">
-<td align="left">LablGTK</td>
-<td align="left">101</td>
-<td align="left">7</td>
-<td align="left">7%</td>
-<td align="left">1/3000</td>
-</tr>
-<tr class="odd">
-<td align="left">Oasis setup.ml</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">100%</td>
-<td align="left">1/6000</td>
-</tr>
-<tr class="even">
-<td align="left">Sexplib</td>
-<td align="left">12</td>
-<td align="left">1</td>
-<td align="left">8%</td>
-<td align="left">1/3500</td>
-</tr>
-<tr class="odd">
-<td align="left">Variantslib</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">50%</td>
-<td align="left">1/500</td>
-</tr>
-<tr class="even">
-<td align="left">Core_kernel</td>
-<td align="left">170</td>
-<td align="left">16</td>
-<td align="left">9%</td>
-<td align="left">1/1800</td>
-</tr>
-<tr class="odd">
-<td align="left">Core</td>
-<td align="left">178</td>
-<td align="left">4</td>
-<td align="left">2%</td>
-<td align="left">1/4000</td>
-</tr>
-<tr class="even">
-<td align="left">Async_core</td>
-<td align="left">36</td>
-<td align="left">4</td>
-<td align="left">11%</td>
-<td align="left">1/1600</td>
-</tr>
-<tr class="odd">
-<td align="left">Async_unix</td>
-<td align="left">31</td>
-<td align="left">7</td>
-<td align="left">23%</td>
-<td align="left">1/1000</td>
-</tr>
-<tr class="even">
-<td align="left">Async_extra</td>
-<td align="left">22</td>
-<td align="left">2</td>
-<td align="left">9%</td>
-<td align="left">1/3000</td>
-</tr>
-<tr class="odd">
-<td align="left"> </td>
-<td align="left"> </td>
-<td align="left"> </td>
-<td align="left"> </td>
-<td align="left"> </td>
-</tr>
-<tr class="even">
-<td align="left"><em>Total</em></td>
-<td align="left">1041</td>
-<td align="left">63</td>
-<td align="left">6%</td>
-<td align="left">1/1700</td>
-</tr>
-</tbody>
-</table>
-<p>Since we did not count the number of polymorphic let-definitions, but just the number of failed files, the results are a bit rough. Still, they tell us that about 6% of files did not compile, and that more than 1 out of 1700 lines must be modified.</p>
-<p>A comparison with the GHC distribution may be interesting: according to the <a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/jfp-outsidein.pdf">OutsideIn paper</a> 20 modules out of 533 had to be modified, which is about 4%. This is a bit less than the results for OCaml, but GHC files tend to be shorter. They also found that 12% of packages on Hackage needed modification, which is not very informative, but seems to be much lower than our results for OCaml (a package is supposed to contain several modules).</p>
-<p>More important is how easy it is to fix the errors. Namely, most of polymorphic let-definitions fall in one of three cases:</p>
-<ul>
-<li>function specialized to some local parameter, but still polymorphic</li>
-<li>uses of <code>Obj.magic</code></li>
-<li>polymorphic variants</li>
-</ul>
-<p>The second case is a bit special, and one could actually argue that it is better to annotate all uses of <code>Obj.magic</code>. Still, these were probably cases where there was a better place for annotation.</p>
-<p>Most cases actually pertain to the first category. Fixing those is not as easy as one could think. The types involved tend to be large, and sometimes difficult to reconstruct by hand. A solution is to move the function to the toplevel, as it will then be automatically generalized, but this has two drawbacks: first, the enclosing function may be large so that the local definition is moved far away from its use point; second, we have to perform lambda-lifting manually, abtracting over local parameters and pass them explicitly at each use point.</p>
-<p>Finally, polymorphic variants are particularly troublesome, because the inferred type can be huge, and we are in a situation where we need it to be polymorphic, so that using type abbreviations may not be so easy.</p>
-<h3 id="what-conclusions-can-we-draw">What conclusions can we draw?</h3>
-<p>Notice that these figures are comparable to experiments conducted when the value restriction had been introduced. In that case, it was argued that eta-expansion solved most situations at a very low syntactic (and computational) cost. For monomorphic let, it suffices to provide an annotation to recover polymorphism, thus the solution is universal, but its cost for the programmer is higher.</p>
-<p>Actually, this discussion is mostly academic, because in OCaml we have no specific reason to make local let-definitions monomorphic. By contrast with Haskell which propagates type information through constraint solving, we instead only perform forward propagation, and actually rely on polymorphism to decide when some type information does not depend on the order of type inference and is safe to use. GADTs create problems of their own, but we handle these through <a href="http://cristal.inria.fr/~remy/gadts/">ambivalent types</a>, a mechanism similar in spirit to the tracking of sharing used for type information, which again relies on local polymorphism rather than forgoes it.</p><a onclick="switchContent('post10','post9')" class="btn" href="#9096fd236bdf1bfe00d3eb0975343acc">Hide</a></div></span>
-<a name="3eb62f7b5dd4e17948290ecc87812b7e"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.10.html"> Caml Weekly News, 10 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">10 Sep 2013</span></span><span class="rss-description">Pippo: a pretty interesting pre-processor that uses OCaml / OCaml 4.01.0+rc2 / Uutf 0.9.3 &amp; Xmlm 1.2.0 / OCamlPro Highlights, August 2013 / Other Caml News</span>
-<a name="0c787b5b137f0de01c4f8efea9686407"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging.html"> OCamlot--exploring the edges of OPAM packages</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">08 Sep 2013</span></span><span class="rss-description"><div id="post11"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
-
-<p>I wanted to share some of what OCamlot does today, some of the results from about 3 months worth of runs that may help OCaml package maintainers, and finally where we’re going with future developments. This work has been done in collaboration with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/people/sheets.html">David Sheets</a> (who built the OCamlot daemon) and the OPAM team ably led by <a href="http://gazagnaire.org">Thomas Gazagnaire</a> at <a href="http://ocamlpro.com">OCamlPro</a>. We’ve also had a lot of help from <a href="https://github.com/diml">Jeremie Dimino</a> and <a href="https://github.com/ysulsky">Yury Sulsky</a> from Jane Street and <a href="http://dave.recoil.org">Dave Scott</a> and <a href="http://jon.recoil.org">Jon Ludlam</a> from Citrix acting as guinea pigs for their respective regular releases of the <a href="https://github.com/janestreet">Core</a> and <a href="https://github.com/xapi-project">Xen/XAPI</a> releases to OPAM.</p>
-
-<h2 id="towards_a_truely_portable_ocaml">Towards a truely portable OCaml</h2>
-
-<a onclick="switchContent('post11','post12')" class="btn" href="#0c787b5b137f0de01c4f8efea9686407">Read more...</a></div><div id="post12" style="display: none"><p>The new release of OCaml (4.01.0) was just <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00173.html">announced</a>! The runup to a major release like this is normally a frantic time to test that your favourite applications don’t break unexpectedly due to some incompatible language feature. This release cycle has a little different though, as we’ve been working hard on using the <a href="http://opam.ocamlpro.com">OPAM</a> package database to build an online regression testing infrastructure to mechanize much of this process.</p>
-
-<p>I wanted to share some of what OCamlot does today, some of the results from about 3 months worth of runs that may help OCaml package maintainers, and finally where we’re going with future developments. This work has been done in collaboration with <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/people/sheets.html">David Sheets</a> (who built the OCamlot daemon) and the OPAM team ably led by <a href="http://gazagnaire.org">Thomas Gazagnaire</a> at <a href="http://ocamlpro.com">OCamlPro</a>. We’ve also had a lot of help from <a href="https://github.com/diml">Jeremie Dimino</a> and <a href="https://github.com/ysulsky">Yury Sulsky</a> from Jane Street and <a href="http://dave.recoil.org">Dave Scott</a> and <a href="http://jon.recoil.org">Jon Ludlam</a> from Citrix acting as guinea pigs for their respective regular releases of the <a href="https://github.com/janestreet">Core</a> and <a href="https://github.com/xapi-project">Xen/XAPI</a> releases to OPAM.</p>
-
-<h2 id="towards_a_truely_portable_ocaml">Towards a truely portable OCaml</h2>
-
-<p>The upstream OCaml toolchain is built on very UNIX-like principles, with a number of command-line tools that form a build pipeline. This process usually ends with linking the intermediate object files with a <a href="https://github.com/ocaml/ocaml/tree/trunk/byterun">runtime library</a> that provides the garbage collector and other intrinsic OS functions.</p>
-
-<p>Given these raw compiler tools, it’s very easy to compile OCaml into all sorts of weird and wonderful architectures. We’ve seen it run on <a href="http://www.algo-prog.info/ocaml_for_pic/web/index.php">8-bit PICs</a>, several efficient Javascript backends (originally <a href="http://jaked.github.io/ocamljs/">ocamljs</a> and more recently <a href="http://ocsigen.org/js_of_ocaml">js_of_ocaml</a>), and of course my own <a href="http://openmirage.org">Mirage</a> Xen unikernel.</p>
-
-<p>While the compiler tools themselves are quite portable and work on almost any UNIX-like system, the build system scaffolding around third-party packages is less portable. Some features such as C bindings often contribute to build breakage on some less-used operating systems such as FreeBSD or OpenBSD, as they usually require probing for header file locations or adding custom <code>CFLAGS</code> before building.</p>
-<table width="90%" align="center">
-<tbody><tr>
-<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/dreamplug-nest-1.jpg"><img src="http://anil.recoil.org/images/dreamplug-nest-1-thumb.jpg" border="0" width="200"/></a><br/>Every Internet of Things starts with a tangled pile of ARM Dreamplugs.</td>
-<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/sparc-macppc-openbsd-1.jpg"><img src="http://anil.recoil.org/images/sparc-macppc-openbsd-1-thumb.jpg" border="0" width="200"/></a><br/>And in our server room, venerable Sparc and PowerPC G4 OpenBSD boxen still live.</td>
-<td width="30%" style="vertical-align: bottom;" class="bimg"><a href="http://anil.recoil.org/images/macppc-desktop-1.jpg"><img src="http://anil.recoil.org/images/macppc-desktop-1-thumb.jpg" border="0" width="200"/></a><br/>Finding older machines is getting tough, but here's <a href="http://dave.recoil.org">Dave's</a> old iMac G5 running Linux.</td>
-</tr>
-</tbody></table>
-<p>Most OCaml developers use x86-based machines and so foreign architectures also get less day-to-day testing (OCaml has superb support for fast native code compilation on ARM, PowerPC, Sparc32, and we’re working on MIPS64 here as part of the <a href="http://www.cl.cam.ac.uk/research/security/ctsrd/cheri.html">CHERI</a> project).</p>
-
-<p>We want to make sure that OCaml and its package ecosystem works just as well in the embedded ecosystem as well as it does on vanilla x86 Linux. This includes running on my Linux iMac G5, my <a href="https://wiki.freebsd.org/FreeBSD/arm/Raspberry%20Pi">FreeBSD Raspberry Pi</a>, my <a href="http://www.openbsd.org/beagle.html">OpenBSD Pandaboard</a>, or even on a bytecode-only architecture like an <a href="http://www.openbsd.org/sparc64.html">OpenBSD/Sparc64</a>.</p>
-
-<p>In the longer term, this paves the way to reliable cross-compiled packages for Windows, <a href="https://github.com/vouillon/ocaml-android">Android</a> and <a href="http://psellos.com/ocaml/compile-to-iphone.html">iPhone</a> (all of which have OCaml ports, but aren’t heavily tested with the full package database). The only practical way to get started on this is by building an automated test infrastructure for OCaml that explores the feature matrix (which eerily for me, happened in the early days of Xen too, via <a href="http://blogs.citrix.com/2013/08/30/xenserver-automated-testing-and-lab-orchestration-introducing-xenrt/">XenRT</a> to stabilize the hypervisor).</p>
-
-<h3 id="why_not_jenkins_or_travis">Why not Jenkins or Travis?</h3>
-
-<p>When we first started hacking on the OPAM testing infrastructure earlier this year, I maintained a local <a href="http://jenkins-ci.org">Jenkins</a> installation that monitored the repository. While Jenkins is a superb tool for many continuous integration tasks, it fell over badly when trying to use it on the non-x86 and non-Linux (or Windows) operating systems. Jenkins requires a full Java runtime stack to be available on each of the client machines, which was taking up more time to get up and running than a simple OCaml-based client and server that could compile to both portable bytecode or fast native code.</p>
-
-<p>The other difficulty with OPAM is selecting which packages actually need to be tested, as it has a constraint-based package solver that supports expressive forwards and backwards version restrictions. While basic tests of the latest packages worked with Jenkins, we needed to increasingly customize it to automate interfacing directly with the OPAM libraries and calculating test schedules based on incoming change requests.</p>
-
-<p>Another factor that ruled out depending on hosted services such as <a href="https://travis-ci.org">Travis</a> is that they tend to support x86-only architectures, whereas we really want to test the full spectrum of CPU variants supported by OCaml. This doesn’t mean that there’s no place for Travis of course, and in fact Mike Lin has already <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">made this work</a> with OPAM.</p>
-
-<p>For our full testing needs though, <a href="https://github.com/ocamllabs/ocamlot">OCamlot</a> was born: an OCaml client and server system which coordinates different versions of the compiler, architectures and OPAM versions and records the results for triage and fixing issues.</p>
-
-<h3 id="running_ocamlot">Running OCamlot</h3>
-
-<p>The latest alpha release of OCamlot is pretty straightforward to run locally, if you are so inclined. First start a server process:</p>
-
-<pre><code>$ git clone git://github.com/ocamllabs/ocamlot
-$ cd ocamlot
-$ ./install_deps.sh
-$ oasis setup
-# (edit lib/config.ml if you need to change ports)
-$ make
-$ ./_build/lib/ocamlot_cmd.native --help
-$ ./_build/lib/ocamlot_cmd.native serve</code></pre>
-
-<p>The server listens on localhost only by default, and normally an SSL-to-TCP proxy is deployed to listen for external connections (I use <a href="https://github.com/bumptech/stud">stud</a>, which is fast and easy to configure).</p>
-
-<p>The OCamlot clients require a local compilation of OCaml, and they autodetect their local CPU architecture and operating system. I’ve put a <a href="https://gist.github.com/avsm/6393649">gist script</a> together that automates this on most Linux and BSD variants. Just customize the top variables (set <code>MAKE</code> to <code>gmake</code> under BSD) and set the hostname to your server process.</p>
-
-<h3 id="the_results_repository_and_autotriage">The results repository and auto-triage</h3>
-
-<p>Once the client is running, the server dispatches tasks from its test matrix, which is calculated from the OPAM package repository. The server maintains a <a href="https://github.com/ocamlot/ocamlot-state">results repository</a>, which is a Git filesystem database that records the build results and logs via an s-expression per task. It also uses <a href="https://github.com/mirage/ocaml-cohttp">Cohttp</a> to serve up the results for a web browser.</p>
-
-<p>It’s very convenient using Git repositories like this since we can use GitHub (or any other Git host) to coordinate and record results, and restart the server without needing any local state. So convenient, in fact, that Thomas and I have been working on a more formal engine for this called <a href="https://github.com/samoht/irminsule">Irminsule</a> (more on that in a later post, though).</p>
-
-<p>It’s almost unheard of to have a full OCamlot run go by without some errors, and so David put together the <code>ocamlot triage</code> command. This takes the state repository and runs a set of regular expressions over it to classify them into common errors. The full file is <a href="https://github.com/ocamllabs/ocamlot/blob/master/lib/result.ml">here</a>, but an excerpt should give you an idea of what we look for:</p>
-<div class="highlight"><pre><code class="ocaml">	<span class="c">(* ordered minor to severe *)</span>
-	<span class="k">type</span> <span class="n">analysis</span> <span class="o">=</span>
-	  <span class="o">|</span> <span class="nc">Solver</span> <span class="k">of</span> <span class="n">solver_error</span> <span class="n">option</span>
-	  <span class="o">|</span> <span class="nc">Dep</span> <span class="k">of</span> <span class="kt">string</span> <span class="o">*</span> <span class="n">analysis</span>
-	  <span class="o">|</span> <span class="nc">Transient</span> <span class="k">of</span> <span class="n">transient_error</span>
-	  <span class="o">|</span> <span class="nc">System</span> <span class="k">of</span> <span class="n">system_error</span>
-	  <span class="o">|</span> <span class="nc">Meta</span> <span class="k">of</span> <span class="n">meta_error</span>
-	  <span class="o">|</span> <span class="nc">Ext_dep</span> <span class="k">of</span> <span class="n">ext_dep_error</span>
-	  <span class="o">|</span> <span class="nc">Build</span> <span class="k">of</span> <span class="n">build_error</span>
-	  <span class="o">|</span> <span class="nc">Multiple</span> <span class="k">of</span> <span class="n">analysis</span> <span class="kt">list</span>
-	    <span class="k">with</span> <span class="n">sexp</span>
-	
-</code></pre>
-</div>
-<p>The errors are ordered by severity to aid in color highlighting. They start with OPAM solver failures and dependency failures (e.g. due to trying to build a package that requires a specific OCaml version that isn’t available), and move onto missing package dependencies or system libraris.</p>
-
-<h2 id="testing_the_run_up_to_ocaml_401">Testing the run up to OCaml 4.01</h2>
-
-<p>Of course, running all these tests is useless without taking action on the results. I’ve been keeping track of them in <a href="https://github.com/OCamlPro/opam-repository/issues/1029">issue #1029</a>. The nice thing about GitHub issues is that when this bug is referenced in commits (even in other repositories) a cross-reference shows up on that webpage and lets everything be tracked nicely.</p>
-
-<p>So what were the most common failures in the runup to 4.01, and what should you avoid when writing your own code?</p>
-
-<h3 id="different_standard_library_module_signatures">Different standard library module signatures</h3>
-
-<p>There have been a few changes to some of the functor signatures in the standard library, such as adding a <code>find</code> function to Set (<a href="http://caml.inria.fr/mantis/view.php?id=5864">mantis #5864</a>). A third-party library that tries to match the functor signature will fail to compile with a type error, such as this one below for <a href="http://anil.recoil.org/feeds/atom.xml">zipperposition.0.2</a>:</p>
-
-<pre><code>Error: The implementation src/ptset.ml
-       does not match the interface src/ptset.cmi:
-       ...
-       In module Big:
-       The field `find' is required but not provided</code></pre>
-
-<p>The relevant code in <code>zipperposition</code> makes it clear what the problem is:</p>
-<div class="highlight"><pre><code class="ocaml">	<span class="c">(* Big-endian Patricia trees *)</span>
-	<span class="k">module</span> <span class="nc">Big</span> <span class="o">:</span> <span class="k">sig</span>
-	  <span class="k">include</span> <span class="nn">Set</span><span class="p">.</span><span class="nc">S</span> <span class="k">with</span> <span class="k">type</span> <span class="n">elt</span> <span class="o">=</span> <span class="kt">int</span>
-	  <span class="k">val</span> <span class="n">intersect</span> <span class="o">:</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">bool</span>
-	<span class="k">end</span>
-	
-</code></pre>
-</div>
-<p>This particular bug was <a href="https://github.com/c-cube/zipperposition/issues/1">reported upstream</a>, and the fix requires implementing the <code>find</code> function for the Patricia-tree-based <code>Set</code>. Since the OPAM package will always be broken on OCaml 4.01, it was marked with a <a href="https://github.com/ocamlpro/opam-repository/commit/e45530205987f67d4316a958446d3dcc954b19ec">compiler version constraint</a> to prevent it being selected for installation under that compiler. When a new version with the fix is uploaded to OPAM, it will always be selected in preference to this broken one.</p>
-
-<p>One other 4.01 change that temporarily broke most of the bigger networking libraries such as <a href="https://github.com/janestreet/core">Core</a>, <a href="https://ocsigen.org/lwt">Lwt</a> and <a href="http://batteries.forge.ocamlcore.org">Batteries</a> was the addition of the <a href="http://caml.inria.fr/mantis/view.php?id=5568">close-on-exec</a> flag to the <code>Unix</code> module. This change only affects upstream packages that redefine the UNIX module for their own purposes (such as adding an asynchronous I/O monad as Lwt does), hence it affects the standard library replacement packages.</p>
-
-<p>The fix here was to locally add patches into the relevant OPAM packages to immediately unbreak things when the fix when into the 4.01 branch of the compiler, and notify upstream maintainers to release new versions of their projects. There’s a subtle problem here: when a patch such as this goes into an unreleased branch of the compiler (such as <code>4.01.0dev</code>), it’s hard to reliably detect if the user has got the very latest version of the compiler or not. If you do have problems like this in the future, try recompiling via <code>opam switch reinstall &lt;version&gt;</code> to the latest branch.</p>
-
-<p>It’s very useful to be able to drop in bleeding-edge compiler tools into the OPAM repository using compiler constraints like this. For an example, see Alain Frisch’s <a href="https://github.com/OCamlPro/opam-repository/blob/master/packages/ppx_tools.0.1/opam">ppx_tools</a>, that require the very latest 4.02dev trunk release to compile his new extension-points feature.</p>
-
-<h3 id="multiple_object_definitions">Multiple object definitions</h3>
-
-<p>OCaml 4.01 also restricts multiple method definitions with the same name in the same object. This leaves only inheritance as the way to override method names, but some packages such as OCamlnet and Mlorg had minor uses of the old mechanism.</p>
-
-<p>You can see this by using <code>opam switch</code>:</p>
-
-<pre><code>$ opam switch 4.00.1
-$ eval `opam config env`
-$ ocaml
-# object method x = 1 method x = 2 end;;
-- : &lt; x : int &gt; = &lt;obj&gt;
-$ opam switch 4.01.0
-$ eval `opam config env`
-$ ocaml
-# object method x = 1 method x = 2 end;;
-Error: The method `x' has multiple definitions in this object</code></pre>
-
-<h3 id="new_warnings_and_the_dreaded_warningsaserrors">New warnings, and the dreaded warnings-as-errors</h3>
-
-<p>After a decade of being deprecated, the <code>(or)</code> and <code>(&amp;)</code> operators finally had a warning turned on by default.</p>
-
-<pre><code>$ ocaml
-# true or false;;
-Warning 3: deprecated feature: operator (or); you should use (||) instead
-- : bool = true</code></pre>
-
-<p>This wouldn’t normally be so bad, except that a surprising number of released packages also turn warnings into fatal errors (by using the <code>-w @</code> flags explained in the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/comp.html">manual</a>). Warnings-as-errors is extremely useful when <em>developing</em> code but is rather harmful in released code, since a future compiler can choose to emit new warnings that aren’t necessarily fatal bugs.</p>
-
-<p>Packages that failed like this include ocamlgraph, spotlib, quickcheck, OPA, Lablgtk-extras and many more. Please do make an effort to not leave this option turned on in your packages, or else it makes life more difficult for testing your code on bleeding edge versions of the compiler in the future.</p>
-
-<p>It’s worth noting here that OCaml 4.01 has introduced a fair number of new and very useful warnings across a number of areas, mainly to do with detecting unexpected ambiguation or shadowing of values. I’ll cover more on these in a future post about the new 4.01 goodies.</p>
-
-<h3 id="external_system_dependencies">External system dependencies</h3>
-
-<p>While there any many packages in OPAM that are pure OCaml, there are also a substantial number that require other system tools to be installed. The Lablgtk GUI library obviously requires the C <code>gtk</code> library to be installed.</p>
-
-<p>Determining if these libraries are installed on a particular OS is well beyond the scope of OPAM, as there are almost as many package managers as there are operating systems. However, it’s important for automated testing and user-friendly error messages to have some notion of detecting if the environment is ready for the OCaml package or not.</p>
-
-<p>We’re solving this by using a <code>depexts</code> field in OPAM that consists of a set of tags that identify OS-specific packages that need to be present. A separate script can query these tags from OPAM and do the OS-specific tests or installation.</p>
-
-<p>For example, here’s the <code>sqlite3-ocaml</code> OPAM description:</p>
-
-<pre><code>opam-version: "1"
-maintainer: "markus.mottl@gmail.com"
-build: [
-  ["ocaml" "setup.ml" "-configure"]
-  ["ocaml" "setup.ml" "-build"]
-  ["ocaml" "setup.ml" "-install"]
-]
-remove: [ ["ocamlfind" "remove" "sqlite3"] ]
-depends: ["ocamlfind"]
-depexts: [
-  [ ["debian"  ] [ "libsqlite3-dev"]    ]
-  [ ["freebsd" ] [ "database/sqlite3"]  ]
-  [ ["openbsd" ] [ "database/sqlite3"]  ]
-]</code></pre>
-
-<p>The <code>depexts</code> field here lists APT package for Debian, and the ports tree locations for FreeBSD and OpenBSD. It could also list more specialised tags for particular versions of an OS. You can query this from OPAM as follows:</p>
-
-<pre><code>$ opam install -e debian sqlite3-ocaml
-libsqlite3-dev
-$ opam install -e openbsd sqlite3-ocaml
-database/sqlite3</code></pre>
-
-<p>OCamlot therefore needs to query the <code>depexts</code> field from the package and run the right <code>apt</code> or <code>pkg_add</code> commands. I’ll write about this in more detail when it’s fully baked, as we’ve modified the semantics of the tag querying between OPAM 1.0 and OPAM 1.1 to make it easier to use in OCamlot.</p>
-
-<h3 id="portable_shell_scripts">Portable shell scripts</h3>
-
-<p>Once we’ve gotten past the hurdle of the compiler version causing failures, there is the small matter of testing non-Linux operating systems, as well as non-x86 CPU architectures. The <a href="https://github.com/OCamlPro/opam-repository/issues/1029">#1029 overview</a> lists many of these failures under the Portability section.</p>
-<a href="http://www.openbsd.org"><img src="http://anil.recoil.org/images/ppuf200X181.gif" style="float: right;"/></a>
-<p>Damien Doligez made some excellent points about how to write <a href="http://gallium.inria.fr/blog/portable-conditionals-in-makefiles/">portable Makefiles</a> that works across both GNU and BSD makes. This is why the carefully crafted OCaml Makefiles do not require GNU make to be installed when compiling on FreeBSD or OpenBSD (MacOS X gave up the fight a long time ago and installs GNU make as its default <code>make</code> command).</p>
-
-<p>OPAM tries to help out BSD by providing a <code>make</code> macro in <code>opam</code> files that is substituted with either <code>"make"</code> (by default) or <code>"gmake"</code> (for BSD). While this works for for the toplevel invocation of the Makefile, it fails if the Makefile recursively invokes further targets without using the <code>$(MAKE)</code> variable instead of directly calling the command. Patching these sorts of things is easy but tedious: see the <a href="https://github.com/OCamlPro/opam-repository/blob/master/packages/facile.1.1/files/bsdmake.patch">patchfile</a> for the Facile constraint programming library for an example.</p>
-
-<p>The real problem here, of course, is that package maintainers cannot be reasonably expected to test their code on systems that they don’t normally use–if we demanded perfect portability to be present in the main OPAM repository, we would’t get any submissions!</p>
-
-<p>OCamlot automates this nicely though, by finding lots of portability bugs automatically, and maintainers are by-and-large very responsive when we report the problem upstream.</p>
-
-<h2 id="the_emerging_distributed_workflow">The emerging distributed workflow</h2>
-
-<p>The big drawback to OCamlot in its current form is the amount of triage effort it puts on the OPAM maintainers. The package database has now exceeded 500 packages in just a short few months, and has over 1500 unique versions that all need build testing and more accurate constraints. The wider community has been <em>really</em> keen to participate in helping with triage (just look at all the other people that leapt in on <a href="https://github.com/OCamlPro/opam-repository/issues/1029">bug #1029</a>), so its our immediate priority to make OCamlot more transparent for people that want to use it to improve their own packages, and in the future also use it to test various hypotheses about all the available open-source OCaml code (see Jacques’ experiment with <a href="http://gallium.inria.fr/blog/monomorphic_let/">monomorphic let</a> as an example of something that can benefit from wider automated compilation).</p>
-
-<p>I’ll talk more about how we’re solving this in my upcoming <a href="http://ocaml.org/meetings/ocaml/2013/">OCaml 2013 Workshop</a> talk about the Platform. I don’t want spoil it too much, but it involves a lovely distributed Git workflow, an enhanced <a href="https://github.com/OCamlPro/opam2web">opam2web</a>, and a brand new metadata overlay system for OPAM that lets us enhance the package database with extra information such as statistics, portability and test results, but without polluting the main Git repository with all this extra non-essential data.</p>
-
-<p>If you’re really curious to know right now, then you can see the outline of the new system at Amir’s <a href="http://amirchaudhry.com/wireframe-demos-for-ocamlorg/">new ocaml.org wireframes</a> blog post, where Part III contains the continuous integration workflow. A lot of infrastructure work has gone into building all of this over the summer, and now it’s all starting to be deployed in a very satisfying way…</p><a onclick="switchContent('post12','post11')" class="btn" href="#0c787b5b137f0de01c4f8efea9686407">Hide</a></div></span>
-<a name="d6c831966663fa2d001ee4356a668fc5"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/06/OUnit-2.0-progress%2C-August-2013"> OUnit 2.0 progress, August 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">06 Sep 2013</span></span><span class="rss-description"><div id="post13"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
-
-
-<p>The basic features:</p>
-<ul>
-<li>better configuration setup
-<ul>
-<li>environment variable</li>
-<li>command line options</li>
-<li>configuration files</li>
-</ul></li>
-<li>systematic logging (verbose always on), but output log in a file</li>
-<li>allow vim quickfix to jump in the log file where the error has happened</li>
-<li>output HTML report</li>
-<li>output JUnit report</li>
-<li>choose how to run your test:
-<ul>
-<li>run tests in parallel using processes (auto-detect number of CPU and run as many worker processes)</li>
-<li>run tests concurrently using threads</li>
-<li>use the old sequential runner</li>
-</ul></li>
-<li>refactoring of the bracket, now easier to use</li>
-<li>refactoring of OUnit2 interface (remove all useless functions)</li>
-<li>non-fatal section: allow to fail inside non-fatal section without quitting immediately the whole test</li>
-<li>allow to use OUnit1 test inside OUnit2 (smooth the transition)</li>
-</ul>
-
-<p>I still need to do the following:</p>
-<a onclick="switchContent('post13','post14')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Read more...</a></div><div id="post14" style="display: none"><p>After a long pause, I have resumed my work on <a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. It is going quite well.</p>
-
-
-<p>The basic features:</p>
-<ul>
-<li>better configuration setup
-<ul>
-<li>environment variable</li>
-<li>command line options</li>
-<li>configuration files</li>
-</ul></li>
-<li>systematic logging (verbose always on), but output log in a file</li>
-<li>allow vim quickfix to jump in the log file where the error has happened</li>
-<li>output HTML report</li>
-<li>output JUnit report</li>
-<li>choose how to run your test:
-<ul>
-<li>run tests in parallel using processes (auto-detect number of CPU and run as many worker processes)</li>
-<li>run tests concurrently using threads</li>
-<li>use the old sequential runner</li>
-</ul></li>
-<li>refactoring of the bracket, now easier to use</li>
-<li>refactoring of OUnit2 interface (remove all useless functions)</li>
-<li>non-fatal section: allow to fail inside non-fatal section without quitting immediately the whole test</li>
-<li>allow to use OUnit1 test inside OUnit2 (smooth the transition)</li>
-</ul>
-
-<p>I still need to do the following:</p>
-<ul>
-<li>a test chooser that does smart selection of tests:
-<ul>
-<li>run the one that failed in the last run and run them first</li>
-<li>before re-running the one that was ok, check that all failing tests are now passing otherwise skip the already passing tests.</li>
-</ul></li>
-<li>timer that makes tests fail if they take too long</li>
-<li>allow to parametrize output filename so that you can use <code>OUNIT_OUTPUT_FILE=ounit-$(name),log</code> and have <code>$(name)</code> replace by the test suite name</li>
-<li>create locks to avoid accessing the same resources within a single process or the whole application (typically to avoid doing a <code>chdir</code> while another thread is doing a <code>chdir</code> elsewhere)</li>
-<li>better logging when using multiple workers</li>
-<li>add more tests for the new runners</li>
-<li>introduce a 'cached' state to avoid rerunning a test if you can programmaticaly determine that the result will be the same.</li>
-<li>create a <code>in_testdata_dir</code> function to locate test data, if any</li>
-<li>sys admin (website, release process)</li>
-<li>update the whole documentation</li>
-</ul>
-
-<p>There is still a lot of work, but the current results are already quite good. The speed improvement of the processes runner is a good thing to shorten test timing (HINT: tester needed!).</p>
-
-
-<h2>Focus on: the new bracket.</h2>
-
-
-<p>In OUnit 1, a bracket was very functional:</p>
-
-
-<pre> bracket 
-    (fun () -&gt; "foo")  (* setup *)
-    (fun foo -&gt; ())
-    (fun foo -&gt; ())  (* tear down *)</pre>
-
-
-<p>So for common bracket, like <code>bracket_tmpfile</code></p>
-
-
-<pre>   bracket_tmpfile
-       (fun (fn, chn) -&gt;
-             (* Do something with chn and fn *)</pre>
-
-
-<p>The problem is that if you were using 2 or 3 temporary files, the level of indentation was high. I have decide to switch to a more imperative approach, registering the <code>tear down</code> function inside the test context:</p>
-
-
-<pre>   let (fn1, chn1) = bracket_tmpfile ctxt in
-   let (fn2, chn2) = bracket_tmpfile ctxt in
-      ....</pre>
-
-
-<p>This is shorter and clearer (albeit less functional).</p>
-
-
-<h2>Focus on: non fatal section</h2>
-
-
-<p>Sometimes, you want to verify a set of properties but to have a clear vision of what is going wrong, you need to do more than one assert.</p>
-
-
-<p>In OUnit1, you can do:</p>
-
-
-<pre> assert_equal exp1 v1;
- assert_equal exp2 v2</pre>
-
-
-<p>But if <code>exp1 &lt;&gt; v1</code>, you quit immediately and you'll never know for <code>exp2</code> and <code>v2</code>.</p>
-
-
-<p>In OUnit2, you can do:</p>
-
-
-<pre> non_fatal ctxt (fun ctxt -&gt; assert_equal exp1 v1);
- non_fatal ctxt (fun ctxt -&gt; assert_equal exp2 v2)</pre>
-
-
-<p>In this new version, you will test both equality and the result of the test will be the worst failure you get (or success if both of them succeed).</p>
-
-
-<h2>Help wanted</h2>
-
-
-<p>If you have a long standing issue with OUnit, this is the time to submit a bug.
-<a href="https://forge.ocamlcore.org/tracker/?atid=733&amp;group_id=162&amp;func=browse">OUnit BTS</a></p>
-
-
-<p>If you want to try the dev version of OUnit:</p>
-
-
-<pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
-
-
-<p>Patches always welcome.</p>
-
-
-<p>Special thanks to Thomas Wickham who has entirely written OUnitRunnerThreads and kickstarted the processes runner.</p><a onclick="switchContent('post14','post13')" class="btn" href="#d6c831966663fa2d001ee4356a668fc5">Hide</a></div></span>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/hongboz.wordpress.com/171/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/hongboz.wordpress.com/171/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=hongboz.wordpress.com&amp;blog=40164267&amp;post=171&amp;subd=hongboz&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post10','post9')" class="btn" href="#985b9cfa68880b5f679328c3e7b01b58">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
