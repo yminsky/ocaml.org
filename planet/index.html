@@ -153,13 +153,221 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="2777d7de50de146d52efb62009134d88"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=886"> CCSS 1.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">The most notable feature of this release is the introduction of mixins: a variable may now be assigned an entire declaration block.</pre></span>
-<a name="e862e722280f522e7be81f5c35cb41b8"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/9/27/ocaml-tutorial-videos-now-available"> OCaml  tutorial videos now available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">27 Sep 2013</span></span><span class="rss-description"><p>I've made a few little tutorial videos to go with the book. Just seven for now, covering the first four chapters, but more to come:</p><ol><li>Evaluating an expression</li><li>True and false</li><li>Making decisions</li><li>Names and functions</li><li>Patterns</li><li>Lists</li><li>Take and drop</li><li>Appending two lists</li></ol><p>They're not really a substitute for the book but, when learning, it's always helpful to go over things twice, particularly using a different medium.</p><p>The videos are available <a href="http://ocaml-book.com/videos/">here</a>. </p><p> </p></span>
-<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+    <div class="planet"><a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+
+
+<p><a href="http://forge.ocamlcore.org/frs/?group_id=162&amp;release_id=948">Download OUnit v2.0.0</a></p>
+
+
+<p><a href="http://ounit.forge.ocamlcore.org/api-ounit-2.0.0/index.html">Documentation of v2.0.0</a></p>
+
+
+<p><a href="http://ounit.forge.ocamlcore.org">Website</a></p>
 
 
 <p>The basic features:</p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post2" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+<a onclick="switchContent('post1','post2')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post2" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+
+
+<p><a href="http://forge.ocamlcore.org/frs/?group_id=162&amp;release_id=948">Download OUnit v2.0.0</a></p>
+
+
+<p><a href="http://ounit.forge.ocamlcore.org/api-ounit-2.0.0/index.html">Documentation of v2.0.0</a></p>
+
+
+<p><a href="http://ounit.forge.ocamlcore.org">Website</a></p>
+
+
+<p>The basic features:</p>
+<ul>
+<li>better configuration setup
+<ul>
+<li>environment variable</li>
+<li>command line options</li>
+<li>configuration files</li>
+</ul></li>
+<li>improved output of the tests:
+<ul>
+<li>allow vim quickfix to jump in the log file where the error has happened</li>
+<li>output HTML report</li>
+<li>output JUnit report</li>
+<li>systematic logging (verbose always on), but output log in a file</li>
+</ul></li>
+<li>choose how to run your test:
+<ul>
+<li>run tests in parallel using processes (auto-detect number of CPU and run as many worker processes)</li>
+<li>run tests concurrently using threads</li>
+<li>use the old sequential runner</li>
+</ul></li>
+<li>choose which test to run with a chooser that can do smart selection of tests:
+<ul>
+<li>simple: just run test in sequence</li>
+<li>failfirst: run the tests that failed in the last run first and skip the success if they are still failing</li>
+</ul></li>
+<li>some refactoring:
+<ul>
+<li>bracket: use a registration in the context but easier to use</li>
+<li>remove all useless functions in the OUnit2 interface</li>
+</ul></li>
+<li>non-fatal section: allow to fail inside non-fatal section without quitting immediately the whole test</li>
+<li>allow to use OUnit1 test inside OUnit2 (smooth the transition)</li>
+<li>timer that makes tests fail if they take too long, only when using the processes runner (I was not able to do it cleanly using threads and sequential)</li>
+<li>allow to parametrize filenames so that you can use <code>OUNIT_OUTPUT_FILE=ounit-$(suite_name),log</code> and have <code>$(suite_name)</code> replace by the test suite name</li>
+<li>create locks to avoid accessing the same resources within a single process or the whole application (typically to avoid doing a <code>chdir</code> while another thread is doing a <code>chdir</code> elsewhere)</li>
+<li>create a <code>in_testdata_dir</code> function to locate test data, if any</li>
+</ul>
+
+<h2>Migration path</h2>
+
+
+<p>OUnit 2.0.0 still provides the <code>OUnit</code> module which is exactly the same as the last OUnit 1.X version. This way, you are not forced to migrate. However, this means that you will gain no advantage of the new release and even some slowdown due to increase complexity of the code. Though, I strongly recommend to upgrade to OUnit2.</p>
+
+
+<p>Here is a checklist to do the migration:</p>
+<ul>
+<li>replace all <code>open OUnit</code> by <code>open OUnit2</code></li>
+<li>the test function now takes <code>test_ctxt</code> argument, so replace all <code>fun () -&gt; ...)</code> by <code>fun test_ctxt -&gt; ...</code></li>
+<li>bracket are now inlined so <code>bracket setUp f tearDown</code> is now <code>let x = bracket setUp tearDown test_ctxt in</code></li>
+<li>make sure that you don't change global process state like <code>chdir</code> or <code>Unix.putenv</code> or that you don't rely on another test setting something for the next test</li>
+</ul>
+
+<h2>The OASIS test suite migration</h2>
+
+
+<p>In order to check that everything was working correctly, I have migrated the OASIS test suite to OUnit2. This is a big test suite (210 test cases) and it includes quite big sequences of tests (end to end tests from calling <code>oasis setup</code> to compiling and installing the results). This was really time consuming and I wish to see a significant speedup for the tests with OUnit2.</p>
+
+
+<p>You can see the result in term of code of the full migration <a href="https://github.com/ocaml/oasis/tree/ounit2/test">here</a>.</p>
+
+
+<p>Here are the results on my Intel Core i7 920/SSD:</p>
+<ul>
+<li>Pristine test suite (210 tests):
+<ul>
+<li>oUnit v1: 52.36s (i.e. latest OUnit v1.x, reference time)</li>
+<li>oUnit1 over oUnit2:  60.39s (OUnit v2.0.0 using the OUnit v1 layer)</li>
+</ul></li>
+<li>Migration to OUnit2 (166 tests):
+<ul>
+<li>processes (8 shards): 10.12s</li>
+<li>processes (autodect, 4 shards): 12.99s</li>
+<li>sequential: 58.77s</li>
+</ul></li>
+</ul>
+
+<p><img src="http://le-gall.net/sylvain+violaine/blog/images/.chart_1_m.jpg" alt="OUnit v2 benchmark" title="OUnit v2 benchmark, sept. 2013"/></p>
+
+
+<p>The migration was quite heavy because this test suite had a big design problem. It uses in-place modification of the test data. I think I pick this design because I thought this was a good idea to decrease the running time. As a matter of fact, this was a huge mistake, that keeps popping failed test cases because one of the previous tests was failing. I have refactored all this and now we start by copying the test data into a temporary directory, which ensure that everything is always starting from pristine test data.</p>
+
+
+<p>During the redesign, I have decided to reduce the number of tests by merging some of them. This should have no big impact on the running time, although this is not as pure 1:1 comparison with OUnit v1. Although it is still testing exactly the same thing. This explain the loss of ~50 tests, which in fact has been merged in other tests.</p>
+
+
+<p>The overall speedup is 4x compared to OUnit v1, when using processes. However there is a 12% increase compared to OUnit v1 for sequential and a 15% increase when using OUnit v1 compatibility layer. While this is not very good score, I hope this is small enough to compensate the huge win of being able to run tests in parallel with processes.</p>
+
+
+<p>And now the magic !</p>
+
+
+<p>At this point, if you read carefully the numbers, you would have noticed that there is a 4.5x decrease in speed when you compare sequential and 4 processes for OUnit2. Since we are only actively testing in 4 shards, it looks strange. I don't expect a super-linear speedup due to the use of processes. I have checked that every tests was indeed running and found no solutions to this mystery. Right now, I think this is due to the fact that we are running less tests in more processes which should lighten the load of the GC (which may not trigger at all). I am not sure about this explanation and will welcome any bug report which shows a problem in the implementation of either sequential or processes runner. Although, this is great.</p>
+
+
+<h2>Help still wanted</h2>
+
+
+<p>If you find any bugs with OUnit v2, this is the time to submit a bug.
+<a href="https://forge.ocamlcore.org/tracker/?atid=733&amp;group_id=162&amp;func=browse">OUnit BTS</a></p>
+
+
+<p>If you want to try to fix bugs by yourself, please checkout the latest version of OUnit:</p>
+
+
+<pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
+
+
+<p>Patches always welcome.</p><a onclick="switchContent('post2','post1')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
+<a name="952f56763fb713fbbd1a01b210bf52ac"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html"> Test your OCaml packages in minutes using Travis CI</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">29 Sep 2013</span></span><span class="rss-description"><div id="post3"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>A few months ago, Mike Lin posted <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">instructions</a> of how to bootstrap an OCaml testing environment within the <a href="http://travis-ci.org">Travis</a> continuous integration tool. I finally got around to integrating his prototype scripts properly using the latest OCaml and OPAM versions during my travels last week to ICFP. It’s been an extraordinarily quick and pleasant experience to add the (free!) Travis test runs to my OCaml programs on GitHub, so here’s how you can do it too. <a href="http://dave.recoil.org">Dave Scott</a> and I have used this for about 15 of our own projects already, and I’m switching the whole of the <a href="http://openmirage.org">Mirage</a> repo infrastructure over to it this week.</p>
+
+<h2 id="getting_started">Getting started</h2>
+
+<p>Getting my first Travis build working with one of my OCaml projects took about 2 minutes in total:</p>
+
+<p>First, log into <a href="http://travis-ci.com">Travis</a> and sign in via Twitter. Click on the <a href="https://travis-ci.org/profile">Accounts</a> button on the top-right and you should see a list of the all the GitHub repositories that you have access to. Just click the <i>On</i> switch for the one you want to start testing. Nothing will actually happen until the next code push or pull request goes to that repository. Behind the scenes, the <i>On</i> button that you clicked use the GitHub APIs to turn on the Travis post-commit hook for your repository.</p><a onclick="switchContent('post3','post4')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Read more...</a></div><div id="post4" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>A few months ago, Mike Lin posted <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">instructions</a> of how to bootstrap an OCaml testing environment within the <a href="http://travis-ci.org">Travis</a> continuous integration tool. I finally got around to integrating his prototype scripts properly using the latest OCaml and OPAM versions during my travels last week to ICFP. It’s been an extraordinarily quick and pleasant experience to add the (free!) Travis test runs to my OCaml programs on GitHub, so here’s how you can do it too. <a href="http://dave.recoil.org">Dave Scott</a> and I have used this for about 15 of our own projects already, and I’m switching the whole of the <a href="http://openmirage.org">Mirage</a> repo infrastructure over to it this week.</p>
+
+<h2 id="getting_started">Getting started</h2>
+
+<p>Getting my first Travis build working with one of my OCaml projects took about 2 minutes in total:</p>
+
+<p>First, log into <a href="http://travis-ci.com">Travis</a> and sign in via Twitter. Click on the <a href="https://travis-ci.org/profile">Accounts</a> button on the top-right and you should see a list of the all the GitHub repositories that you have access to. Just click the <i>On</i> switch for the one you want to start testing. Nothing will actually happen until the next code push or pull request goes to that repository. Behind the scenes, the <i>On</i> button that you clicked use the GitHub APIs to turn on the Travis post-commit hook for your repository.</p>
+
+<p>Create a <code>.travis.yml</code> file in your main repository (see below or <a href="https://gist.github.com/avsm/6757425">this gist</a>). Travis doesn’t have native support for OCaml, but it isn’t really needed since we can just use <code>C</code> and write our own shell scripts. The <code>env</code> variables define a matrix of the different combinations of OCaml and OPAM that we want to test. Just remove variations that you don’t care about to avoid wasting Travis’ CPU time (open source projects are supported on a fair-use basis by them). Here’s the <code>.travis.yml</code> that I used for my <a href="https://github.com/mirage/ocaml-uri">ocaml-uri</a> library:</p>
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">c</span>
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">bash -ex .travis-ci.sh</span>
+<span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.01.0 OPAM_VERSION=1.0.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.01.0 OPAM_VERSION=1.1.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.00.1 OPAM_VERSION=1.0.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.00.1 OPAM_VERSION=1.1.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=3.12.1 OPAM_VERSION=1.0.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=3.12.1 OPAM_VERSION=1.1.0</span>
+</code></pre></div>
+<p>Now you just need the <code>.travis-ci.sh</code> shell to run the actual tests. Travis provides an Ubuntu Precise/i386 VM that is destroyed after every test run, so we need to initialize it with the OCaml and OPAM binary packages. Since you often want to test different versions of all of these, I created a series of stable Ubuntu PPAs that have OCaml 3.12,4.0,4.1 and OPAM 1.0 and the (currently beta) 1.1 package manager. You can find them all on my <a href="http://launchpad.net/~avsm">Launchpad</a> page, but the below script takes care of it all for you.</p>
+<div class="highlight"><pre><code class="sh"><span class="c"># Edit this for your own project dependencies</span>
+<span class="nv">OPAM_DEPENDS</span><span class="o">=</span><span class="s2">"ocamlfind ounit re"</span>
+	 
+<span class="k">case</span> <span class="s2">"$OCAML_VERSION,$OPAM_VERSION"</span> in
+3.12.1,1.0.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml312+opam10 ;;
+3.12.1,1.1.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml312+opam11 ;;
+4.00.1,1.0.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml40+opam10 ;;
+4.00.1,1.1.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml40+opam11 ;;
+4.01.0,1.0.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml41+opam10 ;;
+4.01.0,1.1.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml41+opam11 ;;
+*<span class="o">)</span> <span class="nb">echo </span>Unknown <span class="nv">$OCAML_VERSION</span>,<span class="nv">$OPAM_VERSION</span>; <span class="nb">exit </span>1 ;;
+<span class="k">esac</span>
+<span class="k">	 </span>
+<span class="nb">echo</span> <span class="s2">"yes"</span> | sudo add-apt-repository ppa:<span class="nv">$ppa</span>
+sudo apt-get update -qq
+sudo apt-get install -qq ocaml ocaml-native-compilers camlp4-extra opam
+<span class="nb">export </span><span class="nv">OPAMYES</span><span class="o">=</span>1
+opam init 
+opam install <span class="k">${</span><span class="nv">OPAM_DEPENDS</span><span class="k">}</span>
+<span class="nb">eval</span> <span class="sb">`</span>opam config env<span class="sb">`</span>
+make
+make <span class="nb">test</span>
+</code></pre></div>
+<p>Now just do a push to your repository (a commit adding the Travis files above will do), and you will soon see the Travis web interface update. For example, here’s the <a href="https://travis-ci.org/mirage/ocaml-uri/builds/11899338">output of ocaml-uri</a> that the above example files are for. Of course, you should tweak the scripts to run the tests that your own project needs. Let me know if you make any useful modifications too, by forking the <a href="https://gist.github.com/avsm/6757425">gist</a> or e-mailing me.</p>
+
+<h2 id="testing_pull_requests_in_opam">Testing pull requests in OPAM</h2>
+
+<p>Travis isn’t just for code pushes though; as of a few months ago it can also <a href="http://about.travis-ci.org/blog/announcing-pull-request-support/">test pull requests</a>. This is an incredibly useful feature for complex projects such as the OPAM repository that has lots of contributors. You don’t need to do anything special to activate it: whenever someone issues a pull request, Travis will merge it locally and trigger the test runs just as if the code had been pushed directly.</p>
+
+<p>I did do some special scripting to make this work with the OPAM package repository. Ideally, every new package or metadata change in OPAM will attempt to rebuild just that package set (rebuilding the entire repository would far exceed the 50 minute testing budget that Travis imposes). I put together a <a href="https://github.com/OCamlPro/opam-repository/blob/master/.travis-ci.sh">very hacked up shell script</a> that greps the incoming diff and rebuilds the subset of packages. This is now live, and you can see both <a href="https://github.com/OCamlPro/opam-repository/pull/1144">successful</a> and <a href="https://github.com/OCamlPro/opam-repository/pull/1131">failed</a> pull requests (once the request has been merged, there’s a tiny little green arrow beside the commit that was tested).</p>
+
+<p>This is a very unconservative estimate test matrix since a package update will also affect the reverse transitive cone of packages that depend on it, but it does catch several common typos and incompatibilities (for example, packages that use OPAM 1.1-only features by mistake). The longer term plan is to use the <a href="http://github.com/ocamllabs/ocamlot">OCamlot</a> command line tool to parse the pull request and compute an exact set of packages that need rebuilding.</p>
+
+<h2 id="deployment">Deployment</h2>
+<a href="http://xkcd.com/303/"><img src="http://imgs.xkcd.com/comics/compiling.png" style="padding-left: 15px; float: right;" width="250px"/></a>
+<p>Travis has one last very cool feature up its sleeve. When a project has successfully built, it can run a scripting hook in the VM, which can be used to trigger a further code push or service update. If the service requires authentication, you can <a href="http://about.travis-ci.org/docs/user/encryption-keys/">encrypt a secret</a> in the <code>travis.yml</code> using their public key, and it will be available in the VM as an environment variable (but won’t be useful to anyone else looking at the code repository).</p>
+
+<p>There are quite a few uses for these Travis deployment scripts: automating the rebuilding of the <a href="http://ocaml.org">ocaml.org</a> website infrastructure, rebuilding the central <a href="http://pw374.github.io/posts/2013-09-24-01-50-14-opamdoc-take1.html">opam-doc</a> <code>cmt</code> file archive, or even autoupdating <a href="http://openmirage.org">Mirage</a> microkernels to Amazon EC2 and Rackspace.</p>
+
+<p>So how does this tie into the ongoing work on <a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging.html">OCamlot</a>? Quite simply, it’s saved us a ton of frontend work, and lets us focus on the more interesting OCaml-specific problems. Travis is also somewhat reactive (since it only runs in response to pushes or pull requests), and we still need to be able to run complete repository sweeps to look for more systematic breakage. It also doesn’t support any non-Ubuntu operating systems yet. However, Travis takes the burden off us for handling the steadily <a href="http://anil.recoil.org/2013/09/20/opam-1-1-beta.html">increasing</a> number of package updates, and can be used to launch further OCamlot jobs on the other architectures and distributions. All in all, I’m very grateful to Mike for taking the trouble to blog about it back in March!</p>
+
+<h2 id="and_a_little_bit_of_cheeky_arm_hackery">And a little bit of cheeky ARM hackery</h2>
+
+<p>I couldn’t resist one final little hack to see if I could actually do some ARM/OCaml testing using the Travis infrastructure. I adapted Ian Campbell’s excellent <a href="http://www.hellion.org.uk/blog/posts/foreign-chroots-with-schroot-and-qemu/">guide to ARM cross-chroots</a>, and ended up with a <a href="https://github.com/avsm/ocaml/blob/travis/.travis-ci.sh">rough script</a> that builds an unattended chroot and can run OCaml/OPAM installations there too.</p>
+
+<p>This isn’t something I’m quite comfortable running on all of my repositories just yet though, since an OCaml cross-build using qemu took over 5 hours and was quite rightly terminated when running within Travis. To mitigate this, I’ve built a <a href="http://www.recoil.org/~avsm/debian-arm">custom apt-repository</a> for ARMel packages to install a binary toolchain, and you can see the results of <a href="https://travis-ci.org/avsm/ocaml/jobs/11942786">Lwt/ARM building successfully</a>. I’ll update on this as I get it working on more packages, as I’m quite interested in getting a solid Xen/ARM toolstack up and running for another <a href="http://nymote.org">exciting project</a> over in OCaml Labs…</p><a onclick="switchContent('post4','post3')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Hide</a></div></span>
+<a name="2777d7de50de146d52efb62009134d88"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=886"> CCSS 1.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">The most notable feature of this release is the introduction of mixins: a variable may now be assigned an entire declaration block.</pre></span>
+<a name="e862e722280f522e7be81f5c35cb41b8"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/9/27/ocaml-tutorial-videos-now-available"> OCaml  tutorial videos now available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">27 Sep 2013</span></span><span class="rss-description"><p>I've made a few little tutorial videos to go with the book. Just seven for now, covering the first four chapters, but more to come:</p><ol><li>Evaluating an expression</li><li>True and false</li><li>Making decisions</li><li>Names and functions</li><li>Patterns</li><li>Lists</li><li>Take and drop</li><li>Appending two lists</li></ol><p>They're not really a substitute for the book but, when learning, it's always helpful to go over things twice, particularly using a different medium.</p><p>The videos are available <a href="http://ocaml-book.com/videos/">here</a>. </p><p> </p></span>
+<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+
+
+<p>The basic features:</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post6" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
 
 
 <p>The basic features:</p>
@@ -234,7 +442,7 @@
 <p>Patches always welcome.</p>
 
 
-<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post2','post1')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
+<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post6','post5')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
 <a name="b159bb33433f9b70968e3d4eb1ce64dd"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Gg 0.8.0 and Vg 0.8.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>First release of Gg and Vg. Thanks to <a href="http://www.xenproject.org/developers/teams/xapi.html">Citrix Systems R&amp;D</a> and <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/index.html">OCaml Labs</a> for sponsoring this work.</p></span>
 <a name="a5df4d5e6a84208a9f87406b4030f9d7"></a><span class="rss-header"><span class="rss-title"><a href="http://amirchaudhry.com/ocamlorg-request-for-feedback"> Feedback requested on the OCaml.org redesign</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Amir Chaudhry</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>There is a work-in-progress site at <a href="http://ocaml-redesign.github.io">ocaml-redesign.github.io</a>, where we’ve been developing both the tools and design for the new ocaml.org pages. This allows us to test our tools and fix issues before we consider merging changes upstream.</p>
 
@@ -250,7 +458,7 @@
 </li>
 </ol></span>
 <a name="9b473804a34b88f50c84468e5d2ad0f8"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.24.html"> Caml Weekly News, 24 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description">OCaml on Android / OCaml release 4.01.0 / OCaml vs Ada and/or GUI options / Beta release of OPAM 1.1.0 / Ocaml on an embedded arm system (no linux) / Call for Talks - Open World Forum / OSDC / SIunits 0.1 / ocaml interface to berkeley db? / Other Caml News</span>
-<a name="79336793f839bc71e3b56a8399d9f156"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-4/"> Goaljobs, part 4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
+<a name="79336793f839bc71e3b56a8399d9f156"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-4/"> Goaljobs, part 4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
 <p>If you wanted to use <code>make</code> to monitor a git repository and do a build when a new commit appears there would I guess be three choices: You could just run the <code>make</code> command manually over and over again.  You could have a git hook that runs <code>make</code>.  Or you have a cron job the periodically checks the git repository.</p>
 <p>The git hook is the ideal solution for goaljobs too, but goaljobs also has cron-like <b>periodic jobs</b> built in, and they are very easy to use:</p>
 <pre>every 30 minutes (fun () -&gt;
@@ -261,7 +469,7 @@
 </pre>
 <p><code>every 30 minutes</code> is self-explanatory (right?).  The function that runs every half-an-hour is two lines of code.  The first line uses <code>shout</code> to run a <b>sh</b>ell command and capture the <b>out</b>put.  In this case git prints the current commit.  The second command requires that the <code>git_commit_tested</code> goal is reached for this commit.</p>
 <p>One way to implement this goal would be:</p>
-<a onclick="switchContent('post3','post4')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Read more...</a></div><div id="post4" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Read more...</a></div><div id="post8" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
 <p>If you wanted to use <code>make</code> to monitor a git repository and do a build when a new commit appears there would I guess be three choices: You could just run the <code>make</code> command manually over and over again.  You could have a git hook that runs <code>make</code>.  Or you have a cron job the periodically checks the git repository.</p>
 <p>The git hook is the ideal solution for goaljobs too, but goaljobs also has cron-like <b>periodic jobs</b> built in, and they are very easy to use:</p>
 <pre>every 30 minutes (fun () -&gt;
@@ -291,8 +499,8 @@
 <p>That’s it!  The goaljobs website <i>will</i> be this (I’ve not uploaded it yet, but will do in the next day or two):</p>
 <p><a href="http://people.redhat.com/~rjones/goaljobs" rel="nofollow">http://people.redhat.com/~rjones/goaljobs</a></p>
 <p>You can also download the code from the <a href="http://git.annexia.org/?p=goaljobs.git;a=summary">git repository</a> and the goals I’ve written from <a href="http://git.annexia.org/?p=goals.git;a=summary">this repository</a>.</p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4619/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4619/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4619&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post4','post3')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Hide</a></div></span>
-<a name="f250946ccea5900b2fab62858722f2d5"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/"> Goaljobs, part 3</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4619/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4619/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4619&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Hide</a></div></span>
+<a name="f250946ccea5900b2fab62858722f2d5"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/"> Goaljobs, part 3</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
 <p>It’s time to take a closer look at <b>targets</b> — the promise that you make that some condition will be true by the time a goal has run.</p>
 <p>In the Fedora rebuild script the goal targets looked like this:</p>
 <pre>let goal rebuilt pkg =
@@ -302,7 +510,7 @@
 </pre>
 <p><code>koji_build_state</code> is a regular function.  It’s implemented using the <code>koji buildinfo</code> command line tool for querying <a href="http://koji.fedoraproject.org/koji/">the Koji build system</a>.  (The koji command line tool is annoyingly hard to automate, but as we’ve got a complete programming language available — not just bash — <a href="http://git.annexia.org/?p=goals.git;a=blob;f=fedora.ml;hb=HEAD">the implementation of <code>koji_build_state</code></a> is tedious and long, but doable).</p>
 <p>Querying Koji takes a few seconds and we don’t want to do it every time we check a goal.  Goaljobs offers a feature called “The Memory” which lets you <a href="http://perl.plover.com/Memoize/doc.html#description">memoize</a> functions.  “The Memory” is just a fancy name for a key/value store which is kept in <code>~/.goaljobs-memory</code> and persists across goaljobs sessions:</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Read more...</a></div><div id="post6" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
+<a onclick="switchContent('post9','post10')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Read more...</a></div><div id="post10" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
 <p>It’s time to take a closer look at <b>targets</b> — the promise that you make that some condition will be true by the time a goal has run.</p>
 <p>In the Fedora rebuild script the goal targets looked like this:</p>
 <pre>let goal rebuilt pkg =
@@ -327,41 +535,7 @@
 <p>Finally in this part: a note on how targets are implemented.</p>
 <p>A target is a boolean expression which is evaluated once near the beginning of the goal.  If it evaluates to true at the beginning of the goal then the rest of the goal can be skipped because the goal has already been achieved / doesn’t need to be repeated.</p>
 <p>And since targets are just general expressions, they can be anything at all, from accessing a remote server (as here) to checking the existence of a local file (like make).  As long as something can be tested quickly, or can be tested slowly and memoized, it’s suitable to be a target.</p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4615/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4615/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4615&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post6','post5')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Hide</a></div></span>
-<a name="8443cf975eee954aeeee1b56d929e304"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/20/opam-1-1-beta.html"> OPAM 1.1 beta available, with pretty colours</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">19 Sep 2013</span></span><span class="rss-description"><div id="post7"><p><a href="http://gazagnaire.org">Thomas</a> just announced the availability of the <a href="http://opam.ocamlpro.com">OPAM</a> beta release. This has been a huge amount of work for him and <a href="http://louis.gesbert.fr/">Louis</a>, so I’m excited to see this release! Aside from general stability, the main highlights for me are:</p>
-
-<a onclick="switchContent('post7','post8')" class="btn" href="#8443cf975eee954aeeee1b56d929e304">Read more...</a></div><div id="post8" style="display: none"><p><a href="http://gazagnaire.org">Thomas</a> just announced the availability of the <a href="http://opam.ocamlpro.com">OPAM</a> beta release. This has been a huge amount of work for him and <a href="http://louis.gesbert.fr/">Louis</a>, so I’m excited to see this release! Aside from general stability, the main highlights for me are:</p>
-
-<ul>
-<li>
-<p>A switch to the <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a> public-domain-like license for the repository, and LGPL2+linking exception for OPAM itself. The <a href="https://github.com/OCamlPro/opam-repository/issues/955">cutover to the new license</a> was the first non-gratuitous use of GitHub’s fancy issue lists I’ve seen, too! As part of this, we’re also beginning a transition over to hosting it at <code>opam.ocaml.org</code>, to underline our committment to maintaining it as an OCaml community resource.</p>
-</li>
-
-<li>
-<p>Much-improved support for package pinning and updates. This is the feature that makes OPAM work well with <a href="http://openmirage.org">MirageOS</a>, since we often need to do development work on a low-level library (such as a <a href="https://github.com/mirage/ocaml-xen-block-driver">device driver</a> and recompile all the reverse dependencies.</p>
-</li>
-
-<li>
-<p>Support for post-installation messages (e.g. to display <a href="https://github.com/OCamlPro/opam-repository/pull/1100">licensing information</a> or configuration hints) and better support for the external library management issues I explained in an earlier post about <a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging.html">OCamlot testing</a>.</p>
-</li>
-
-<li>
-<p>Better library structuring to let tools like <a href="http://github.com/OCamlPro/opam2web">Opam2web</a> work with the package metadata. For instance, my group’s <a href="http://ocaml.io">OCaml Labs</a> has a comprehensive list of <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/pkg/index.html">the software packages that we work on</a> generated directly from an OPAM remote.</p>
-</li>
-
-<li>
-<p>A growing set of administration tools (via the <code>opam-admin</code> binary) that run health checks and compute statistics over package repositories. For example, here’s the result of running <code>opam-admin stats</code> over the latest package repository to show various growth curves.</p>
-</li>
-</ul>
-<table width="90%" align="center">
-<tbody><tr>
-<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/opam11-beta-contributors.png"><img src="http://anil.recoil.org/images/opam11-beta-contributors.png" border="0" width="220"/></a><br/>Number of unique contributors to the main OPAM package repository.</td>
-<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/opam11-beta-packages.png"><img src="http://anil.recoil.org/images/opam11-beta-packages.png" border="0" width="220"/></a><br/>Total number of unique packages (including multiple versions of the same package).</td>
-<td width="30%" class="bimg"><a href="http://anil.recoil.org/images/opam11-beta-unique-packages.png"><img src="http://anil.recoil.org/images/opam11-beta-packages.png" border="0" width="220"/></a><br/>Total packages with multiple versions coalesced so you can see new package growth.</td>
-</tr>
-</tbody></table>
-<p>Is it a <a href="http://www.theatlantic.com/technology/archive/2013/05/the-hockey-stick-the-most-controversial-chart-in-science-explained/275753/">hockey stick</a> graph? Only time will tell! See Thomas’ <a href="https://sympa.inria.fr/sympa/arc/caml-list/2013-09/msg00300.html">full release announcement</a> and let us know how you get along with this new release…</p><a onclick="switchContent('post8','post7')" class="btn" href="#8443cf975eee954aeeee1b56d929e304">Hide</a></div></span>
-<a name="57720400b0482a70ca341aeece1a046c"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.17.html"> Caml Weekly News, 17 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">17 Sep 2013</span></span><span class="rss-description">ReactiveML 1.09.01 / OCaml vs Ada and/or GUI options / OCaml release 4.01.0 / OCaml installer for Windows 4.01.0 / ocamlbuild documentation / Allocation profiling for x86-64 native code / Camomile 0.8.5 / ucorelib 0.0.2 / Other Caml News</span>
+<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4615/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4615/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4615&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post10','post9')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
