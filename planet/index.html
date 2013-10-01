@@ -153,7 +153,9 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+    <div class="planet"><a name="403fcdb04b4f43f4dcaec4d1bdbe2823"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Uucd 1.0.0 and Uunf 0.9.2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><p>Release of Uucd and Uunf to support Unicode 6.3.0. Consult the individual release notes for details.</p></span>
+<a name="7dea5ef655297aa9dc8b78dd3c5ff9f5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.10.01.html"> Caml Weekly News, 01 Oct 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description">Feedback on the ocaml.org redesign and logo / Enhanced OCaml Documentation 4.01 / Gg 0.8.0 and Vg 0.8.0 / otags reloaded 4.01.1 for OCaml 4.01 / meetup OCaml-Pairs (OUPS), mercredi 9 octobre √† l'IRILL / embedding js_of_ocaml output? / OUnit v2.0.0 / Thread behaviour / Esterel Technologies is looking for an Ocaml SW developer in Toulouse (CDI) / equivalent checking of ocaml program? / LablGtk 2.18.0 and LablGL 1.05 / Uucd 1.0.0 &amp; Uunf 0.9.2 / Other Caml News</span>
+<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -464,84 +466,6 @@ make <span class="nb">test</span>
 </li>
 </ol></span>
 <a name="9b473804a34b88f50c84468e5d2ad0f8"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.09.24.html"> Caml Weekly News, 24 Sep 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description">OCaml on Android / OCaml release 4.01.0 / OCaml vs Ada and/or GUI options / Beta release of OPAM 1.1.0 / Ocaml on an embedded arm system (no linux) / Call for Talks - Open World Forum / OSDC / SIunits 0.1 / ocaml interface to berkeley db? / Other Caml News</span>
-<a name="79336793f839bc71e3b56a8399d9f156"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-4/"> Goaljobs, part 4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
-<p>If you wanted to use <code>make</code> to monitor a git repository and do a build when a new commit appears there would I guess be three choices: You could just run the <code>make</code> command manually over and over again.  You could have a git hook that runs <code>make</code>.  Or you have a cron job the periodically checks the git repository.</p>
-<p>The git hook is the ideal solution for goaljobs too, but goaljobs also has cron-like <b>periodic jobs</b> built in, and they are very easy to use:</p>
-<pre>every 30 minutes (fun () -&gt;
-  let commit =
-    shout "cd %s &amp;&amp; git rev-parse HEAD" repo in
-  require (git_commit_tested commit)
-)
-</pre>
-<p><code>every 30 minutes</code> is self-explanatory (right?).  The function that runs every half-an-hour is two lines of code.  The first line uses <code>shout</code> to run a <b>sh</b>ell command and capture the <b>out</b>put.  In this case git prints the current commit.  The second command requires that the <code>git_commit_tested</code> goal is reached for this commit.</p>
-<p>One way to implement this goal would be:</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Read more...</a></div><div id="post8" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/">part 3</a> I described how to write targets which can access network resources, and how to use memoization to make them run fast.  In this (last) part of the series, I’ll describe the final feature of goaljobs — periodic jobs.</p>
-<p>If you wanted to use <code>make</code> to monitor a git repository and do a build when a new commit appears there would I guess be three choices: You could just run the <code>make</code> command manually over and over again.  You could have a git hook that runs <code>make</code>.  Or you have a cron job the periodically checks the git repository.</p>
-<p>The git hook is the ideal solution for goaljobs too, but goaljobs also has cron-like <b>periodic jobs</b> built in, and they are very easy to use:</p>
-<pre>every 30 minutes (fun () -&gt;
-  let commit =
-    shout "cd %s &amp;&amp; git rev-parse HEAD" repo in
-  require (git_commit_tested commit)
-)
-</pre>
-<p><code>every 30 minutes</code> is self-explanatory (right?).  The function that runs every half-an-hour is two lines of code.  The first line uses <code>shout</code> to run a <b>sh</b>ell command and capture the <b>out</b>put.  In this case git prints the current commit.  The second command requires that the <code>git_commit_tested</code> goal is reached for this commit.</p>
-<p>One way to implement this goal would be:</p>
-<pre>let goal git_commit_tested commit =
-  let key = sprintf "repo-tested-%s" commit in
-  target (memory_exists key);
-
-  sh "
-      git clone %s test
-      cd test
-      ./configure
-      make
-      make check
-  " repo_url;
-
-  memory_set key "1"
-</pre>
-<p>This code clones the repository and runs <code>make check</code> to test it.  It uses the Memory (ie. memoization) to ensure that the tests are run at most once per commit.</p>
-<p>Actually this is not quite true: the tests run successfully once, but if the test fails, it will keep running every 30 minutes and nag you about it.  It’s trivial to change the memoization to remember failures as well as successes, or you could consider the repeated nagging to be a feature not a bug …</p>
-<p>That’s it!  The goaljobs website <i>will</i> be this (I’ve not uploaded it yet, but will do in the next day or two):</p>
-<p><a href="http://people.redhat.com/~rjones/goaljobs" rel="nofollow">http://people.redhat.com/~rjones/goaljobs</a></p>
-<p>You can also download the code from the <a href="http://git.annexia.org/?p=goaljobs.git;a=summary">git repository</a> and the goals I’ve written from <a href="http://git.annexia.org/?p=goals.git;a=summary">this repository</a>.</p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4619/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4619/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4619&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post8','post7')" class="btn" href="#79336793f839bc71e3b56a8399d9f156">Hide</a></div></span>
-<a name="f250946ccea5900b2fab62858722f2d5"></a><span class="rss-header"><span class="rss-title"><a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-3/"> Goaljobs, part 3</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Richard Jones</span>, <span class="rss-date">20 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
-<p>It’s time to take a closer look at <b>targets</b> — the promise that you make that some condition will be true by the time a goal has run.</p>
-<p>In the Fedora rebuild script the goal targets looked like this:</p>
-<pre>let goal rebuilt pkg =
-  <b>target (koji_build_state (fedora_verrel pkg branch)
-               == `Complete);</b>
-  ...
-</pre>
-<p><code>koji_build_state</code> is a regular function.  It’s implemented using the <code>koji buildinfo</code> command line tool for querying <a href="http://koji.fedoraproject.org/koji/">the Koji build system</a>.  (The koji command line tool is annoyingly hard to automate, but as we’ve got a complete programming language available — not just bash — <a href="http://git.annexia.org/?p=goals.git;a=blob;f=fedora.ml;hb=HEAD">the implementation of <code>koji_build_state</code></a> is tedious and long, but doable).</p>
-<p>Querying Koji takes a few seconds and we don’t want to do it every time we check a goal.  Goaljobs offers a feature called “The Memory” which lets you <a href="http://perl.plover.com/Memoize/doc.html#description">memoize</a> functions.  “The Memory” is just a fancy name for a key/value store which is kept in <code>~/.goaljobs-memory</code> and persists across goaljobs sessions:</p>
-<a onclick="switchContent('post9','post10')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Read more...</a></div><div id="post10" style="display: none"><p>In <a href="http://rwmj.wordpress.com/2013/09/20/goaljobs-part-2/">part 2</a> I introduced an example goaljobs script that can rebuild a set of packages in Fedora in the right order.</p>
-<p>It’s time to take a closer look at <b>targets</b> — the promise that you make that some condition will be true by the time a goal has run.</p>
-<p>In the Fedora rebuild script the goal targets looked like this:</p>
-<pre>let goal rebuilt pkg =
-  <b>target (koji_build_state (fedora_verrel pkg branch)
-               == `Complete);</b>
-  ...
-</pre>
-<p><code>koji_build_state</code> is a regular function.  It’s implemented using the <code>koji buildinfo</code> command line tool for querying <a href="http://koji.fedoraproject.org/koji/">the Koji build system</a>.  (The koji command line tool is annoyingly hard to automate, but as we’ve got a complete programming language available — not just bash — <a href="http://git.annexia.org/?p=goals.git;a=blob;f=fedora.ml;hb=HEAD">the implementation of <code>koji_build_state</code></a> is tedious and long, but doable).</p>
-<p>Querying Koji takes a few seconds and we don’t want to do it every time we check a goal.  Goaljobs offers a feature called “The Memory” which lets you <a href="http://perl.plover.com/Memoize/doc.html#description">memoize</a> functions.  “The Memory” is just a fancy name for a key/value store which is kept in <code>~/.goaljobs-memory</code> and persists across goaljobs sessions:</p>
-<pre>let koji_build_state verrel =
-  let key = sprintf "koji_build_complete_%s" verrel in
-  if <b>memory_exists key</b> then
-    `Complete
-  else (
-    <i>(* tedious code to query koji *)</i>
-    if state == `Complete then
-      <b>memory_set key "1"</b>;
-    state
-  )
-</pre>
-<p>With strategic use of memoization, evaluating goaljobs goals can be very fast and doesn’t change the fundamental contract of targets.</p>
-<p>Finally in this part: a note on how targets are implemented.</p>
-<p>A target is a boolean expression which is evaluated once near the beginning of the goal.  If it evaluates to true at the beginning of the goal then the rest of the goal can be skipped because the goal has already been achieved / doesn’t need to be repeated.</p>
-<p>And since targets are just general expressions, they can be anything at all, from accessing a remote server (as here) to checking the existence of a local file (like make).  As long as something can be tested quickly, or can be tested slowly and memoized, it’s suitable to be a target.</p>
-<br/>  <a href="http://feeds.wordpress.com/1.0/gocomments/rwmj.wordpress.com/4615/" rel="nofollow"><img src="http://feeds.wordpress.com/1.0/comments/rwmj.wordpress.com/4615/" alt="" border="0"/></a> <img src="http://stats.wordpress.com/b.gif?host=rwmj.wordpress.com&amp;blog=6840703&amp;post=4615&amp;subd=rwmj&amp;ref=&amp;feed=1" alt="" height="1" border="0" width="1"/><a onclick="switchContent('post10','post9')" class="btn" href="#f250946ccea5900b2fab62858722f2d5">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
