@@ -153,7 +153,79 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="3be72f200d01294717a4640003afe9ff"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=887"> SSL up again, special thanks to Gabriel Kerneis</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><pre class="rss-text">Hi,
+    <div class="planet"><a name="c13b4a60bfc4a2d8f370801c5dd9bba5"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/03/merlin-and-vim.html"> Intellisense for OCaml with Vim and Merlin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">02 Oct 2013</span></span><span class="rss-description"><div id="post1"><a href="http://anil.recoil.org/images/vim-merlin-autocomplete.png"><img src="http://anil.recoil.org/images/vim-merlin-autocomplete-thumb.png" style="float: right; padding-left: 15px;" width="250"/></a>
+<p>I’m finalizing the installation instructions for <a href="https://realworldocaml.org">Real World OCaml</a> and finally got around to configuring the awesome <a href="https://github.com/def-lkb/merlin">Merlin editor</a> tool. I pretty much never configure my editor, so here are my notes on getting Merlin working with Vim completely from scratch on MacOS X (I’m on 10.9DP7, but this should work with earlier versions of MacOS X too).</p>
+
+<p>First, install some basic plugin tools by following the Synastic <a href="https://github.com/scrooloose/syntastic">installation instructions</a>.</p>
+
+<p>Install <a href="https://github.com/tpope/vim-pathogen">vim-pathogen</a>:</p>
+<div class="highlight"><pre><code class="sh">mkdir -p ~/.vim/autoload ~/.vim/bundle; <span class="se">\</span>
+curl -so ~/.vim/autoload/pathogen.vim <span class="se">\</span>
+https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+</code></pre></div>
+<p>Install <a href="https://github.com/tpope/vim-sensible.git">vim-sensible</a> for useful defaults:</p>
+<div class="highlight"><pre><code class="sh"><span class="nb">cd</span> ~/.vim/bundle
+git clone git://github.com/tpope/vim-sensible.git
+</code></pre></div>
+<p>Install <a href="https://github.com/scrooloose/syntastic">Syntastic</a>:</p>
+<div class="highlight"><pre><code class="sh"><span class="nb">cd</span> ~/.vim/bundle
+git clone https://github.com/scrooloose/syntastic.git
+</code></pre></div>
+<p>Follow the <a href="https://github.com/def-lkb/merlin/wiki/vim-from-scratch">Merlin/vim from scratch</a> directions:</p>
+<div class="highlight"><pre><code class="sh">opam install merlin
+</code></pre></div>
+<p>Finally, add this this in your <code>~/.vimrc</code> to turn everything on.</p>
+<div class="highlight"><pre><code class="vim">execute pathogen#infect<span class="p">()</span>
+<span class="k">let</span> <span class="k">s</span>:ocamlmerlin<span class="p">=</span>substitute<span class="p">(</span>system<span class="p">(</span><span class="s1">'opam config var share'</span><span class="p">),</span><span class="s1">'\n$'</span><span class="p">,</span><span class="s1">''</span><span class="p">,</span><span class="s1">''''</span><span class="p">)</span> .  <span class="s2">"/ocamlmerlin"</span>
+execute <span class="s2">"set rtp+="</span>.<span class="k">s</span>:ocamlmerlin.<span class="s2">"/vim"</span>
+execute <span class="s2">"set rtp+="</span>.<span class="k">s</span>:ocamlmerlin.<span class="s2">"/vimbufsync"</span>
+</code></pre></div>
+<h2 id="trying_it_out">Trying it out</h2>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#c13b4a60bfc4a2d8f370801c5dd9bba5">Read more...</a></div><div id="post2" style="display: none"><a href="http://anil.recoil.org/images/vim-merlin-autocomplete.png"><img src="http://anil.recoil.org/images/vim-merlin-autocomplete-thumb.png" style="float: right; padding-left: 15px;" width="250"/></a>
+<p>I’m finalizing the installation instructions for <a href="https://realworldocaml.org">Real World OCaml</a> and finally got around to configuring the awesome <a href="https://github.com/def-lkb/merlin">Merlin editor</a> tool. I pretty much never configure my editor, so here are my notes on getting Merlin working with Vim completely from scratch on MacOS X (I’m on 10.9DP7, but this should work with earlier versions of MacOS X too).</p>
+
+<p>First, install some basic plugin tools by following the Synastic <a href="https://github.com/scrooloose/syntastic">installation instructions</a>.</p>
+
+<p>Install <a href="https://github.com/tpope/vim-pathogen">vim-pathogen</a>:</p>
+<div class="highlight"><pre><code class="sh">mkdir -p ~/.vim/autoload ~/.vim/bundle; <span class="se">\</span>
+curl -so ~/.vim/autoload/pathogen.vim <span class="se">\</span>
+https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+</code></pre></div>
+<p>Install <a href="https://github.com/tpope/vim-sensible.git">vim-sensible</a> for useful defaults:</p>
+<div class="highlight"><pre><code class="sh"><span class="nb">cd</span> ~/.vim/bundle
+git clone git://github.com/tpope/vim-sensible.git
+</code></pre></div>
+<p>Install <a href="https://github.com/scrooloose/syntastic">Syntastic</a>:</p>
+<div class="highlight"><pre><code class="sh"><span class="nb">cd</span> ~/.vim/bundle
+git clone https://github.com/scrooloose/syntastic.git
+</code></pre></div>
+<p>Follow the <a href="https://github.com/def-lkb/merlin/wiki/vim-from-scratch">Merlin/vim from scratch</a> directions:</p>
+<div class="highlight"><pre><code class="sh">opam install merlin
+</code></pre></div>
+<p>Finally, add this this in your <code>~/.vimrc</code> to turn everything on.</p>
+<div class="highlight"><pre><code class="vim">execute pathogen#infect<span class="p">()</span>
+<span class="k">let</span> <span class="k">s</span>:ocamlmerlin<span class="p">=</span>substitute<span class="p">(</span>system<span class="p">(</span><span class="s1">'opam config var share'</span><span class="p">),</span><span class="s1">'\n$'</span><span class="p">,</span><span class="s1">''</span><span class="p">,</span><span class="s1">''''</span><span class="p">)</span> .  <span class="s2">"/ocamlmerlin"</span>
+execute <span class="s2">"set rtp+="</span>.<span class="k">s</span>:ocamlmerlin.<span class="s2">"/vim"</span>
+execute <span class="s2">"set rtp+="</span>.<span class="k">s</span>:ocamlmerlin.<span class="s2">"/vimbufsync"</span>
+</code></pre></div>
+<h2 id="trying_it_out">Trying it out</h2>
+
+<p>Read the excellent instructions at the <a href="https://github.com/def-lkb/merlin/wiki/vim-from-scratch">Merlin for Vim from scratch</a> wiki page. A few immediately useful things I did are below.</p>
+
+<p><em>Displaying types:</em> You can get the local type of something by typing in <code>\t</code> anywhere. This is the <code>&lt;LocalLeader&gt;</code> for anyone who has customized their setup (it is mapped to backslash by default).</p>
+
+<p><em>Tab completing functions:</em> You can tab-complete module signatures by pressing <code>Ctrl-X-O</code> (make sure you keep Ctrl pressed the whole time). This activates vim’s OmniComplete mode. To get this to work with your external projects, create a <code>.merlin</code> file. I use this for <a href="https://github.com/mirage/ocaml-dns">ocaml-dns</a> for example.</p>
+<div class="highlight"><pre><code class="text">PKG lwt cstruct
+S lib
+S lib_test
+S lwt
+B _build/lib
+B _build/lib_test
+B _build/lwt
+</code></pre></div>
+<p>Also, don’t forget to pass the <code>-bin-annot</code> function to the compiler to generate the typed-AST <code>cmt</code> files. You can add <code>true: bin_annot</code> to your <code>_tags</code> file if you’re using OCamlbuild (in OCaml 4.01.0 or higher, and it’ll be silently ignored on previous versions so you don’t need to worry about breaking older OCaml compilers).</p><a onclick="switchContent('post2','post1')" class="btn" href="#c13b4a60bfc4a2d8f370801c5dd9bba5">Hide</a></div></span>
+<a name="3be72f200d01294717a4640003afe9ff"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=887"> SSL up again, special thanks to Gabriel Kerneis</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><pre class="rss-text">Hi,
 
 I was a little bit lazy and I have unfortunately let the SSL certificate expired two days ago. I was somehow busy releasing OUnit 2.0 ;-)
 
@@ -165,7 +237,7 @@ Enjoy
 Sylvain</pre></span>
 <a name="403fcdb04b4f43f4dcaec4d1bdbe2823"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Uucd 1.0.0 and Uunf 0.9.2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><p>Release of Uucd and Uunf to support Unicode 6.3.0. Consult the individual release notes for details.</p></span>
 <a name="7dea5ef655297aa9dc8b78dd3c5ff9f5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.10.01.html"> Caml Weekly News, 01 Oct 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description">Feedback on the ocaml.org redesign and logo / Enhanced OCaml Documentation 4.01 / Gg 0.8.0 and Vg 0.8.0 / otags reloaded 4.01.1 for OCaml 4.01 / meetup OCaml-Pairs (OUPS), mercredi 9 octobre √† l'IRILL / embedding js_of_ocaml output? / OUnit v2.0.0 / Thread behaviour / Esterel Technologies is looking for an Ocaml SW developer in Toulouse (CDI) / equivalent checking of ocaml program? / LablGtk 2.18.0 and LablGL 1.05 / Uucd 1.0.0 &amp; Uunf 0.9.2 / Other Caml News</span>
-<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post1"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -181,7 +253,7 @@ Sylvain</pre></span>
 
 
 <p>The basic features:</p>
-<a onclick="switchContent('post1','post2')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post2" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post4" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -304,15 +376,15 @@ Sylvain</pre></span>
 <pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
 
 
-<p>Patches always welcome.</p><a onclick="switchContent('post2','post1')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
-<a name="952f56763fb713fbbd1a01b210bf52ac"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html"> Test your OCaml packages in minutes using Travis CI</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">29 Sep 2013</span></span><span class="rss-description"><div id="post3"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>Patches always welcome.</p><a onclick="switchContent('post4','post3')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
+<a name="952f56763fb713fbbd1a01b210bf52ac"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html"> Test your OCaml packages in minutes using Travis CI</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">29 Sep 2013</span></span><span class="rss-description"><div id="post5"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
 <p>A few months ago, Mike Lin posted <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">instructions</a> of how to bootstrap an OCaml testing environment within the <a href="http://travis-ci.org">Travis</a> continuous integration tool. I finally got around to integrating his prototype scripts properly using the latest OCaml and OPAM versions during my travels last week to ICFP. It’s been an extraordinarily quick and pleasant experience to add the (free!) Travis test runs to my OCaml programs on GitHub, so here’s how you can do it too. <a href="http://dave.recoil.org">Dave Scott</a> and I have used this for about 15 of our own projects already, and I’m switching the whole of the <a href="http://openmirage.org">Mirage</a> repo infrastructure over to it this week.</p>
 
 <h2 id="getting_started">Getting started</h2>
 
 <p>Getting my first Travis build working with one of my OCaml projects took about 2 minutes in total:</p>
 
-<p>First, log into <a href="http://travis-ci.com">Travis</a> and sign in via Twitter. Click on the <a href="https://travis-ci.org/profile">Accounts</a> button on the top-right and you should see a list of the all the GitHub repositories that you have access to. Just click the <i>On</i> switch for the one you want to start testing. Nothing will actually happen until the next code push or pull request goes to that repository. Behind the scenes, the <i>On</i> button that you clicked use the GitHub APIs to turn on the Travis post-commit hook for your repository.</p><a onclick="switchContent('post3','post4')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Read more...</a></div><div id="post4" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>First, log into <a href="http://travis-ci.com">Travis</a> and sign in via Twitter. Click on the <a href="https://travis-ci.org/profile">Accounts</a> button on the top-right and you should see a list of the all the GitHub repositories that you have access to. Just click the <i>On</i> switch for the one you want to start testing. Nothing will actually happen until the next code push or pull request goes to that repository. Behind the scenes, the <i>On</i> button that you clicked use the GitHub APIs to turn on the Travis post-commit hook for your repository.</p><a onclick="switchContent('post5','post6')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Read more...</a></div><div id="post6" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
 <p>A few months ago, Mike Lin posted <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">instructions</a> of how to bootstrap an OCaml testing environment within the <a href="http://travis-ci.org">Travis</a> continuous integration tool. I finally got around to integrating his prototype scripts properly using the latest OCaml and OPAM versions during my travels last week to ICFP. It’s been an extraordinarily quick and pleasant experience to add the (free!) Travis test runs to my OCaml programs on GitHub, so here’s how you can do it too. <a href="http://dave.recoil.org">Dave Scott</a> and I have used this for about 15 of our own projects already, and I’m switching the whole of the <a href="http://openmirage.org">Mirage</a> repo infrastructure over to it this week.</p>
 
 <h2 id="getting_started">Getting started</h2>
@@ -378,14 +450,14 @@ make <span class="nb">test</span>
 
 <p>I couldn’t resist one final little hack to see if I could actually do some ARM/OCaml testing using the Travis infrastructure. I adapted Ian Campbell’s excellent <a href="http://www.hellion.org.uk/blog/posts/foreign-chroots-with-schroot-and-qemu/">guide to ARM cross-chroots</a>, and ended up with a <a href="https://github.com/avsm/ocaml/blob/travis/.travis-ci.sh">rough script</a> that builds an unattended chroot and can run OCaml/OPAM installations there too.</p>
 
-<p>This isn’t something I’m quite comfortable running on all of my repositories just yet though, since an OCaml cross-build using qemu took over 5 hours and was quite rightly terminated when running within Travis. To mitigate this, I’ve built a <a href="http://www.recoil.org/~avsm/debian-arm">custom apt-repository</a> for ARMel packages to install a binary toolchain, and you can see the results of <a href="https://travis-ci.org/avsm/ocaml/jobs/11942786">Lwt/ARM building successfully</a>. I’ll update on this as I get it working on more packages, as I’m quite interested in getting a solid Xen/ARM toolstack up and running for another <a href="http://nymote.org">exciting project</a> over in OCaml Labs…</p><a onclick="switchContent('post4','post3')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Hide</a></div></span>
+<p>This isn’t something I’m quite comfortable running on all of my repositories just yet though, since an OCaml cross-build using qemu took over 5 hours and was quite rightly terminated when running within Travis. To mitigate this, I’ve built a <a href="http://www.recoil.org/~avsm/debian-arm">custom apt-repository</a> for ARMel packages to install a binary toolchain, and you can see the results of <a href="https://travis-ci.org/avsm/ocaml/jobs/11942786">Lwt/ARM building successfully</a>. I’ll update on this as I get it working on more packages, as I’m quite interested in getting a solid Xen/ARM toolstack up and running for another <a href="http://nymote.org">exciting project</a> over in OCaml Labs…</p><a onclick="switchContent('post6','post5')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Hide</a></div></span>
 <a name="2777d7de50de146d52efb62009134d88"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=886"> CCSS 1.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">The most notable feature of this release is the introduction of mixins: a variable may now be assigned an entire declaration block.</pre></span>
 <a name="e862e722280f522e7be81f5c35cb41b8"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/9/27/ocaml-tutorial-videos-now-available"> OCaml  tutorial videos now available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">27 Sep 2013</span></span><span class="rss-description"><p>I've made a few little tutorial videos to go with the book. Just seven for now, covering the first four chapters, but more to come:</p><ol><li>Evaluating an expression</li><li>True and false</li><li>Making decisions</li><li>Names and functions</li><li>Patterns</li><li>Lists</li><li>Take and drop</li><li>Appending two lists</li></ol><p>They're not really a substitute for the book but, when learning, it's always helpful to go over things twice, particularly using a different medium.</p><p>The videos are available <a href="http://ocaml-book.com/videos/">here</a>. </p><p> </p></span>
-<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post5"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
 
 
 <p>The basic features:</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post6" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post8" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
 
 
 <p>The basic features:</p>
@@ -460,21 +532,8 @@ make <span class="nb">test</span>
 <p>Patches always welcome.</p>
 
 
-<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post6','post5')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
+<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
 <a name="b159bb33433f9b70968e3d4eb1ce64dd"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Gg 0.8.0 and Vg 0.8.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>First release of Gg and Vg. Thanks to <a href="http://www.xenproject.org/developers/teams/xapi.html">Citrix Systems R&amp;D</a> and <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/index.html">OCaml Labs</a> for sponsoring this work.</p></span>
-<a name="a5df4d5e6a84208a9f87406b4030f9d7"></a><span class="rss-header"><span class="rss-title"><a href="http://amirchaudhry.com/ocamlorg-request-for-feedback"> Feedback requested on the OCaml.org redesign</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Amir Chaudhry</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>There is a work-in-progress site at <a href="http://ocaml-redesign.github.io">ocaml-redesign.github.io</a>, where we’ve been developing both the tools and design for the new ocaml.org pages. This allows us to test our tools and fix issues before we consider merging changes upstream.</p>
-
-<p>There is a more detailed post coming about all the design work to date and the workflow we’re using, but in the meantime, feedback on the following areas would be most welcome. Please leave feedback in the form of issues on the <a href="https://github.com/ocamllabs/sandbox-ocaml.org/issues">ocaml.org sandbox repo</a>. You can also raise points on the <a href="http://lists.ocaml.org/listinfo/infrastructure">infrastructure mailing list</a>.</p>
-
-<ol>
-<li>
-<p><strong>OCaml Logo</strong> - There was some feedback on the last iteration of the logo, especially regarding the font, so there are now several options to consider. Please look at the images on the <a href="https://github.com/ocaml/ocaml.org/wiki/Draft-OCaml-Logos">ocaml.org GitHub wiki</a> and then leave your feedback on <a href="https://github.com/ocamllabs/sandbox-ocaml.org/issues/16">issue #16 on the sandbox repo</a>.</p>
-</li>
-
-<li>
-<p><strong>Site design</strong> - Please do give feedback on the design and any glitches you notice. Text on each of the new landing pages is still an initial draft so comments and improvements there are also welcome (specifically: Home Page, Learn, Documentation, Platform, Community). There are already a few <a href="https://github.com/ocamllabs/sandbox-ocaml.org/issues">known issues</a>, so do add your comments to those threads first.</p>
-</li>
-</ol></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
