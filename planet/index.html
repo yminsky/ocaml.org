@@ -153,7 +153,497 @@
       <a href="http://planet.ocaml.org/rss20.xml"><img src=".././img/rss20.png"/></a>
       <a href="http://planet.ocaml.org/opml.xml"><img src=".././img/opml.png"/></a>
     </div>
-    <div class="planet"><a name="c13b4a60bfc4a2d8f370801c5dd9bba5"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/03/merlin-and-vim.html"> Intellisense for OCaml with Vim and Merlin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">02 Oct 2013</span></span><span class="rss-description"><div id="post1"><a href="http://anil.recoil.org/images/vim-merlin-autocomplete.png"><img src="http://anil.recoil.org/images/vim-merlin-autocomplete-thumb.png" style="float: right; padding-left: 15px;" width="250"/></a>
+    <div class="planet"><a name="b341d9862dfecfd9d18039bdfdb01f31"></a><span class="rss-header"><span class="rss-title"><a href="http://scattered-thoughts.net/blog/2013/10/06/hugo-a-go-go/"> Hugo-a-go-go</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Jamie Brandon</span>, <span class="rss-date">06 Oct 2013</span></span><span class="rss-description"><div id="post1"><p>For the <a href="http://clojurecup.com/">2013 Clojure Cup</a> myself and <a href="http://www.thattommyhall.com/">Tom Hall</a> wrote a <a href="http://en.wikipedia.org/wiki/Go_%28game%29">go</a> AI in clojurescript, inspired by <a href="https://github.com/ztellman/pushkin">pushkin</a>. The source is <a href="https://github.com/jamii/hugo-a-go-go/">here</a> and it can currently be played on the <a href="http://hugoagogo.clojurecup.com/">clojure cup site</a> (only tested in chrome).</p>
+
+
+
+
+<p>Before reading this post it would help to understand the rules of go. Hugo-a-go-go follows (an approximation of) the <a href="http://en.wikipedia.org/wiki/Rules_of_Go#Chinese_rules">chinese rules</a>. Due to the limited time we don’t yet check for <a href="http://en.wikipedia.org/wiki/Rules_of_Go#Ko">ko</a> and don’t even attempt to detect the end of the game. The code at the moment is incredibly messy and probably very buggy (the version we submitted seems to actually <em>try</em> to lose) so treat it with suspicion.</p>
+
+<h2>Board</h2>
+
+<p>The best place to start is with the board representation. The most expensive operation for the AI is detecting suicide and death. To make this fast we track connected strings of pieces.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">String</span> <span class="p">[</span><span class="nv">colour</span> <span class="nv">liberties</span><span class="p">])</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p><code>colour</code> is one of <code>:black</code>, <code>:white</code>, <code>:grey</code> (for the border) or <code>:empty</code>. <code>liberties</code> tracks the number of <a href="https://groups.google.com/forum/#!msg/computer-go-archive/hs259RQQ5hI/TOLFX2d5Y6UJ">pseudo-liberties</a> the string has (for black or white strings; for empty or grey strings the <code>liberties</code> value is never read and exists just to avoid having to branch on the colour).</p>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#b341d9862dfecfd9d18039bdfdb01f31">Read more...</a></div><div id="post2" style="display: none"><p>For the <a href="http://clojurecup.com/">2013 Clojure Cup</a> myself and <a href="http://www.thattommyhall.com/">Tom Hall</a> wrote a <a href="http://en.wikipedia.org/wiki/Go_%28game%29">go</a> AI in clojurescript, inspired by <a href="https://github.com/ztellman/pushkin">pushkin</a>. The source is <a href="https://github.com/jamii/hugo-a-go-go/">here</a> and it can currently be played on the <a href="http://hugoagogo.clojurecup.com/">clojure cup site</a> (only tested in chrome).</p>
+
+
+
+
+<p>Before reading this post it would help to understand the rules of go. Hugo-a-go-go follows (an approximation of) the <a href="http://en.wikipedia.org/wiki/Rules_of_Go#Chinese_rules">chinese rules</a>. Due to the limited time we don’t yet check for <a href="http://en.wikipedia.org/wiki/Rules_of_Go#Ko">ko</a> and don’t even attempt to detect the end of the game. The code at the moment is incredibly messy and probably very buggy (the version we submitted seems to actually <em>try</em> to lose) so treat it with suspicion.</p>
+
+<h2>Board</h2>
+
+<p>The best place to start is with the board representation. The most expensive operation for the AI is detecting suicide and death. To make this fast we track connected strings of pieces.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">String</span> <span class="p">[</span><span class="nv">colour</span> <span class="nv">liberties</span><span class="p">])</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p><code>colour</code> is one of <code>:black</code>, <code>:white</code>, <code>:grey</code> (for the border) or <code>:empty</code>. <code>liberties</code> tracks the number of <a href="https://groups.google.com/forum/#!msg/computer-go-archive/hs259RQQ5hI/TOLFX2d5Y6UJ">pseudo-liberties</a> the string has (for black or white strings; for empty or grey strings the <code>liberties</code> value is never read and exists just to avoid having to branch on the colour).</p>
+
+<p>The board is represented by a 1d array of pointers to strings (this representation is inspired by <a href="http://www.gnu.org/software/gnugo/">gnugo</a> rather than pushkin) and a pointer to the empty string (which we use for fast <code>empty?</code> checks).</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">Board</span> <span class="p">[</span><span class="nv">strings</span> <span class="nv">empty-string</span><span class="p">])</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="k">def </span><span class="nv">size</span> <span class="mi">9</span><span class="p">)</span>
+</span><span class="line"><span class="p">(</span><span class="k">def </span><span class="nv">array-size</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">2</span> <span class="nv">size</span><span class="p">))</span>
+</span><span class="line"><span class="p">(</span><span class="k">def </span><span class="nv">max-pos</span> <span class="p">(</span><span class="nb">* </span><span class="nv">array-size</span> <span class="nv">array-size</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">-&gt;pos</span> <span class="p">[</span><span class="nv">x</span> <span class="nv">y</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">* </span><span class="nv">array-size</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">y</span><span class="p">))))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>To create a board we just have to setup the empty-string and border-string.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="k">new </span><span class="p">[]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">empty-string</span> <span class="p">(</span><span class="nf">-&gt;String</span> <span class="ss">:empty</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">border-string</span> <span class="p">(</span><span class="nf">-&gt;String</span> <span class="ss">:grey</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">strings</span> <span class="p">(</span><span class="nf">object-array</span> <span class="nv">max-pos</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">dotimes </span><span class="p">[</span><span class="nv">i</span> <span class="nv">max-pos</span><span class="p">]</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">aset </span><span class="nv">strings</span> <span class="nv">i</span> <span class="nv">empty-string</span><span class="p">))</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">dotimes </span><span class="p">[</span><span class="nv">i</span> <span class="nv">array-size</span><span class="p">]</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">aset </span><span class="nv">strings</span> <span class="p">(</span><span class="nf">-&gt;pos</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">i</span><span class="p">)</span> <span class="mi">-1</span><span class="p">)</span> <span class="nv">border-string</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">aset </span><span class="nv">strings</span> <span class="p">(</span><span class="nf">-&gt;pos</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">i</span><span class="p">)</span> <span class="nv">size</span><span class="p">)</span> <span class="nv">border-string</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">aset </span><span class="nv">strings</span> <span class="p">(</span><span class="nf">-&gt;pos</span> <span class="mi">-1</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">i</span><span class="p">))</span> <span class="nv">border-string</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">aset </span><span class="nv">strings</span> <span class="p">(</span><span class="nf">-&gt;pos</span> <span class="nv">size</span> <span class="p">(</span><span class="nb">dec </span><span class="nv">i</span><span class="p">))</span> <span class="nv">border-string</span><span class="p">))</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">-&gt;Board</span> <span class="nv">strings</span> <span class="nv">empty-string</span><span class="p">)))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>A given move is <em>not</em> suicide if, after the move is made, there is at least one neighbour which is either:</p>
+
+<ul>
+<li><p>the same colour and has more than zero liberties</p></li>
+<li><p>the opposite colour and has zero liberties (ie would die if the move was carried through)</p></li>
+<li><p>empty</p></li>
+</ul>
+
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">suicide?</span> <span class="p">[</span><span class="o">^</span><span class="nv">Board</span> <span class="nv">board</span> <span class="nv">colour</span> <span class="nv">pos</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">suicide</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">true</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">opposite-colour</span> <span class="p">(</span><span class="nf">condp</span> <span class="nv">keyword-identical?</span> <span class="nv">colour</span> <span class="ss">:black</span> <span class="ss">:white</span> <span class="ss">:white</span> <span class="ss">:black</span><span class="p">)]</span>
+</span><span class="line">    <span class="c1">;; decrement all the neighbours liberties</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">foreach-neighbour</span> <span class="nv">neighbour-pos</span> <span class="nv">pos</span>
+</span><span class="line">      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">string</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">neighbour-pos</span><span class="p">)]</span>
+</span><span class="line">        <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">string</span><span class="p">)</span> <span class="p">(</span><span class="nb">dec </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">string</span><span class="p">)))))</span>
+</span><span class="line">    <span class="c1">;; check for suicide</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">foreach-neighbour</span> <span class="nv">neighbour-pos</span> <span class="nv">pos</span>
+</span><span class="line">      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">string</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">neighbour-pos</span><span class="p">)]</span>
+</span><span class="line">        <span class="p">(</span><span class="nf">condp</span> <span class="nv">keyword-identical?</span> <span class="p">(</span><span class="nf">.-colour</span> <span class="nv">string</span><span class="p">)</span>
+</span><span class="line">          <span class="nv">colour</span> <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">&gt; </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">string</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">                   <span class="p">(</span><span class="nf">reset!</span> <span class="nv">suicide</span> <span class="nv">false</span><span class="p">))</span>
+</span><span class="line">          <span class="nv">opposite-colour</span> <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">string</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line">                            <span class="p">(</span><span class="nf">reset!</span> <span class="nv">suicide</span> <span class="nv">false</span><span class="p">))</span>
+</span><span class="line">          <span class="ss">:empty</span> <span class="p">(</span><span class="nf">reset!</span> <span class="nv">suicide</span> <span class="nv">false</span><span class="p">)</span>
+</span><span class="line">          <span class="ss">:grey</span> <span class="nv">nil</span><span class="p">)))</span>
+</span><span class="line">    <span class="c1">;; undo the decrement</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">foreach-neighbour</span> <span class="nv">neighbour-pos</span> <span class="nv">pos</span>
+</span><span class="line">      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">string</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">neighbour-pos</span><span class="p">)]</span>
+</span><span class="line">        <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">string</span><span class="p">)</span> <span class="p">(</span><span class="nb">inc </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">string</span><span class="p">)))))</span>
+</span><span class="line">    <span class="err">@</span><span class="nv">suicide</span><span class="p">))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>Actually making a move is similar but we have to clear out dead strings and join adjacent strings together. Proving that it’s safe to do all this in a single pass is straightforward, if tedious.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="kd">defn </span><span class="nv">set-colour</span> <span class="p">[</span><span class="o">^</span><span class="nv">Board</span> <span class="nv">board</span> <span class="nv">pos</span> <span class="nv">colour</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">string</span> <span class="p">(</span><span class="nf">-&gt;String</span> <span class="nv">colour</span> <span class="mi">0</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">aset </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">pos</span> <span class="nv">string</span><span class="p">)</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">foreach-neighbour</span> <span class="nv">neighbour-pos</span> <span class="nv">pos</span>
+</span><span class="line">                       <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">neighbour-string</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">neighbour-pos</span><span class="p">)</span>
+</span><span class="line">                             <span class="nv">neighbour-colour</span> <span class="p">(</span><span class="nf">.-colour</span> <span class="nv">neighbour-string</span><span class="p">)]</span>
+</span><span class="line">                         <span class="p">(</span><span class="nf">condp</span> <span class="nv">keyword-identical?</span> <span class="nv">neighbour-colour</span>
+</span><span class="line">                           <span class="ss">:empty</span>
+</span><span class="line">                           <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-liberties</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">pos</span><span class="p">))</span> <span class="p">(</span><span class="nb">inc </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">pos</span><span class="p">))))</span>
+</span><span class="line">
+</span><span class="line">                           <span class="ss">:grey</span>
+</span><span class="line">                           <span class="nv">nil</span>
+</span><span class="line">
+</span><span class="line">                           <span class="nv">colour</span>
+</span><span class="line">                           <span class="p">(</span><span class="nf">do</span>
+</span><span class="line">                             <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">neighbour-string</span><span class="p">)</span> <span class="p">(</span><span class="nb">dec </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">neighbour-string</span><span class="p">)))</span>
+</span><span class="line">                             <span class="p">(</span><span class="nf">join-strings</span> <span class="nv">board</span> <span class="p">(</span><span class="nb">aget </span><span class="p">(</span><span class="nf">.-strings</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">pos</span><span class="p">)</span> <span class="nv">neighbour-string</span> <span class="nv">pos</span> <span class="nv">neighbour-pos</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line">                           <span class="c1">;; opposite colour</span>
+</span><span class="line">                           <span class="p">(</span><span class="nf">do</span>
+</span><span class="line">                             <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">neighbour-string</span><span class="p">)</span> <span class="p">(</span><span class="nb">dec </span><span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">neighbour-string</span><span class="p">)))</span>
+</span><span class="line">                             <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">= </span><span class="mi">0</span> <span class="p">(</span><span class="nf">.-liberties</span> <span class="nv">neighbour-string</span><span class="p">))</span>
+</span><span class="line">                               <span class="p">(</span><span class="nf">clear-string</span> <span class="nv">board</span> <span class="nv">neighbour-string</span> <span class="nv">neighbour-pos</span><span class="p">))))))))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<h2>Monte Carlo</h2>
+
+<p>Go branches far too much to exhaustively check all possible futures. Instead we use a heuristic measure of the value of a move – the Monte Carlo estimate of the expected score when both players choose from the set of valid moves uniformly at random. To put it simply, we run large numbers of random games from this board position and take the mean score as our measure of how strong this board position is. Since we don’t have a test for the end of the game we just run until either 100 moves have been made or until both sides have no valid moves remaining.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">flood-fill</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">colour</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">filled</span> <span class="p">(</span><span class="nf">object-array</span> <span class="nv">max-pos</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">letfn</span> <span class="p">[(</span><span class="nf">flood-fill-around</span> <span class="p">[</span><span class="nv">pos</span><span class="p">]</span>
+</span><span class="line">              <span class="p">(</span><span class="nf">foreach-neighbour</span> <span class="nv">pos</span> <span class="nv">pos</span>
+</span><span class="line">                  <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">and </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">aget </span><span class="nv">filled</span> <span class="nv">pos</span><span class="p">))</span>
+</span><span class="line">                             <span class="p">(</span><span class="nf">keyword-identical?</span> <span class="ss">:empty</span> <span class="p">(</span><span class="nf">get-colour</span> <span class="nv">board</span> <span class="nv">pos</span><span class="p">)))</span>
+</span><span class="line">                    <span class="p">(</span><span class="nb">aset </span><span class="nv">filled</span> <span class="nv">pos</span> <span class="nv">true</span><span class="p">)</span>
+</span><span class="line">                    <span class="p">(</span><span class="nf">flood-fill-around</span> <span class="nv">pos</span><span class="p">))))]</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">dotimes </span><span class="p">[</span><span class="nv">x</span> <span class="nv">size</span><span class="p">]</span>
+</span><span class="line">        <span class="p">(</span><span class="nb">dotimes </span><span class="p">[</span><span class="nv">y</span> <span class="nv">size</span><span class="p">]</span>
+</span><span class="line">          <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">pos</span> <span class="p">(</span><span class="nf">-&gt;pos</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)]</span>
+</span><span class="line">            <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nf">keyword-identical?</span> <span class="nv">colour</span> <span class="p">(</span><span class="nf">get-colour</span> <span class="nv">board</span> <span class="nv">pos</span><span class="p">))</span>
+</span><span class="line">              <span class="p">(</span><span class="nb">aset </span><span class="nv">filled</span> <span class="nv">pos</span> <span class="nv">true</span><span class="p">)</span>
+</span><span class="line">              <span class="p">(</span><span class="nf">flood-fill-around</span> <span class="nv">pos</span><span class="p">))))))</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">count </span><span class="p">(</span><span class="nb">filter identity </span><span class="nv">filled</span><span class="p">))))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">score</span> <span class="p">[</span><span class="nv">board</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">white-flood</span> <span class="p">(</span><span class="nf">flood-fill</span> <span class="nv">board</span> <span class="ss">:white</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">black-flood</span> <span class="p">(</span><span class="nf">flood-fill</span> <span class="nv">board</span> <span class="ss">:black</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">total</span> <span class="p">(</span><span class="nb">* </span><span class="nv">size</span> <span class="nv">size</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">overlap</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">+ </span><span class="nv">white-flood</span> <span class="nv">black-flood</span><span class="p">)</span> <span class="nv">total</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">white-score</span> <span class="p">(</span><span class="nb">- </span><span class="nv">white-flood</span> <span class="nv">overlap</span><span class="p">)</span>
+</span><span class="line">        <span class="nv">black-score</span> <span class="p">(</span><span class="nb">- </span><span class="nv">black-flood</span> <span class="nv">overlap</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">{</span><span class="ss">:white</span> <span class="nv">white-score</span> <span class="ss">:black</span> <span class="nv">black-score</span><span class="p">}))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">random-move</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">colour</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">starting-pos</span> <span class="p">(</span><span class="nf">random-int</span> <span class="nv">board/max-pos</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="k">loop </span><span class="p">[</span><span class="nv">pos</span> <span class="nv">starting-pos</span><span class="p">]</span>
+</span><span class="line">      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">and </span><span class="p">(</span><span class="nf">board/valid?</span> <span class="nv">board</span> <span class="nv">colour</span> <span class="nv">pos</span><span class="p">)</span>
+</span><span class="line">               <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">board/eyelike?</span> <span class="nv">board</span> <span class="nv">colour</span> <span class="nv">pos</span><span class="p">)))</span>
+</span><span class="line">        <span class="nv">pos</span>
+</span><span class="line">        <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">new-pos</span> <span class="p">(</span><span class="nf">mod</span> <span class="p">(</span><span class="nb">inc </span><span class="nv">pos</span><span class="p">)</span> <span class="nv">board/max-pos</span><span class="p">)]</span>
+</span><span class="line">          <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">starting-pos</span> <span class="nv">new-pos</span><span class="p">)</span>
+</span><span class="line">            <span class="nv">nil</span>
+</span><span class="line">            <span class="p">(</span><span class="nf">recur</span> <span class="nv">new-pos</span><span class="p">)))))))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">with-random-moves</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">n</span> <span class="nv">starting-colour</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">colour</span> <span class="p">(</span><span class="nb">take </span><span class="nv">n</span> <span class="p">(</span><span class="nb">interleave </span><span class="p">(</span><span class="nb">repeat </span><span class="nv">starting-colour</span><span class="p">)</span> <span class="p">(</span><span class="nb">repeat </span><span class="p">(</span><span class="nf">board/opposite-colour</span> <span class="nv">starting-colour</span><span class="p">))))]</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">when-let </span><span class="p">[</span><span class="nv">move</span> <span class="p">(</span><span class="nf">random-move</span> <span class="nv">board</span> <span class="nv">colour</span><span class="p">)]</span>
+</span><span class="line">        <span class="p">(</span><span class="nf">board/set-colour</span> <span class="nv">board</span> <span class="nv">move</span> <span class="nv">colour</span><span class="p">)))</span>
+</span><span class="line">  <span class="nv">board</span><span class="p">)</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>You may notice that the above code actually only runs until one side has no moves – this is the first of many bugs.</p>
+
+<p>The scoring and random-move code was a huge bottleneck so at the last minute I ‘optimised’ it by changing it to:</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="c1">;; rough approximation of the final score if the board is tightly packed</span>
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">score</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">colour</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">score</span> <span class="p">(</span><span class="nf">atom</span> <span class="mi">0</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">dotimes </span><span class="p">[</span><span class="nv">pos</span> <span class="nv">board/max-pos</span><span class="p">]</span>
+</span><span class="line">      <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nf">keyword-identical?</span> <span class="nv">colour</span> <span class="p">(</span><span class="nf">board/get-colour</span> <span class="nv">board</span> <span class="nv">pos</span><span class="p">))</span>
+</span><span class="line">        <span class="p">(</span><span class="nf">swap!</span> <span class="nv">score</span> <span class="nv">inc</span><span class="p">)))</span>
+</span><span class="line">    <span class="err">@</span><span class="nv">score</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; massive speedup at the expense of never playing in killed spaces</span>
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">with-random-moves-from</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">n</span> <span class="nv">starting-colour</span> <span class="nv">moves</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">js/goog.array.shuffle</span> <span class="nv">moves</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="k">loop </span><span class="p">[</span><span class="nv">colour</span> <span class="nv">starting-colour</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">move</span> <span class="p">(</span><span class="nf">.pop</span> <span class="nv">moves</span><span class="p">)]</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">board/set-colour</span> <span class="nv">board</span> <span class="nv">move</span> <span class="nv">colour</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">recur</span> <span class="p">(</span><span class="nf">board/opposite-colour</span> <span class="nv">colour</span><span class="p">))))</span>
+</span><span class="line">  <span class="nv">board</span><span class="p">)</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>I think it is these two changes that are largely responsible for the submitted version playing so poorly – it doesn’t check for eyes in the random playouts, doesn’t allow the other player to keep killing strings when the ai player has no moves and doesn’t count eyes in the final score. This explains why it likes to tightly pack pieces against the edge of the board.</p>
+
+<h2>UCT</h2>
+
+<p>While the monte-carlo estimate gives us a reasonable heuristic for move strength it doesn’t re-use any information between passes. With such a large move space we need to explore more intelligently. The <a href="http://teytaud.over-blog.com/article-35709049.html">UCT</a> algorithm treats move-selection like a <a href="http://en.wikipedia.org/wiki/Multi-armed_bandit">multi-armed bandit problem</a>.</p>
+
+&lt;iframe allowfullscreen="allowfullscreen" frameborder="0" height="360" src="http://scattered-thoughts.net//www.youtube.com/embed/dbvoPg51CqQ?feature=player_embedded" width="640"&gt;video&lt;/iframe&gt;
+
+
+<p>We build a tree of moves where each node in the tree tracks not just the estimated score for all its child nodes but also the upper bound of a confidence interval on that estimate.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">Node</span> <span class="p">[</span><span class="nv">parent</span> <span class="nv">colour</span> <span class="nv">pos</span> <span class="nb">count </span><span class="nv">sum</span> <span class="nv">nodes</span> <span class="nv">valids</span><span class="p">])</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p><code>colour</code> is the colour making the move at this node. <code>pos</code> is the position at which it is moving. <code>nodes</code> is a list of child nodes for which we have estimates. <code>valids</code> is a list of valid moves which have not yet been converted into nodes. <code>count</code> and <code>sum</code> track the mean score for all the children in <code>nodes</code>.</p>
+
+<p>On each iteration we pick a path through the tree, choosing some explore/exploit tradeoff using the upper confidence bounds. Given the limited time we had, I decided to just copy a scoring function from a paper without stopping to understand it, so I don’t actually know what explore/exploit tradeoff we are making :S</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">best-child</span> <span class="p">[</span><span class="nv">node</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">best-score</span> <span class="p">(</span><span class="nf">atom</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">/ </span><span class="mi">1</span> <span class="mi">0</span><span class="p">)))</span>
+</span><span class="line">        <span class="nv">best-child</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">doseq </span><span class="p">[</span><span class="nv">child</span> <span class="p">(</span><span class="nf">.-nodes</span> <span class="nv">node</span><span class="p">)]</span>
+</span><span class="line">      <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">score</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">.-sum</span> <span class="nv">child</span><span class="p">)</span> <span class="p">(</span><span class="nf">.-count</span> <span class="nv">child</span><span class="p">))</span>
+</span><span class="line">                     <span class="p">(</span><span class="nf">js/Math.sqrt</span>
+</span><span class="line">                      <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="p">(</span><span class="nf">js/Math.log</span> <span class="p">(</span><span class="nf">.-count</span> <span class="nv">node</span><span class="p">)))</span>
+</span><span class="line">                         <span class="p">(</span><span class="nb">* </span><span class="mi">5</span> <span class="p">(</span><span class="nf">.-count</span> <span class="nv">child</span><span class="p">)))))]</span>
+</span><span class="line">        <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">score</span> <span class="err">@</span><span class="nv">best-score</span><span class="p">)</span>
+</span><span class="line">          <span class="p">(</span><span class="nf">reset!</span> <span class="nv">best-score</span> <span class="nv">score</span><span class="p">)</span>
+</span><span class="line">          <span class="p">(</span><span class="nf">reset!</span> <span class="nv">best-child</span> <span class="nv">child</span><span class="p">))))</span>
+</span><span class="line">    <span class="err">@</span><span class="nv">best-child</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">expand</span> <span class="p">[</span><span class="nv">board</span> <span class="nb">node </span><span class="nv">ai-colour</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">pos</span> <span class="p">(</span><span class="nf">.-pos</span> <span class="nv">node</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">not= </span><span class="mi">0</span> <span class="nv">pos</span><span class="p">)</span> <span class="c1">;; top node has pos 0 - probably a smell</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">board/set-colour</span> <span class="nv">board</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">.-colour</span> <span class="nv">node</span><span class="p">))))</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">valid-pos</span> <span class="p">(</span><span class="nf">.pop</span> <span class="p">(</span><span class="nf">.-valids</span> <span class="nv">node</span><span class="p">))]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">.push</span> <span class="p">(</span><span class="nf">.-nodes</span> <span class="nv">node</span><span class="p">)</span> <span class="p">(</span><span class="nf">expand-leaf</span> <span class="nv">board</span> <span class="nv">ai-colour</span> <span class="nb">node </span><span class="p">(</span><span class="nf">board/opposite-colour</span> <span class="p">(</span><span class="nf">.-colour</span> <span class="nv">node</span><span class="p">))</span> <span class="nv">valid-pos</span><span class="p">))</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">child</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">.-colour</span> <span class="nv">node</span><span class="p">)</span> <span class="nv">ai-colour</span><span class="p">)</span>
+</span><span class="line">                     <span class="p">(</span><span class="nf">worst-child</span> <span class="nv">node</span><span class="p">)</span>
+</span><span class="line">                     <span class="p">(</span><span class="nf">best-child</span> <span class="nv">node</span><span class="p">))]</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">expand</span> <span class="nv">board</span> <span class="nv">child</span> <span class="nv">ai-colour</span><span class="p">)</span>
+</span><span class="line">      <span class="nv">nil</span> <span class="c1">;; no possible moves - pass</span>
+</span><span class="line">      <span class="p">)))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>On reaching a leaf we extend it by one more move, estimate the value of that move using monte-carlo simulations and then propagate the value back up the path to the top of tree.</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">expand-leaf</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">ai-colour</span> <span class="nv">parent</span> <span class="nv">colour</span> <span class="nv">pos</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">board/set-colour</span> <span class="nv">board</span> <span class="nv">pos</span> <span class="nv">colour</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">valids</span> <span class="p">(</span><span class="nf">valids</span> <span class="nv">board</span> <span class="p">(</span><span class="nf">board/opposite-colour</span> <span class="nv">colour</span><span class="p">))]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">random/with-random-moves-from</span> <span class="nv">board</span> <span class="mi">100</span> <span class="p">(</span><span class="nf">board/opposite-colour</span> <span class="nv">colour</span><span class="p">)</span> <span class="p">(</span><span class="nf">aclone</span> <span class="nv">valids</span><span class="p">))</span>
+</span><span class="line">    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">value</span> <span class="p">(</span><span class="nf">value</span> <span class="nv">board</span> <span class="nv">ai-colour</span><span class="p">)]</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">add-value</span> <span class="nv">parent</span> <span class="nv">value</span><span class="p">)</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">-&gt;Node</span> <span class="nv">parent</span> <span class="nv">colour</span> <span class="nv">pos</span> <span class="mi">1</span> <span class="nv">value</span> <span class="p">(</span><span class="nf">object-array</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">valids</span><span class="p">))))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">add-value</span> <span class="p">[</span><span class="nb">node </span><span class="nv">value</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-count</span> <span class="nv">node</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">.-count</span> <span class="nv">node</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-sum</span> <span class="nv">node</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">.-sum</span> <span class="nv">node</span><span class="p">)</span> <span class="nv">value</span><span class="p">))</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">parent</span> <span class="p">(</span><span class="nf">.-parent</span> <span class="nv">node</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">recur</span> <span class="nv">parent</span> <span class="nv">value</span><span class="p">)))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<p>Finally, the ai chooses its move by running a number of iterations of this algorithm and returning the value of <code>best-child</code> at the root (this is probably wrong – at this point we should just exploit, not explore).</p>
+
+&lt;figure class="code"&gt;&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;<div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">move-for</span> <span class="p">[</span><span class="nv">board</span> <span class="nv">colour</span> <span class="nv">n</span><span class="p">]</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nb">node </span><span class="p">(</span><span class="nf">hugo-a-go-go.tree/new</span> <span class="p">(</span><span class="nf">board/copy</span> <span class="nv">board</span><span class="p">)</span> <span class="nv">colour</span><span class="p">)]</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">dotimes </span><span class="p">[</span><span class="nv">_</span> <span class="nv">n</span><span class="p">]</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">expand</span> <span class="p">(</span><span class="nf">board/copy</span> <span class="nv">board</span><span class="p">)</span> <span class="nb">node </span><span class="nv">colour</span><span class="p">))</span>
+</span><span class="line">    <span class="p">(</span><span class="nb">when-let </span><span class="p">[</span><span class="nv">child</span> <span class="p">(</span><span class="nf">best-child</span> <span class="nv">node</span><span class="p">)]</span>
+</span><span class="line">      <span class="p">(</span><span class="nf">.-pos</span> <span class="nv">child</span><span class="p">))))</span>
+</span></code></pre></td></tr></tbody></table></div>&lt;/figure&gt;
+
+
+<h2>Postmortem</h2>
+
+<p>Together we spent around 20 man-hours on the competition. I spent the first two thirds of the competition just getting the board representation to work correctly. Part of the delay was that after moving to a cljs-only implementation the feedback loop was much slower. I wasted an hour or two tring to get brepl working without any success and after that had to rely on print statements and pre-compiled test cases. Finding errors in cljs also leaves a lot to be desired (eg a typo in a field name resulted in an <code>undefined</code> value which, several functions later, became a <code>NaN</code> which then behaves interestingly inside max/min). I only started on the UCT code an hour or two before the deadline. Tom started on the user input around the same time. We played our first game against the ai about five minutes before the deadline and frantically submitted whatever code we had running.</p>
+
+<p>If we were taking it more seriously we certainly could have done a lot more to prepare – being familiar with the cljs dev tools, actually learning the rules of go, sketching out the board representation and the UCT implementation before the weekend started, not walking a marathon on the same weekend. But winning was not the goal and instead we had a lot of fun and excitement seeing just how much we can hack together in such a short space of time.</p>
+
+<p>Our AI is definitely not correct so it’s difficult to evaluate the project yet. The code is relatively short and simple (especially compared to eg <a href="http://git.savannah.gnu.org/cgit/gnugo.git/tree/engine">gnugo</a>) but that doesn’t mean much until it actually works. The performance is promising – the current version can simulate around 5k games per second in chrome. Fixing the monte-carlo step and the scoring will eat into that performance but I’ve already spotted plenty of inefficiencies in other places. We haven’t even started experimenting with <a href="https://github.com/ztellman/vertigo">vertigo</a> or <a href="http://asmjs.org/">asm.js</a> yet so there is certainly lots of headroom.</p>
+
+<p>I am definitely hoping to come back to this project. To echo <a href="http://www.youtube.com/watch?v=v5dYE0CMmHQ">Zach Tellman’s motivation</a>, it will be really interesting to see if it is possible to write a competitive go AI in a high-level language. We’ve also thought about distributing the UCT step and have team games pitching the aggregated wisdom of a group of human players voting on their next move against the assembled computing power of their browsing machines.</p><a onclick="switchContent('post2','post1')" class="btn" href="#b341d9862dfecfd9d18039bdfdb01f31">Hide</a></div></span>
+<a name="44d016d52953714656621700da80c74d"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/06/travis-secure-ssh-integration.html"> Using Travis for secure deployments with SSH</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">05 Oct 2013</span></span><span class="rss-description"><div id="post3"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>In my <a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html">previous post</a> on Travis, I explained how it can be used to easily test OCaml packages on GitHub without having to host any infrastructure yourself.</p>
+
+<p>The next step I wanted to investigate was how to use Travis to trigger service deployments after a successful build. One nice feature that Travis has is <a href="http://about.travis-ci.org/docs/user/encryption-keys/">support for encrypted environment variables</a>. The basic workflow is that you encrypt key/value pairs using a public key that they publish per GitHub repository. Once registered, this is made available as a decrypted environment variable within the Travis worker. You can use this to transmit API keys or other authentication data that you need to commit to the <code>travis.yml</code> file, but obviously can’t leave on a public repository for the world to see.</p>
+
+<a onclick="switchContent('post3','post4')" class="btn" href="#44d016d52953714656621700da80c74d">Read more...</a></div><div id="post4" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>In my <a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html">previous post</a> on Travis, I explained how it can be used to easily test OCaml packages on GitHub without having to host any infrastructure yourself.</p>
+
+<p>The next step I wanted to investigate was how to use Travis to trigger service deployments after a successful build. One nice feature that Travis has is <a href="http://about.travis-ci.org/docs/user/encryption-keys/">support for encrypted environment variables</a>. The basic workflow is that you encrypt key/value pairs using a public key that they publish per GitHub repository. Once registered, this is made available as a decrypted environment variable within the Travis worker. You can use this to transmit API keys or other authentication data that you need to commit to the <code>travis.yml</code> file, but obviously can’t leave on a public repository for the world to see.</p>
+
+<p>The small hitch with this whole scheme is that there’s a very small limit of about 90 bytes or so for the size of each individual environment variable that’s exported, and so you can’t just stash an SSH private key in there. Instead, it needs to be Base64 encoded, split it up into multiple environment variables of the right size, and then reassembled within the Travis VM. Rather than deal with importable shell scripts between MacOS X and Linux, I created a small <code>travis-senv</code> command-line binary to make this easier.</p>
+
+<p>To use it, just <code>opam install travis-senv</code> and follow the instructions on the <a href="https://github.com/avsm/travis-senv">README at the homepage</a>. Here’s the fragment of shell script that pushes the build output to another GitHub repository:</p>
+<div class="highlight"><pre><code class="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">"$DEPLOY"</span> <span class="o">=</span> <span class="s2">"1"</span> <span class="o">]</span>; <span class="k">then</span>
+  <span class="c"># get the secure key out for deployment</span>
+  opam install travis-senv
+  mkdir -p ~/.ssh
+  <span class="nv">SSH_DEPLOY_KEY</span><span class="o">=</span>~/.ssh/id_dsa
+  travis-senv decrypt &gt; <span class="nv">$SSH_DEPLOY_KEY</span>
+  chmod 600 <span class="nv">$SSH_DEPLOY_KEY</span>
+  <span class="nb">echo</span> <span class="s2">"Host mirdeploy github.com"</span> &gt;&gt; ~/.ssh/config
+  <span class="nb">echo</span> <span class="s2">"   Hostname github.com"</span> &gt;&gt; ~/.ssh/config
+  <span class="nb">echo</span> <span class="s2">"   StrictHostKeyChecking no"</span> &gt;&gt; ~/.ssh/config
+  <span class="nb">echo</span> <span class="s2">"   CheckHostIP no"</span> &gt;&gt; ~/.ssh/config
+  <span class="nb">echo</span> <span class="s2">"   UserKnownHostsFile=/dev/null"</span> &gt;&gt; ~/.ssh/config
+  git config --global user.email <span class="s2">"travis@openmirage.org"</span>
+  git config --global user.name <span class="s2">"Travis the Build Bot"</span>
+  git clone git@mirdeploy:mirage/mirage-www-deployment
+  <span class="nb">cd </span>mirage-www-deployment
+  mkdir -p xen/<span class="nv">$TRAVIS_COMMIT</span>
+  cp ../src/mir-www.xen ../src/mir-www.map ../src/www.conf xen/<span class="nv">$TRAVIS_COMMIT</span>
+  bzip2 -9 xen/<span class="nv">$TRAVIS_COMMIT</span>/mir-www.xen
+  git pull --rebase
+  git add xen/<span class="nv">$TRAVIS_COMMIT</span>
+  git commit -m <span class="s2">"adding $TRAVIS_COMMIT"</span>
+  git push
+<span class="k">fi</span>
+</code></pre></div>
+<p>I’ve been using this to automate the construction of the <a href="http://openmirage.org">Mirage Xen unikernel</a> homepage. Every time there’s a push to the <a href="https://github.com/mirage/mirage-www">mirage-www</a>, the <a href="https://github.com/mirage/mirage-www/blob/master/.travis-ci.sh">Travis scripts</a> now retrieve an SSH deployment key using <code>travis-senv</code>, and push the results of the build to the <a href="https://github.com/mirage/mirage-www-deployment">mirage-www-deployment</a> repository that stores the build output. This repository is polled by the hosting machines we have to look for new kernels and rotate the website (but more on this later – I’m just integrating the EC2 and Rackspace scripts to remove this step entirely next!)</p><a onclick="switchContent('post4','post3')" class="btn" href="#44d016d52953714656621700da80c74d">Hide</a></div></span>
+<a name="c13b4a60bfc4a2d8f370801c5dd9bba5"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/03/merlin-and-vim.html"> Intellisense for OCaml with Vim and Merlin</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">02 Oct 2013</span></span><span class="rss-description"><div id="post5"><a href="http://anil.recoil.org/images/vim-merlin-autocomplete.png"><img src="http://anil.recoil.org/images/vim-merlin-autocomplete-thumb.png" style="float: right; padding-left: 15px;" width="250"/></a>
 <p>I’m finalizing the installation instructions for <a href="https://realworldocaml.org">Real World OCaml</a> and finally got around to configuring the awesome <a href="https://github.com/def-lkb/merlin">Merlin editor</a> tool. I pretty much never configure my editor, so here are my notes on getting Merlin working with Vim completely from scratch on MacOS X (I’m on 10.9DP7, but this should work with earlier versions of MacOS X too).</p>
 
 <p>First, install some basic plugin tools by following the Synastic <a href="https://github.com/scrooloose/syntastic">installation instructions</a>.</p>
@@ -182,7 +672,7 @@ execute <span class="s2">"set rtp+="</span>.<span class="k">s</span>:ocamlmerlin
 </code></pre></div>
 <h2 id="trying_it_out">Trying it out</h2>
 
-<a onclick="switchContent('post1','post2')" class="btn" href="#c13b4a60bfc4a2d8f370801c5dd9bba5">Read more...</a></div><div id="post2" style="display: none"><a href="http://anil.recoil.org/images/vim-merlin-autocomplete.png"><img src="http://anil.recoil.org/images/vim-merlin-autocomplete-thumb.png" style="float: right; padding-left: 15px;" width="250"/></a>
+<a onclick="switchContent('post5','post6')" class="btn" href="#c13b4a60bfc4a2d8f370801c5dd9bba5">Read more...</a></div><div id="post6" style="display: none"><a href="http://anil.recoil.org/images/vim-merlin-autocomplete.png"><img src="http://anil.recoil.org/images/vim-merlin-autocomplete-thumb.png" style="float: right; padding-left: 15px;" width="250"/></a>
 <p>I’m finalizing the installation instructions for <a href="https://realworldocaml.org">Real World OCaml</a> and finally got around to configuring the awesome <a href="https://github.com/def-lkb/merlin">Merlin editor</a> tool. I pretty much never configure my editor, so here are my notes on getting Merlin working with Vim completely from scratch on MacOS X (I’m on 10.9DP7, but this should work with earlier versions of MacOS X too).</p>
 
 <p>First, install some basic plugin tools by following the Synastic <a href="https://github.com/scrooloose/syntastic">installation instructions</a>.</p>
@@ -224,7 +714,7 @@ B _build/lib
 B _build/lib_test
 B _build/lwt
 </code></pre></div>
-<p>Also, don’t forget to pass the <code>-bin-annot</code> function to the compiler to generate the typed-AST <code>cmt</code> files. You can add <code>true: bin_annot</code> to your <code>_tags</code> file if you’re using OCamlbuild (in OCaml 4.01.0 or higher, and it’ll be silently ignored on previous versions so you don’t need to worry about breaking older OCaml compilers).</p><a onclick="switchContent('post2','post1')" class="btn" href="#c13b4a60bfc4a2d8f370801c5dd9bba5">Hide</a></div></span>
+<p>Also, don’t forget to pass the <code>-bin-annot</code> function to the compiler to generate the typed-AST <code>cmt</code> files. You can add <code>true: bin_annot</code> to your <code>_tags</code> file if you’re using OCamlbuild (in OCaml 4.01.0 or higher, and it’ll be silently ignored on previous versions so you don’t need to worry about breaking older OCaml compilers).</p><a onclick="switchContent('post6','post5')" class="btn" href="#c13b4a60bfc4a2d8f370801c5dd9bba5">Hide</a></div></span>
 <a name="3be72f200d01294717a4640003afe9ff"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=887"> SSL up again, special thanks to Gabriel Kerneis</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><pre class="rss-text">Hi,
 
 I was a little bit lazy and I have unfortunately let the SSL certificate expired two days ago. I was somehow busy releasing OUnit 2.0 ;-)
@@ -237,7 +727,7 @@ Enjoy
 Sylvain</pre></span>
 <a name="403fcdb04b4f43f4dcaec4d1bdbe2823"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Uucd 1.0.0 and Uunf 0.9.2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><p>Release of Uucd and Uunf to support Unicode 6.3.0. Consult the individual release notes for details.</p></span>
 <a name="7dea5ef655297aa9dc8b78dd3c5ff9f5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.10.01.html"> Caml Weekly News, 01 Oct 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description">Feedback on the ocaml.org redesign and logo / Enhanced OCaml Documentation 4.01 / Gg 0.8.0 and Vg 0.8.0 / otags reloaded 4.01.1 for OCaml 4.01 / meetup OCaml-Pairs (OUPS), mercredi 9 octobre √† l'IRILL / embedding js_of_ocaml output? / OUnit v2.0.0 / Thread behaviour / Esterel Technologies is looking for an Ocaml SW developer in Toulouse (CDI) / equivalent checking of ocaml program? / LablGtk 2.18.0 and LablGL 1.05 / Uucd 1.0.0 &amp; Uunf 0.9.2 / Other Caml News</span>
-<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post3"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -253,7 +743,7 @@ Sylvain</pre></span>
 
 
 <p>The basic features:</p>
-<a onclick="switchContent('post3','post4')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post4" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+<a onclick="switchContent('post7','post8')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post8" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -376,88 +866,14 @@ Sylvain</pre></span>
 <pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
 
 
-<p>Patches always welcome.</p><a onclick="switchContent('post4','post3')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
-<a name="952f56763fb713fbbd1a01b210bf52ac"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html"> Test your OCaml packages in minutes using Travis CI</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">29 Sep 2013</span></span><span class="rss-description"><div id="post5"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
-<p>A few months ago, Mike Lin posted <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">instructions</a> of how to bootstrap an OCaml testing environment within the <a href="http://travis-ci.org">Travis</a> continuous integration tool. I finally got around to integrating his prototype scripts properly using the latest OCaml and OPAM versions during my travels last week to ICFP. It’s been an extraordinarily quick and pleasant experience to add the (free!) Travis test runs to my OCaml programs on GitHub, so here’s how you can do it too. <a href="http://dave.recoil.org">Dave Scott</a> and I have used this for about 15 of our own projects already, and I’m switching the whole of the <a href="http://openmirage.org">Mirage</a> repo infrastructure over to it this week.</p>
-
-<h2 id="getting_started">Getting started</h2>
-
-<p>Getting my first Travis build working with one of my OCaml projects took about 2 minutes in total:</p>
-
-<p>First, log into <a href="http://travis-ci.com">Travis</a> and sign in via Twitter. Click on the <a href="https://travis-ci.org/profile">Accounts</a> button on the top-right and you should see a list of the all the GitHub repositories that you have access to. Just click the <i>On</i> switch for the one you want to start testing. Nothing will actually happen until the next code push or pull request goes to that repository. Behind the scenes, the <i>On</i> button that you clicked use the GitHub APIs to turn on the Travis post-commit hook for your repository.</p><a onclick="switchContent('post5','post6')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Read more...</a></div><div id="post6" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
-<p>A few months ago, Mike Lin posted <a href="http://blog.mlin.net/2013/02/testing-ocaml-projects-on-travis-ci.html">instructions</a> of how to bootstrap an OCaml testing environment within the <a href="http://travis-ci.org">Travis</a> continuous integration tool. I finally got around to integrating his prototype scripts properly using the latest OCaml and OPAM versions during my travels last week to ICFP. It’s been an extraordinarily quick and pleasant experience to add the (free!) Travis test runs to my OCaml programs on GitHub, so here’s how you can do it too. <a href="http://dave.recoil.org">Dave Scott</a> and I have used this for about 15 of our own projects already, and I’m switching the whole of the <a href="http://openmirage.org">Mirage</a> repo infrastructure over to it this week.</p>
-
-<h2 id="getting_started">Getting started</h2>
-
-<p>Getting my first Travis build working with one of my OCaml projects took about 2 minutes in total:</p>
-
-<p>First, log into <a href="http://travis-ci.com">Travis</a> and sign in via Twitter. Click on the <a href="https://travis-ci.org/profile">Accounts</a> button on the top-right and you should see a list of the all the GitHub repositories that you have access to. Just click the <i>On</i> switch for the one you want to start testing. Nothing will actually happen until the next code push or pull request goes to that repository. Behind the scenes, the <i>On</i> button that you clicked use the GitHub APIs to turn on the Travis post-commit hook for your repository.</p>
-
-<p>Create a <code>.travis.yml</code> file in your main repository (see below or <a href="https://gist.github.com/avsm/6757425">this gist</a>). Travis doesn’t have native support for OCaml, but it isn’t really needed since we can just use <code>C</code> and write our own shell scripts. The <code>env</code> variables define a matrix of the different combinations of OCaml and OPAM that we want to test. Just remove variations that you don’t care about to avoid wasting Travis’ CPU time (open source projects are supported on a fair-use basis by them). Here’s the <code>.travis.yml</code> that I used for my <a href="https://github.com/mirage/ocaml-uri">ocaml-uri</a> library:</p>
-<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">c</span>
-<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">bash -ex .travis-ci.sh</span>
-<span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.01.0 OPAM_VERSION=1.0.0</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.01.0 OPAM_VERSION=1.1.0</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.00.1 OPAM_VERSION=1.0.0</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=4.00.1 OPAM_VERSION=1.1.0</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=3.12.1 OPAM_VERSION=1.0.0</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">OCAML_VERSION=3.12.1 OPAM_VERSION=1.1.0</span>
-</code></pre></div>
-<p>Now you just need the <code>.travis-ci.sh</code> shell to run the actual tests. Travis provides an Ubuntu Precise/i386 VM that is destroyed after every test run, so we need to initialize it with the OCaml and OPAM binary packages. Since you often want to test different versions of all of these, I created a series of stable Ubuntu PPAs that have OCaml 3.12,4.0,4.1 and OPAM 1.0 and the (currently beta) 1.1 package manager. You can find them all on my <a href="http://launchpad.net/~avsm">Launchpad</a> page, but the below script takes care of it all for you.</p>
-<div class="highlight"><pre><code class="sh"><span class="c"># Edit this for your own project dependencies</span>
-<span class="nv">OPAM_DEPENDS</span><span class="o">=</span><span class="s2">"ocamlfind ounit re"</span>
-	 
-<span class="k">case</span> <span class="s2">"$OCAML_VERSION,$OPAM_VERSION"</span> in
-3.12.1,1.0.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml312+opam10 ;;
-3.12.1,1.1.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml312+opam11 ;;
-4.00.1,1.0.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml40+opam10 ;;
-4.00.1,1.1.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml40+opam11 ;;
-4.01.0,1.0.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml41+opam10 ;;
-4.01.0,1.1.0<span class="o">)</span> <span class="nv">ppa</span><span class="o">=</span>avsm/ocaml41+opam11 ;;
-*<span class="o">)</span> <span class="nb">echo </span>Unknown <span class="nv">$OCAML_VERSION</span>,<span class="nv">$OPAM_VERSION</span>; <span class="nb">exit </span>1 ;;
-<span class="k">esac</span>
-<span class="k">	 </span>
-<span class="nb">echo</span> <span class="s2">"yes"</span> | sudo add-apt-repository ppa:<span class="nv">$ppa</span>
-sudo apt-get update -qq
-sudo apt-get install -qq ocaml ocaml-native-compilers camlp4-extra opam
-<span class="nb">export </span><span class="nv">OPAMYES</span><span class="o">=</span>1
-opam init 
-opam install <span class="k">${</span><span class="nv">OPAM_DEPENDS</span><span class="k">}</span>
-<span class="nb">eval</span> <span class="sb">`</span>opam config env<span class="sb">`</span>
-make
-make <span class="nb">test</span>
-</code></pre></div>
-<p>Now just do a push to your repository (a commit adding the Travis files above will do), and you will soon see the Travis web interface update. For example, here’s the <a href="https://travis-ci.org/mirage/ocaml-uri/builds/11899338">output of ocaml-uri</a> that the above example files are for. Of course, you should tweak the scripts to run the tests that your own project needs. Let me know if you make any useful modifications too, by forking the <a href="https://gist.github.com/avsm/6757425">gist</a> or e-mailing me.</p>
-
-<h2 id="testing_pull_requests_in_opam">Testing pull requests in OPAM</h2>
-
-<p>Travis isn’t just for code pushes though; as of a few months ago it can also <a href="http://about.travis-ci.org/blog/announcing-pull-request-support/">test pull requests</a>. This is an incredibly useful feature for complex projects such as the OPAM repository that has lots of contributors. You don’t need to do anything special to activate it: whenever someone issues a pull request, Travis will merge it locally and trigger the test runs just as if the code had been pushed directly.</p>
-
-<p>I did do some special scripting to make this work with the OPAM package repository. Ideally, every new package or metadata change in OPAM will attempt to rebuild just that package set (rebuilding the entire repository would far exceed the 50 minute testing budget that Travis imposes). I put together a <a href="https://github.com/OCamlPro/opam-repository/blob/master/.travis-ci.sh">very hacked up shell script</a> that greps the incoming diff and rebuilds the subset of packages. This is now live, and you can see both <a href="https://github.com/OCamlPro/opam-repository/pull/1144">successful</a> and <a href="https://github.com/OCamlPro/opam-repository/pull/1131">failed</a> pull requests (once the request has been merged, there’s a tiny little green arrow beside the commit that was tested).</p>
-
-<p>This is a very unconservative estimate test matrix since a package update will also affect the reverse transitive cone of packages that depend on it, but it does catch several common typos and incompatibilities (for example, packages that use OPAM 1.1-only features by mistake). The longer term plan is to use the <a href="http://github.com/ocamllabs/ocamlot">OCamlot</a> command line tool to parse the pull request and compute an exact set of packages that need rebuilding.</p>
-
-<h2 id="deployment">Deployment</h2>
-<a href="http://xkcd.com/303/"><img src="http://imgs.xkcd.com/comics/compiling.png" style="padding-left: 15px; float: right;" width="250px"/></a>
-<p>Travis has one last very cool feature up its sleeve. When a project has successfully built, it can run a scripting hook in the VM, which can be used to trigger a further code push or service update. If the service requires authentication, you can <a href="http://about.travis-ci.org/docs/user/encryption-keys/">encrypt a secret</a> in the <code>travis.yml</code> using their public key, and it will be available in the VM as an environment variable (but won’t be useful to anyone else looking at the code repository).</p>
-
-<p>There are quite a few uses for these Travis deployment scripts: automating the rebuilding of the <a href="http://ocaml.org">ocaml.org</a> website infrastructure, rebuilding the central <a href="http://pw374.github.io/posts/2013-09-24-01-50-14-opamdoc-take1.html">opam-doc</a> <code>cmt</code> file archive, or even autoupdating <a href="http://openmirage.org">Mirage</a> microkernels to Amazon EC2 and Rackspace.</p>
-
-<p>So how does this tie into the ongoing work on <a href="http://anil.recoil.org/2013/09/09/ocamlot-autotriaging.html">OCamlot</a>? Quite simply, it’s saved us a ton of frontend work, and lets us focus on the more interesting OCaml-specific problems. Travis is also somewhat reactive (since it only runs in response to pushes or pull requests), and we still need to be able to run complete repository sweeps to look for more systematic breakage. It also doesn’t support any non-Ubuntu operating systems yet. However, Travis takes the burden off us for handling the steadily <a href="http://anil.recoil.org/2013/09/20/opam-1-1-beta.html">increasing</a> number of package updates, and can be used to launch further OCamlot jobs on the other architectures and distributions. All in all, I’m very grateful to Mike for taking the trouble to blog about it back in March!</p>
-
-<h2 id="and_a_little_bit_of_cheeky_arm_hackery">And a little bit of cheeky ARM hackery</h2>
-
-<p>I couldn’t resist one final little hack to see if I could actually do some ARM/OCaml testing using the Travis infrastructure. I adapted Ian Campbell’s excellent <a href="http://www.hellion.org.uk/blog/posts/foreign-chroots-with-schroot-and-qemu/">guide to ARM cross-chroots</a>, and ended up with a <a href="https://github.com/avsm/ocaml/blob/travis/.travis-ci.sh">rough script</a> that builds an unattended chroot and can run OCaml/OPAM installations there too.</p>
-
-<p>This isn’t something I’m quite comfortable running on all of my repositories just yet though, since an OCaml cross-build using qemu took over 5 hours and was quite rightly terminated when running within Travis. To mitigate this, I’ve built a <a href="http://www.recoil.org/~avsm/debian-arm">custom apt-repository</a> for ARMel packages to install a binary toolchain, and you can see the results of <a href="https://travis-ci.org/avsm/ocaml/jobs/11942786">Lwt/ARM building successfully</a>. I’ll update on this as I get it working on more packages, as I’m quite interested in getting a solid Xen/ARM toolstack up and running for another <a href="http://nymote.org">exciting project</a> over in OCaml Labs…</p><a onclick="switchContent('post6','post5')" class="btn" href="#952f56763fb713fbbd1a01b210bf52ac">Hide</a></div></span>
+<p>Patches always welcome.</p><a onclick="switchContent('post8','post7')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
 <a name="2777d7de50de146d52efb62009134d88"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=886"> CCSS 1.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">The most notable feature of this release is the introduction of mixins: a variable may now be assigned an entire declaration block.</pre></span>
 <a name="e862e722280f522e7be81f5c35cb41b8"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/9/27/ocaml-tutorial-videos-now-available"> OCaml  tutorial videos now available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">27 Sep 2013</span></span><span class="rss-description"><p>I've made a few little tutorial videos to go with the book. Just seven for now, covering the first four chapters, but more to come:</p><ol><li>Evaluating an expression</li><li>True and false</li><li>Making decisions</li><li>Names and functions</li><li>Patterns</li><li>Lists</li><li>Take and drop</li><li>Appending two lists</li></ol><p>They're not really a substitute for the book but, when learning, it's always helpful to go over things twice, particularly using a different medium.</p><p>The videos are available <a href="http://ocaml-book.com/videos/">here</a>. </p><p> </p></span>
-<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
 
 
 <p>The basic features:</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post8" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
+<a onclick="switchContent('post9','post10')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post10" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
 
 
 <p>The basic features:</p>
@@ -532,8 +948,7 @@ make <span class="nb">test</span>
 <p>Patches always welcome.</p>
 
 
-<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post8','post7')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
-<a name="b159bb33433f9b70968e3d4eb1ce64dd"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Gg 0.8.0 and Vg 0.8.0</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">24 Sep 2013</span></span><span class="rss-description"><p>First release of Gg and Vg. Thanks to <a href="http://www.xenproject.org/developers/teams/xapi.html">Citrix Systems R&amp;D</a> and <a href="http://www.cl.cam.ac.uk/projects/ocamllabs/index.html">OCaml Labs</a> for sponsoring this work.</p></span>
+<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post10','post9')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
