@@ -164,7 +164,143 @@
 <p>The basic layout of the tutorial is to get started with the guided tour of the <a href="https://realworldocaml.org">book</a>, and then work through building a <a href="https://bitbucket.org/yminsky/core-hello-world">distributed message broker</a>. This gets you familiar with the <a href="https://github.com/janestreet/core">Core</a> standard library, the <a href="https://github.com/janestreet/async">Async</a> event-driven I/O library, and all the strongly-typed RPC plumbing that goes in between. We’re hoping to have physical preprints of the book available for free to attendees, so do sign up fast if you wish to attend.</p>
 
 <p>As a bonus, the Cambridge FPDays session will feature Jeremy Yallop working through the book and conducting the tutorial: he has an incredible depth of knowledge about the innards of OCaml’s type system, and so advanced users will also find a good home in this tutorial to throw questions at him too! For those of you interested in other programming languages, there are also excellent-looking sessions on Erlang, F# and Scala, and Phil Wadler is giving a keynote speech. I’m most excited about <a href="http://fpdays.net/fpdays2013/sessions/index.php?session=28">Sam Aaron’s session</a> on live coding and music though. You have to hear it to believe it…</p><a onclick="switchContent('post2','post1')" class="btn" href="#6fb0b10cf7a048a1e3867f88d357a419">Hide</a></div></span>
-<a name="b341d9862dfecfd9d18039bdfdb01f31"></a><span class="rss-header"><span class="rss-title"><a href="http://scattered-thoughts.net/blog/2013/10/06/hugo-a-go-go/"> Hugo-a-go-go</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Jamie Brandon</span>, <span class="rss-date">06 Oct 2013</span></span><span class="rss-description"><div id="post3"><p>For the <a href="http://clojurecup.com/">2013 Clojure Cup</a> myself and <a href="http://www.thattommyhall.com/">Tom Hall</a> wrote a <a href="http://en.wikipedia.org/wiki/Go_%28game%29">go</a> AI in clojurescript, inspired by <a href="https://github.com/ztellman/pushkin">pushkin</a>. The source is <a href="https://github.com/jamii/hugo-a-go-go/">here</a> and it can currently be played on the <a href="http://hugoagogo.clojurecup.com/">clojure cup site</a> (only tested in chrome).</p>
+<a name="3163b1093e85b021085a7ee20f18b8b5"></a><span class="rss-header"><span class="rss-title"><a href="http://nleyten.com/post/2013/10/07/Announcing-CCSS-1.4"> Announcing CCSS 1.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Dario Teixeira</span>, <span class="rss-date">07 Oct 2013</span></span><span class="rss-description"><div id="post3"><p>I've recently released version 1.4 of <a href="http://ccss.forge.ocamlcore.org/">CCSS</a>, a preprocessor/pretty-printer for
+CSS (Cascading Style Sheets). Though CCSS most definitely falls into the
+category of software developed to scratch a personal itch, it has gained other
+users in the meantime. Consequently, I reckon a few words are in order
+concerning the features/idiosyncrasies of this tool.</p>
+<p>For those not familiar with CCSS or CSS preprocessors in general, the basic
+rationale for these tools is to fill some glaring shortcomings in the vanilla
+CSS language, namely the lack of variables and basic arithmetic operations.
+Many tools go further still, providing new ways to structure and organise CSS
+declarations.</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#3163b1093e85b021085a7ee20f18b8b5">Read more...</a></div><div id="post4" style="display: none"><p>I've recently released version 1.4 of <a href="http://ccss.forge.ocamlcore.org/">CCSS</a>, a preprocessor/pretty-printer for
+CSS (Cascading Style Sheets). Though CCSS most definitely falls into the
+category of software developed to scratch a personal itch, it has gained other
+users in the meantime. Consequently, I reckon a few words are in order
+concerning the features/idiosyncrasies of this tool.</p>
+<p>For those not familiar with CCSS or CSS preprocessors in general, the basic
+rationale for these tools is to fill some glaring shortcomings in the vanilla
+CSS language, namely the lack of variables and basic arithmetic operations.
+Many tools go further still, providing new ways to structure and organise CSS
+declarations.</p>
+<p>There is certainly no lack of CSS preprocessors available, most of which
+have large user bases and plenty of fancy features. So, why CCSS? Does the
+world really need yet another CSS preprocessing tool? I cannot speak for the
+world. I can, however, relate that some years ago I was in need of a CSS
+preprocessor that supported variables, arithmetic, and did not choke on the few
+CSS3 constructs I was introducing into my stylesheets. Moreover, I was looking
+for a nice, clean syntax that felt like a natural extension to vanilla CSS.
+Finally, I don't think it was unreasonable to expect that a tool performing
+such a simple task to be fast. Unfortunately, the tools I tried back then did
+not quite meet these requirements, particularly where speed was concerned.</p>
+<p>OCaml hackers being who they are, I reckoned that a better tool for my needs
+could be written in a weekend. And that's how CCSS was born. Fortunately, I was
+about right concerning the time estimate, which just goes to show how awesome
+the OCaml language and assorted tools (namely Menhir and Ulex) are for writing
+compilers.</p>
+<p>This little history brings us to the most important point about CCSS that
+potential users should be aware of: it was never meant to be a fully-compliant
+superset of vanilla CSS. To illustrate this point, consider the humble
+semicolon, which according to the CSS spec is a declaration <em>separator</em>,
+and optional after the last declaration in a block. Omitting the last semicolon
+is, however, a brittle practice (it's all too easy to forget to add the
+semicolon when a new declaration is appended to the block), which is why users
+are advised to always write a semicolon at the end of each declaration,
+effectively treating it as a declaration <em>terminator</em>. Guess what? The
+CCSS grammar treats the semicolon as a mandatory terminator — spec be
+damned.</p>
+<p>Variables are perhaps the most useful extension to CSS, and CCSS does
+support them. In previous versions, variables could only be assigned to
+expressions. The recently released version 1.4, however, introduces the
+possibility of assigning a whole declaration block to a variable. This feature
+is similar to what other preprocessors term <em>mixins</em>, so this is the
+nomeclature I'm using too.</p>
+<p>The example shown below illustrates the use of variables to declare commonly
+used expressions. Note that syntactically, variable identifiers are
+distinguished by starting with a mandatory uppercase letter. This was chosen to
+make tooling (such as syntax highlighting in editors) easier.</p>
+<pre>Foo: 20em;
+Bar: 1px solid black;
+h1
+{
+width: Foo;
+border: Bar;
+}
+</pre>
+<p>The second example concerns the use of variables to declare mixins, ie,
+declaration blocks that can be included within subsequent declaration
+blocks:</p>
+<pre>Inverse_scheme:
+{
+color: #fff;
+background: #000;
+}
+h1
+{
+Inverse_scheme;
+font-weight: bold;
+}
+</pre>
+<p>CCSS also extends CSS expressions with basic arithmetic operations
+(addition, subtraction, multiplication, and division). The operands must be CSS
+quantities (either dimensionless or with an attached unit), or other
+expressions that ultimately resolve into a quantity. Moreover, variables whose
+value is a quantity (or an expression which resolves into a quantity) may also
+be used as operand.</p>
+<p>The operators are '+', '-', '*', and '÷'. Note that multiplication and
+division have precedence over addition and subtraction, but you may use
+parentheses to group operations. In addition, the choice of the non-ASCII
+character '÷' as division operator betrays CCSS's origins as tool designed to
+scratch a personal itch: it can be input with just a few easy-to-remember
+keystrokes in VIM, the editor I use. I had thus no motivation to find an ugly
+multi-character token to represent it. Consider thus the following input:</p>
+<pre>Left: 10em;
+Right: 5em;
+Total: Left + Right;
+h1
+{
+padding: (1.5em + 0.5em) * 2;
+width: 2 * Total;
+}
+</pre>
+<p>CCSS will produce the following output:</p>
+<pre>h1
+{
+padding: 4em;
+width: 30em;
+}
+</pre>
+<p>The reader will have noticed that CCSS must be unit-aware when performing
+arithmetic. As a matter of fact, the programme performs a basic sanity check of
+units, and will complain if you try, for example, to add "1em" with "10px". By
+default, CCSS will not make any attempt to convert units even if they are
+convertible, such "cm" and "mm". If you wish for CCSS to attempt unit
+conversion, please provide option "--convert" on the command line (short
+version "-c").</p>
+<p>Units can be grouped into four categories, and conversion is possible if the
+units belong to the same category. Upon conversion, the result will be the same
+unit as the first operand. The categories and corresponding units are as
+follows:</p>
+<ul>
+<li><strong>length:</strong> mm, cm, in, pt, pc</li>
+<li><strong>angle:</strong> deg, grad, rad</li>
+<li><strong>time:</strong> ms, s</li>
+<li><strong>frequency:</strong> hz, khz</li>
+</ul>
+<p>As an illustration of unit conversion, the result for all the following
+arithmetic operations is the same, "2in":</p>
+<pre>h1
+{
+foo1: 1in + 1in;
+foo2: 1in + 2.54cm;
+foo3: 1in + 25.4mm;
+foo4: 1in + 72pt;
+foo5: 1in + 6pc;
+}
+</pre>
+<p>And that's it! Note that the project's development has recently <a href="https://github.com/darioteixeira/ccss">moved to GitHub</a>, so fork away!</p><a onclick="switchContent('post4','post3')" class="btn" href="#3163b1093e85b021085a7ee20f18b8b5">Hide</a></div></span>
+<a name="b341d9862dfecfd9d18039bdfdb01f31"></a><span class="rss-header"><span class="rss-title"><a href="http://scattered-thoughts.net/blog/2013/10/06/hugo-a-go-go/"> Hugo-a-go-go</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Jamie Brandon</span>, <span class="rss-date">06 Oct 2013</span></span><span class="rss-description"><div id="post5"><p>For the <a href="http://clojurecup.com/">2013 Clojure Cup</a> myself and <a href="http://www.thattommyhall.com/">Tom Hall</a> wrote a <a href="http://en.wikipedia.org/wiki/Go_%28game%29">go</a> AI in clojurescript, inspired by <a href="https://github.com/ztellman/pushkin">pushkin</a>. The source is <a href="https://github.com/jamii/hugo-a-go-go/">here</a> and it can currently be played on the <a href="http://hugoagogo.clojurecup.com/">clojure cup site</a> (only tested in chrome).</p>
 
 
 
@@ -182,7 +318,7 @@
 
 <p><code>colour</code> is one of <code>:black</code>, <code>:white</code>, <code>:grey</code> (for the border) or <code>:empty</code>. <code>liberties</code> tracks the number of <a href="https://groups.google.com/forum/#!msg/computer-go-archive/hs259RQQ5hI/TOLFX2d5Y6UJ">pseudo-liberties</a> the string has (for black or white strings; for empty or grey strings the <code>liberties</code> value is never read and exists just to avoid having to branch on the colour).</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#b341d9862dfecfd9d18039bdfdb01f31">Read more...</a></div><div id="post4" style="display: none"><p>For the <a href="http://clojurecup.com/">2013 Clojure Cup</a> myself and <a href="http://www.thattommyhall.com/">Tom Hall</a> wrote a <a href="http://en.wikipedia.org/wiki/Go_%28game%29">go</a> AI in clojurescript, inspired by <a href="https://github.com/ztellman/pushkin">pushkin</a>. The source is <a href="https://github.com/jamii/hugo-a-go-go/">here</a> and it can currently be played on the <a href="http://hugoagogo.clojurecup.com/">clojure cup site</a> (only tested in chrome).</p>
+<a onclick="switchContent('post5','post6')" class="btn" href="#b341d9862dfecfd9d18039bdfdb01f31">Read more...</a></div><div id="post6" style="display: none"><p>For the <a href="http://clojurecup.com/">2013 Clojure Cup</a> myself and <a href="http://www.thattommyhall.com/">Tom Hall</a> wrote a <a href="http://en.wikipedia.org/wiki/Go_%28game%29">go</a> AI in clojurescript, inspired by <a href="https://github.com/ztellman/pushkin">pushkin</a>. The source is <a href="https://github.com/jamii/hugo-a-go-go/">here</a> and it can currently be played on the <a href="http://hugoagogo.clojurecup.com/">clojure cup site</a> (only tested in chrome).</p>
 
 
 
@@ -614,13 +750,13 @@
 
 <p>Our AI is definitely not correct so it’s difficult to evaluate the project yet. The code is relatively short and simple (especially compared to eg <a href="http://git.savannah.gnu.org/cgit/gnugo.git/tree/engine">gnugo</a>) but that doesn’t mean much until it actually works. The performance is promising – the current version can simulate around 5k games per second in chrome. Fixing the monte-carlo step and the scoring will eat into that performance but I’ve already spotted plenty of inefficiencies in other places. We haven’t even started experimenting with <a href="https://github.com/ztellman/vertigo">vertigo</a> or <a href="http://asmjs.org/">asm.js</a> yet so there is certainly lots of headroom.</p>
 
-<p>I am definitely hoping to come back to this project. To echo <a href="http://www.youtube.com/watch?v=v5dYE0CMmHQ">Zach Tellman’s motivation</a>, it will be really interesting to see if it is possible to write a competitive go AI in a high-level language. We’ve also thought about distributing the UCT step and have team games pitching the aggregated wisdom of a group of human players voting on their next move against the assembled computing power of their browsing machines.</p><a onclick="switchContent('post4','post3')" class="btn" href="#b341d9862dfecfd9d18039bdfdb01f31">Hide</a></div></span>
-<a name="44d016d52953714656621700da80c74d"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/06/travis-secure-ssh-integration.html"> Using Travis for secure deployments with SSH</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">05 Oct 2013</span></span><span class="rss-description"><div id="post5"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<p>I am definitely hoping to come back to this project. To echo <a href="http://www.youtube.com/watch?v=v5dYE0CMmHQ">Zach Tellman’s motivation</a>, it will be really interesting to see if it is possible to write a competitive go AI in a high-level language. We’ve also thought about distributing the UCT step and have team games pitching the aggregated wisdom of a group of human players voting on their next move against the assembled computing power of their browsing machines.</p><a onclick="switchContent('post6','post5')" class="btn" href="#b341d9862dfecfd9d18039bdfdb01f31">Hide</a></div></span>
+<a name="44d016d52953714656621700da80c74d"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/06/travis-secure-ssh-integration.html"> Using Travis for secure deployments with SSH</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">05 Oct 2013</span></span><span class="rss-description"><div id="post7"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
 <p>In my <a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html">previous post</a> on Travis, I explained how it can be used to easily test OCaml packages on GitHub without having to host any infrastructure yourself.</p>
 
 <p>The next step I wanted to investigate was how to use Travis to trigger service deployments after a successful build. One nice feature that Travis has is <a href="http://about.travis-ci.org/docs/user/encryption-keys/">support for encrypted environment variables</a>. The basic workflow is that you encrypt key/value pairs using a public key that they publish per GitHub repository. Once registered, this is made available as a decrypted environment variable within the Travis worker. You can use this to transmit API keys or other authentication data that you need to commit to the <code>travis.yml</code> file, but obviously can’t leave on a public repository for the world to see.</p>
 
-<a onclick="switchContent('post5','post6')" class="btn" href="#44d016d52953714656621700da80c74d">Read more...</a></div><div id="post6" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
+<a onclick="switchContent('post7','post8')" class="btn" href="#44d016d52953714656621700da80c74d">Read more...</a></div><div id="post8" style="display: none"><a href="http://travis-ci.org"><img src="http://anil.recoil.org/images/travis-mascot-200px.png" style="padding-left: 15px; float: right;"/></a>
 <p>In my <a href="http://anil.recoil.org/2013/09/30/travis-and-ocaml.html">previous post</a> on Travis, I explained how it can be used to easily test OCaml packages on GitHub without having to host any infrastructure yourself.</p>
 
 <p>The next step I wanted to investigate was how to use Travis to trigger service deployments after a successful build. One nice feature that Travis has is <a href="http://about.travis-ci.org/docs/user/encryption-keys/">support for encrypted environment variables</a>. The basic workflow is that you encrypt key/value pairs using a public key that they publish per GitHub repository. Once registered, this is made available as a decrypted environment variable within the Travis worker. You can use this to transmit API keys or other authentication data that you need to commit to the <code>travis.yml</code> file, but obviously can’t leave on a public repository for the world to see.</p>
@@ -653,7 +789,7 @@
   git push
 <span class="k">fi</span>
 </code></pre></div>
-<p>I’ve been using this to automate the construction of the <a href="http://openmirage.org">Mirage Xen unikernel</a> homepage. Every time there’s a push to the <a href="https://github.com/mirage/mirage-www">mirage-www</a>, the <a href="https://github.com/mirage/mirage-www/blob/master/.travis-ci.sh">Travis scripts</a> now retrieve an SSH deployment key using <code>travis-senv</code>, and push the results of the build to the <a href="https://github.com/mirage/mirage-www-deployment">mirage-www-deployment</a> repository that stores the build output. This repository is polled by the hosting machines we have to look for new kernels and rotate the website (but more on this later – I’m just integrating the EC2 and Rackspace scripts to remove this step entirely next!)</p><a onclick="switchContent('post6','post5')" class="btn" href="#44d016d52953714656621700da80c74d">Hide</a></div></span>
+<p>I’ve been using this to automate the construction of the <a href="http://openmirage.org">Mirage Xen unikernel</a> homepage. Every time there’s a push to the <a href="https://github.com/mirage/mirage-www">mirage-www</a>, the <a href="https://github.com/mirage/mirage-www/blob/master/.travis-ci.sh">Travis scripts</a> now retrieve an SSH deployment key using <code>travis-senv</code>, and push the results of the build to the <a href="https://github.com/mirage/mirage-www-deployment">mirage-www-deployment</a> repository that stores the build output. This repository is polled by the hosting machines we have to look for new kernels and rotate the website (but more on this later – I’m just integrating the EC2 and Rackspace scripts to remove this step entirely next!)</p><a onclick="switchContent('post8','post7')" class="btn" href="#44d016d52953714656621700da80c74d">Hide</a></div></span>
 <a name="3be72f200d01294717a4640003afe9ff"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=887"> SSL up again, special thanks to Gabriel Kerneis</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><pre class="rss-text">Hi,
 
 I was a little bit lazy and I have unfortunately let the SSL certificate expired two days ago. I was somehow busy releasing OUnit 2.0 ;-)
@@ -666,7 +802,7 @@ Enjoy
 Sylvain</pre></span>
 <a name="403fcdb04b4f43f4dcaec4d1bdbe2823"></a><span class="rss-header"><span class="rss-title"><a href="http://erratique.ch/software"> Uucd 1.0.0 and Uunf 0.9.2</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Daniel Bünzli</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description"><p>Release of Uucd and Uunf to support Unicode 6.3.0. Consult the individual release notes for details.</p></span>
 <a name="7dea5ef655297aa9dc8b78dd3c5ff9f5"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.10.01.html"> Caml Weekly News, 01 Oct 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">01 Oct 2013</span></span><span class="rss-description">Feedback on the ocaml.org redesign and logo / Enhanced OCaml Documentation 4.01 / Gg 0.8.0 and Vg 0.8.0 / otags reloaded 4.01.1 for OCaml 4.01 / meetup OCaml-Pairs (OUPS), mercredi 9 octobre √† l'IRILL / embedding js_of_ocaml output? / OUnit v2.0.0 / Thread behaviour / Esterel Technologies is looking for an Ocaml SW developer in Toulouse (CDI) / equivalent checking of ocaml program? / LablGtk 2.18.0 and LablGL 1.05 / Uucd 1.0.0 &amp; Uunf 0.9.2 / Other Caml News</span>
-<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post7"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+<a name="828c44c1123a5a5ee37e22039a1ab1b6"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/29/OUnit-2.0%2C-official-release"> OUnit 2.0, official release</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">30 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -682,7 +818,7 @@ Sylvain</pre></span>
 
 
 <p>The basic features:</p>
-<a onclick="switchContent('post7','post8')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post8" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
+<a onclick="switchContent('post9','post10')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Read more...</a></div><div id="post10" style="display: none"><p>After 1.5 month of work, I am proud to officialy release OUnit 2.0.0. This is a major rewrite of OUnit to include various feature that I think was missing from OUnit1. The very good news is that the port of the <a href="http://oasis.forge.ocamlcore.org">OASIS</a> test suite has proven that this new version of OUnit can drastically improve the running time of a test suite.</p>
 
 
 <p>OUnit is a unit test framework for OCaml. It allows one to easily create unit-tests for OCaml code. It is based on HUnit, a unit testing framework for Haskell. It is similar to JUnit, and other XUnit testing frameworks.</p>
@@ -805,89 +941,9 @@ Sylvain</pre></span>
 <pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
 
 
-<p>Patches always welcome.</p><a onclick="switchContent('post8','post7')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
+<p>Patches always welcome.</p><a onclick="switchContent('post10','post9')" class="btn" href="#828c44c1123a5a5ee37e22039a1ab1b6">Hide</a></div></span>
 <a name="2777d7de50de146d52efb62009134d88"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=886"> CCSS 1.4 released</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">28 Sep 2013</span></span><span class="rss-description"><pre class="rss-text">The most notable feature of this release is the introduction of mixins: a variable may now be assigned an entire declaration block.</pre></span>
 <a name="e862e722280f522e7be81f5c35cb41b8"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/9/27/ocaml-tutorial-videos-now-available"> OCaml  tutorial videos now available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">27 Sep 2013</span></span><span class="rss-description"><p>I've made a few little tutorial videos to go with the book. Just seven for now, covering the first four chapters, but more to come:</p><ol><li>Evaluating an expression</li><li>True and false</li><li>Making decisions</li><li>Names and functions</li><li>Patterns</li><li>Lists</li><li>Take and drop</li><li>Appending two lists</li></ol><p>They're not really a substitute for the book but, when learning, it's always helpful to go over things twice, particularly using a different medium.</p><p>The videos are available <a href="http://ocaml-book.com/videos/">here</a>. </p><p> </p></span>
-<a name="93c79f2753d826bda17a37d3b209d73d"></a><span class="rss-header"><span class="rss-title"><a href="http://le-gall.net/sylvain+violaine/blog/index.php?post/2013/09/25/OUnit-2.0-progress%2C-September-2013"> OUnit 2.0 progress, September 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Sylvain Le Gall</span>, <span class="rss-date">25 Sep 2013</span></span><span class="rss-description"><div id="post9"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
-
-
-<p>The basic features:</p>
-<a onclick="switchContent('post9','post10')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Read more...</a></div><div id="post10" style="display: none"><p>Continuing last month progress report on<a href="http://ounit.forge.ocamlcore.org">OUnit2</a>. The release is just a few days away, I am testing real life application and the core of the work is already in the VCS.</p>
-
-
-<p>The basic features:</p>
-<ul>
-<li>better configuration setup
-<ul>
-<li>environment variable</li>
-<li>command line options</li>
-<li>configuration files</li>
-</ul></li>
-<li>improved output of the tests:
-<ul>
-<li>allow vim quickfix to jump in the log file where the error has happened</li>
-<li>output HTML report</li>
-<li>output JUnit report</li>
-<li>systematic logging (verbose always on), but output log in a file</li>
-</ul></li>
-<li>choose how to run your test:
-<ul>
-<li>run tests in parallel using processes (auto-detect number of CPU and run as many worker processes)</li>
-<li>run tests concurrently using threads</li>
-<li>use the old sequential runner</li>
-</ul></li>
-<li>choose which test to run with a chooser that can do smart selection of tests:
-<ul>
-<li>simple: just run test in sequence</li>
-<li>failfirst: run the tests that failed in the last run first and skip the success if they are still failing</li>
-</ul></li>
-<li>some refactoring:
-<ul>
-<li>bracket: use a registration in the context but easier to use</li>
-<li>remove all useless functions in the OUnit2 interface</li>
-</ul></li>
-<li>non-fatal section: allow to fail inside non-fatal section without quitting immediately the whole test</li>
-<li>allow to use OUnit1 test inside OUnit2 (smooth the transition)</li>
-<li>timer that makes tests fail if they take too long, only when using the processes runner (I was not able to do it cleanly using threads and sequential)</li>
-<li>allow to parametrize filenames so that you can use <code>OUNIT_OUTPUT_FILE=ounit-$(suite_name),log</code> and have <code>$(suite_name)</code> replace by the test suite name</li>
-<li>create locks to avoid accessing the same resources within a single process or the whole application (typically to avoid doing a <code>chdir</code> while another thread is doing a <code>chdir</code> elsewhere)</li>
-<li>create a <code>in_testdata_dir</code> function to locate test data, if any</li>
-</ul>
-
-<p>Still remaining to do, but quite straightforward:</p>
-<ul>
-<li>sys admin (website, release process)</li>
-<li>update the whole documentation</li>
-</ul>
-
-<p>Some things that I decided not to do for OUnit 2.0 release:</p>
-<ul>
-<li>introduce a 'cached' state to avoid rerunning a test if you can programmaticaly determine that the result will be the same.</li>
-</ul>
-
-<p>The main development is now done, but before releasing I decided to test it first on a real scale application. The first big migration to OUnit2, will be the OASIS test suite. This is a pretty big test suite (100+ tests) that takes a fair amount of time to run. I hope that during the next week I will be able to port the whole test suite and come back with some timing results.</p>
-
-
-<p>You can follow my progress on porting OASIS to OUnit 2.0, in <a href="https://github.com/ocaml/oasis/tree/ounit2">github</a>.</p>
-
-
-<h2>Help wanted</h2>
-
-
-<p>If you have a long standing issue with OUnit, this is the time to submit a bug.
-<a href="https://forge.ocamlcore.org/tracker/?atid=733&amp;group_id=162&amp;func=browse">OUnit BTS</a></p>
-
-
-<p>If you want to try the dev version of OUnit:</p>
-
-
-<pre> $&gt; darcs get http://forge.ocamlcore.org/anonscm/darcs/ounit/ounit</pre>
-
-
-<p>Patches always welcome.</p>
-
-
-<p>You can read the documentation of the devel version the <a href="http://ounit.forge.ocamlcore.org/api-ounit-dev/index.html">website</a>.</p><a onclick="switchContent('post10','post9')" class="btn" href="#93c79f2753d826bda17a37d3b209d73d">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
