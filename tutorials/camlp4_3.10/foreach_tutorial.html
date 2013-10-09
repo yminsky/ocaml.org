@@ -206,7 +206,7 @@ world
     expr: LEVEL <span class="ocaml-string">&quot;top&quot;</span>
     [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; v = a_LIDENT; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>;
         seq = sequence; <span class="ocaml-string">&quot;<span class="kwb">done</span>&quot;</span> -&gt;
-          &lt;:expr&lt; $uid:m$.iter (<span class="kwb">fun</span> $lid:v$ -&gt; $seq$) $e$ &gt;&gt;
+           $seq$) $e$ &gt;&gt;
       ] ];
   END</span></pre>
 <p>For what follows, it is assumed that this code is written to a
@@ -246,7 +246,7 @@ world
 <span class="kwa">let rec</span> <span class="ocaml-function">mkfun</span> <span class="ocaml-variable">_loc patts e </span>=
   <span class="kwb">match</span> patts <span class="kwb">with</span>
   | p :: patts -&gt;
-      &lt;:expr&lt; <span class="kwb">fun</span> $p$ -&gt; $mkfun _loc patts e$ &gt;&gt;
+       $mkfun _loc patts e$ &gt;&gt;
   | [] -&gt;
       e
 
@@ -256,7 +256,7 @@ world
     [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; patts = LIST1 ipatt; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>;
         seq = sequence; <span class="ocaml-string">&quot;<span class="kwb">done</span>&quot;</span> -&gt;
           <span class="kwa">let </span><span class="ocaml-variable">f</span> = mkfun _loc patts seq <span class="kwa">in</span>
-          &lt;:expr&lt; $uid:m$.iter $f$ $e$ &gt;&gt;
+          &gt;
       ] ];
   END</span></pre>
 
@@ -313,17 +313,17 @@ Parse error: [ipatt] or [a_LIDENT] expected after <span class="ocaml-string">&qu
 <span class="kwa">open</span> <span class="ocaml-mod">Syntax</span>
 
 <span class="kwa">let</span> <span class="ocaml-function">mksequence</span> <span class="ocaml-variable">_loc </span>= <span class="kwb">function</span>
-  | &lt;:expr&lt; $_$; $_$ &gt;&gt; <span class="kwb">as</span> e -&gt; &lt;:expr&lt; $e$ &gt;&gt;
+  | &gt; <span class="kwb">as</span> e -&gt; &gt;
   | e -&gt; e
 
 <span class="kwa">let rec</span> <span class="ocaml-function">mkfun</span> <span class="ocaml-variable">_loc patts e </span>=
   <span class="kwb">match</span> patts <span class="kwb">with</span>
-  | p :: patts -&gt; &lt;:expr&lt; <span class="kwb">fun</span> $p$ -&gt; $mkfun _loc patts e$ &gt;&gt;
+  | p :: patts -&gt;  $mkfun _loc patts e$ &gt;&gt;
   | [] -&gt; mksequence _loc e
 
 <span class="kwa">let</span> <span class="ocaml-function">lident_of_patt</span> <span class="ocaml-variable">p </span>=
   <span class="kwb">match</span> p <span class="kwb">with</span>
-  | &lt;:patt&lt; $lid:i$ &gt;&gt; -&gt; i
+  | &gt; -&gt; i
   | _ -&gt; invalid_arg <span class="ocaml-string">&quot;lident_of_patt&quot;</span>
 
 <span class="kwa">let</span> () =
@@ -336,16 +336,12 @@ Parse error: [ipatt] or [a_LIDENT] expected after <span class="ocaml-string">&qu
   expr: LEVEL <span class="ocaml-string">&quot;top&quot;</span>
     [ [ <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; i = ipatt; <span class="ocaml-string">&quot;=&quot;</span>; e1 = sequence; df = direction_flag;
         e2 = sequence; <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; seq = do_sequence -&gt;
-         &lt;:expr&lt;
-           <span class="kwb">for</span> $lident_of_patt i$ =
-             $mksequence _loc e1$ $<span class="kwb">to</span>:df$ $mksequence _loc e2$
-             <span class="kwb">do</span> $seq$ <span class="kwb">done</span>
-         &gt;&gt;
+         &gt;
       | <span class="ocaml-string">&quot;<span class="kwb">for</span>&quot;</span>; p = ipatt; patts = LIST0 ipatt; <span class="ocaml-string">&quot;<span class="kwa">in</span>&quot;</span>; m = a_UIDENT; e = expr;
         <span class="ocaml-string">&quot;<span class="kwb">do</span>&quot;</span>; seq = do_sequence -&gt;
          <span class="kwa">let </span><span class="ocaml-variable">patts</span> = p :: patts <span class="kwa">in</span>
          <span class="kwa">let </span><span class="ocaml-variable">f</span> = mkfun _loc patts seq <span class="kwa">in</span>
-         &lt;:expr&lt; $uid:m$.iter $f$ $e$ &gt;&gt;
+         &gt;
       ] ];
   END</span></pre>
 
