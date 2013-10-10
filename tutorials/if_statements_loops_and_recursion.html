@@ -699,7 +699,7 @@ print_endline (string_of_filesystem fs)</span></pre>
 <p>Previously we mentioned records in passing. These are like C <code>struct</code>s:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">pair_of_ints</span> = { a : int; b : int }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type pair_of_ints = { a : int; b : int; }
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{a=3; b=5}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : pair_of_ints = {a = 3; b = 5}
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">{a=3}</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Some record field labels are undefined: b
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">{a=3}</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Some record fields are undefined: b
 </span></pre>
 
 <p>One feature which I didn't cover: OCaml records can have mutable fields. Normally an expression like <code>{a = 3; b = 5}</code> is an immutable, constant object. However if the record has &lt;dfn&gt;mutable fields&lt;/dfn&gt;, then there is a way to change those fields in the record. This is an imperative feature of OCaml, because functional languages don't normally allow mutable objects (or references or mutable arrays, which we'll look at in a moment).</p>
@@ -725,7 +725,7 @@ print_endline (string_of_filesystem fs)</span></pre>
 </span></pre>
 
 <p>Only fields explicitly marked as <code>mutable</code> can be assigned to using the <code>&lt;-</code> operator. If you try to assign to a non-mutable field, OCaml won't let you:</p>
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">n.name &lt;- <span class="ocaml-string">&quot;John Smith&quot;</span></span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: The record field label name is not mutable
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">n.name &lt;- <span class="ocaml-string">&quot;John Smith&quot;</span></span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: The record field name is not mutable
 </span></pre>
 
 <p>References, with which we should be familiar by now, are implemented using records with a mutable <code>contents</code> field. Check out the definition in <code>Pervasives</code>:</p>

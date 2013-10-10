@@ -178,7 +178,7 @@ struct pair_of_ints {
 <p>Here are some examples of this typed into the toplevel:</p>
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">pair_of_ints</span> = { a : int; b : int }</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type pair_of_ints = { a : int; b : int; }
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{a=3; b=5}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : pair_of_ints = {a = 3; b = 5}
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">{a=3}</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Some record field labels are undefined: b
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="ocamltop-error-loc">{a=3}</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: Some record fields are undefined: b
 </span></pre>
 
 <p>So OCaml won't let you leave some fields in your structure undefined.</p>

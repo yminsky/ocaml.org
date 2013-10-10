@@ -275,8 +275,7 @@ last defined type hides the labels of the first type. For instance:
 
 <pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">point_3d</span> = {x : float; y : float; z : float}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type point_3d = { x : float; y : float; z : float; }
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">point_2d</span> = {x : float; y : float}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type point_2d = { x : float; y : float; }
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{x = 10.; y = 20.; <span class="ocamltop-error-loc">z</span> = 30.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: The record field label z belongs to the type point_3d
-       but is mixed here with labels of type point_2d
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{x = 10.; y = 20.; z = 30.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : point_3d = {x = 10.; y = 20.; z = 30.}
 </span></pre>
 
 The simplest way to overcome this problem is simply ... to use
@@ -301,8 +300,8 @@ spaces:
 This way labels can be fully qualified as <code>D3.x</code>
 <code>D2.x</code>:
 
-<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{<span class="ocaml-mod">D3</span>.x = 10.; <span class="ocaml-mod">D3</span>.y = 20.; <span class="ocaml-mod">D3</span>.z = 30.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : D3.point = {D3.x = 10.; D3.y = 20.; D3.z = 30.}
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{<span class="ocaml-mod">D2</span>.x = 10.; <span class="ocaml-mod">D2</span>.y = 20.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : D2.point = {D2.x = 10.; D2.y = 20.}
+<pre><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{<span class="ocaml-mod">D3</span>.x = 10.; <span class="ocaml-mod">D3</span>.y = 20.; <span class="ocaml-mod">D3</span>.z = 30.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : D3.point = {D3.x = 10.; y = 20.; z = 30.}
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">{<span class="ocaml-mod">D2</span>.x = 10.; <span class="ocaml-mod">D2</span>.y = 20.}</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>- : D2.point = {D2.x = 10.; y = 20.}
 </span></pre>
 
 You can also use objects that provide overloading on method names:
@@ -597,8 +596,8 @@ written the same. Consider for instance:
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let </span><span class="ocaml-variable">x</span> = T 1</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val x : t = T 1
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">type</span> <span class="ocaml-mod">t</span> = T <span class="kwb">of</span> int</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>type t = T of int
 </span><span class="ocamltop-prompt"># </span><span class="ocamltop-input"><span class="kwa">let</span> <span class="ocaml-function">incr</span> = <span class="kwb">function</span> T x -&gt; T (x+1)</span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-output"><span class="ocamltop-stdout"></span><span class="ocamltop-stderr"></span>val incr : t -&gt; t = &lt;fun&gt;
-</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr <span class="ocamltop-error-loc">x</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type t/1179 but an expression was expected of type
-         t/1182
+</span><span class="ocamltop-prompt"># </span><span class="ocamltop-input">incr <span class="ocamltop-error-loc">x</span></span><span class="ocamltop-prompt">;;</span><br/><span class="ocamltop-error">Error: This expression has type t/1180 but an expression was expected of type
+         t/1183
 </span></pre>
 
 This phenomenon appears when you load many times the same file into
