@@ -156,13 +156,34 @@
     <div class="planet"><a name="f4d1211100f9634939893f7f7cde623b"></a><span class="rss-header"><span class="rss-title"><a href="http://www.ocamlcore.com/wp/2013/10/ocamlcore-sarl-is-now-officially-closed/"> OCamlCore SARL is now officially closed.</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore.com</span>, <span class="rss-date">17 Oct 2013</span></span><span class="rss-description"><p>As I have announced <a href="http://forge.ocamlcore.org/forum/forum.php?forum_id=811">2 years ago</a>, I decided to move to a new company and to take new challenges. The website, www.ocamlcore.com, will soon be converted to a static website. As announced, this change will <strong>not</strong> affect at all the community services offered through ocamlcore.org (especially forge.ocamlcore.org), except that we will migrate to .ocaml.org DNS (soon) but we will keep the old DNS as well with some redirect.</p>
 <p>I am very happy to have been able to run this company for 4 years. This was great and helps me to tackle various challenge in OCaml.</p>
 <p>Thanks to all the <a href="http://www.ocamlcore.com/wp/company/clients/">companies</a> that supported me during this journey.</p></span>
-<a name="95e24529fbb0f6445d9ce28f00b17d68"></a><span class="rss-header"><span class="rss-title"><a href="http://jobs.github.com/positions/0a9333c4-71da-11e0-9ac7-692793c00b45"> Full Time: Software Developer (Functional Programming) at Jane Street in New York, NY; London, UK; Hong Kong</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Github OCaml jobs</span>, <span class="rss-date">17 Oct 2013</span></span><span class="rss-description"><div id="post1"><p>Software Developer (Functional Programming)</p>
+<a name="76ebfb88405f509bea8e279044bc12e1"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/18/trevi-fountain-codes-at-hotnets.html"> Trevi; Watering Down Storage Hotspots with Cool Fountain Codes</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">17 Oct 2013</span></span><span class="rss-description"><div id="post1"><a href="http://www.flickr.com/photos/sunciti_sundaram/8621667608/" title="It's a dog's day out there"><img src="http://farm9.staticflickr.com/8101/8621667608_4678928701_m.jpg" alt="Its A Dog's Day Out There..." height="160" style="float: right;" width="240"/></a>
+<p>I’ve just uploaded the camera-ready of our <a href="http://conferences.sigcomm.org/hotnets/2013/">HotNets 2013</a> paper, titled <em>”<a href="http://anil.recoil.org/papers/2013-hotnets-trevi.pdf">Trevi: Watering Down Storage Hotspots with Cool Fountain Codes</a>”</em>. This is my first foray into fountain coding, and it’s really exciting working with <a href="http://www.cl.cam.ac.uk/~gp349/">George Parisis</a> (who has done lots of cool work in this field) to apply it as the backend storage to upcoming projects.</p>
+
+<p>For instance, I’m working with <a href="http://gazagnaire.org">Thomas Gazagnaire</a> on a branch-consistent database called <a href="https://github.com/samoht/irminsule">Irminsule</a>, which aims to support very scalable git-style persistent programming. Another interesting k/v store is <a href="http://arakoon.org">Arakoon</a> which we ported to <a href="http://www.openmirage.org">MirageOS</a>, and Trevi provides a nice mechanism for retrieving large binary values.</p>
+
+<p>Here’s the abstract:</p>
+
+<a onclick="switchContent('post1','post2')" class="btn" href="#76ebfb88405f509bea8e279044bc12e1">Read more...</a></div><div id="post2" style="display: none"><a href="http://www.flickr.com/photos/sunciti_sundaram/8621667608/" title="It's a dog's day out there"><img src="http://farm9.staticflickr.com/8101/8621667608_4678928701_m.jpg" alt="Its A Dog's Day Out There..." height="160" style="float: right;" width="240"/></a>
+<p>I’ve just uploaded the camera-ready of our <a href="http://conferences.sigcomm.org/hotnets/2013/">HotNets 2013</a> paper, titled <em>”<a href="http://anil.recoil.org/papers/2013-hotnets-trevi.pdf">Trevi: Watering Down Storage Hotspots with Cool Fountain Codes</a>”</em>. This is my first foray into fountain coding, and it’s really exciting working with <a href="http://www.cl.cam.ac.uk/~gp349/">George Parisis</a> (who has done lots of cool work in this field) to apply it as the backend storage to upcoming projects.</p>
+
+<p>For instance, I’m working with <a href="http://gazagnaire.org">Thomas Gazagnaire</a> on a branch-consistent database called <a href="https://github.com/samoht/irminsule">Irminsule</a>, which aims to support very scalable git-style persistent programming. Another interesting k/v store is <a href="http://arakoon.org">Arakoon</a> which we ported to <a href="http://www.openmirage.org">MirageOS</a>, and Trevi provides a nice mechanism for retrieving large binary values.</p>
+
+<p>Here’s the abstract:</p>
+
+<blockquote>
+<p>Datacenter networking has brought high-performance storage systems research to the foreground once again. Many modern storage systems are built with commodity hardware and TCP/IP networking to save costs. We highlight a group of problems that are present in such storage systems and which are all related to the use of TCP. As an alternative, we explore Trevi: a fountain coding-based approach for distributing I/O requests that overcomes these problems while still efficiently scheduling resources across both networking and storage layers. We also discuss how receiver-driven flow and congestion control, in combination with fountain coding, can guide the design of Trevi and provide a viable alternative to TCP for datacenter storage.</p>
+</blockquote>
+
+<p>The attraction of our fountain coding scheme is its simplicity when compared to dealing with TCP-based retrieval, particularly for larger k/v stores where multiple nodes can respond without any strong synchronization. Comments on the paper are most welcome ahead of HotNets!</p>
+<a href="http://anil.recoil.org/papers/2013-hotnets-trevi.pdf"><img src="http://anil.recoil.org/images/pdf-icon.gif" style="float: left; padding-right: 15px;"/></a>
+<p><strong>Trevi: Watering Down Storage Hotspots with Cool Fountain Codes</strong>, <em>George Parisis, Toby Moncaster, Anil Madhavapeddy and Jon Crowcroft</em> in the Twelfth ACM Workshop on Hot Topics in Networks (<a href="http://conferences.sigcomm.org/hotnets/2013/cfp.shtml&quot;&gt;HotNets-XII">HotNets-XII</a>), Nov 2013.</p><a onclick="switchContent('post2','post1')" class="btn" href="#76ebfb88405f509bea8e279044bc12e1">Hide</a></div></span>
+<a name="95e24529fbb0f6445d9ce28f00b17d68"></a><span class="rss-header"><span class="rss-title"><a href="http://jobs.github.com/positions/0a9333c4-71da-11e0-9ac7-692793c00b45"> Full Time: Software Developer (Functional Programming) at Jane Street in New York, NY; London, UK; Hong Kong</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Github OCaml jobs</span>, <span class="rss-date">17 Oct 2013</span></span><span class="rss-description"><div id="post3"><p>Software Developer (Functional Programming)</p>
 
 <p>Jane Street is looking to hire great software developers with an interest in functional programming. OCaml, a statically typed functional programming with similarities to Haskell, Scheme, Erlang, F# and SML, is our language of choice. We've got the largest team of OCaml developers in any industrial setting, and probably the world's largest OCaml codebase. We use OCaml for running our entire business, supporting everything from research to systems administration to trading systems. If you're interested in seeing how functional programming plays out in the real world, there's no better place.</p>
 
 <p>The atmosphere is informal and intellectual. There is a focus on education, and people learn about software and trading, both through formal classes and on the job. The work is challenging, and you get to see the practical impact of your efforts in quick and dramatic terms. Jane Street is also small enough that people have the freedom to get involved in many different areas of the business. Compensation is highly competitive, and there's a lot of room for growth.</p>
 
-<a onclick="switchContent('post1','post2')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Read more...</a></div><div id="post2" style="display: none"><p>Software Developer (Functional Programming)</p>
+<a onclick="switchContent('post3','post4')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Read more...</a></div><div id="post4" style="display: none"><p>Software Developer (Functional Programming)</p>
 
 <p>Jane Street is looking to hire great software developers with an interest in functional programming. OCaml, a statically typed functional programming with similarities to Haskell, Scheme, Erlang, F# and SML, is our language of choice. We've got the largest team of OCaml developers in any industrial setting, and probably the world's largest OCaml codebase. We use OCaml for running our entire business, supporting everything from research to systems administration to trading systems. If you're interested in seeing how functional programming plays out in the real world, there's no better place.</p>
 
@@ -185,8 +206,8 @@
 <li>16 weeks fully paid maternity/paternity leave for primary caregivers, plus additional unpaid leave</li>
 </ul>
 
-<p>More information at <a href="http://janestreet.com/culture/benefits/">http://janestreet.com/culture/benefits/</a></p><a onclick="switchContent('post2','post1')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Hide</a></div></span>
-<a name="c1abb89eab1c89c614a084cbfab475fd"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/phphard/"> phphard</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">16 Oct 2013</span></span><span class="rss-description">phphard is a PHP source code static analyzer. Its aim is to strong type PHP programs and detect bugs at compile time.  Pretty printing of PHP programs is also supported.</span>
+<p>More information at <a href="http://janestreet.com/culture/benefits/">http://janestreet.com/culture/benefits/</a></p><a onclick="switchContent('post4','post3')" class="btn" href="#95e24529fbb0f6445d9ce28f00b17d68">Hide</a></div></span>
+<a name="6135e3d8490a5d3aaa72089b64550b07"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/phphard/"> phphard: PHP source code static analyzer</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">16 Oct 2013</span></span><span class="rss-description">phphard is a PHP source code static analyzer. Its aim is to strong type PHP programs and detect bugs at compile time.  Pretty printing of PHP programs is also supported.</span>
 <a name="bc0d201232b01ceb1359b8c5e8dd91b6"></a><span class="rss-header"><span class="rss-title"><a href="http://ocaml-book.com/blog/2013/10/15/reprinting-of-ocaml-from-the-very-beginning"> Reprinting of "OCaml from the Very Beginning"</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCaml Book</span>, <span class="rss-date">15 Oct 2013</span></span><span class="rss-description"><p>Owing to the print-on-demand process we're using, it's simple to update the book to fix the few errata which have been pointed out by kind readers since publication. The new text is now live on <a href="http://www.amazon.com/OCaml-Very-Beginning-John-Whitington/dp/0957671105">Amazon</a>, the <a href="http://www.amazon.com/OCaml-Very-Beginning-ebook/dp/B00DJF1ZBQ/ref=tmm_kin_swatch_0?_encoding=UTF8&amp;sr=&amp;qid=">Kindle Store</a>, and <a href="http://www.ocaml-book.com/">our website</a>. </p><p>To update the Kindle copy, go to "Manage My Kindle" on Amazon (there is no automatic update process). </p><p>If you have purchased a PDF e-book, just email us for an updated PDF (it is possible to notify customers of an updated version by email, but since none of the errata are serious, we've opted not to do so). </p><p>If you have a physical book, you can fix the errata yourself from the <a href="http://ocaml-book.com/errata/">errata page</a> on the website. In addition, if you have purchased the physical book, and would like a copy of the new PDF, please forward your amazon receipt to <span id="ocaml_1">contact<abbr title="(at) &rarr; @">(at)</abbr>coherentgraphics.co.uk</span><script type="text/javascript"><!--;
 local = "contact";
 h = "coherentgraphics.co.uk";
@@ -197,153 +218,17 @@ document.getElementById("ocaml_1").innerHTML = '<a href="mailto:' + local + '@' 
 <a name="d4d8c459a03377e92326d8914efbb11d"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/projects/dlnasync/"> dlnasync</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge Projects</span>, <span class="rss-date">15 Oct 2013</span></span><span class="rss-description">Convert and sync local directories containing video with a (DLNA) FTP servers.</span>
 <a name="953d5773cba3f37f4d19a34195d51f01"></a><span class="rss-header"><span class="rss-title"><a href="https://forge.ocamlcore.org/forum/forum.php?forum_id=888"> OCaml MySQL Protocol 0.9 available</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">OCamlCore Forge News</span>, <span class="rss-date">08 Oct 2013</span></span><span class="rss-description"><pre class="rss-text">Really close the socket when closing the connection to the MySQL server. Add a benchmark to compare with the C MySQL binding.</pre></span>
 <a name="693cc34cd8aafd0d1beae7a1b7d45790"></a><span class="rss-header"><span class="rss-title"><a href="http://alan.petitepomme.net/cwn/2013.10.08.html"> Caml Weekly News, 08 Oct 2013</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Caml Weekly News</span>, <span class="rss-date">08 Oct 2013</span></span><span class="rss-description">OASIS help - libraries with mixed C/C++ part / Feedback on the ocaml.org redesign and logo / QCheck 0.1 / Other Caml News</span>
-<a name="6fb0b10cf7a048a1e3867f88d357a419"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/08/fpdays-real-world-ocaml.html"> FPDays 2013 Real World OCaml tutorial in Cambridge</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">07 Oct 2013</span></span><span class="rss-description"><div id="post3"><a href="http://fpdays.net/fpdays2013/sessions/index.php?session=24"><img src="http://anil.recoil.org/images/fpdays-logo-thumb.jpg" style="padding-left: 15px; float: right;" width="200"/></a>
+<a name="6fb0b10cf7a048a1e3867f88d357a419"></a><span class="rss-header"><span class="rss-title"><a href="http://anil.recoil.org/2013/10/08/fpdays-real-world-ocaml.html"> FPDays 2013 Real World OCaml tutorial in Cambridge</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Anil Madhavapeddy</span>, <span class="rss-date">07 Oct 2013</span></span><span class="rss-description"><div id="post5"><a href="http://fpdays.net/fpdays2013/sessions/index.php?session=24"><img src="http://anil.recoil.org/images/fpdays-logo-thumb.jpg" style="padding-left: 15px; float: right;" width="200"/></a>
 <p>Yaron Minsky and I have been running OCaml tutorials for a few years at <a href="http://icfpconference.org">ICFP</a> and <a href="http://cufp.org">CUFP</a>, but haven’t really spread out into the wider conference circuit. Now that <a href="https://realworldocaml.org">Real World OCaml</a> is almost finished, the scene is set for doing much more. The first such tutorial is being help at <a href="http://fpdays.net/fpdays2013/">FPDays 2013</a> on October 24th in the lovely Murray Edwards College in Cambridge. Check out the <a href="http://lanyrd.com/2013/fpdays/">Lanyrd page</a> for ticket information, and the <a href="http://lanyrd.com/2013/fpdays/sckzky/">OCaml session</a> page for more information.</p>
 
 <p>The basic layout of the tutorial is to get started with the guided tour of the <a href="https://realworldocaml.org">book</a>, and then work through building a <a href="https://bitbucket.org/yminsky/core-hello-world">distributed message broker</a>. This gets you familiar with the <a href="https://github.com/janestreet/core">Core</a> standard library, the <a href="https://github.com/janestreet/async">Async</a> event-driven I/O library, and all the strongly-typed RPC plumbing that goes in between. We’re hoping to have physical preprints of the book available for free to attendees, so do sign up fast if you wish to attend.</p>
 
-<a onclick="switchContent('post3','post4')" class="btn" href="#6fb0b10cf7a048a1e3867f88d357a419">Read more...</a></div><div id="post4" style="display: none"><a href="http://fpdays.net/fpdays2013/sessions/index.php?session=24"><img src="http://anil.recoil.org/images/fpdays-logo-thumb.jpg" style="padding-left: 15px; float: right;" width="200"/></a>
+<a onclick="switchContent('post5','post6')" class="btn" href="#6fb0b10cf7a048a1e3867f88d357a419">Read more...</a></div><div id="post6" style="display: none"><a href="http://fpdays.net/fpdays2013/sessions/index.php?session=24"><img src="http://anil.recoil.org/images/fpdays-logo-thumb.jpg" style="padding-left: 15px; float: right;" width="200"/></a>
 <p>Yaron Minsky and I have been running OCaml tutorials for a few years at <a href="http://icfpconference.org">ICFP</a> and <a href="http://cufp.org">CUFP</a>, but haven’t really spread out into the wider conference circuit. Now that <a href="https://realworldocaml.org">Real World OCaml</a> is almost finished, the scene is set for doing much more. The first such tutorial is being help at <a href="http://fpdays.net/fpdays2013/">FPDays 2013</a> on October 24th in the lovely Murray Edwards College in Cambridge. Check out the <a href="http://lanyrd.com/2013/fpdays/">Lanyrd page</a> for ticket information, and the <a href="http://lanyrd.com/2013/fpdays/sckzky/">OCaml session</a> page for more information.</p>
 
 <p>The basic layout of the tutorial is to get started with the guided tour of the <a href="https://realworldocaml.org">book</a>, and then work through building a <a href="https://bitbucket.org/yminsky/core-hello-world">distributed message broker</a>. This gets you familiar with the <a href="https://github.com/janestreet/core">Core</a> standard library, the <a href="https://github.com/janestreet/async">Async</a> event-driven I/O library, and all the strongly-typed RPC plumbing that goes in between. We’re hoping to have physical preprints of the book available for free to attendees, so do sign up fast if you wish to attend.</p>
 
-<p>As a bonus, the Cambridge FPDays session will feature Jeremy Yallop working through the book and conducting the tutorial: he has an incredible depth of knowledge about the innards of OCaml’s type system, and so advanced users will also find a good home in this tutorial to throw questions at him too! For those of you interested in other programming languages, there are also excellent-looking sessions on Erlang, F# and Scala, and Phil Wadler is giving a keynote speech. I’m most excited about <a href="http://fpdays.net/fpdays2013/sessions/index.php?session=28">Sam Aaron’s session</a> on live coding and music though. You have to hear it to believe it…</p><a onclick="switchContent('post4','post3')" class="btn" href="#6fb0b10cf7a048a1e3867f88d357a419">Hide</a></div></span>
-<a name="3163b1093e85b021085a7ee20f18b8b5"></a><span class="rss-header"><span class="rss-title"><a href="http://nleyten.com/post/2013/10/07/Announcing-CCSS-1.4"> Announcing CCSS 1.4</a></span>&nbsp;&mdash;&nbsp;<span class="rss-author">Dario Teixeira</span>, <span class="rss-date">07 Oct 2013</span></span><span class="rss-description"><div id="post5"><p>I've recently released version 1.4 of <a href="http://ccss.forge.ocamlcore.org/">CCSS</a>, a preprocessor/pretty-printer for
-CSS (Cascading Style Sheets). Though CCSS most definitely falls into the
-category of software developed to scratch a personal itch, it has gained other
-users in the meantime. Consequently, I reckon a few words are in order
-concerning the features/idiosyncrasies of this tool.</p>
-<p>For those not familiar with CCSS or CSS preprocessors in general, the basic
-rationale for these tools is to fill some glaring shortcomings in the vanilla
-CSS language, namely the lack of variables and basic arithmetic operations.
-Many tools go further still, providing new ways to structure and organise CSS
-declarations.</p>
-<a onclick="switchContent('post5','post6')" class="btn" href="#3163b1093e85b021085a7ee20f18b8b5">Read more...</a></div><div id="post6" style="display: none"><p>I've recently released version 1.4 of <a href="http://ccss.forge.ocamlcore.org/">CCSS</a>, a preprocessor/pretty-printer for
-CSS (Cascading Style Sheets). Though CCSS most definitely falls into the
-category of software developed to scratch a personal itch, it has gained other
-users in the meantime. Consequently, I reckon a few words are in order
-concerning the features/idiosyncrasies of this tool.</p>
-<p>For those not familiar with CCSS or CSS preprocessors in general, the basic
-rationale for these tools is to fill some glaring shortcomings in the vanilla
-CSS language, namely the lack of variables and basic arithmetic operations.
-Many tools go further still, providing new ways to structure and organise CSS
-declarations.</p>
-<p>There is certainly no lack of CSS preprocessors available, most of which
-have large user bases and plenty of fancy features. So, why CCSS? Does the
-world really need yet another CSS preprocessing tool? I cannot speak for the
-world. I can, however, relate that some years ago I was in need of a CSS
-preprocessor that supported variables, arithmetic, and did not choke on the few
-CSS3 constructs I was introducing into my stylesheets. Moreover, I was looking
-for a nice, clean syntax that felt like a natural extension to vanilla CSS.
-Finally, I don't think it was unreasonable to expect that a tool performing
-such a simple task to be fast. Unfortunately, the tools I tried back then did
-not quite meet these requirements, particularly where speed was concerned.</p>
-<p>OCaml hackers being who they are, I reckoned that a better tool for my needs
-could be written in a weekend. And that's how CCSS was born. Fortunately, I was
-about right concerning the time estimate, which just goes to show how awesome
-the OCaml language and assorted tools (namely Menhir and Ulex) are for writing
-compilers.</p>
-<p>This little history brings us to the most important point about CCSS that
-potential users should be aware of: it was never meant to be a fully-compliant
-superset of vanilla CSS. To illustrate this point, consider the humble
-semicolon, which according to the CSS spec is a declaration <em>separator</em>,
-and optional after the last declaration in a block. Omitting the last semicolon
-is, however, a brittle practice (it's all too easy to forget to add the
-semicolon when a new declaration is appended to the block), which is why users
-are advised to always write a semicolon at the end of each declaration,
-effectively treating it as a declaration <em>terminator</em>. Guess what? The
-CCSS grammar treats the semicolon as a mandatory terminator — spec be
-damned.</p>
-<p>Variables are perhaps the most useful extension to CSS, and CCSS does
-support them. In previous versions, variables could only be assigned to
-expressions. The recently released version 1.4, however, introduces the
-possibility of assigning a whole declaration block to a variable. This feature
-is similar to what other preprocessors term <em>mixins</em>, so this is the
-nomeclature I'm using too.</p>
-<p>The example shown below illustrates the use of variables to declare commonly
-used expressions. Note that syntactically, variable identifiers are
-distinguished by starting with a mandatory uppercase letter. This was chosen to
-make tooling (such as syntax highlighting in editors) easier.</p>
-<pre>Foo: 20em;
-Bar: 1px solid black;
-h1
-{
-width: Foo;
-border: Bar;
-}
-</pre>
-<p>The second example concerns the use of variables to declare mixins, ie,
-declaration blocks that can be included within subsequent declaration
-blocks:</p>
-<pre>Inverse_scheme:
-{
-color: #fff;
-background: #000;
-}
-h1
-{
-Inverse_scheme;
-font-weight: bold;
-}
-</pre>
-<p>CCSS also extends CSS expressions with basic arithmetic operations
-(addition, subtraction, multiplication, and division). The operands must be CSS
-quantities (either dimensionless or with an attached unit), or other
-expressions that ultimately resolve into a quantity. Moreover, variables whose
-value is a quantity (or an expression which resolves into a quantity) may also
-be used as operand.</p>
-<p>The operators are '+', '-', '*', and '÷'. Note that multiplication and
-division have precedence over addition and subtraction, but you may use
-parentheses to group operations. In addition, the choice of the non-ASCII
-character '÷' as division operator betrays CCSS's origins as tool designed to
-scratch a personal itch: it can be input with just a few easy-to-remember
-keystrokes in VIM, the editor I use. I had thus no motivation to find an ugly
-multi-character token to represent it. Consider thus the following input:</p>
-<pre>Left: 10em;
-Right: 5em;
-Total: Left + Right;
-h1
-{
-padding: (1.5em + 0.5em) * 2;
-width: 2 * Total;
-}
-</pre>
-<p>CCSS will produce the following output:</p>
-<pre>h1
-{
-padding: 4em;
-width: 30em;
-}
-</pre>
-<p>The reader will have noticed that CCSS must be unit-aware when performing
-arithmetic. As a matter of fact, the programme performs a basic sanity check of
-units, and will complain if you try, for example, to add "1em" with "10px". By
-default, CCSS will not make any attempt to convert units even if they are
-convertible, such "cm" and "mm". If you wish for CCSS to attempt unit
-conversion, please provide option "--convert" on the command line (short
-version "-c").</p>
-<p>Units can be grouped into four categories, and conversion is possible if the
-units belong to the same category. Upon conversion, the result will be the same
-unit as the first operand. The categories and corresponding units are as
-follows:</p>
-<ul>
-<li><strong>length:</strong> mm, cm, in, pt, pc</li>
-<li><strong>angle:</strong> deg, grad, rad</li>
-<li><strong>time:</strong> ms, s</li>
-<li><strong>frequency:</strong> hz, khz</li>
-</ul>
-<p>As an illustration of unit conversion, the result for all the following
-arithmetic operations is the same, "2in":</p>
-<pre>h1
-{
-foo1: 1in + 1in;
-foo2: 1in + 2.54cm;
-foo3: 1in + 25.4mm;
-foo4: 1in + 72pt;
-foo5: 1in + 6pc;
-}
-</pre>
-<p>And that's it! Note that the project's development has recently <a href="https://github.com/darioteixeira/ccss">moved to GitHub</a>, so fork away!</p><a onclick="switchContent('post6','post5')" class="btn" href="#3163b1093e85b021085a7ee20f18b8b5">Hide</a></div></span>
+<p>As a bonus, the Cambridge FPDays session will feature Jeremy Yallop working through the book and conducting the tutorial: he has an incredible depth of knowledge about the innards of OCaml’s type system, and so advanced users will also find a good home in this tutorial to throw questions at him too! For those of you interested in other programming languages, there are also excellent-looking sessions on Erlang, F# and Scala, and Phil Wadler is giving a keynote speech. I’m most excited about <a href="http://fpdays.net/fpdays2013/sessions/index.php?session=28">Sam Aaron’s session</a> on live coding and music though. You have to hear it to believe it…</p><a onclick="switchContent('post6','post5')" class="btn" href="#6fb0b10cf7a048a1e3867f88d357a419">Hide</a></div></span>
 <script type="text/javascript">function switchContent(id1,id2) {
      // Get the DOM reference
      var contentId1 = document.getElementById(id1);
